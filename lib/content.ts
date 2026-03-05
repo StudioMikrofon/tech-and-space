@@ -38,9 +38,21 @@ export function getAllArticles(): Article[] {
     const categoryDir = path.join(CONTENT_DIR, category);
     if (!fs.existsSync(categoryDir)) continue;
 
-    const files = fs.readdirSync(categoryDir).filter((f) => f.endsWith(".mdx"));
-    for (const file of files) {
-      const article = parseMdxFile(path.join(categoryDir, file));
+    const entries = fs.readdirSync(categoryDir, { withFileTypes: true });
+    for (const entry of entries) {
+      let filePath: string;
+      if (entry.isDirectory()) {
+        // New format: content/{category}/{slug}/index.mdx
+        const indexPath = path.join(categoryDir, entry.name, "index.mdx");
+        if (!fs.existsSync(indexPath)) continue;
+        filePath = indexPath;
+      } else if (entry.name.endsWith(".mdx")) {
+        // Old format: content/{category}/{slug}.mdx
+        filePath = path.join(categoryDir, entry.name);
+      } else {
+        continue;
+      }
+      const article = parseMdxFile(filePath);
       if (article) articles.push(article);
     }
   }
@@ -55,6 +67,10 @@ export function getArticleBySlug(
   category: string,
   id: string
 ): Article | null {
+  // Try new folder format first: content/{category}/{id}/index.mdx
+  const folderPath = path.join(CONTENT_DIR, category, id, "index.mdx");
+  if (fs.existsSync(folderPath)) return parseMdxFile(folderPath);
+  // Fallback: old flat format content/{category}/{id}.mdx
   const filePath = path.join(CONTENT_DIR, category, `${id}.mdx`);
   if (!fs.existsSync(filePath)) return null;
   return parseMdxFile(filePath);
