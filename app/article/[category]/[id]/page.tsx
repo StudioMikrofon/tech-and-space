@@ -184,30 +184,33 @@ export default async function ArticlePage({ params }: PageProps) {
               ) : null;
             })()}
 
-            {/* MDX content */}
+            {/* MDX content with ArticleBreak injected between part1 and part2 */}
             <div className="article-enter-delay-3 article-prose max-w-none">
-              <MDXRemote source={article.content} components={{ YouTubeEmbed }} />
+              <MDXRemote
+                source={article.content}
+                components={{
+                  YouTubeEmbed,
+                  ArticleBreak: () => (
+                    <div className="not-prose my-8 pt-6 border-t border-white/10">
+                      {article.subtitleImage?.url && (
+                        <div className="glass-card overflow-hidden mb-4 !hover:transform-none">
+                          <img
+                            src={article.subtitleImage.url}
+                            alt={article.subtitleImage?.alt}
+                            className="w-full h-auto max-h-[400px] object-cover"
+                          />
+                        </div>
+                      )}
+                      {article.subtitle && (
+                        <p className="text-text-secondary italic text-lg leading-relaxed font-medium">
+                          {article.subtitle}
+                        </p>
+                      )}
+                    </div>
+                  ),
+                }}
+              />
             </div>
-
-            {/* Subtitle section */}
-            {(article.subtitle || article.subtitleImage) && (
-              <div className="article-enter-delay-3 mt-8 pt-6 border-t border-white/10">
-                {article.subtitleImage?.url && (
-                  <div className="glass-card overflow-hidden mb-4 !hover:transform-none">
-                    <img
-                      src={article.subtitleImage.url}
-                      alt={article.subtitleImage.alt}
-                      className="w-full h-auto max-h-[400px] object-cover"
-                    />
-                  </div>
-                )}
-                {article.subtitle && (
-                  <p className="text-text-secondary italic text-base leading-relaxed">
-                    {article.subtitle}
-                  </p>
-                )}
-              </div>
-            )}
 
             {/* Tags */}
             {article.tags.length > 0 && (
