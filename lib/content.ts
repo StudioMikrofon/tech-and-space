@@ -20,6 +20,8 @@ function parseMdxFile(filePath: string): Article | null {
       excerpt: data.excerpt,
       source: data.source,
       image: data.image,
+      subtitle: data.subtitle,
+      subtitleImage: data.subtitleImage,
       tags: data.tags || [],
       geo: data.geo,
       featured: data.featured || false,

@@ -55,6 +55,8 @@ export interface Article {
   excerpt: string;
   source: ArticleSource;
   image: ArticleImage;
+  subtitle?: string;
+  subtitleImage?: ArticleImage;
   tags: string[];
   geo: GeoLocation;
   featured: boolean;
