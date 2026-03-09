@@ -41,6 +41,17 @@ type Tab = "pending" | "published";
 type LangTab = "hr" | "en";
 type Ending = "A" | "B" | "C";
 
+function getFreshnessBadge(createdAt: string): { label: string; color: string } {
+  if (!createdAt) return { label: "?", color: "text-text-secondary/30" };
+  const diff = Date.now() - new Date(createdAt).getTime();
+  const h = diff / 3_600_000;
+  if (h < 2) return { label: "NOVO", color: "text-green-400" };
+  if (h < 6) return { label: `${Math.floor(h)}h`, color: "text-green-400/70" };
+  if (h < 24) return { label: `${Math.floor(h)}h`, color: "text-yellow-400/70" };
+  const d = Math.floor(h / 24);
+  return { label: `${d}d`, color: "text-red-400/60" };
+}
+
 function resolveImgUrl(url: string): string {
   if (!url) return "";
   // Convert /images/img_XYZ.jpg → /fp-images/img_XYZ.jpg
@@ -121,6 +132,7 @@ function ArticleCard({
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [publishing, setPublishing] = useState(false);
+  const [showRejectMenu, setShowRejectMenu] = useState(false);
   const [selectedEnding, setSelectedEnding] = useState<Ending | null>(
     (article.chosen_ending as Ending) || null
   );
@@ -163,7 +175,7 @@ function ArticleCard({
     setEditing(false);
   };
 
-  const handlePublish = async () => {
+  const handleApprove = async () => {
     if (!selectedEnding) return;
     setPublishing(true);
     const r = await fetch("/api/review", {
@@ -172,17 +184,27 @@ function ArticleCard({
       body: JSON.stringify({ id: article.id, action: "publish", chosen_ending: selectedEnding }),
     });
     const data = await r.json();
-    alert(data.message || "Publish pokrenut");
+    alert(data.message || "Odobreno — slike se generiraju u pozadini (~2 min). Provjeri /foto-review.");
     onPublish(article.id);
     setPublishing(false);
   };
 
-  const handleReject = async () => {
-    if (!confirm(`Odbiti članak #${article.id}?`)) return;
+  const REJECT_REASONS = [
+    "Slab sadržaj",
+    "Duplicat",
+    "Clickbait / senzacionalizam",
+    "Netočne informacije",
+    "Preopćenito / bez kuta",
+    "Loš HR prijevod",
+    "Ostalo",
+  ];
+
+  const handleReject = async (reason?: string) => {
+    setShowRejectMenu(false);
     await fetch("/api/review", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: article.id, action: "reject" }),
+      body: JSON.stringify({ id: article.id, action: "reject", reason: reason ?? "Ostalo" }),
     });
     onReject(article.id);
   };
@@ -220,6 +242,9 @@ function ArticleCard({
             </span>
             <span className={`text-[10px] font-mono ${sColor}`}>{article.status}</span>
             <span className="font-mono text-xs text-text-secondary/40 ml-auto">#{article.id}</span>
+            {(() => { const fb = getFreshnessBadge(article.created_at); return (
+              <span className={`font-mono text-[9px] font-bold ${fb.color}`}>{fb.label}</span>
+            ); })()}
           </div>
           <div className="text-sm font-semibold text-text-primary leading-tight mb-0.5 truncate">
             🇭🇷 {article.title || <span className="opacity-40">—</span>}
@@ -252,12 +277,28 @@ function ArticleCard({
           <Edit3 className="w-3 h-3" /> ✏️ Edit
         </button>
 
-        <button
-          onClick={handleReject}
-          className="flex items-center gap-1 text-xs font-mono border border-red-400/20 hover:border-red-400/50 text-red-400/70 hover:text-red-400 rounded px-2 py-1 transition-all"
-        >
-          <XCircle className="w-3 h-3" /> 🔴 Odbij
-        </button>
+        <div className="relative">
+          <button
+            onClick={() => setShowRejectMenu(v => !v)}
+            className="flex items-center gap-1 text-xs font-mono border border-red-400/20 hover:border-red-400/50 text-red-400/70 hover:text-red-400 rounded px-2 py-1 transition-all"
+          >
+            <XCircle className="w-3 h-3" /> 🔴 Odbij
+          </button>
+          {showRejectMenu && (
+            <div className="absolute left-0 top-full mt-1 z-30 bg-space-bg border border-red-400/20 rounded shadow-xl min-w-[200px]">
+              <div className="px-2 py-1 text-[9px] font-mono text-text-secondary/40 border-b border-white/5">Razlog odbijanja:</div>
+              {REJECT_REASONS.map(r => (
+                <button
+                  key={r}
+                  onClick={() => handleReject(r)}
+                  className="w-full text-left px-3 py-1.5 text-xs font-mono text-red-400/70 hover:bg-red-400/10 hover:text-red-400 transition-colors"
+                >
+                  {r}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Quick ending buttons shown when not yet chosen and article is not published */}
         {article.status !== "published" && hasEndings && !selectedEnding && (
@@ -418,16 +459,32 @@ function ArticleCard({
               <Edit3 className="w-3 h-3" /> ✏️ Edit
             </button>
 
-            <button
-              onClick={handleReject}
-              className="flex items-center gap-1 text-xs font-mono border border-red-400/20 hover:border-red-400/50 text-red-400/70 hover:text-red-400 rounded px-2 py-1 transition-all"
-            >
-              <XCircle className="w-3 h-3" /> 🔴 Odbij
-            </button>
-
-            {article.status !== "published" && (
+            <div className="relative">
               <button
-                onClick={handlePublish}
+                onClick={() => setShowRejectMenu(v => !v)}
+                className="flex items-center gap-1 text-xs font-mono border border-red-400/20 hover:border-red-400/50 text-red-400/70 hover:text-red-400 rounded px-2 py-1 transition-all"
+              >
+                <XCircle className="w-3 h-3" /> 🔴 Odbij
+              </button>
+              {showRejectMenu && (
+                <div className="absolute left-0 bottom-full mb-1 z-30 bg-space-bg border border-red-400/20 rounded shadow-xl min-w-[200px]">
+                  <div className="px-2 py-1 text-[9px] font-mono text-text-secondary/40 border-b border-white/5">Razlog odbijanja:</div>
+                  {REJECT_REASONS.map(r => (
+                    <button
+                      key={r}
+                      onClick={() => handleReject(r)}
+                      className="w-full text-left px-3 py-1.5 text-xs font-mono text-red-400/70 hover:bg-red-400/10 hover:text-red-400 transition-colors"
+                    >
+                      {r}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {article.status !== "published" && article.status !== "approved" && (
+              <button
+                onClick={handleApprove}
                 disabled={publishing || !selectedEnding}
                 className={`flex items-center gap-1 text-xs font-mono border rounded px-2 py-1 transition-all ml-auto ${
                   selectedEnding
@@ -436,9 +493,14 @@ function ArticleCard({
                 }`}
               >
                 <CheckCircle className="w-3 h-3" />
-                {publishing ? "Objavljujem..." : "✅ Objavi"}
+                {publishing ? "Šaljem..." : "✅ Odobri → Slike"}
                 {selectedEnding && <span className="ml-1 opacity-60">({selectedEnding})</span>}
               </button>
+            )}
+            {article.status === "approved" && (
+              <span className="ml-auto flex items-center gap-1 text-xs font-mono text-blue-400">
+                🖼 Generiranje slika...
+              </span>
             )}
           </div>
         </div>
@@ -495,20 +557,19 @@ export default function ReviewPanel() {
     setSelected(new Set());
   };
 
-  const handleBulkPublish = async () => {
+  const handleBulkApprove = async () => {
     if (selected.size === 0) return;
     setBulkWorking(true);
 
     const ids = Array.from(selected);
-    // Determine which have chosen_ending
     const articleMap = new Map(articles.map((a) => [a.id, a]));
-    const toPublish = ids.filter((id) => {
+    const toApprove = ids.filter((id) => {
       const a = articleMap.get(id);
       return a && a.chosen_ending;
     });
-    const skipped = ids.length - toPublish.length;
+    const skipped = ids.length - toApprove.length;
 
-    if (toPublish.length === 0) {
+    if (toApprove.length === 0) {
       alert("Nijedan odabrani članak nema odabran završetak. Odaberi završetak u kartici članka.");
       setBulkWorking(false);
       return;
@@ -518,23 +579,23 @@ export default function ReviewPanel() {
       const r = await fetch("/api/review", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "bulk_publish", ids: toPublish }),
+        body: JSON.stringify({ action: "bulk_publish", ids: toApprove }),
       });
       const data = await r.json();
       const msg = skipped > 0
-        ? `Pokrenuto: ${data.count ?? toPublish.length} članaka. Preskočeno (bez završetka): ${skipped}. Rebuild u pozadini (~2 min).`
-        : `Pokrenuto: ${data.count ?? toPublish.length} članaka. Rebuild u pozadini (~2 min).`;
+        ? `Odobreno: ${data.count ?? toApprove.length} članaka — slike se generiraju (~2 min). Preskočeno (bez završetka): ${skipped}.`
+        : `Odobreno: ${data.count ?? toApprove.length} članaka — slike se generiraju (~2 min). Provjeri /foto-review.`;
       alert(msg);
-      removeArticles(toPublish);
+      removeArticles(toApprove);
     } catch (e) {
-      alert("Greška pri bulk publish");
+      alert("Greška pri odobravanju");
     }
     setBulkWorking(false);
   };
 
-  const handleBulkPublishRandom = async () => {
+  const handleBulkApproveRandom = async () => {
     if (selected.size === 0) return;
-    if (!confirm(`Objaviti ${selected.size} članaka? Člancima bez završetka bit će dodijeljen random A/B/C završetak.`)) return;
+    if (!confirm(`Odobriti ${selected.size} članaka? Člancima bez završetka bit će dodijeljen random A/B/C završetak.`)) return;
     setBulkWorking(true);
     const ids = Array.from(selected);
     try {
@@ -544,10 +605,10 @@ export default function ReviewPanel() {
         body: JSON.stringify({ action: "bulk_publish_random", ids }),
       });
       const data = await r.json();
-      alert(`Pokrenuto objavljivanje: ${data.count ?? ids.length} članaka. Stranica se rebuilda u pozadini (~2 min).`);
+      alert(`Odobreno: ${data.count ?? ids.length} članaka — slike se generiraju (~2 min). Provjeri /foto-review.`);
       removeArticles(ids);
     } catch {
-      alert("Greška pri bulk publish random");
+      alert("Greška pri bulk odobravanju");
     }
     setBulkWorking(false);
   };
@@ -637,17 +698,17 @@ export default function ReviewPanel() {
           </span>
 
           <button
-            onClick={handleBulkPublish}
+            onClick={handleBulkApprove}
             disabled={bulkWorking}
             title={
               selectedWithoutEnding > 0
                 ? `${selectedWithoutEnding} nema odabran završetak — bit će preskočeni`
-                : "Objavi sve odabrane"
+                : "Odobri i generiraj slike za sve odabrane"
             }
             className="flex items-center gap-1 text-xs font-mono border border-accent-cyan/30 text-accent-cyan hover:border-accent-cyan hover:bg-accent-cyan/10 rounded px-2 py-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <CheckCircle className="w-3 h-3" />
-            Objavi odabrane ({selected.size})
+            Odobri → Slike ({selected.size})
             {selectedWithoutEnding > 0 && (
               <span className="ml-1 text-yellow-400/70 text-[9px]">⚠ {selectedWithoutEnding}</span>
             )}
@@ -655,13 +716,13 @@ export default function ReviewPanel() {
 
           {selectedWithoutEnding > 0 && (
             <button
-              onClick={handleBulkPublishRandom}
+              onClick={handleBulkApproveRandom}
               disabled={bulkWorking}
-              title="Objavi sve odabrane — člancima bez završetka dodaj random A/B/C"
+              title="Odobri sve odabrane — člancima bez završetka dodaj random A/B/C"
               className="flex items-center gap-1 text-xs font-mono border border-yellow-400/30 text-yellow-400 hover:border-yellow-400 hover:bg-yellow-400/10 rounded px-2 py-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <CheckCircle className="w-3 h-3" />
-              ⚡ Objavi sa random završecima
+              ⚡ Odobri sa random završecima
             </button>
           )}
 

@@ -302,9 +302,13 @@ export interface FocusTarget {
   id?: string;
 }
 
+export type TimeScale = 0 | 1 | 10 | 100 | 1000;
+
 export interface JarvisSceneHandle {
   focusOn: (target: FocusTarget) => void;
   toggleAsteroidSim: (id: string) => void;
+  setTimeScale: (ts: TimeScale) => void;
+  setMode: (mode: "cinematic" | "scientific") => void;
 }
 
 interface JarvisSceneProps {
@@ -551,10 +555,18 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       sunCoronaOuter: THREE.Mesh;
       sunMesh: THREE.Mesh;
       earthCore: THREE.Mesh;
+      timeScale: TimeScale;
+      sceneMode: "cinematic" | "scientific";
     } | null>(null);
 
-    // Expose focusOn + toggleAsteroidSim via ref
+    // Expose focusOn + toggleAsteroidSim + setTimeScale + setMode via ref
     useImperativeHandle(ref, () => ({
+      setTimeScale: (ts: TimeScale) => {
+        if (internals.current) internals.current.timeScale = ts;
+      },
+      setMode: (mode: "cinematic" | "scientific") => {
+        if (internals.current) internals.current.sceneMode = mode;
+      },
       focusOn: (target: FocusTarget) => {
         if (!internals.current) return;
         const { objectMap, asteroidAnims } = internals.current;
@@ -1161,6 +1173,8 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         prevSelectedId: null as string | null,
         issMesh, moonMesh, asteroidAnims, planetAnims, probeAnims,
         scanBand, sunCorona, sunCoronaOuter, sunMesh, earthCore,
+        timeScale: 1 as TimeScale,
+        sceneMode: "cinematic" as "cinematic" | "scientific",
       };
       internals.current = state;
 
@@ -1279,8 +1293,8 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         const delta = Math.min(clock.getDelta(), 0.05);
         const elapsed = clock.getElapsedTime();
 
-        // ISS — slow inclined orbit (visually perceptible but not frantic)
-        issAngle += delta * 0.008;
+        // ISS — inclined orbit, speed scales with timeScale
+        issAngle += delta * 0.008 * Math.max(state.timeScale, 1);
         const ix = Math.cos(issAngle) * issOrbitR;
         const iz = Math.sin(issAngle) * issOrbitR;
         issMesh.position.set(
@@ -1349,11 +1363,11 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
           }
         }
 
-        // Planets — realistic visual rotation speeds
-        const orbitActive = !interacting || idleTime > 10;
+        // Planets — orbital speed scaled by timeScale; timeScale=0 freezes orbits
+        const orbitActive = (!interacting || idleTime > 10) && state.timeScale > 0;
         for (const pa of planetAnims) {
           if (orbitActive) {
-            pa.angle += pa.speed * delta;
+            pa.angle += pa.speed * delta * state.timeScale;
             pa.mesh.position.set(SUN_POS.x + Math.cos(pa.angle) * pa.dist, 0, SUN_POS.z + Math.sin(pa.angle) * pa.dist);
           }
           pa.mesh.rotation.y += pa.visualRotSpeed * delta;

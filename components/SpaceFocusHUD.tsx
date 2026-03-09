@@ -25,10 +25,10 @@ interface SpaceFocusHUDProps {
 
 const ACCENT: Record<string, string> = {
   cyan:   "#00cfff",
-  amber:  "#00cfff",
-  red:    "#00cfff",
-  purple: "#00cfff",
-  green:  "#00cfff",
+  amber:  "#ffaa33",
+  red:    "#ff4455",
+  purple: "#b966ff",
+  green:  "#34d399",
 };
 
 type AccentKey = "cyan" | "amber" | "red" | "purple" | "green";
@@ -350,25 +350,89 @@ function buildLaunch(dash: DashboardData): BuiltData {
   };
 }
 
-function buildDSN(obj: FocusObject): BuiltData {
+function buildDSN(obj: FocusObject, dash: DashboardData): BuiltData {
+  const activeLinks = dash.dsn_active ?? 0;
+  const stationMissions: Record<string, string[]> = {
+    "Goldstone": ["Voyager 1 (+22h LT)", "MRO", "JWST"],
+    "Canberra":  ["Voyager 2 (+19h LT)", "New Horizons", "Juno"],
+    "Madrid":    ["Parker Solar Probe", "OSIRIS-REx", "Psyche"],
+  };
+  const missions = stationMissions[obj.name] ?? ["Active downlink"];
   return {
     hero: [
-      { label: "STATION",  value: obj.name,     status: "ok" },
-      { label: "NETWORK",  value: "NASA DSN",   status: "info" },
-      { label: "STATUS",   value: "ACTIVE",     status: "ok" },
-      { label: "FREQ",     value: "X / Ka Band", status: "ok" },
+      { label: "STATION",  value: obj.name,                             status: "ok" },
+      { label: "NETWORK",  value: "NASA DSN",                           status: "info" },
+      { label: "ACTIVE",   value: `${activeLinks} links total`,         status: activeLinks > 0 ? "ok" : "warn" },
+      { label: "FREQ",     value: "X·Ka·S Band",                        status: "ok" },
     ],
     telemetry: [
-      { label: "SIGNAL",   value: "ACQUIRED",   status: "ok" },
-      { label: "UPLINK",   value: "7.19 GHz",   status: "ok" },
-      { label: "DOWNLINK", value: "8.44 GHz",   status: "ok" },
+      { label: "UPLINK",   value: "7.19 GHz",                          status: "ok" },
+      { label: "DOWNLINK", value: "8.44 GHz",                          status: "ok" },
+      { label: "TRACKING", value: missions[0] ?? "—",                  status: "ok" },
+      { label: "SIGNAL",   value: "ACQUIRED",                          status: "ok" },
     ],
-    aiNote: `Deep Space Network ground station ${obj.name}. Maintains 24/7 uplink/downlink with interplanetary missions. X-Band and Ka-Band capable. One-way light time to Voyager 1: ~22+ hours. Station is part of the global 3-station DSN array providing continuous deep-space coverage.`,
+    aiNote: `DSN ${obj.name} ground station — active. Tracking: ${missions.slice(0,2).join(", ")}. ${activeLinks} total links across the 3-station array (Goldstone, Madrid, Canberra). X/Ka-Band capable, max sensitivity −160 dBm. Signal propagation delay to Voyager 1 exceeds 22 hours one-way.`,
     events: [
-      { time: "NOW",   label: "Signal locked",         color: "green" },
-      { time: "24/7",  label: "Continuous coverage",   color: "cyan" },
+      { time: "NOW",   label: `${activeLinks} active links`,   color: activeLinks > 0 ? "green" : "amber" },
+      { time: "24/7",  label: "Continuous planetary coverage", color: "cyan" },
     ],
     accent: "purple",
+  };
+}
+
+const PLANET_FACTS: Record<string, { period: string; dist: string; moons: string; type: string; note: string }> = {
+  mercury: { period: "88 days",   dist: "57.9M km",  moons: "0", type: "Rocky",    note: "Closest to the Sun. Extreme temperature swings: −180°C to 430°C. No atmosphere." },
+  venus:   { period: "225 days",  dist: "108.2M km", moons: "0", type: "Rocky",    note: "Hottest planet at 462°C. Dense CO₂ atmosphere, runaway greenhouse. Rotates retrograde." },
+  mars:    { period: "687 days",  dist: "227.9M km", moons: "2", type: "Rocky",    note: "Home of Olympus Mons (largest volcano) and Valles Marineris. Thin CO₂ atmosphere." },
+  jupiter: { period: "11.86 yrs", dist: "778.5M km", moons: "95",type: "Gas Giant","note": "Largest planet. Great Red Spot storm persists 300+ years. Strong magnetic field." },
+  saturn:  { period: "29.5 yrs", dist: "1.43B km",  moons: "146",type: "Gas Giant", note: "Ring system spans 282,000 km. Density less than water — it would float." },
+  uranus:  { period: "84 yrs",   dist: "2.87B km",  moons: "28", type: "Ice Giant", note: "Axial tilt 97.8° — orbits on its side. Coldest atmosphere in solar system: −224°C." },
+  neptune: { period: "165 yrs",  dist: "4.50B km",  moons: "16", type: "Ice Giant", note: "Fastest winds in solar system: 2,100 km/h. Great Dark Spot observed by Voyager 2 (1989)." },
+};
+
+function buildPlanet(obj: FocusObject): BuiltData {
+  const key = obj.name.toLowerCase();
+  const f = PLANET_FACTS[key];
+  return {
+    hero: [
+      { label: "TYPE",    value: f?.type ?? "Planet",       status: "info" },
+      { label: "PERIOD",  value: f?.period ?? "—",          status: "ok" },
+      { label: "DIST ☉",  value: f?.dist ?? "—",            status: "ok" },
+      { label: "MOONS",   value: f?.moons ?? "—",           status: "info" },
+    ],
+    telemetry: Object.entries(obj.data).slice(0, 5).map(([label, value]) => ({
+      label: label.slice(0, 12).toUpperCase(), value: String(value).slice(0, 18), status: "info" as RowStatus,
+    })),
+    aiNote: f?.note ?? `${obj.name} — solar system body. Orbital data sourced from J2000 epoch ephemerides.`,
+    events: [
+      { time: "J2000",  label: "Reference epoch",            color: "cyan" },
+      { time: "NOW",    label: "Real-time orbital position", color: "green" },
+    ],
+    accent: "cyan",
+  };
+}
+
+function buildSun(): BuiltData {
+  return {
+    hero: [
+      { label: "CLASS",   value: "G2V Yellow Dwarf",  status: "info" },
+      { label: "AGE",     value: "4.6 billion years", status: "ok" },
+      { label: "RADIUS",  value: "696,340 km",        status: "ok" },
+      { label: "SURFACE", value: "5,778 K",           status: "warn" },
+    ],
+    telemetry: [
+      { label: "CORE TEMP",   value: "15 million K",      status: "alert" },
+      { label: "LUMINOSITY",  value: "3.83×10²⁶ W",       status: "info" },
+      { label: "ROTATION",    value: "25–35 days",        status: "ok" },
+      { label: "MASS",        value: "1.989×10³⁰ kg",     status: "ok" },
+      { label: "COMPOSITION", value: "74% H₂ · 24% He",  status: "info" },
+    ],
+    aiNote: `Sol — G2V main-sequence star, centre of mass of the solar system. Age 4.6 Gyr, mid-life. Core fusion: 620 million tons of hydrogen per second → helium via proton-proton chain. Remaining main-sequence lifespan: ~5 billion years. Current solar cycle monitored by NOAA SWPC.`,
+    events: [
+      { time: "NOW",   label: "Active fusion: nominal",       color: "amber" },
+      { time: "NOAA",  label: "Space weather monitoring",     color: "cyan" },
+    ],
+    accent: "amber",
   };
 }
 
@@ -441,12 +505,14 @@ export default function SpaceFocusHUD({ obj, dashData, onClose }: SpaceFocusHUDP
   const built = useMemo<BuiltData | null>(() => {
     if (!obj) return null;
     const t = obj.type.toLowerCase();
-    if (t === "iss")                          return buildISS(dashData);
-    if (t === "asteroid")                     return buildAsteroid(dashData);
-    if (t === "solar" || t.includes("solar")) return buildSolar(dashData);
-    if (t === "launch")                       return buildLaunch(dashData);
-    if (t === "dsn")                          return buildDSN(obj);
-    if (t === "sonda")                        return buildProbe(obj);
+    const n = obj.name.toLowerCase();
+    if (t === "iss")                                       return buildISS(dashData);
+    if (t === "asteroid" || t === "neo")                   return buildAsteroid(dashData);
+    if (t === "solar" || t === "zvijezda" || n === "sun")  return n === "sun" ? buildSun() : buildSolar(dashData);
+    if (t === "launch")                                    return buildLaunch(dashData);
+    if (t === "dsn")                                       return buildDSN(obj, dashData);
+    if (t === "sonda")                                     return buildProbe(obj);
+    if (t === "planet" || PLANET_FACTS[n])                 return buildPlanet(obj);
     return buildGeneric(obj);
   }, [obj, dashData]);
 
@@ -476,6 +542,7 @@ export default function SpaceFocusHUD({ obj, dashData, onClose }: SpaceFocusHUDP
         <div className="w-px h-3 bg-white/10 mx-1" />
         <span className="text-[7px] font-mono text-white/25">SIGNAL LOCKED</span>
         <div className="w-1 h-1 rounded-full bg-green-400 animate-pulse" />
+        <span className="text-[7px] font-mono text-white/15 ml-1">{timeStr}</span>
       </div>
 
       {/* Close */}

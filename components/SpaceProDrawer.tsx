@@ -95,6 +95,82 @@ function StatusBadge({ label, color }: { label: string; color: string }) {
   );
 }
 
+type DataQuality = "live" | "delayed" | "estimated";
+
+function QualityBadge({ quality, source, updatedAt }: { quality: DataQuality; source?: string; updatedAt?: string }) {
+  const cfg = {
+    live:      { dot: "bg-green-400 animate-pulse", label: "LIVE",  text: "text-green-400" },
+    delayed:   { dot: "bg-yellow-400",              label: "~15min", text: "text-yellow-400" },
+    estimated: { dot: "bg-white/30",                label: "EST",   text: "text-text-secondary/60" },
+  }[quality];
+
+  let timeLabel = "";
+  if (updatedAt) {
+    try {
+      const d = new Date(updatedAt);
+      const diffMin = Math.round((Date.now() - d.getTime()) / 60000);
+      if (!isNaN(diffMin)) timeLabel = diffMin < 2 ? "" : `${diffMin}m ago`;
+    } catch {}
+  }
+
+  return (
+    <div className="flex items-center gap-1">
+      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${cfg.dot}`} />
+      <span className={`text-[9px] font-mono ${cfg.text}`}>{cfg.label}</span>
+      {(timeLabel || source) && (
+        <span className="text-[8px] font-mono text-text-secondary/30">
+          {timeLabel}{timeLabel && source ? " · " : ""}{source}
+        </span>
+      )}
+    </div>
+  );
+}
+
+function TelemetryRail({ data }: { data: import("@/lib/space-pro-data").DashboardData }) {
+  const items: { label: string; value: string; quality: DataQuality }[] = [];
+
+  if (data.iss) {
+    items.push({ label: "ISS", value: `${data.iss.altitude}km ↑`, quality: "live" });
+  }
+  if (data.solar) {
+    const kpColor = data.solar.kp_index >= 5 ? "⚠ " : "";
+    items.push({ label: "Kp", value: `${kpColor}${data.solar.kp_index} · ${data.solar.flare_class}`, quality: "live" });
+  }
+  if (data.neo_closest) {
+    items.push({ label: "NEO", value: `${data.neo_closest.distance_ld.toFixed(1)} LD`, quality: "estimated" });
+  }
+  if (data.next_launch) {
+    const h = data.next_launch.t_minus_hours;
+    const tLabel = h == null ? "TBD" : h < 0 ? "launched" : h < 24 ? `T-${Math.round(h)}h` : `T-${Math.round(h / 24)}d`;
+    items.push({ label: "LAUNCH", value: tLabel, quality: "estimated" });
+  }
+  if (data.dsn_active != null) {
+    items.push({ label: "DSN", value: `${data.dsn_active} active`, quality: "delayed" });
+  }
+
+  if (items.length === 0) return null;
+
+  return (
+    <div className="mx-4 mb-3 overflow-x-auto scrollbar-hide">
+      <div className="flex gap-2 min-w-max">
+        {items.map((item) => (
+          <div
+            key={item.label}
+            className="flex items-center gap-1.5 px-2 py-1 rounded bg-white/5 border border-white/10 shrink-0"
+          >
+            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+              item.quality === "live" ? "bg-green-400 animate-pulse" :
+              item.quality === "delayed" ? "bg-yellow-400" : "bg-white/30"
+            }`} />
+            <span className="text-[9px] font-mono text-text-secondary/60 uppercase tracking-wider">{item.label}</span>
+            <span className="text-[9px] font-mono text-text-primary font-semibold">{item.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function InfoToggle({
   id,
   expandedInfo,
@@ -197,6 +273,9 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
             </p>
           </div>
 
+          {/* Telemetry Rail */}
+          <TelemetryRail data={data} />
+
           {/* Cards */}
           <div className="p-4 space-y-3">
             {renderCards()}
@@ -245,6 +324,9 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
           </button>
         </div>
 
+        {/* Telemetry Rail */}
+        <TelemetryRail data={data} />
+
         {/* Cards */}
         <div className="p-5 space-y-4">
           {renderCards()}
@@ -274,7 +356,7 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
               </h3>
               <InfoToggle id="solar" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
               <div className="ml-auto">
-                <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
+                <QualityBadge quality="live" source="NOAA SWPC" updatedAt={data.solar?.updated} />
               </div>
             </div>
             <InfoPanel id="solar" expandedInfo={expandedInfo} isEn={isEn} />
@@ -315,7 +397,7 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
               </h3>
               <InfoToggle id="asteroids" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
               <div className="ml-auto">
-                <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
+                <QualityBadge quality="estimated" source="NASA NeoWs" />
               </div>
             </div>
             <InfoPanel id="asteroids" expandedInfo={expandedInfo} isEn={isEn} />
@@ -366,7 +448,7 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
               </h3>
               <InfoToggle id="iss" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
               <div className="ml-auto">
-                <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
+                <QualityBadge quality="live" source="wheretheiss.at" />
               </div>
             </div>
             <InfoPanel id="iss" expandedInfo={expandedInfo} isEn={isEn} />
@@ -414,7 +496,7 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
               </h3>
               <InfoToggle id="deepspace" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
               <div className="ml-auto">
-                <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
+                <QualityBadge quality="delayed" source="NASA DSN" />
               </div>
             </div>
             <InfoPanel id="deepspace" expandedInfo={expandedInfo} isEn={isEn} />
@@ -456,7 +538,7 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
               </h3>
               <InfoToggle id="cosmic" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
               <div className="ml-auto">
-                <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
+                <QualityBadge quality="estimated" source="LIGO/GCN" />
               </div>
             </div>
             <InfoPanel id="cosmic" expandedInfo={expandedInfo} isEn={isEn} />

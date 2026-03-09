@@ -43,7 +43,7 @@ function getJupiterDeclination(): { decDeg: number; raDeg: number; distAU: numbe
   const raDeg = ((Math.atan2(Math.cos(eps) * Math.sin(Lrad), Math.cos(Lrad)) * 180) / Math.PI + 360) % 360;
   return { decDeg: (decRad * 180) / Math.PI, raDeg, distAU };
 }
-import type { FocusTarget, JarvisSceneHandle } from "./JarvisScene";
+import type { FocusTarget, JarvisSceneHandle, TimeScale } from "./JarvisScene";
 
 const JarvisScene = dynamic(() => import("./JarvisScene"), { ssr: false });
 
@@ -295,7 +295,20 @@ export default function SpaceTrackerModal({ mode, open, onClose, lang = "en" }: 
   const [showTelemetry, setShowTelemetry] = useState(false);
   const [booting, setBooting] = useState(true);
   const [isLandscape, setIsLandscape] = useState(false);
+  const [timeScale, setTimeScaleState] = useState<TimeScale>(1);
+  const [spaceMode, setSpaceMode] = useState<"cinematic" | "scientific">("cinematic");
   const jupiterReturnRef = useRef<ReturnType<typeof setTimeout> | null>(null); // kept for cleanup only
+
+  const handleTimeScale = useCallback((ts: TimeScale) => {
+    setTimeScaleState(ts);
+    jarvisRef.current?.setTimeScale(ts);
+  }, []);
+
+  const handleModeToggle = useCallback(() => {
+    const next = spaceMode === "cinematic" ? "scientific" : "cinematic";
+    setSpaceMode(next);
+    jarvisRef.current?.setMode(next);
+  }, [spaceMode]);
 
   useEffect(() => { if (mode !== "overview") setActiveTab(mode); }, [mode]);
 
@@ -441,7 +454,9 @@ export default function SpaceTrackerModal({ mode, open, onClose, lang = "en" }: 
           {/* Title */}
           <div className="absolute top-3 left-4 z-10">
             <h2 className="font-heading text-base font-bold text-cyan-400">SPACE TRACKER</h2>
-            <p className="text-[10px] font-mono text-cyan-400/50">// Jarvis Blueprint Mode</p>
+            <p className="text-[10px] font-mono text-cyan-400/50">
+              {spaceMode === "scientific" ? "// Scientific Mode" : "// Cinematic Mode"}
+            </p>
           </div>
 
           {/* Cinematic HUD Focus Mode */}
@@ -456,9 +471,40 @@ export default function SpaceTrackerModal({ mode, open, onClose, lang = "en" }: 
             />
           )}
 
-          {/* Instructions */}
-          <div className="absolute bottom-3 right-4 z-10 text-[9px] font-mono text-text-secondary/30 pointer-events-none">
-            Drag rotate / Scroll zoom / Click objects
+          {/* Time scale + mode controls */}
+          <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between gap-2">
+            {/* Time scale */}
+            <div className="flex items-center gap-1">
+              {([0, 1, 10, 100, 1000] as TimeScale[]).map((ts) => (
+                <button
+                  key={ts}
+                  onClick={() => handleTimeScale(ts)}
+                  className={`px-1.5 py-0.5 text-[9px] font-mono rounded border transition-colors cursor-pointer ${
+                    timeScale === ts
+                      ? "bg-cyan-400/20 border-cyan-400/60 text-cyan-400"
+                      : "bg-black/30 border-white/10 text-text-secondary/50 hover:border-cyan-400/30 hover:text-cyan-400/70"
+                  }`}
+                >
+                  {ts === 0 ? "⏸" : ts === 1 ? "1×" : `${ts}×`}
+                </button>
+              ))}
+            </div>
+            {/* Mode toggle + instructions */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleModeToggle}
+                className={`px-1.5 py-0.5 text-[9px] font-mono rounded border transition-colors cursor-pointer ${
+                  spaceMode === "scientific"
+                    ? "bg-amber-400/20 border-amber-400/60 text-amber-400"
+                    : "bg-black/30 border-white/10 text-text-secondary/50 hover:border-cyan-400/30 hover:text-cyan-400/70"
+                }`}
+              >
+                {spaceMode === "scientific" ? "SCI" : "CIN"}
+              </button>
+              <span className="text-[8px] font-mono text-text-secondary/20 hidden sm:block">
+                drag · scroll · click
+              </span>
+            </div>
           </div>
 
           <JarvisScene
