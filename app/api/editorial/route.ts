@@ -15,7 +15,7 @@ function getDb() {
 }
 
 const FIELDS = `id, title, title_en, subtitle, subtitle_en, status, chosen_ending,
-                endings_json, endings_en, part1, part1_en, part2, part2_en, images_json`;
+                endings_json, endings_en, part1, part1_en, part2, part2_en, images_json, body_md`;
 
 // GET /api/editorial?id=150  OR  /api/editorial?slug=2026-03-07-some-article-slug
 export async function GET(req: NextRequest) {

@@ -9,11 +9,30 @@ import type { NEOAsteroid } from "@/lib/space-tracker-data";
 interface NEOTrackerProps {
   width: number;
   height: number;
+  lang?: "en" | "hr";
   onSelectObject?: (obj: { type: string; name: string; data: Record<string, string> } | null) => void;
 }
 
-export default function NEOTracker({ width, height, onSelectObject }: NEOTrackerProps) {
+export default function NEOTracker({ width, height, lang = "en", onSelectObject }: NEOTrackerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const labels = lang === "hr" ? {
+    distance: "Udaljenost",
+    diameter: "Promjer",
+    speed: "Brzina",
+    hazardous: "Opasan",
+    closest: "Najbliži prolaz",
+    impact: "Energija udara",
+    vector: "Vektor pristupa",
+  } : {
+    distance: "Distance",
+    diameter: "Diameter",
+    speed: "Speed",
+    hazardous: "Hazardous",
+    closest: "Closest Approach",
+    impact: "Impact Energy",
+    vector: "Approach Vector",
+  };
 
   const handleSelect = useCallback((asteroid: NEOAsteroid | null) => {
     if (!asteroid) {
@@ -24,16 +43,16 @@ export default function NEOTracker({ width, height, onSelectObject }: NEOTracker
       type: "asteroid",
       name: asteroid.name,
       data: {
-        "Udaljenost": `${asteroid.distanceLD} LD (${asteroid.distanceKm.toLocaleString()} km)`,
-        "Promjer": `${asteroid.diameterM}m`,
-        "Brzina": `${asteroid.speedKmH.toLocaleString()} km/h`,
-        "Opasan": asteroid.hazardous ? "DA" : "NE",
-        "Najbliži prolaz": new Date(asteroid.closestApproach).toLocaleString(),
-        "Energija udara": `${(asteroid.diameterM * asteroid.speedKmH * 0.001).toFixed(1)} kt`,
-        "Approach Vector": `${asteroid.approachAngle}°`,
+        [labels.distance]: `${asteroid.distanceLD} LD (${asteroid.distanceKm.toLocaleString()} km)`,
+        [labels.diameter]: `${asteroid.diameterM}m`,
+        [labels.speed]: `${asteroid.speedKmH.toLocaleString()} km/h`,
+        [labels.hazardous]: asteroid.hazardous ? (lang === "hr" ? "DA" : "YES") : (lang === "hr" ? "NE" : "NO"),
+        [labels.closest]: new Date(asteroid.closestApproach).toLocaleString(),
+        [labels.impact]: `${(asteroid.diameterM * asteroid.speedKmH * 0.001).toFixed(1)} kt`,
+        [labels.vector]: `${asteroid.approachAngle}°`,
       },
     });
-  }, [onSelectObject]);
+  }, [onSelectObject, lang, labels]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -57,7 +76,7 @@ export default function NEOTracker({ width, height, onSelectObject }: NEOTracker
     controls.dampingFactor = 0.1;
     controls.minDistance = 5;
     controls.maxDistance = 60;
-    controls.zoomSpeed = 2.0;
+    controls.zoomSpeed = 1.0;
 
     // Lighting
     scene.add(new THREE.AmbientLight(0x334466, 0.8));
@@ -238,14 +257,21 @@ export default function NEOTracker({ width, height, onSelectObject }: NEOTracker
 
     // Raycaster
     const raycaster = new THREE.Raycaster();
+    raycaster.params.Points!.threshold = 0.2; // Improve click detection
     const mouseVec = new THREE.Vector2();
     let flyTarget: THREE.Vector3 | null = null;
     let selectedMesh: THREE.Mesh | null = null;
 
     function onPointerDown(e: PointerEvent) {
       const rect = renderer.domElement.getBoundingClientRect();
-      mouseVec.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      mouseVec.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Ensure click is within bounds
+      if (x < 0 || x > rect.width || y < 0 || y > rect.height) return;
+
+      mouseVec.x = (x / rect.width) * 2 - 1;
+      mouseVec.y = -(y / rect.height) * 2 + 1;
 
       raycaster.setFromCamera(mouseVec, camera);
       const intersects = raycaster.intersectObjects(asteroidMeshes);
@@ -286,13 +312,13 @@ export default function NEOTracker({ width, height, onSelectObject }: NEOTracker
       const delta = Math.min(clock.getDelta(), 0.05);
       const elapsed = clock.getElapsedTime();
 
-      // Rotate earth slowly
-      earth.rotation.y += delta * 0.2;
+      // Rotate earth slowly (reduced speed)
+      earth.rotation.y += delta * 0.04;
 
-      // Wobble asteroids
+      // Wobble asteroids (reduced speed)
       asteroidMeshes.forEach((m, i) => {
-        m.rotation.x += delta * (0.3 + i * 0.1);
-        m.rotation.z += delta * (0.2 + i * 0.05);
+        m.rotation.x -= delta * (0.06 + i * 0.02);
+        m.rotation.z += delta * (0.04 + i * 0.01);
       });
 
       // Pulse selected
@@ -301,15 +327,19 @@ export default function NEOTracker({ width, height, onSelectObject }: NEOTracker
         selectedMesh.scale.setScalar(s);
       }
 
-      // Fly-to
+      // Fly-to (faster transition for immediate switching)
       if (flyTarget) {
-        controls.target.lerp(flyTarget, 0.06);
-        const dir = camera.position.clone().sub(flyTarget).normalize();
-        const idealDist = 6;
-        const idealPos = flyTarget.clone().add(dir.multiplyScalar(idealDist));
-        idealPos.y = Math.max(idealPos.y, 2);
-        camera.position.lerp(idealPos, 0.03);
-        if (controls.target.distanceTo(flyTarget) < 0.1) flyTarget = null;
+        controls.target.lerp(flyTarget, 0.12);
+        // Position camera relative to asteroid with dynamic direction
+        const asteroidDir = flyTarget.clone().normalize();
+        // Use perpendicular direction plus upward offset for better viewing
+        const perpDir = new THREE.Vector3(-asteroidDir.z, 0, asteroidDir.x).normalize();
+        const upDir = new THREE.Vector3(0, 1, 0);
+        const viewDir = perpDir.multiplyScalar(0.8).add(upDir.multiplyScalar(0.5)).normalize();
+        const idealDist = Math.max(12, flyTarget.length() * 1.5);
+        const idealPos = flyTarget.clone().add(viewDir.multiplyScalar(idealDist));
+        camera.position.lerp(idealPos, 0.08);
+        if (controls.target.distanceTo(flyTarget) < 0.2) flyTarget = null;
       }
 
       controls.update();

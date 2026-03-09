@@ -26,6 +26,7 @@ export default function HeroSection({
   const [globeHeight, setGlobeHeight] = useState(600);
   const [quizMode, setQuizMode] = useState(false);
   const [quizPin, setQuizPin] = useState<{ lat: number; lng: number; label: string; color: string; id: string }[]>([]);
+  const [articlePins, setArticlePins] = useState<{ lat: number; lng: number; label: string; color: string; id: string; size?: number }[]>([]);
 
   useEffect(() => {
     function updateSize() {
@@ -40,6 +41,13 @@ export default function HeroSection({
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
+  useEffect(() => {
+    fetch("/api/globe-pins")
+      .then(r => r.json())
+      .then(pins => setArticlePins(pins))
+      .catch(() => {});
+  }, []);
+
   return (
     <section className="relative overflow-hidden bg-space-bg" ref={globeContainerRef}>
       {/* Globe as decorative background — centered behind featured article */}
@@ -47,7 +55,7 @@ export default function HeroSection({
         <div className="globe-glow">
           <Globe
             ref={globeRef}
-            pins={quizPin}
+            pins={quizMode ? quizPin : articlePins}
             width={globeSize}
             height={globeHeight}
             autoRotate={true}
@@ -151,8 +159,10 @@ export default function HeroSection({
                         <p className="text-sm font-medium text-text-primary line-clamp-2 leading-tight">
                           {article.title}
                         </p>
-                        <div className="flex items-center gap-2 mt-1 text-xs text-text-secondary">
-                          <span>{CATEGORY_LABELS[article.category]}</span>
+                        <div className="flex items-center gap-2 mt-1 text-xs">
+                          <span style={{ color: CATEGORY_COLORS[article.category] }}>
+                            {CATEGORY_LABELS[article.category]}
+                          </span>
                         </div>
                       </div>
                     </div>

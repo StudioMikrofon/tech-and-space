@@ -20,10 +20,15 @@ export async function POST() {
   mkdirSync(DATA_DIR, { recursive: true });
 
   // Spawn detached so it outlives the request
+  // Strip all Claude Code env vars so nested session check doesn't block execution
+  const env = { ...process.env, HOME: "/root" } as Record<string, string | undefined>;
+  delete env["CLAUDECODE"];
+  delete env["CLAUDE_CODE_ENTRYPOINT"];
+  delete env["CLAUDE_CODE_SSE_PORT"];
   const child = spawn("/opt/run-claude-tasks.sh", [], {
     detached: true,
     stdio: "ignore",
-    env: { ...process.env, HOME: "/root", CLAUDECODE: undefined } as NodeJS.ProcessEnv,
+    env: env as NodeJS.ProcessEnv,
   });
   child.unref();
 

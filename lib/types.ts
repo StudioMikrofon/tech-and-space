@@ -31,13 +31,13 @@ export const CATEGORY_LABELS_HR: Record<Category, string> = {
 };
 
 export const CATEGORY_COLORS: Record<Category, string> = {
-  ai: "#00cfff",
-  gaming: "#00b8e6",
-  space: "#00cfff",
-  technology: "#00b8e6",
-  medicine: "#00cfff",
-  society: "#00b8e6",
-  robotics: "#00cfff",
+  ai: "#a855f7",       // purple
+  gaming: "#ff006e",   // hot pink
+  space: "#00cfff",    // cyan
+  technology: "#f97316", // orange
+  medicine: "#22c55e", // green
+  society: "#ffd60a",  // yellow
+  robotics: "#60a5fa", // blue
 };
 
 export interface GeoLocation {
@@ -61,12 +61,16 @@ export interface Article {
   id: string;
   dbId?: number;
   title: string;
+  titleEn?: string;
   category: Category;
   date: string;
+  scrapeDateDate?: string; // Original scrape date, separate from edit date
   excerpt: string;
+  excerptEn?: string;
   source: ArticleSource;
   image: ArticleImage;
   subtitle?: string;
+  subtitleEn?: string;
   subtitleImage?: ArticleImage;
   tags: string[];
   geo: GeoLocation;
@@ -74,4 +78,7 @@ export interface Article {
   approved: boolean;
   videoUrl?: string;
   content: string;
+  part1En?: string; // English content part 1
+  part2En?: string; // English content part 2
+  lang?: string;
 }

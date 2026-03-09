@@ -65,15 +65,26 @@ interface SpaceTrackerModalProps {
   mode: "iss" | "dsn" | "asteroids" | "overview";
   open: boolean;
   onClose: () => void;
+  lang?: "en" | "hr";
 }
 
-const TABS: { key: SidebarTab; label: string; icon: typeof Satellite }[] = [
+const TABS_EN: { key: SidebarTab; label: string; icon: typeof Satellite }[] = [
   { key: "iss", label: "ISS", icon: Satellite },
   { key: "asteroids", label: "NEO", icon: Zap },
   { key: "dsn", label: "DSN", icon: Radio },
   { key: "launches", label: "Launch", icon: Rocket },
   { key: "radiojove", label: "JOVE", icon: Waves },
 ];
+
+const TABS_HR: { key: SidebarTab; label: string; icon: typeof Satellite }[] = [
+  { key: "iss", label: "ISS", icon: Satellite },
+  { key: "asteroids", label: "Asteroidi", icon: Zap },
+  { key: "dsn", label: "DSN", icon: Radio },
+  { key: "launches", label: "Lansiranja", icon: Rocket },
+  { key: "radiojove", label: "JOVE", icon: Waves },
+];
+
+const getTabs = (lang: "en" | "hr" = "en") => lang === "hr" ? TABS_HR : TABS_EN;
 
 // ---------------------------------------------------------------------------
 // Sub-components
@@ -271,7 +282,7 @@ const DSN_MISSIONS: Record<string, string[]> = {
 // Main
 // ---------------------------------------------------------------------------
 
-export default function SpaceTrackerModal({ mode, open, onClose }: SpaceTrackerModalProps) {
+export default function SpaceTrackerModal({ mode, open, onClose, lang = "en" }: SpaceTrackerModalProps) {
   const [activeTab, setActiveTab] = useState<SidebarTab>(mode === "overview" ? "iss" : mode);
   const { data } = useSpaceProData();
   const dataRef = useRef(data);
@@ -466,7 +477,7 @@ export default function SpaceTrackerModal({ mode, open, onClose }: SpaceTrackerM
         >
           {/* Tabs */}
           <div className="flex border-b border-cyan-500/20 shrink-0">
-            {TABS.map((tab) => {
+            {getTabs(lang).map((tab) => {
               const Icon = tab.icon;
               return (
                 <button

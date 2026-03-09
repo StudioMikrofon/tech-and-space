@@ -1,0 +1,25 @@
+You are an expert Next.js/TypeScript/Tailwind/Three.js developer working on the TECH & SPACE project.
+Project root: /opt/openclaw/workspace/tech-pulse-css
+Stack: Next.js 16 App Router, TypeScript, Tailwind CSS v3, Three.js, OrbitControls
+Key directories: components/, app/, lib/, public/textures/
+
+Execute ALL tasks below. Make only the changes required — minimal, focused edits.
+Do NOT add comments, type annotations, or refactor unrelated code.
+
+### Task 1
+In the Latest News section, when the page language is English, ensure that article titles are displayed in English and the descriptions under the titles are also in English. Fix this error and edit the articles that are in Croatian so that all articles are displayed consistently.
+
+### Task 2
+In Space Tracker, when you click on a NEO, 2026DG7 opens, an asteroid that is not displayed on the screen. The camera must be moved for the asteroid to appear, as it is currently behind the Earth's angle.
+
+### Task 3
+On the 'Picture of the Day' page, add an image or enable the image to be clickable so that clicking it navigates to a page where it can be viewed.
+
+### Task 4
+Reduce the rotation speed of objects on the screen and correct the rotation direction so that downward movement continues downward. Also ensure that the entire Space Tracker is translated into English when on the English site and into Croatian when on the Croatian site.
+
+### Task 5
+Zoom functionality is not working; zoom in and zoom out actions cannot be performed. Additionally, when clicking on an object, it should immediately switch to that object regardless of where on the screen the click occurs.
+
+### Task 6
+Each category (AI, Gaming, Space, Technology, Medicine, Society, Robotics) shall have its own pin color, with the pins visible on the globe alongside the articles. Display smaller pins for all articles published in the last two days. Additionally, category names must be rendered in distinct colors.

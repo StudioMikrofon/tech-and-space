@@ -17,6 +17,7 @@ interface GlobePin {
   label: string;
   color: string;
   id: string;
+  size?: number;
 }
 
 export interface GlobeHandle {
@@ -148,9 +149,10 @@ const GlobeWrapper = forwardRef<GlobeHandle, GlobeWrapperProps>(
 
           // Dot
           const dot = document.createElement("div");
+          const size = d.size ?? 8;
           dot.style.cssText = `
-            width: 8px;
-            height: 8px;
+            width: ${size}px;
+            height: ${size}px;
             border-radius: 50%;
             background: ${d.color};
             box-shadow: 0 0 6px ${d.color};

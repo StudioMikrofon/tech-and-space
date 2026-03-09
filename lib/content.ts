@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { Article, Category, CATEGORIES } from "./types";
+import { Article, Category, CATEGORIES, CATEGORY_COLORS } from "./types";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
@@ -16,18 +16,25 @@ function parseMdxFile(filePath: string): Article | null {
       id: data.id,
       dbId: data.db_id ? Number(data.db_id) : undefined,
       title: data.title,
+      titleEn: data.title_en,
       category: data.category as Category,
       date: data.date,
+      scrapeDateDate: data.scrape_date || data.date, // Use scrape_date if available
       excerpt: data.excerpt,
+      excerptEn: data.excerpt_en,
       source: data.source,
       image: data.image,
       subtitle: data.subtitle,
+      subtitleEn: data.subtitle_en,
       subtitleImage: data.subtitleImage,
       tags: data.tags || [],
       geo: data.geo,
       featured: data.featured || false,
       approved: data.approved,
       content,
+      part1En: data.part1_en,
+      part2En: data.part2_en,
+      lang: data.lang,
     };
   } catch {
     return null;
@@ -56,7 +63,7 @@ export function getAllArticles(): Article[] {
         continue;
       }
       const article = parseMdxFile(filePath);
-      if (article) articles.push(article);
+      if (article && article.lang !== 'hr') articles.push(article);
     }
   }
 
@@ -161,6 +168,35 @@ export function getGeoArticles(): Article[] {
   return getAllArticles().filter(
     (a) => a.geo && a.geo.lat !== undefined && a.geo.lon !== undefined
   );
+}
+
+/**
+ * Returns pins for the globe with category colors and recent article sizing
+ */
+export function getGlobePins(): Array<{
+  lat: number;
+  lng: number;
+  label: string;
+  color: string;
+  id: string;
+  size?: number;
+}> {
+  const geoArticles = getGeoArticles();
+  const twoDaysAgo = new Date(Date.now() - 48 * 60 * 60 * 1000);
+
+  return geoArticles.map((article) => {
+    const isRecent = new Date(article.date) > twoDaysAgo;
+    const color = CATEGORY_COLORS[article.category] || "#00cfff";
+
+    return {
+      lat: article.geo.lat,
+      lng: article.geo.lon,
+      label: article.title.substring(0, 30),
+      color,
+      id: article.id,
+      size: isRecent ? 4 : 6, // Smaller pins for recent, tiny for older
+    };
+  });
 }
 
 /**

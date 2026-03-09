@@ -2,6 +2,7 @@
 
 import { useEffect, useCallback, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { usePathname } from "next/navigation";
 import {
   X,
   Sun,
@@ -27,7 +28,7 @@ interface SpaceProDrawerProps {
   persistent?: boolean;
 }
 
-const INFO_TEXTS: Record<string, string> = {
+const INFO_TEXTS_HR: Record<string, string> = {
   solar:
     "Kp indeks mjeri geomagnetsku aktivnost Zemlje (0-9). Viši = jača magnetska oluja i veća šansa za auroru.",
   flare:
@@ -43,6 +44,24 @@ const INFO_TEXTS: Record<string, string> = {
   apod: "NASA svaki dan objavi novu astronomsku sliku s objašnjenjem.",
   light:
     "Faze Mjeseca i dnevno svjetlo za vašu lokaciju.",
+};
+
+const INFO_TEXTS_EN: Record<string, string> = {
+  solar:
+    "Kp index measures Earth's geomagnetic activity (0-9). Higher = stronger magnetic storm and greater aurora chance.",
+  flare:
+    "A solar flare is a sudden energy burst on the Sun. Classes: A (weak), B, C, M, X (strongest).",
+  wind: "Stream of charged particles from the Sun. Normal speed ~400 km/s.",
+  asteroids:
+    "Near-Earth objects tracked by NASA. LD = Lunar Distance (~384,400 km).",
+  iss: "The International Space Station orbits Earth at ~420 km altitude at ~27,600 km/h.",
+  deepspace:
+    "NASA's antenna network that communicates with probes in deep space.",
+  cosmic:
+    "Gravitational waves = ripples in spacetime. FRB = mysterious short radio signals from space.",
+  apod: "NASA publishes a new astronomical image with explanation every day.",
+  light:
+    "Moon phases and daylight hours for your location.",
 };
 
 function KpGauge({ value }: { value: number }) {
@@ -96,7 +115,8 @@ function InfoToggle({
   );
 }
 
-function InfoPanel({ id, expandedInfo }: { id: string; expandedInfo: string | null }) {
+function InfoPanel({ id, expandedInfo, isEn }: { id: string; expandedInfo: string | null; isEn: boolean }) {
+  const INFO_TEXTS = isEn ? INFO_TEXTS_EN : INFO_TEXTS_HR;
   if (expandedInfo !== id || !INFO_TEXTS[id]) return null;
   return (
     <div className="glass-card p-2.5 text-xs text-text-secondary leading-relaxed !hover:transform-none">
@@ -114,6 +134,8 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
   const drawerRef = useRef<HTMLDivElement>(null);
   const [expandedInfo, setExpandedInfo] = useState<string | null>(null);
   const [trackerMode, setTrackerMode] = useState<"iss" | "dsn" | "asteroids" | null>(null);
+  const pathname = usePathname();
+  const isEn = !pathname.startsWith("/hr");
 
   // Sun + moon data computed once on mount (changes only daily)
   const sunTimes  = getSunTimes(DEFAULT_LAT, DEFAULT_LON);
@@ -171,7 +193,7 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
               Space Pro
             </h2>
             <p className="text-xs text-text-secondary font-mono">
-              // Telemetrija uživo
+              {isEn ? "// Live Telemetry" : "// Telemetrija uživo"}
             </p>
           </div>
 
@@ -211,13 +233,13 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
               Space Pro
             </h2>
             <p className="text-xs text-text-secondary font-mono">
-              // Telemetrija uživo
+              {isEn ? "// Live Telemetry" : "// Telemetrija uživo"}
             </p>
           </div>
           <button
             onClick={onClose}
             className="p-2 text-text-secondary hover:text-text-primary transition-colors cursor-pointer"
-            aria-label="Zatvori"
+            aria-label="Close"
           >
             <X className="w-5 h-5" />
           </button>
@@ -243,29 +265,29 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
   function renderCards() {
     return (
       <>
-          {/* 1. Sunčeva Aktivnost */}
+          {/* 1. Solar Activity */}
           <div className="glass-card p-4 space-y-3 !hover:transform-none">
             <div className="flex items-center gap-2">
               <Sun className="w-4 h-4 text-yellow-400" />
               <h3 className="text-sm font-semibold text-text-primary">
-                Sunčeva Aktivnost
+                {isEn ? "Solar Activity" : "Sunčeva Aktivnost"}
               </h3>
               <InfoToggle id="solar" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
               <div className="ml-auto">
-                <StatusBadge label="Uživo" color="#34D399" />
+                <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
               </div>
             </div>
-            <InfoPanel id="solar" expandedInfo={expandedInfo} />
+            <InfoPanel id="solar" expandedInfo={expandedInfo} isEn={isEn} />
             <KpGauge value={data.solar?.kp_index ?? 0} />
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div>
-                <span className="text-text-secondary">Baklja</span>
+                <span className="text-text-secondary">{isEn ? "Flare" : "Baklja"}</span>
                 <p className="font-mono font-bold text-accent-amber">
                   {data.solar?.flare_class ?? "—"}
                 </p>
               </div>
               <div>
-                <span className="text-text-secondary">Sunčev Vjetar</span>
+                <span className="text-text-secondary">{isEn ? "Solar Wind" : "Sunčev Vjetar"}</span>
                 <p className="font-mono font-bold text-text-primary">
                   {data.solar?.solar_wind ?? 0} km/s
                 </p>
@@ -284,28 +306,28 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
             </div>
           </div>
 
-          {/* 2. Asteroidi Danas */}
+          {/* 2. Asteroids Today */}
           <div className="glass-card p-4 space-y-3 !hover:transform-none">
             <div className="flex items-center gap-2">
               <Zap className="w-4 h-4 text-accent-amber" />
               <h3 className="text-sm font-semibold text-text-primary">
-                Asteroidi Danas
+                {isEn ? "Today's Asteroids" : "Asteroidi Danas"}
               </h3>
               <InfoToggle id="asteroids" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
               <div className="ml-auto">
-                <StatusBadge label="Uživo" color="#34D399" />
+                <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
               </div>
             </div>
-            <InfoPanel id="asteroids" expandedInfo={expandedInfo} />
+            <InfoPanel id="asteroids" expandedInfo={expandedInfo} isEn={isEn} />
             <div className="grid grid-cols-3 gap-3 text-xs">
               <div>
-                <span className="text-text-secondary">Broj</span>
+                <span className="text-text-secondary">{isEn ? "Count" : "Broj"}</span>
                 <p className="font-mono font-bold text-text-primary text-lg">
                   {data.neo_count ?? 0}
                 </p>
               </div>
               <div>
-                <span className="text-text-secondary">Najbliži</span>
+                <span className="text-text-secondary">{isEn ? "Closest" : "Najbliži"}</span>
                 <p className="font-mono font-bold text-accent-cyan">
                   {data.neo_closest?.distance_ld ?? "—"} LD
                 </p>
@@ -314,7 +336,7 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
                 </p>
               </div>
               <div>
-                <span className="text-text-secondary">Opasni</span>
+                <span className="text-text-secondary">{isEn ? "Hazardous" : "Opasni"}</span>
                 <p
                   className={`font-mono font-bold text-lg ${
                     data.neo_hazardous ?? 0 > 0
@@ -331,44 +353,44 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
               className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-amber-400/10 border border-amber-400/20 text-xs font-mono text-accent-amber hover:bg-amber-400/20 transition-colors cursor-pointer"
             >
               <Map className="w-3.5 h-3.5" />
-              Prikaži na Karti
+              {isEn ? "Show on Map" : "Prikaži na Karti"}
             </button>
           </div>
 
-          {/* 3. ISS Trenutno */}
+          {/* 3. ISS Live */}
           <div className="glass-card p-4 space-y-3 !hover:transform-none">
             <div className="flex items-center gap-2">
               <Satellite className="w-4 h-4 text-accent-cyan" />
               <h3 className="text-sm font-semibold text-text-primary">
-                ISS Trenutno
+                {isEn ? "ISS Live" : "ISS Trenutno"}
               </h3>
               <InfoToggle id="iss" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
               <div className="ml-auto">
-                <StatusBadge label="Uživo" color="#34D399" />
+                <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
               </div>
             </div>
-            <InfoPanel id="iss" expandedInfo={expandedInfo} />
+            <InfoPanel id="iss" expandedInfo={expandedInfo} isEn={isEn} />
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div>
-                <span className="text-text-secondary">Visina</span>
+                <span className="text-text-secondary">{isEn ? "Altitude" : "Visina"}</span>
                 <p className="font-mono font-bold text-text-primary">
                   {data.iss?.altitude ?? 420} km
                 </p>
               </div>
               <div>
-                <span className="text-text-secondary">Brzina</span>
+                <span className="text-text-secondary">{isEn ? "Speed" : "Brzina"}</span>
                 <p className="font-mono font-bold text-text-primary">
                   {(data.iss?.speed ?? 0).toLocaleString()} km/h
                 </p>
               </div>
               <div>
-                <span className="text-text-secondary">Pozicija</span>
+                <span className="text-text-secondary">{isEn ? "Position" : "Pozicija"}</span>
                 <p className="font-mono font-bold text-accent-cyan text-xs">
                   {(data.iss?.lat ?? 0).toFixed(1)}°, {(data.iss?.lon ?? 0).toFixed(1)}°
                 </p>
               </div>
               <div>
-                <span className="text-text-secondary">Posada</span>
+                <span className="text-text-secondary">{isEn ? "Crew" : "Posada"}</span>
                 <p className="font-mono font-bold text-text-primary">
                   {data.crew_count ?? 0}
                 </p>
@@ -379,23 +401,23 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
               className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-cyan-400/10 border border-cyan-400/20 text-xs font-mono text-cyan-400 hover:bg-cyan-400/20 transition-colors cursor-pointer"
             >
               <Map className="w-3.5 h-3.5" />
-              Prikaži na Karti
+              {isEn ? "Show on Map" : "Prikaži na Karti"}
             </button>
           </div>
 
-          {/* 4. Mreža Dubokog Svemira */}
+          {/* 4. Deep Space Network */}
           <div className="glass-card p-4 space-y-3 !hover:transform-none">
             <div className="flex items-center gap-2">
               <Radio className="w-4 h-4 text-purple-400" />
               <h3 className="text-sm font-semibold text-text-primary">
-                Mreža Dubokog Svemira
+                {isEn ? "Deep Space Network" : "Mreža Dubokog Svemira"}
               </h3>
               <InfoToggle id="deepspace" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
               <div className="ml-auto">
-                <StatusBadge label="Uživo" color="#34D399" />
+                <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
               </div>
             </div>
-            <InfoPanel id="deepspace" expandedInfo={expandedInfo} />
+            <InfoPanel id="deepspace" expandedInfo={expandedInfo} isEn={isEn} />
             <div className="space-y-2">
               {([{name:"Voyager 1",distance:"24.5B km",status:"active"},{name:"JWST",distance:"1.5M km",status:"active"},{name:"Parker Solar",distance:"21M km",status:"active"}]).map((link) => (
                 <div
@@ -421,54 +443,59 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
               className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-purple-400/10 border border-purple-400/20 text-xs font-mono text-purple-400 hover:bg-purple-400/20 transition-colors cursor-pointer"
             >
               <Map className="w-3.5 h-3.5" />
-              Prikaži na Karti
+              {isEn ? "Show on Map" : "Prikaži na Karti"}
             </button>
           </div>
 
-          {/* 5. Kozmički Događaji */}
+          {/* 5. Cosmic Events */}
           <div className="glass-card p-4 space-y-3 !hover:transform-none">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-yellow-300" />
               <h3 className="text-sm font-semibold text-text-primary">
-                Kozmički Događaji
+                {isEn ? "Cosmic Events" : "Kozmički Događaji"}
               </h3>
               <InfoToggle id="cosmic" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
               <div className="ml-auto">
-                <StatusBadge label="Uživo" color="#34D399" />
+                <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
               </div>
             </div>
-            <InfoPanel id="cosmic" expandedInfo={expandedInfo} />
+            <InfoPanel id="cosmic" expandedInfo={expandedInfo} isEn={isEn} />
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div>
-                <span className="text-text-secondary">Gravitacijski Valovi</span>
+                <span className="text-text-secondary">{isEn ? "Gravitational Waves" : "Gravitacijski Valovi"}</span>
                 <p className="font-mono font-bold text-text-primary">
                   {"N/A"}
                 </p>
               </div>
               <div>
                 <span className="text-text-secondary">
-                  Brzi Radio Bljeskovi
+                  {isEn ? "Fast Radio Bursts" : "Brzi Radio Bljeskovi"}
                 </span>
                 <p className="font-mono font-bold text-accent-cyan">
-                  {2} detektirano
+                  {2} {isEn ? "detected" : "detektirano"}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* 6. Astronomska Slika Dana */}
+          {/* 6. Astronomy Picture of the Day */}
           <div className="glass-card p-4 space-y-3 !hover:transform-none">
             <div className="flex items-center gap-2">
               <Camera className="w-4 h-4 text-pink-400" />
               <h3 className="text-sm font-semibold text-text-primary">
-                Astronomska Slika Dana
+                {isEn ? "Astronomy Picture of the Day" : "Astronomska Slika Dana"}
               </h3>
               <InfoToggle id="apod" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
               <div className="ml-auto">
-                <StatusBadge label="Dnevno" color="#A78BFA" />
+                <StatusBadge label={isEn ? "Daily" : "Dnevno"} color="#A78BFA" />
               </div>
             </div>
-            <InfoPanel id="apod" expandedInfo={expandedInfo} />
+            <InfoPanel id="apod" expandedInfo={expandedInfo} isEn={isEn} />
+            {data.apod?.media_type === "image" && data.apod?.url && (
+              <a href={data.apod.url} target="_blank" rel="noopener noreferrer" className="block cursor-pointer hover:opacity-90 transition-opacity">
+                <img src={data.apod.url} alt={data.apod.title} className="w-full h-auto rounded-lg max-h-48 object-cover" />
+              </a>
+            )}
             <div className="text-xs">
               <p className="font-semibold text-text-primary mb-1">
                 {data.apod?.title ?? "—"}
@@ -479,47 +506,49 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
             </div>
           </div>
 
-          {/* 7. Svjetlost i Mjesec */}
+          {/* 7. Light & Moon */}
           <div className="glass-card p-4 space-y-3 !hover:transform-none">
             <div className="flex items-center gap-2">
               <Moon className="w-4 h-4 text-yellow-200" />
               <h3 className="text-sm font-semibold text-text-primary">
-                Svjetlost i Mjesec
+                {isEn ? "Light & Moon" : "Svjetlost i Mjesec"}
               </h3>
               <InfoToggle id="light" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
               <div className="ml-auto">
-                <StatusBadge label="Uživo" color="#34D399" />
+                <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
               </div>
             </div>
-            <InfoPanel id="light" expandedInfo={expandedInfo} />
+            <InfoPanel id="light" expandedInfo={expandedInfo} isEn={isEn} />
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div>
-                <span className="text-text-secondary">Izlazak Sunca</span>
+                <span className="text-text-secondary">{isEn ? "Sunrise" : "Izlazak Sunca"}</span>
                 <p className="font-mono font-bold text-accent-amber">
                   {sunTimes.sunrise}
                 </p>
               </div>
               <div>
-                <span className="text-text-secondary">Zalazak Sunca</span>
+                <span className="text-text-secondary">{isEn ? "Sunset" : "Zalazak Sunca"}</span>
                 <p className="font-mono font-bold text-orange-400">
                   {sunTimes.sunset}
                 </p>
               </div>
               <div>
-                <span className="text-text-secondary">Faza Mjeseca</span>
+                <span className="text-text-secondary">{isEn ? "Moon Phase" : "Faza Mjeseca"}</span>
                 <p className="font-mono font-bold text-text-primary">
                   {moonPhase.emoji} {moonPhase.name}
                 </p>
               </div>
               <div>
-                <span className="text-text-secondary">Osvijetljenost</span>
+                <span className="text-text-secondary">{isEn ? "Illumination" : "Osvijetljenost"}</span>
                 <p className="font-mono font-bold text-yellow-200">
                   {moonPhase.emoji} {moonPhase.illumination}%
                 </p>
               </div>
             </div>
             <p className="text-xs text-text-secondary font-mono">
-              📍 Zagreb, HR — {sunTimes.dayLengthH > 0 ? `${Math.floor(sunTimes.dayLengthH)}h ${Math.round((sunTimes.dayLengthH % 1) * 60)}min dnevnog svjetla` : "polarne prilike"}
+              📍 Zagreb, HR — {sunTimes.dayLengthH > 0
+                ? `${Math.floor(sunTimes.dayLengthH)}h ${Math.round((sunTimes.dayLengthH % 1) * 60)}min ${isEn ? "of daylight" : "dnevnog svjetla"}`
+                : isEn ? "polar conditions" : "polarne prilike"}
             </p>
           </div>
 

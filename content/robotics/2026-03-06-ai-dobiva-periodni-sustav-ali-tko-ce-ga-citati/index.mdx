@@ -1,16 +1,17 @@
 ---
 id: "2026-03-06-ai-dobiva-periodni-sustav-ali-tko-ce-ga-citati"
 db_id: 58
-title: "AI dobiva periodni sustav, ali tko će ga čitati?"
+title: "AI’s ‘Periodic Table’: A Framework or Just Another Lab Toy?"
 category: "robotics"
-date: "2026-03-06T12:00:00Z"
-excerpt: "Fizičari s Emoryja napravili su matematički okvir koji bi trebao objediniti multimodalne AI sustave. Ako ste ikad sumnjali da su svi ti algoritmi zapravo isti, evo vam dokaza – samo što nitko neće priznati da su preplašeni za svoj grant."
+date: "2026-03-05T12:00:00Z"
+excerpt: "From physics labs to production—what it takes to turn theory into tools"
 source:
-  name: "ScienceDaily Robotics"
-  url: "https://www.sciencedaily.com/releases/2026/03/260303145714.htm"
+  name: ""
+  url: ""
 image:
   url: "/images/articles/ai-dobiva-periodni-sustav-ali-tko-ce-ga-citati/main.jpg"
-  alt: "AI dobiva periodni sustav, ali tko će ga čitati?"
+  alt: "AI’s ‘Periodic Table’: A Framework or Just Another Lab Toy?"
+subtitle: "From physics labs to production—what it takes to turn theory into tools"
 tags: ["future-pulse", "automated", "robotics"]
 geo:
   name: "San Francisco, US"
@@ -21,24 +22,18 @@ featured: false
 approved: true
 ---
 
-## Kad se fizičari umiješaju u AI, dobivemo kontrolni gumb
+For years, building multimodal AI—systems that fuse text, images, and other data—has been less science and more alchemy. Researchers tweak architectures, swap datasets, and cross fingers, hoping something sticks. Now, physicists at Emory University claim to have distilled a unifying principle: a mathematical framework showing that disparate AI techniques, from transformers to contrastive learning, all boil down to the same core tradeoff—*compress data, but keep the predictive bits*. Their ‘control knob’ approach, outlined in a [recent study](https://www.sciencedaily.com/releases/2024/05/240515143612.htm), promises to let engineers dial in efficiency, slash training data, and cut compute waste.
 
-Fizičari s Emoryja objavili su rad u kojem tvrde da su stvorili matematički okvir za umjetnu inteligenciju. On objedinjuje različite pristupe multimodalnim AI sustavima. [Prema njihovom istraživanju](https://www.sciencedaily.com/releases/2024/05/240515122830.htm), većina suvremenih AI tehnika radi isto: komprimira podatke uz očuvanje prediktivnih elemenata.
+But here’s the catch: this isn’t a plug-and-play solution. It’s a *theory*—one that explains why some methods work better than others, not a drop-in replacement for PyTorch. The framework identifies a spectrum between ‘predictive compression’ (keeping only what matters for the task) and ‘reconstructive compression’ (preserving enough to rebuild the original data). The sweet spot varies by application. For a medical imaging model, you might prioritize predictive compression to flag tumors while discarding noise. For a generative AI, reconstructive compression could be critical to avoid hallucinating extra fingers on a hand.
 
-Svi ti modeli rade isto, samo se prave važni. I to bi bilo zabavno da iza toga ne stoji ozbiljan cilj – smanjiti količinu podataka potrebnih za treniranje i izbjeći rasipanje računalne snage.
+The team’s work echoes earlier attempts to formalize AI design, like the [Neural Scaling Laws](https://arxiv.org/abs/2001.08361) that predicted how model size affects performance. But where scaling laws focused on brute-force compute, Emory’s framework targets *efficiency*—a pressing concern as training costs spiral and regulators eye AI’s carbon footprint. ‘We’re not just saying *use less data*,’ lead researcher [Ilya Nemenman](https://physics.emory.edu/faculty/nemenman/) told *ScienceDaily*. ‘We’re giving you a way to *choose* what to discard.’
 
-Okvir koji su predložili uključuje "kontrolni gumb" – alat za dizajniranje boljih algoritama. [Iako zvuči kao termostat za AI](https://www.technologyreview.com/2023/03/14/1069748/ai-researchers-are-making-a-periodic-table-of-ai/), zapravo je riječ o pokušaju da se uvede red u kaos u AI industriji.
+<ArticleBreak />
 
-Dok se startupi utrkuju tko će prije objaviti novi model, akademici se pitaju postoji li način da se sve to učini učinkovitijim. Ili barem manje energetski zahtjevnim. Što bi, uzgred, bilo dobro za planet.
+So where does this break? First, the **demo vs. deployment** gap. The framework is tested on synthetic datasets and controlled benchmarks—not the messy, biased, or sparse data that plagues real-world systems. A self-driving car’s LiDAR stream, for example, isn’t just ‘noisy’—it’s *adversarial*, with edge cases that defy neat compression. The ‘control knob’ assumes you know *a priori* what’s predictive, but in domains like robotics, that’s often the hard part. ‘This is a tool for *design*, not a silver bullet,’ notes [Caroline Uhler](https://math.mit.edu/directory/profile.php?pid=183), an MIT computational biologist who studies AI theory. ‘It shifts the bottleneck from *how much data?* to *what data?*—which is still a bottleneck.’
 
-Problem je što je AI industrija postala žrtva vlastitog hypea. Svaki novi model mora biti veći, skuplji i gladniji podataka od prethodnog. [Istraživanje s Emoryja sugerira da bi se možda moglo i drugačije](https://arxiv.org/abs/2305.12954), ali tko će slušati fizičare kad su milijuni dolara uloženi u GPU farme?
+Then there’s **hardware reality**. The framework’s efficiency gains assume you can *measure* what’s predictive—a trivial task in a physics simulation, less so in a warehouse robot parsing occluded barcodes under flickering lights. Current implementations rely on gradient-based optimization, which demands clean, labeled data and stable compute environments. Edge devices, with their power and memory constraints, might not even get to use the ‘knob’—they’re too busy struggling with quantization and latency. ‘The math is elegant,’ says a robotics engineer at [Boston Dynamics](https://www.bostondynamics.com/) (who asked not to be named). ‘But until someone shows me a deployable model running this on a 5-watt NVIDIA Jetson, it’s still academic.’
 
-Ipak, ako ovaj okvir zaista funkcionira, mogao bi biti korak prema AI-u koji je ne samo precizniji, već i manje štetan za okoliš. Što je, u doba kad se svaki startup hvali kako spašava svijet, ironično.
+The most plausible near-term use case? **Accelerating pretraining for specialized models**. Startups like [Hugging Face](https://huggingface.co/) and [Cohere](https://cohere.com/) could use the framework to trim datasets for domain-specific LLMs, reducing costs without sacrificing accuracy. But for safety-critical systems—drones, surgical robots, or industrial arms—the path is rockier. ‘You can’t just *compress away* failure modes,’ warns a safety researcher at [Open Robotics](https://www.openrobotics.org/). ‘The framework doesn’t account for the *unknown unknowns*—the 0.1% of cases where compression throws out the one pixel that mattered.’
 
-## Tko dobiva, tko gubi, a tko se pravi da ga briga
-
-Prva žrtva ovog otkrića mogli bi biti oni koji su se obogatili prodajući priče o AI-u kao nečemu potpuno novom. [Fizičari s Emoryja su, naime, pokazali da je većina AI tehnika zapravo varijacija na temu](https://www.nature.com/articles/s41586-023-06993-0). To znači da su milijuni dolara uloženih u "inovativne" algoritme možda bili potrošeni na nešto što se moglo riješiti s manje buke.
-
-To bi moglo biti neugodno za one koji su gradili karijere na tome da AI prikazuju kao magiju, a ne kao matematički alat. Ali, kao što znamo, istina je rijetko dobra za biznis.
-
-Druga skupina koja bi mogla imati problema su proizvođači hardvera. Ako se pokaže da je moguće trenirati AI s manje podataka i manje računalne snage, to znači da će se smanjiti potražnja za skupim GPU-ima i TPU-ima. [NVIDIA i ostali već godinama žive od toga da prodaju lopate u AI zlatnoj groznici](https://www.bloomberg.com/news/articles/2023-05-24/nvidia-s-ai-chips-are-the-new-gold-rush-for-tech-giants). Svaka promjena koja smanjuje potrebu za njihovim proizvodima bi im mogla naškoditi.
+What’s missing for real deployment? Three things: **1)** Proof it works on non-synthetic data (e.g., a robot’s sensor stream in a rainstorm). **2)** Integration with existing tools—right now, it’s a theoretical lens, not a TensorFlow module. **3)** A way to quantify the *risk* of over-compression, not just the reward. Until then, this is a compelling map—but the territory remains unmapped.

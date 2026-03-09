@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Orbitron, Space_Grotesk, Fira_Code } from "next/font/google";
+import { Orbitron, Space_Grotesk, Fira_Code, Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -31,6 +31,13 @@ const firaCode = Fira_Code({
   display: "swap",
 });
 
+const poppins = Poppins({
+  variable: "--font-poppins",
+  weight: ["600", "700", "800"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "TECH & SPACE — Your Portal to the Future",
@@ -38,6 +45,10 @@ export const metadata: Metadata = {
   },
   description:
     "Tech & space news portal. AI, Gaming, Space, Technology, Medicine, Society, and Robotics — curated from around the globe.",
+  icons: {
+    icon: "/ts-icon.svg",
+    shortcut: "/ts-icon.svg",
+  },
   openGraph: {
     title: "TECH & SPACE — Your Portal to the Future",
     description:
@@ -58,7 +69,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${orbitron.variable} ${spaceGrotesk.variable} ${firaCode.variable} font-body antialiased bg-space-bg text-text-primary`}
+        className={`${orbitron.variable} ${spaceGrotesk.variable} ${firaCode.variable} ${poppins.variable} font-body antialiased bg-space-bg text-text-primary`}
       >
         <TerminalBoot />
         <SpaceStage />

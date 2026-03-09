@@ -8,15 +8,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-1 mb-3">
               <img
                 src="/logo.jpg"
-                alt="TECH & SPACE"
-                className="w-8 h-8 rounded-md object-cover"
+                alt="Tech Pulse"
+                className="h-8 rounded drop-shadow-[0_0_5px_rgba(0,207,255,0.4)]"
               />
-              <span className="font-heading text-lg font-bold text-text-primary">
-                TECH & SPACE
-              </span>
             </div>
             <p className="text-sm text-text-secondary">
               Your portal to the future. Tech &amp; space news from around the globe.

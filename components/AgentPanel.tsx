@@ -520,8 +520,22 @@ export default function AgentPanel() {
   const runWithClaude = async () => {
     if (!tasks.length) return;
     setRunStatus({ status: "running", step: "Starting..." });
-    startPoll();
-    await fetch("/api/run-tasks", { method: "POST" }).catch(() => null);
+    try {
+      // 1. Save tasks to disk
+      await fetch("/api/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tasks.map(t => ({ prompt: t.prompt, summary: t.summary }))),
+      });
+      // 2. Trigger Claude Code execution
+      const res = await fetch("/api/run-tasks", { method: "POST" });
+      if (!res.ok) throw new Error(`Run failed: ${res.status}`);
+      // 3. Start polling status
+      startPoll();
+    } catch (e) {
+      setRunStatus({ status: "error", step: e instanceof Error ? e.message : "Unknown error" });
+      if (runPollRef.current) clearInterval(runPollRef.current);
+    }
   };
 
   // ── VOICE RECORDING ────────────────────────────────────────────────────────
@@ -883,7 +897,7 @@ export default function AgentPanel() {
                     <div className="flex items-start justify-between gap-1 mb-1">
                       <span className="text-[9px] font-mono text-accent-cyan/50 shrink-0">#{i + 1}</span>
                       <p className="text-[10px] font-mono text-text-secondary/60 flex-1 leading-relaxed italic truncate">{task.summary}</p>
-                      <button onClick={() => removeTask(task.id)} className="text-text-secondary/20 hover:text-red-400/60 text-xs shrink-0 transition-colors opacity-0 group-hover:opacity-100">×</button>
+                      <button onClick={() => removeTask(task.id)} className="text-text-secondary/30 hover:text-red-400 text-xs shrink-0 transition-colors" title="Remove task">×</button>
                     </div>
                     <p className="text-[10px] font-mono text-text-primary/70 leading-relaxed line-clamp-3">{task.prompt}</p>
                     <button

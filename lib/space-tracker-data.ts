@@ -278,6 +278,12 @@ export const NEO_DATASET: TrackerDataset<NEOAsteroid> = {
       closestApproach: "2026-03-02T08:00:00Z", approachAngle: 85,
       trajectory: generateAsteroidTrajectory(85, 18.2),
     },
+    {
+      id: "2026-dg7", name: "2026 DG7", distanceLD: 7.5, distanceKm: 2883900,
+      diameterM: 95, speedKmH: 48900, hazardous: true,
+      closestApproach: "2026-03-03T14:00:00Z", approachAngle: 275,
+      trajectory: generateAsteroidTrajectory(275, 7.5),
+    },
   ],
 };
 

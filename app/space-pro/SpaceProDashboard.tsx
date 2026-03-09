@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Sun,
   Zap,
@@ -8,6 +9,7 @@ import {
   Sparkles,
   Camera,
   Moon,
+  X,
 } from "lucide-react";
 import { useSpaceProData } from "@/lib/space-pro-data";
 
@@ -32,6 +34,7 @@ function KpGauge({ value }: { value: number }) {
 
 export default function SpaceProDashboard() {
   const { data } = useSpaceProData();
+  const [showImageModal, setShowImageModal] = useState(false);
 
   const auroraColors: Record<string, string> = {
     none: "#A7B3D1",
@@ -209,10 +212,25 @@ export default function SpaceProDashboard() {
               Astronomy Picture of the Day
             </h2>
           </div>
-          <div>
-            <p className="font-semibold text-text-primary mb-2">{data.apod?.title ?? "—"}</p>
-            <p className="text-sm text-text-secondary leading-relaxed">{data.apod?.explanation ?? "—"}</p>
-            <p className="text-xs text-text-secondary/60 mt-2 font-mono">{data.apod?.date ?? "—"}</p>
+          <div className="space-y-3">
+            {data.apod?.url && data.apod?.media_type === "image" && (
+              <button
+                onClick={() => setShowImageModal(true)}
+                className="w-full group relative overflow-hidden rounded-lg cursor-pointer"
+              >
+                <img
+                  src={data.apod.url}
+                  alt={data.apod.title}
+                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                  <span className="text-white/0 group-hover:text-white/80 text-sm font-semibold transition-all">Click to view full size</span>
+                </div>
+              </button>
+            )}
+            <p className="font-semibold text-text-primary text-sm">{data.apod?.title ?? "—"}</p>
+            <p className="text-xs text-text-secondary leading-relaxed line-clamp-2">{data.apod?.explanation ?? "—"}</p>
+            <p className="text-xs text-text-secondary/60 font-mono">{data.apod?.date ?? "—"}</p>
           </div>
         </div>
 
@@ -249,6 +267,29 @@ export default function SpaceProDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Image Modal */}
+      {showImageModal && data.apod?.url && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" onClick={() => setShowImageModal(false)}>
+          <div className="relative max-w-4xl max-h-[90vh] w-full h-full flex flex-col" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setShowImageModal(false)}
+              className="absolute top-2 right-2 z-10 p-2 rounded-lg bg-black/50 hover:bg-black/75 transition-colors"
+            >
+              <X className="w-6 h-6 text-white" />
+            </button>
+            <img
+              src={data.apod.url}
+              alt={data.apod.title}
+              className="w-full h-full object-contain rounded-lg"
+            />
+            <div className="bg-black/70 p-4 rounded-b-lg">
+              <p className="font-semibold text-white mb-2">{data.apod.title}</p>
+              <p className="text-sm text-gray-300">{data.apod.explanation}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

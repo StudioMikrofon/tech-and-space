@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d0d8f0"/>
+      <stop offset="50%" stop-color="#a0aacc"/>
+      <stop offset="100%" stop-color="#d0d8f0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Orbital ring 1: top-left → bottom-right -->
+  <ellipse cx="50" cy="50" rx="42" ry="14"
+    transform="rotate(45 50 50)"
+    stroke="url(#ring)" stroke-width="5.5" fill="none"
+    filter="url(#glow)" stroke-linecap="round"/>
+
+  <!-- Orbital ring 2: top-right → bottom-left -->
+  <ellipse cx="50" cy="50" rx="42" ry="14"
+    transform="rotate(-45 50 50)"
+    stroke="url(#ring)" stroke-width="5.5" fill="none"
+    filter="url(#glow)" stroke-linecap="round"/>
+
+  <!-- Blue glow dots at the 4 orbit tips -->
+  <!-- Top -->
+  <circle cx="50" cy="12" r="4" fill="#00cfff" filter="url(#glow)"/>
+  <!-- Bottom -->
+  <circle cx="50" cy="88" r="4" fill="#00cfff" filter="url(#glow)"/>
+  <!-- Left -->
+  <circle cx="12" cy="50" r="4" fill="#00cfff" filter="url(#glow)"/>
+  <!-- Right -->
+  <circle cx="88" cy="50" r="4" fill="#00cfff" filter="url(#glow)"/>
+
+  <!-- Center dot -->
+  <circle cx="50" cy="50" r="3.5" fill="#00cfff" filter="url(#glow)"/>
+</svg>

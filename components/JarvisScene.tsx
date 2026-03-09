@@ -684,7 +684,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       const earthBumpTex = texLoader.load("/textures/earth_bump.jpg");
       const earthNightTex = texLoader.load("/textures/planets/2k_earth_nightmap.jpg");
       const earthCore = new THREE.Mesh(
-        new THREE.SphereGeometry(EARTH_RADIUS, 64, 64),
+        new THREE.SphereGeometry(EARTH_RADIUS, 32, 32),
         new THREE.MeshStandardMaterial({
           map: earthDayTex, bumpMap: earthBumpTex, bumpScale: 0.03,
           roughness: 0.55, metalness: 0.05,
@@ -711,7 +711,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       const scanCtx = scanCanvas.getContext("2d")!;
       const scanTex = new THREE.CanvasTexture(scanCanvas);
       const scanBand = new THREE.Mesh(
-        new THREE.SphereGeometry(EARTH_RADIUS * 1.03, 48, 48),
+        new THREE.SphereGeometry(EARTH_RADIUS * 1.03, 24, 24),
         new THREE.MeshBasicMaterial({ map: scanTex, transparent: true, opacity: 0.12, depthWrite: false }),
       );
       scanBand.position.copy(EARTH_POS);
@@ -736,7 +736,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       DSN_GROUND_STATIONS.forEach((station) => {
         if (!station.lat || !station.lon) return;
         const pos = latLonToSphere(station.lat, station.lon, EARTH_RADIUS * 1.02, new THREE.Vector3(0, 0, 0));
-        const dot = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), new THREE.MeshBasicMaterial({ color: 0x34d399 }));
+        const dot = new THREE.Mesh(new THREE.SphereGeometry(0.03, 6, 6), new THREE.MeshBasicMaterial({ color: 0x34d399 }));
         dot.position.copy(pos); earthCore.add(dot);
         objectMap.set(station.id, dot);
         const lbl = createLabel(station.name, "#34D399", 1);
@@ -933,7 +933,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       });
 
       // ===== SUN — professional with solar flares =====
-      const sunGeo = new THREE.SphereGeometry(3, 48, 48);
+      const sunGeo = new THREE.SphereGeometry(3, 32, 32);
       const sunFallback = generatePlanetTexture("sun", 1024, 512);
       const sunFallbackTex = new THREE.CanvasTexture(sunFallback);
       sunFallbackTex.wrapS = THREE.RepeatWrapping;
@@ -1011,7 +1011,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         orbitRing.position.copy(SUN_POS);
         scene.add(orbitRing);
 
-        const pGeo = new THREE.SphereGeometry(p.radius, 48, 48);
+        const pGeo = new THREE.SphereGeometry(p.radius, 24, 24);
         const fallbackCanvas = generatePlanetTexture(p.name);
         const fallbackTex = new THREE.CanvasTexture(fallbackCanvas);
         const pMat = new THREE.MeshStandardMaterial({

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { MapPin, Clock, ArrowUpRight } from "lucide-react";
 import type { Article } from "@/lib/types";
 import { CATEGORY_LABELS } from "@/lib/types";
-import { formatDistanceToNow } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { playSound } from "@/lib/sounds";
 
 interface ArticleCardProps {
@@ -159,7 +159,7 @@ export default function ArticleCard({ article, onGeoClick, basePath = "" }: Arti
         <div className="flex items-center justify-between text-xs text-text-secondary">
           <div className="flex items-center gap-1">
             <Clock className="w-3 h-3" />
-            <span>{formatDistanceToNow(article.date)}</span>
+            <span>{formatDate(article.date)}</span>
           </div>
           {article.geo && (
             <button

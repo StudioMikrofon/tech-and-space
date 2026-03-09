@@ -1,3 +1,12 @@
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }); // e.g. "17 Feb 2026"
+}
+
 export function formatDistanceToNow(dateString: string): string {
   const date = new Date(dateString);
   const now = new Date();

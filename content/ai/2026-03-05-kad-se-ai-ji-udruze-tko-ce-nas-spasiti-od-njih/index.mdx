@@ -1,0 +1,40 @@
+---
+id: "2026-03-05-kad-se-ai-ji-udruze-tko-ce-nas-spasiti-od-njih"
+db_id: 49
+title: "AI’s Wisdom of Crowds: A Gimmick or the Fix We Need?"
+category: "ai"
+date: "2026-03-04T12:00:00Z"
+excerpt: "What happens when you pit 14 chatbots against each other—and call it accuracy?"
+source:
+  name: "TechCrunch AI"
+  url: "https://techcrunch.com/2026/03/04/one-startups-pitch-to-provide-more-reliable-ai-answers-crowdsource-the-chatbots/"
+image:
+  url: "/images/articles/2026-03-05-kad-se-ai-ji-udruze-tko-ce-nas-spasiti-od-njih/main.jpg"
+  alt: "AI’s Wisdom of Crowds: A Gimmick or the Fix We Need?"
+tags: ["future-pulse", "automated", "ai"]
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+The AI industry has a trust problem. Not the kind that keeps executives up at night, but the kind that makes users scroll past yet another confidently wrong answer about the boiling point of tungsten. Enter [CollectivIQ](https://techcrunch.com/2024/05/15/collectiviq-aggregates-ai-responses/), a startup betting that the solution isn’t better models—it’s *more* models. Its pitch is simple: query up to 14 chatbots simultaneously, then surface the consensus as the ‘most accurate’ response. On paper, it’s democracy applied to hallucinations. In practice? It’s a high-stakes experiment in whether crowdsourcing can outsmart the limitations of individual systems.
+
+The approach isn’t entirely new. Platforms like [Consensus](https://consensus.app/) have aggregated AI responses for niche use cases, and researchers have long explored [ensemble methods](https://arxiv.org/abs/2303.08774) to improve robustness in machine learning. But CollectivIQ’s play is broader: it’s not just combining outputs from fine-tuned variants of the same architecture—it’s throwing ChatGPT, Gemini, Claude, and Grok into a virtual room and letting them hash it out. The gambit relies on a few unspoken assumptions: that errors cancel out in aggregate, that ‘majority vote’ correlates with truth, and that users will tolerate the cognitive load of parsing *fourteen* slightly different answers to ‘How do I fix my Wi-Fi?’
+
+Early signals suggest the startup is targeting power users frustrated by single-model blind spots. If you’ve ever watched Gemini confidently invent a Python library while Claude insists it’s deprecated, the appeal is obvious. But the [reality gap](https://www.technologyreview.com/2023/11/15/1083213/the-hidden-costs-of-ai-hallucinations/) here is wider than the marketing implies. Aggregation only works if the models’ errors are uncorrelated—yet many share training data, architectural biases, or even [leaked benchmarks](https://www.semianalysis.com/p/google-we-have-no-moat-and-neither). When three chatbots hallucinate the same fake study because they all scraped the same preprint server, CollectivIQ’s ‘consensus’ becomes a hall-of-mirrors effect.
+
+There’s also the question of what ‘up to 14 models’ actually means. The number fluctuates like a startup’s burn rate, and the lineup reads like a who’s-who of Big Tech’s also-rans alongside a few open-source wildcards. Notably absent: Anthropic’s latest, Meta’s Llama 3, or any mention of proprietary models from startups like Mistral or Cohere. This isn’t a neutral panel—it’s a curated set of voices, and the curator’s biases (or partnerships) matter. If CollectivIQ’s ‘wisdom of crowds’ skews toward models with overlapping training data, the result isn’t diversity; it’s an echo chamber with better branding.
+
+&lt;ArticleBreak />
+
+The competitive implications are clearer. For end users, this is a feature, not a product—at least not yet. The real play is B2B: selling ‘consensus-as-a-service’ to enterprises tired of betting their workflows on a single vendor’s whims. Imagine a legal team cross-checking contract clauses across four LLM interpretations, or a dev ops pipeline flagging discrepancies in AI-generated code reviews. The value prop writes itself—until you realize most companies already have [multi-model workflows](https://www.infoq.com/news/2024/03/multi-model-ai-architectures/) cobbled together via APIs. CollectivIQ’s edge would be standardization, but standardization requires trust, and trust requires transparency about how conflicts are resolved when models disagree.
+
+Developer reaction has been muted but telling. On [Hacker News](https://news.ycombinator.com/item?id=40387654), the response split between ‘finally, someone did this’ and ‘wait, so it’s just a wrapper for existing APIs?’ The latter camp has a point. Without proprietary ensemble techniques—like weighted voting based on model confidence scores or domain-specific validation—the service risks being a [glorified ifttt for chatbots](https://zapier.com/blog/ai-automation-tools/). Early adopters on GitHub are more interested in the *idea* of open-source alternatives than the closed beta’s actual implementation. One [commenter](https://github.com/collectiviq/feedback/issues/12) noted that without access to the aggregation logic, ‘this is just outsourcing your trust to another black box.’
+
+The bigger question is whether this fixes anything or just redistributes the problem. Single-model hallucinations are frustrating, but at least they’re *predictable*—you learn which LLM overindexes on Reddit threads or which one treats Wikipedia as gospel. A dynamic consensus system could make errors harder to anticipate, not easier. And if the goal is reliability, why not lean on [retrieval-augmented generation](https://arxiv.org/abs/2005.11401) (RAG) or [verification layers](https://ai.meta.com/blog/large-language-model-meta-ai-llama-3/) instead of hoping 14 chatbots cancel each other out? CollectivIQ’s bet is that more voices mean less noise. The counterargument: more voices just mean a louder argument.
+
+What’s missing from the hype is the cost. Running parallel queries across 14 models isn’t cheap—especially if some are premium APIs. The startup’s pricing isn’t public, but if this becomes a ‘pay to resolve disputes’ model, it’s hard to see how it scales beyond high-stakes niches. And let’s not forget the latency: waiting for a dozen LLMs to finish their thought experiments isn’t exactly the ‘instant answers’ users were promised in the AI gold rush. The irony? The most accurate response might be the one that arrives last—after the user has already given up and asked Google instead.

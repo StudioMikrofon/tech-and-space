@@ -51,28 +51,32 @@ export async function generateMetadata({
     ? `${SITE_URL}${article.image.url}`
     : `${SITE_URL}/logo.jpg`;
 
+  // Use English version if available
+  const title = article.titleEn || article.title;
+  const description = article.excerptEn || article.excerpt;
+
   return {
-    title: article.title,
-    description: article.excerpt,
+    title: title,
+    description: description,
     keywords: article.tags.join(", "),
     alternates: {
       canonical: canonicalUrl,
       languages: { "hr": `${SITE_URL}/hr/article/${category}/${id}` },
     },
     openGraph: {
-      title: article.title,
-      description: article.excerpt,
+      title: title,
+      description: description,
       type: "article",
       url: canonicalUrl,
       publishedTime: article.date,
       tags: article.tags,
       siteName: "TECH & SPACE",
-      images: [{ url: ogImage, width: 1200, height: 630, alt: article.title }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image",
-      title: article.title,
-      description: article.excerpt,
+      title: title,
+      description: description,
       images: [ogImage],
     },
   };
@@ -93,11 +97,15 @@ export default async function ArticlePage({ params }: PageProps) {
     ? `${SITE_URL}${article.image.url}`
     : `${SITE_URL}/logo.jpg`;
 
+  // Use English version if available
+  const displayTitle = article.titleEn || article.title;
+  const displayExcerpt = article.excerptEn || article.excerpt;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
-    headline: article.title,
-    description: article.excerpt,
+    headline: displayTitle,
+    description: displayExcerpt,
     image: ogImage,
     datePublished: article.date,
     dateModified: article.date,
@@ -169,7 +177,7 @@ export default async function ArticlePage({ params }: PageProps) {
               </div>
 
               <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary leading-tight mb-4">
-                {article.title}
+                {article.titleEn || article.title}
               </h1>
 
               <div className="flex flex-wrap items-center gap-4 mb-6 text-sm text-text-secondary">
@@ -232,30 +240,44 @@ export default async function ArticlePage({ params }: PageProps) {
 
             {/* MDX content with ArticleBreak injected between part1 and part2 */}
             <div className="article-enter-delay-3 article-prose max-w-none">
-              <MDXRemote
-                source={article.content}
-                components={{
-                  YouTubeEmbed,
-                  ArticleBreak: () => (
-                    <div className="not-prose my-8 pt-6 border-t border-white/10">
-                      {article.subtitleImage?.url && (
-                        <div className="glass-card overflow-hidden mb-4 !hover:transform-none">
-                          <img
-                            src={article.subtitleImage.url}
-                            alt={article.subtitleImage?.alt}
-                            className="w-full h-auto max-h-[400px] object-cover"
-                          />
+              {(() => {
+                // Use English content if available, otherwise Croatian
+                const enContent = article.part1En && article.part2En
+                  ? `${article.part1En}\n\n<ArticleBreak />\n\n${article.part2En}`
+                  : article.part1En
+                  ? article.part1En
+                  : null;
+
+                const displaySubtitle = article.subtitleEn || article.subtitle;
+                const contentToRender = enContent || article.content;
+
+                return (
+                  <MDXRemote
+                    source={contentToRender}
+                    components={{
+                      YouTubeEmbed,
+                      ArticleBreak: () => (
+                        <div className="not-prose my-8 pt-6 border-t border-white/10">
+                          {article.subtitleImage?.url && (
+                            <div className="glass-card overflow-hidden mb-4 !hover:transform-none">
+                              <img
+                                src={article.subtitleImage.url}
+                                alt={article.subtitleImage?.alt}
+                                className="w-full h-auto max-h-[400px] object-cover"
+                              />
+                            </div>
+                          )}
+                          {displaySubtitle && (
+                            <p className="text-text-secondary italic text-lg leading-relaxed font-medium">
+                              {displaySubtitle}
+                            </p>
+                          )}
                         </div>
-                      )}
-                      {article.subtitle && (
-                        <p className="text-text-secondary italic text-lg leading-relaxed font-medium">
-                          {article.subtitle}
-                        </p>
-                      )}
-                    </div>
-                  ),
-                }}
-              />
+                      ),
+                    }}
+                  />
+                );
+              })()}
             </div>
 
             {/* Tags */}

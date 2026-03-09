@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Menu, X, Volume2, VolumeX, Telescope } from "lucide-react";
 import { CATEGORIES, CATEGORY_LABELS } from "@/lib/types";
@@ -10,6 +11,8 @@ import dynamic from "next/dynamic";
 const SpaceProDrawer = dynamic(() => import("./SpaceProDrawer"), { ssr: false });
 
 export default function Header() {
+  const pathname = usePathname();
+  const isHr = pathname.startsWith("/hr");
   const [menuOpen, setMenuOpen] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
   const [spaceProOpen, setSpaceProOpen] = useState(false);
@@ -73,15 +76,12 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link href="/" className="flex items-center group hover:opacity-90 transition-opacity">
             <img
-              src="/logo.jpg"
+              src="/ts-logo-full.svg"
               alt="TECH & SPACE"
-              className="w-9 h-9 rounded-md object-cover group-hover:brightness-125 transition-all"
+              className="h-11 group-hover:drop-shadow-[0_0_10px_rgba(0,207,255,0.5)] transition-all"
             />
-            <span className="font-heading text-xl font-bold text-text-primary">
-              TECH & SPACE
-            </span>
             <span className="live-dot ml-1" />
           </Link>
 
@@ -111,7 +111,16 @@ export default function Header() {
             </button>
           </nav>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
+            {/* Language switcher */}
+            <Link
+              href={isHr ? pathname.replace(/^\/hr/, "") || "/" : `/hr${pathname}`}
+              className="flex items-center justify-center w-8 h-8 text-xs font-mono font-bold text-text-primary border border-accent-cyan/40 hover:border-accent-cyan/60 hover:bg-accent-cyan/10 rounded transition-all bg-accent-cyan/5"
+              title={isHr ? "Switch to English" : "Prebaci na hrvatski"}
+            >
+              {isHr ? "🇬🇧" : "🇭🇷"}
+            </Link>
+
             {/* Sound toggle */}
             <button
               className="p-2 text-text-secondary hover:text-accent-cyan transition-colors"

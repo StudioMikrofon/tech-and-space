@@ -34,10 +34,11 @@ const PLANETS: PlanetDef[] = [
 interface SolarSystemTrackerProps {
   width: number;
   height: number;
+  lang?: "en" | "hr";
   onSelectObject?: (obj: { type: string; name: string; data: Record<string, string> } | null) => void;
 }
 
-export default function SolarSystemTracker({ width, height, onSelectObject }: SolarSystemTrackerProps) {
+export default function SolarSystemTracker({ width, height, lang = "en", onSelectObject }: SolarSystemTrackerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<{
     renderer: THREE.WebGLRenderer;
@@ -62,6 +63,23 @@ export default function SolarSystemTracker({ width, height, onSelectObject }: So
   }, [onSelectObject]);
 
   useEffect(() => {
+    const labels = lang === "hr" ? {
+      distance: "Udaljenost",
+      color: "Boja",
+      speed: "Brzina",
+      mission: "Misija",
+      launch: "Lansiranje",
+      status: "Status",
+      lastSignal: "Zadnji signal",
+    } : {
+      distance: "Distance",
+      color: "Color",
+      speed: "Speed",
+      mission: "Mission",
+      launch: "Launch Year",
+      status: "Status",
+      lastSignal: "Last Signal",
+    };
     const container = containerRef.current;
     if (!container) return;
 
@@ -260,14 +278,21 @@ export default function SolarSystemTracker({ width, height, onSelectObject }: So
 
     // Raycaster
     const raycaster = new THREE.Raycaster();
+    raycaster.params.Points!.threshold = 0.1; // Improve click detection
     const mouse = new THREE.Vector2();
     let flyTarget: THREE.Vector3 | null = null;
     let selectedMeshRef: THREE.Mesh | null = null;
 
     function onPointerDown(e: PointerEvent) {
       const rect = renderer.domElement.getBoundingClientRect();
-      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Ensure click is within bounds
+      if (x < 0 || x > rect.width || y < 0 || y > rect.height) return;
+
+      mouse.x = (x / rect.width) * 2 - 1;
+      mouse.y = -(y / rect.height) * 2 + 1;
 
       raycaster.setFromCamera(mouse, camera);
       const allMeshes = [...planetMeshes, ...probeMeshes];
@@ -285,20 +310,20 @@ export default function SolarSystemTracker({ width, height, onSelectObject }: So
         if (ud.type === "planet") {
           const planet = PLANETS[ud.index];
           handleSelect("planet", planet.name, {
-            "Udaljenost": `${planet.distance} AU (scaled)`,
-            "Boja": planet.color,
+            [labels.distance]: `${planet.distance} AU (scaled)`,
+            [labels.color]: planet.color,
           });
           flyTarget = obj.position.clone();
           selectedMeshRef = obj;
         } else if (ud.type === "probe") {
           const probe = ud.probe as ProbeData;
           handleSelect("probe", probe.name, {
-            "Udaljenost": probe.distanceFromSun,
-            "Brzina": probe.speed,
-            "Misija": probe.mission,
-            "Lansiranje": String(probe.launchYear),
-            "Status": probe.status,
-            "Zadnji signal": new Date(probe.lastSignal).toLocaleTimeString(),
+            [labels.distance]: probe.distanceFromSun,
+            [labels.speed]: probe.speed,
+            [labels.mission]: probe.mission,
+            [labels.launch]: String(probe.launchYear),
+            [labels.status]: probe.status,
+            [labels.lastSignal]: new Date(probe.lastSignal).toLocaleTimeString(),
           });
           flyTarget = obj.position.clone();
           selectedMeshRef = obj;
@@ -335,20 +360,20 @@ export default function SolarSystemTracker({ width, height, onSelectObject }: So
       const elapsed = clock.getElapsedTime();
       pulsePhase = elapsed;
 
-      // Rotate sun
-      sun.rotation.y = elapsed * 0.1;
+      // Rotate sun (reduced speed)
+      sun.rotation.y = elapsed * 0.04;
 
       // Move planets
       PLANETS.forEach((p, i) => {
-        planetAngles[i] += p.speed * delta * 0.3;
+        planetAngles[i] += p.speed * delta * 0.2;
         const a = planetAngles[i];
         planetMeshes[i].position.set(Math.cos(a) * p.distance, 0, Math.sin(a) * p.distance);
-        planetMeshes[i].rotation.y += delta * 0.5;
+        planetMeshes[i].rotation.y += delta * 0.2;
       });
 
-      // Rotate probes slightly
+      // Rotate probes slightly (reduced speed)
       probeMeshes.forEach((pm) => {
-        pm.rotation.y += delta * 1.5;
+        pm.rotation.y -= delta * 0.6;
       });
 
       // Pulse selected object
@@ -357,20 +382,20 @@ export default function SolarSystemTracker({ width, height, onSelectObject }: So
         selectedMeshRef.scale.setScalar(scale);
       }
 
-      // Smooth fly-to
+      // Smooth fly-to (faster transition for immediate switching)
       if (flyTarget) {
         const targetLook = flyTarget.clone();
         const currentTarget = controls.target.clone();
-        controls.target.lerp(targetLook, 0.06);
+        controls.target.lerp(targetLook, 0.12);
 
         // Move camera closer to target
         const dir = camera.position.clone().sub(targetLook).normalize();
         const idealDist = 8;
         const idealPos = targetLook.clone().add(dir.multiplyScalar(idealDist));
         idealPos.y = Math.max(idealPos.y, 3);
-        camera.position.lerp(idealPos, 0.03);
+        camera.position.lerp(idealPos, 0.08);
 
-        if (currentTarget.distanceTo(targetLook) < 0.1) {
+        if (currentTarget.distanceTo(targetLook) < 0.2) {
           flyTarget = null;
         }
       }

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 110" fill="none">
+  <defs>
+    <filter id="glow-ring" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="b1"/>
+      <feGaussianBlur stdDeviation="1.5" result="b2"/>
+      <feMerge>
+        <feMergeNode in="b1"/>
+        <feMergeNode in="b2"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow-dot" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow-text" x="-5%" y="-30%" width="110%" height="160%">
+      <feGaussianBlur stdDeviation="1.5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="rg1" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#d0e4f8"/>
+      <stop offset="35%" stop-color="#90b8e0"/>
+      <stop offset="65%" stop-color="#5090cc"/>
+      <stop offset="100%" stop-color="#c8dcf4"/>
+    </linearGradient>
+    <linearGradient id="rg2" x1="90%" y1="0%" x2="10%" y2="100%">
+      <stop offset="0%" stop-color="#d0e4f8"/>
+      <stop offset="35%" stop-color="#90b8e0"/>
+      <stop offset="65%" stop-color="#5090cc"/>
+      <stop offset="100%" stop-color="#c8dcf4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Cyan glow halos (background, blurred) -->
+  <ellipse cx="55" cy="55" rx="48" ry="17" transform="rotate(45 55 55)"
+    stroke="#00cfff" stroke-width="8" fill="none" opacity="0.15" filter="url(#glow-ring)"/>
+  <ellipse cx="55" cy="55" rx="48" ry="17" transform="rotate(-45 55 55)"
+    stroke="#00cfff" stroke-width="8" fill="none" opacity="0.15" filter="url(#glow-ring)"/>
+
+  <!-- Ring 1 — tilted +45° -->
+  <ellipse cx="55" cy="55" rx="48" ry="17" transform="rotate(45 55 55)"
+    stroke="url(#rg1)" stroke-width="5.5" fill="none"
+    filter="url(#glow-ring)" stroke-linecap="round"/>
+
+  <!-- Ring 2 — tilted -45° -->
+  <ellipse cx="55" cy="55" rx="48" ry="17" transform="rotate(-45 55 55)"
+    stroke="url(#rg2)" stroke-width="5.5" fill="none"
+    filter="url(#glow-ring)" stroke-linecap="round"/>
+
+  <!-- Endpoint nodes -->
+  <circle cx="55" cy="7" r="6" fill="#9bbce0" filter="url(#glow-dot)"/>
+  <circle cx="55" cy="7" r="3.5" fill="#00cfff" opacity="0.9"/>
+
+  <circle cx="55" cy="103" r="6" fill="#9bbce0" filter="url(#glow-dot)"/>
+  <circle cx="55" cy="103" r="3.5" fill="#00cfff" opacity="0.9"/>
+
+  <circle cx="7" cy="55" r="6" fill="#9bbce0" filter="url(#glow-dot)"/>
+  <circle cx="7" cy="55" r="3.5" fill="#00cfff" opacity="0.9"/>
+
+  <circle cx="103" cy="55" r="6" fill="#9bbce0" filter="url(#glow-dot)"/>
+  <circle cx="103" cy="55" r="3.5" fill="#00cfff" opacity="0.9"/>
+
+  <!-- Center node -->
+  <circle cx="55" cy="55" r="5" fill="#b0ccec" filter="url(#glow-dot)"/>
+  <circle cx="55" cy="55" r="2.5" fill="#00cfff" opacity="0.95"/>
+
+  <!-- TECH & SPACE text -->
+  <text x="128" y="44" font-family="'Orbitron','Space Grotesk',monospace"
+    font-size="31" font-weight="900" fill="#dceeff" letter-spacing="4"
+    filter="url(#glow-text)">TECH <tspan fill="#00cfff">&amp;</tspan> SPACE</text>
+
+  <!-- Separator line -->
+  <line x1="128" y1="53" x2="376" y2="53" stroke="#00cfff" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Tagline -->
+  <text x="129" y="76" font-family="'Space Grotesk','Orbitron',monospace"
+    font-size="11.5" font-weight="500" fill="#6a9cbf" letter-spacing="5.5" opacity="0.9">YOUR PORTAL TO THE FUTURE</text>
+</svg>
