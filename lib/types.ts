@@ -31,13 +31,13 @@ export const CATEGORY_LABELS_HR: Record<Category, string> = {
 };
 
 export const CATEGORY_COLORS: Record<Category, string> = {
-  ai: "#a855f7",       // purple
-  gaming: "#ff006e",   // hot pink
-  space: "#00cfff",    // cyan
-  technology: "#f97316", // orange
-  medicine: "#22c55e", // green
-  society: "#ffd60a",  // yellow
-  robotics: "#60a5fa", // blue
+  ai: "#6b46c1",       // soft purple
+  gaming: "#eab308",   // soft yellow
+  space: "#8b5cf6",    // soft violet
+  technology: "#06b6d4", // soft cyan
+  medicine: "#ec4899", // soft pink
+  society: "#f97316",  // soft orange
+  robotics: "#10b981", // soft emerald
 };
 
 export interface GeoLocation {

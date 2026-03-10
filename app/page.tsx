@@ -26,7 +26,11 @@ export default function HomePage() {
     );
   }
 
-  const gridArticles = articles.filter((a) => a.id !== featured.id);
+  // Filter out featured article from grid ONLY if there are other articles
+  // If featured is the only article, show it in both places
+  const gridArticles = articles.length > 1 
+    ? articles.filter((a) => a.id !== featured.id)
+    : articles;
 
   return (
     <>

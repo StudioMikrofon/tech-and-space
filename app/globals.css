@@ -38,14 +38,14 @@
   --color-accent-starlight: #00cfff;
   --color-accent-amber: #00cfff;
 
-  /* Categories — all unified cyan palette */
-  --color-category-ai: #00cfff;
-  --color-category-gaming: #00b8e6;
-  --color-category-space: #00cfff;
-  --color-category-technology: #00b8e6;
-  --color-category-medicine: #00cfff;
-  --color-category-society: #00b8e6;
-  --color-category-robotics: #00cfff;
+  /* Categories — softer, less saturated colors */
+  --color-category-ai: #6b46c1;        /* Soft purple */
+  --color-category-gaming: #eab308;    /* Soft yellow */
+  --color-category-space: #8b5cf6;     /* Soft violet */
+  --color-category-technology: #06b6d4; /* Soft cyan */
+  --color-category-medicine: #ec4899;  /* Soft pink */
+  --color-category-society: #f97316;   /* Soft orange */
+  --color-category-robotics: #10b981;  /* Soft emerald */
 }
 
 body {
@@ -96,17 +96,47 @@ body {
   border-radius: 9999px;
 }
 
-.category-badge-ai,
-.category-badge-gaming,
-.category-badge-space,
+.category-badge-ai {
+  background: rgba(107, 70, 193, 0.15);
+  color: #a78bfa;
+  border: 1px solid rgba(107, 70, 193, 0.3);
+}
+
+.category-badge-gaming {
+  background: rgba(234, 179, 8, 0.15);
+  color: #facc15;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.category-badge-space {
+  background: rgba(139, 92, 246, 0.15);
+  color: #c4b5fd;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
 .category-badge-technology,
-.category-badge-tech,
-.category-badge-medicine,
-.category-badge-society,
+.category-badge-tech {
+  background: rgba(6, 182, 212, 0.15);
+  color: #22d3ee;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.category-badge-medicine {
+  background: rgba(236, 72, 153, 0.15);
+  color: #f9a8d4;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.category-badge-society {
+  background: rgba(249, 115, 22, 0.15);
+  color: #fb923c;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
 .category-badge-robotics {
-  background: rgba(0, 207, 255, 0.12);
-  color: #00cfff;
-  border: 1px solid rgba(0, 207, 255, 0.25);
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 /* =========================================================================

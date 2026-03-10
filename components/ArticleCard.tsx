@@ -2,11 +2,13 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { MapPin, Clock, ArrowUpRight } from "lucide-react";
 import type { Article } from "@/lib/types";
 import { CATEGORY_LABELS } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 import { playSound } from "@/lib/sounds";
+import ArticleDeleteButton from "./ArticleDeleteButton";
 
 interface ArticleCardProps {
   article: Article;
@@ -129,11 +131,20 @@ export default function ArticleCard({ article, onGeoClick, basePath = "" }: Arti
         )}
 
         {/* Category badge */}
-        <span
-          className={`absolute top-3 left-3 category-badge category-badge-${article.category}`}
+        <Link
+          href={`/category/${article.category}`}
+          className={`absolute top-3 left-3 category-badge category-badge-${article.category} cursor-pointer hover:opacity-80 transition-opacity z-10`}
+          onClick={(e) => e.stopPropagation()}
         >
           {CATEGORY_LABELS[article.category]}
-        </span>
+        </Link>
+
+        {/* Delete button (test-only) */}
+        {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && article.dbId && (
+          <div className="absolute top-3 right-12">
+            <ArticleDeleteButton articleId={article.dbId} />
+          </div>
+        )}
 
         {/* Hover scan line */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">

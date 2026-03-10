@@ -12,6 +12,7 @@ import Comments from "@/components/Comments";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import LangSwitcher from "@/components/LangSwitcher";
 import RelatedArticles from "@/components/RelatedArticles";
+import ArticleDeleteButton from "@/components/ArticleDeleteButton";
 import type { Metadata } from "next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://techand.space";
@@ -138,9 +139,19 @@ export default async function ArticlePageHr({ params }: PageProps) {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
           <div>
-            <span className={`category-badge category-badge-${article.category} mb-4 inline-block`}>
-              {CATEGORY_LABELS[article.category]}
-            </span>
+            <div className="flex items-center gap-2 flex-wrap mb-4">
+              <span className={`category-badge category-badge-${article.category}`}>
+                {CATEGORY_LABELS[article.category]}
+              </span>
+              {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && (
+                <>
+                  <span className={`text-[10px] font-mono border rounded px-1.5 py-0.5 ${article.dbId ? "text-accent-cyan/60 border-accent-cyan/20" : "text-red-400/50 border-red-400/20"}`}>
+                    {article.dbId ? `db#${article.dbId}` : "no db_id"}
+                  </span>
+                  {article.dbId && <ArticleDeleteButton articleId={article.dbId} />}
+                </>
+              )}
+            </div>
             <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary leading-tight mb-4">
               {article.title}
             </h1>

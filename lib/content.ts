@@ -67,10 +67,13 @@ export function getAllArticles(): Article[] {
     }
   }
 
-  // Sort by date descending
-  return articles.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  // Sort by date descending, then by db_id descending as tiebreaker
+  return articles.sort((a, b) => {
+    const dateCompare = new Date(b.date).getTime() - new Date(a.date).getTime();
+    if (dateCompare !== 0) return dateCompare;
+    // Same date: sort by db_id descending (newer IDs first)
+    return (b.dbId ?? 0) - (a.dbId ?? 0);
+  });
 }
 
 export function getArticleBySlug(
@@ -119,9 +122,12 @@ export function getAllArticlesHr(): Article[] {
     }
   }
 
-  return articles.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  // Sort by date descending, then by db_id descending as tiebreaker
+  return articles.sort((a, b) => {
+    const dateCompare = new Date(b.date).getTime() - new Date(a.date).getTime();
+    if (dateCompare !== 0) return dateCompare;
+    return (b.dbId ?? 0) - (a.dbId ?? 0);
+  });
 }
 
 export function getArticlesByCategory(category: Category): Article[] {

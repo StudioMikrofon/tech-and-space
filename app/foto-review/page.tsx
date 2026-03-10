@@ -114,6 +114,8 @@ export default function FotoReviewPage() {
   const [showLog, setShowLog] = useState<Record<number, boolean>>({});
   const [logLines, setLogLines] = useState<string[]>([]);
   const [logLoading, setLogLoading] = useState(false);
+  const [publishing, setPublishing] = useState<Record<number, boolean>>({});
+  const [publishResult, setPublishResult] = useState<Record<number, { ok: boolean; msg: string }>>({});
   const loadedIds = useRef(new Set<number>());
 
   // Queue state
@@ -488,6 +490,29 @@ export default function FotoReviewPage() {
     }
   };
 
+  const handlePublishLocal = async (articleId: number) => {
+    if (!confirm(`Objavi članak #${articleId} na testni sajt?`)) return;
+    setPublishing((p) => ({ ...p, [articleId]: true }));
+    setPublishResult((p) => ({ ...p, [articleId]: { ok: false, msg: "Objavljujem..." } }));
+    try {
+      const res = await fetch("/api/publish-local", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ articleId }),
+      });
+      const data = await res.json();
+      setPublishResult((p) => ({ ...p, [articleId]: {
+        ok: !!data.ok,
+        msg: data.ok ? `✅ Objavljeno! Rebuild u tijeku...` : `❌ ${data.error || "Greška"}`,
+      }}));
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setPublishResult((p) => ({ ...p, [articleId]: { ok: false, msg } }));
+    } finally {
+      setPublishing((p) => ({ ...p, [articleId]: false }));
+    }
+  };
+
   const handleDeleteArticle = async (articleId: number) => {
     if (!confirm(`Trajno obrisati članak #${articleId}? Ovo se ne može poništiti.`)) return;
     const res = await fetch("/api/foto-review", {
@@ -820,10 +845,22 @@ export default function FotoReviewPage() {
                       className={`text-xs px-3 py-1.5 rounded border transition-colors ${sel.hero && !isSaving ? "border-green-600/60 text-green-300 hover:bg-green-900/25" : "border-white/8 text-white/20 cursor-not-allowed"}`}
                     >{isSaving ? "Snimam..." : "SPREMI ODABIR"}</button>
                   )}
+                  <button
+                    onClick={() => handlePublishLocal(article.id)}
+                    disabled={publishing[article.id]}
+                    className="text-xs px-3 py-1.5 rounded border border-cyan-500/50 text-cyan-300 hover:bg-cyan-900/25 hover:border-cyan-400 transition-colors font-bold disabled:opacity-50"
+                  >
+                    {publishing[article.id] ? "⏳ Objavl..." : "🚀 PUBLISH"}
+                  </button>
                   <button onClick={() => handleDeleteArticle(article.id)}
                     className="text-xs px-3 py-1.5 rounded border border-red-900/60 text-red-500/80 hover:bg-red-950/40 hover:text-red-400 transition-colors"
                   >TRAJNO OBRIŠI</button>
                 </div>
+                {publishResult[article.id] && (
+                  <div className={`text-xs font-mono mt-1 px-2 py-1 rounded ${publishResult[article.id].ok ? "text-cyan-300" : "text-red-400"}`}>
+                    {publishResult[article.id].msg}
+                  </div>
+                )}
               </div>
 
               {/* Log viewer */}

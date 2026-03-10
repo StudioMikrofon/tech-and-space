@@ -384,9 +384,77 @@ export async function POST(req: NextRequest) {
 
     // ── delete_article ──────────────────────────────────────────────────────────
     if (action === "delete_article") {
+      // Hard delete: MDX + images + DB entry
+      // Handles EN/HR bilingual deletion — deletes all MDX files with same db_id
+      const article = db.prepare("SELECT id, title FROM articles WHERE id = ?").get(articleId);
+      if (!article) {
+        db.close();
+        return NextResponse.json({ error: "Članak ne postoji", ok: false }, { status: 404 });
+      }
+
+      // 1. Find and delete ALL MDX files with this db_id (EN + HR versions)
+      const fs = require("fs");
+      const deletedFolders = new Set<string>();
+
+      try {
+        const cats = readdirSync(CONTENT_DIR_ROOT);
+        for (const cat of cats) {
+          const catDir = path.join(CONTENT_DIR_ROOT, cat);
+          let entries: string[];
+          try { entries = readdirSync(catDir); } catch { continue; }
+
+          for (const entry of entries) {
+            const entryPath = path.join(catDir, entry);
+            let entriesInFolder: string[];
+            try { entriesInFolder = readdirSync(entryPath); } catch { continue; }
+
+            // Check both index.mdx and index.hr.mdx (and index.en.mdx if present)
+            for (const mdxFile of ["index.mdx", "index.en.mdx", "index.hr.mdx"]) {
+              const mdxPath = path.join(entryPath, mdxFile);
+              if (!existsSync(mdxPath)) continue;
+
+              const head = readFileSync(mdxPath, "utf8").slice(0, 2000);
+              if (!head.includes(`db_id: ${articleId}`)) continue;
+
+              // Found a matching file — mark folder for deletion
+              deletedFolders.add(entryPath);
+            }
+          }
+        }
+
+        // Delete all matched folders
+        for (const folder of deletedFolders) {
+          try {
+            fs.rmSync(folder, { recursive: true, force: true });
+            console.log(`Deleted MDX folder: ${folder}`);
+          } catch (e) {
+            console.error(`Failed to delete MDX folder ${folder}: ${e}`);
+          }
+        }
+      } catch (e) {
+        console.error(`Error scanning for MDX files: ${e}`);
+      }
+
+      // 2. Delete image folder
+      const mdxInfo = findArticleMdxInfo(articleId);
+      if (mdxInfo?.imageFolder) {
+        try {
+          const imgFolder = path.join(PUBLIC_ARTICLES_DIR, mdxInfo.imageFolder);
+          fs.rmSync(imgFolder, { recursive: true, force: true });
+          console.log(`Deleted image folder: ${imgFolder}`);
+        } catch (e) {
+          console.error(`Failed to delete image folder: ${e}`);
+        }
+      }
+
+      // 3. Delete from DB
       db.prepare("DELETE FROM articles WHERE id = ?").run(articleId);
       db.close();
-      return NextResponse.json({ ok: true, message: "Članak trajno obrisan" });
+
+      return NextResponse.json({
+        ok: true,
+        message: `✅ Članak "#${articleId}" trajno obrisan (MDX + EN/HR verzije + slike + DB)`
+      });
     }
 
     // ── delete_image ─────────────────────────────────────────────────────────────

@@ -149,7 +149,7 @@ const GlobeWrapper = forwardRef<GlobeHandle, GlobeWrapperProps>(
 
           // Dot
           const dot = document.createElement("div");
-          const size = d.size ?? 8;
+          const size = d.size ?? 5;
           dot.style.cssText = `
             width: ${size}px;
             height: ${size}px;

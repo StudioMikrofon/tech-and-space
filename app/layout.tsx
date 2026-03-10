@@ -57,6 +57,12 @@ export const metadata: Metadata = {
     locale: "en_US",
     siteName: "TECH & SPACE",
   },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
 };
 
 export default function RootLayout({

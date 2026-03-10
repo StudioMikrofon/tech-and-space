@@ -21,6 +21,7 @@ import GlobeModal from "@/components/GlobeModal";
 import LangSwitcher from "@/components/LangSwitcher";
 import RelatedArticles from "@/components/RelatedArticles";
 import ArticleEditPanel from "@/components/ArticleEditPanel";
+import ArticleDeleteButton from "@/components/ArticleDeleteButton";
 import type { Metadata } from "next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://techand.space";
@@ -164,15 +165,21 @@ export default async function ArticlePage({ params }: PageProps) {
           {/* Main content */}
           <div>
             {/* Header */}
-            <div className="article-enter-delay-1">
-              <div className="flex items-center gap-3 mb-4">
-                <span className={`category-badge category-badge-${article.category}`}>
+              <div className="article-enter-delay-1">
+              <div className="flex items-center gap-2 flex-wrap mb-4">
+                <Link
+                  href={`/category/${article.category}`}
+                  className={`category-badge category-badge-${article.category} cursor-pointer hover:opacity-80 transition-opacity`}
+                >
                   {CATEGORY_LABELS[article.category]}
-                </span>
+                </Link>
                 {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && (
-                  <span className={`text-[10px] font-mono border rounded px-1.5 py-0.5 ${article.dbId ? "text-accent-cyan/60 border-accent-cyan/20" : "text-red-400/50 border-red-400/20"}`}>
-                    {article.dbId ? `db#${article.dbId}` : "no db_id"}
-                  </span>
+                  <>
+                    <span className={`text-[10px] font-mono border rounded px-1.5 py-0.5 ${article.dbId ? "text-accent-cyan/60 border-accent-cyan/20" : "text-red-400/50 border-red-400/20"}`}>
+                      {article.dbId ? `db#${article.dbId}` : "no db_id"}
+                    </span>
+                    {article.dbId && <ArticleDeleteButton articleId={article.dbId} />}
+                  </>
                 )}
               </div>
 

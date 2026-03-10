@@ -33,7 +33,7 @@ export default function HeroSection({
       if (globeContainerRef.current) {
         const w = globeContainerRef.current.clientWidth;
         setGlobeSize(Math.min(w, 900));
-        setGlobeHeight(window.innerWidth < 768 ? 420 : Math.min(w, 900));
+        setGlobeHeight(Math.min(w, 900));
       }
     }
     updateSize();
@@ -77,11 +77,12 @@ export default function HeroSection({
             <span className="live-dot shrink-0" />
           </div>
 
-          <span
-            className={`category-badge category-badge-${featured.category} inline-block`}
+          <Link
+            href={`/category/${featured.category}`}
+            className={`category-badge category-badge-${featured.category} inline-block cursor-pointer hover:opacity-80 transition-opacity`}
           >
             {CATEGORY_LABELS[featured.category]}
-          </span>
+          </Link>
 
           <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary leading-[1.1] drop-shadow-lg">
             {featured.title}

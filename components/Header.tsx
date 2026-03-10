@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Menu, X, Volume2, VolumeX, Telescope } from "lucide-react";
+import { Menu, X, Volume2, VolumeX, Telescope, GitBranch, Loader2 } from "lucide-react";
 import { CATEGORIES, CATEGORY_LABELS } from "@/lib/types";
 import { playSound, isSoundEnabled, setSoundEnabled } from "@/lib/sounds";
 import dynamic from "next/dynamic";
@@ -60,6 +60,25 @@ export default function Header() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
+  const [syncing, setSyncing] = useState(false);
+  const [syncMsg, setSyncMsg] = useState("");
+
+  const handleSync = async () => {
+    if (syncing) return;
+    setSyncing(true);
+    setSyncMsg("");
+    try {
+      const res = await fetch("/api/sync-github", { method: "POST" });
+      const data = await res.json();
+      setSyncMsg(data.message || (data.ok ? "✅ Sinhronizacija završena!" : `❌ ${data.error}`));
+    } catch (e) {
+      setSyncMsg("❌ Greška pri sinhronizaciji");
+    } finally {
+      setSyncing(false);
+      setTimeout(() => setSyncMsg(""), 5000);
+    }
+  };
+
   const toggleSound = () => {
     const next = !soundOn;
     setSoundOn(next);
@@ -112,6 +131,26 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            {/* SINHRONIZACIJA — samo na test site */}
+            {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && (
+              <div className="relative">
+                <button
+                  onClick={handleSync}
+                  disabled={syncing}
+                  title="Sinhronizacija na techand.space"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono border border-green-500/40 text-green-400/80 hover:border-green-400 hover:text-green-300 rounded transition-colors disabled:opacity-50"
+                >
+                  {syncing ? <Loader2 className="w-3 h-3 animate-spin" /> : <GitBranch className="w-3 h-3" />}
+                  SYNC
+                </button>
+                {syncMsg && (
+                  <div className="absolute top-10 right-0 z-50 w-72 text-xs font-mono bg-space-bg border border-white/20 rounded px-3 py-2 text-text-primary shadow-lg">
+                    {syncMsg}
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Language switcher */}
             <Link
               href={isHr ? pathname.replace(/^\/hr/, "") || "/" : `/hr${pathname}`}

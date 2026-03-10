@@ -68,11 +68,11 @@ export async function GET(req: NextRequest) {
       FROM articles
     `;
     if (filter === "pending") {
-      query += ` WHERE status NOT IN ('rejected', 'published') ORDER BY id DESC LIMIT 100`;
+      query += ` WHERE status NOT IN ('rejected', 'published', 'approved') ORDER BY id DESC LIMIT 100`;
     } else if (filter === "published") {
       query += ` WHERE status='published' ORDER BY id DESC LIMIT 50`;
     } else {
-      query += ` WHERE status != 'rejected' ORDER BY id DESC LIMIT 100`;
+      query += ` WHERE status NOT IN ('rejected', 'approved') ORDER BY id DESC LIMIT 100`;
     }
     const rows = db.prepare(query).all();
     db.close();
