@@ -67,6 +67,7 @@ export interface Article {
   scrapeDateDate?: string; // Original scrape date, separate from edit date
   excerpt: string;
   excerptEn?: string;
+  execSummary?: string; // 2-3 sentence summary from writer
   source: ArticleSource;
   image: ArticleImage;
   subtitle?: string;

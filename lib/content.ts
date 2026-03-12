@@ -22,6 +22,7 @@ function parseMdxFile(filePath: string): Article | null {
       scrapeDateDate: data.scrape_date || data.date, // Use scrape_date if available
       excerpt: data.excerpt,
       excerptEn: data.excerpt_en,
+      execSummary: data.exec_summary,
       source: data.source,
       image: data.image,
       subtitle: data.subtitle,

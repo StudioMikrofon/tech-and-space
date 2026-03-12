@@ -148,7 +148,10 @@ export default async function ArticlePage({ params }: PageProps) {
           />
         )
       )}
-      <article className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <article 
+        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8"
+        data-article-db-id={article.dbId || ""}
+      >
         {/* Back link + lang switch */}
         <div className="article-enter flex items-center justify-between mb-6">
           <Link
@@ -244,6 +247,15 @@ export default async function ArticlePage({ params }: PageProps) {
                 </div>
               ) : null;
             })()}
+
+            {/* Executive Summary (lead paragraphs) */}
+            {article.execSummary && (
+              <div className="article-enter-delay-3 mb-6 not-prose">
+                <p className="text-text-secondary italic text-lg leading-relaxed font-medium border-l-4 border-accent-cyan/40 pl-4">
+                  {article.execSummary}
+                </p>
+              </div>
+            )}
 
             {/* MDX content with ArticleBreak injected between part1 and part2 */}
             <div className="article-enter-delay-3 article-prose max-w-none">
