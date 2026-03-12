@@ -56,6 +56,16 @@ if not row:
 
 article = dict(row)
 
+# CRITICAL: Reject articles without English content
+title_en = (article.get('title_en') or '').strip()
+part1_en = (article.get('part1_en') or '').strip()
+if not title_en or not part1_en:
+    print(json.dumps({
+        'ok': False,
+        'error': f"Article #{article.get('id')} rejected: missing EN content (has_title_en={bool(title_en)}, has_part1_en={bool(part1_en)}). Cannot publish article without English content."
+    }))
+    sys.exit(1)
+
 # Convert to MDX
 mdx_en, cat_folder, slug, date, images_info = convert_to_mdx(article)
 mdx_hr = convert_to_mdx_hr(article, slug, date, cat_folder, images_info)
@@ -115,11 +125,18 @@ print(json.dumps({
     const data = JSON.parse(result.stdout.trim().split("\n").pop() || "{}");
     if (!data.ok) return NextResponse.json(data, { status: 404 });
 
-    // Trigger rebuild in background (non-blocking)
-    const rebuild = spawn("bash", ["-c",
-      "cd /opt/openclaw/workspace/tech-pulse-css && npm run build >> /tmp/rebuild.log 2>&1 && systemctl restart tech-pulse-test"
-    ], { detached: true, stdio: "ignore" });
-    rebuild.unref();
+    // Trigger rebuild in background (non-blocking, with lock to prevent parallel builds)
+    const { existsSync, writeFileSync } = require("fs");
+    const lockPath = "/tmp/nextjs_build.lock";
+
+    if (existsSync(lockPath)) {
+      return NextResponse.json({ ...data, rebuilding: false, message: "Build već u tijeku, čekaj..." });
+    }
+
+    writeFileSync(lockPath, JSON.stringify({ time: new Date().toISOString() }));
+    spawn("bash", ["-c",
+      `cd /opt/openclaw/workspace/tech-pulse-css && npm run build >> /tmp/rebuild.log 2>&1 && systemctl restart tech-pulse-test; rm -f ${lockPath}`
+    ], { detached: true, stdio: "ignore" }).unref();
 
     return NextResponse.json({ ...data, rebuilding: true });
   } catch {

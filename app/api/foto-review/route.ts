@@ -605,10 +605,24 @@ export async function POST(req: NextRequest) {
       // Update local MDX frontmatter so test site shows images
       updateMdxImages(articleId, mainPublicUrl, subPublicUrl);
 
-      // Trigger site rebuild in background
+      // Trigger site rebuild in background (with lock to prevent parallel builds)
       const { spawn } = await import("child_process");
+      const lockPath = "/tmp/nextjs_build.lock";
+
+      // Check if build already running
+      if (existsSync(lockPath)) {
+        return NextResponse.json({
+          ok: true,
+          message: `⏳ Build već u tijeku — čekaj ~2min prije nego što pokušaš ponovno`,
+          building: true
+        });
+      }
+
+      // Create lock file
+      writeFileSync(lockPath, JSON.stringify({ pid: process.pid, time: new Date().toISOString() }));
+
       const rebuild = spawn(
-        "bash", ["-c", "cd /opt/openclaw/workspace/tech-pulse-css && npm run build > /tmp/foto_rebuild.log 2>&1 && systemctl restart tech-pulse-test"],
+        "bash", ["-c", `cd /opt/openclaw/workspace/tech-pulse-css && npm run build > /tmp/foto_rebuild.log 2>&1 && systemctl restart tech-pulse-test; rm -f ${lockPath}`],
         { detached: true, stdio: "ignore" }
       );
       rebuild.unref();
