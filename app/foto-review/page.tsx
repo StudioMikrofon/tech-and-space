@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef, useTransition } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 interface QueueTask {
   id: number;
@@ -48,6 +48,8 @@ interface FullArticle {
   chosen_ending: string | null;
   status: string;
   body_md: string | null;
+  source_url: string | null;
+  github_uploaded: number;
 }
 
 interface EditFields {
@@ -117,6 +119,8 @@ export default function FotoReviewPage() {
   const [publishing, setPublishing] = useState<Record<number, boolean>>({});
   const [publishResult, setPublishResult] = useState<Record<number, { ok: boolean; msg: string }>>({});
   const loadedIds = useRef(new Set<number>());
+  const articleRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const deepLinkId = typeof window !== "undefined" ? Number(new URLSearchParams(window.location.search).get("id")) || null : null;
 
   // Queue state
   const [queueOpen, setQueueOpen] = useState(false);
@@ -130,21 +134,71 @@ export default function FotoReviewPage() {
   const [articleModels, setArticleModels] = useState<Record<number, "qwen" | "openai">>({});
   const getArticleModel = (id: number) => articleModels[id] ?? genModel;
 
+  // Manual scrape
+  const [manualUrl, setManualUrl] = useState("");
+  const [manualScraping, setManualScraping] = useState(false);
+  const [manualResult, setManualResult] = useState<{ ok: boolean; msg: string } | null>(null);
+
+  const handleManualScrape = async () => {
+    if (!manualUrl.trim() || !manualUrl.startsWith("http")) return;
+    setManualScraping(true);
+    setManualResult(null);
+    try {
+      const r = await fetch("/api/manual-scrape", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: manualUrl.trim() }),
+      });
+      const data = await r.json();
+      if (data.success) {
+        setManualResult({ ok: true, msg: `✓ Članak kreiran: ${data.title?.substring(0, 60)}` });
+        setManualUrl("");
+      } else {
+        setManualResult({ ok: false, msg: data.error || "Greška" });
+      }
+    } catch {
+      setManualResult({ ok: false, msg: "Network error" });
+    } finally {
+      setManualScraping(false);
+    }
+  };
+
   // Filters
   const [filterCat, setFilterCat] = useState("all");
   const [filterImg, setFilterImg] = useState("all");
   const [search, setSearch] = useState("");
+  const [filterStatus, setFilterStatus] = useState<"all"|"published"|"unpublished"|"pending"|"approved"|"rejected"|"rewrite">("unpublished");
+  const [filterUploaded, setFilterUploaded] = useState<"all"|"uploaded"|"not_uploaded">("all");
+  const [filterDate, setFilterDate] = useState<"all"|"today"|"yesterday"|"7d"|"30d">("today");
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+  const [batchBusy, setBatchBusy] = useState<"save" | "publish" | null>(null);
+  const [batchResult, setBatchResult] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/foto-review")
       .then((r) => r.json())
       .then((data) => {
-        if (data.articles) setArticles(data.articles);
-        else setError(data.error || "API error");
+        if (data.articles) {
+          setArticles(data.articles);
+          // Auto-expand deep-link article
+          if (deepLinkId) {
+            setExpandedIds(prev => { const s = new Set(prev); s.add(deepLinkId); return s; });
+            setFilterStatus("all");
+            setFilterDate("all");
+            setFilterCat("all");
+          }
+        } else setError(data.error || "API error");
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Scroll to deep-link article after render
+  useEffect(() => {
+    if (!deepLinkId || loading) return;
+    const el = articleRefs.current[deepLinkId];
+    if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 300);
+  }, [loading, deepLinkId]);
 
   const refreshArticle = useCallback(async (articleId: number) => {
     try {
@@ -189,7 +243,7 @@ export default function FotoReviewPage() {
         setEditData(p => ({ ...p, [articleId]: buildEditData(data) }));
       }
     } catch {}
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   // ── Expand ──────────────────────────────────────────────────
   const handleExpand = useCallback(async (id: number) => {
@@ -200,20 +254,23 @@ export default function FotoReviewPage() {
       return next;
     });
     if (!loadedIds.current.has(id)) {
-      loadedIds.current.add(id);
       setFullLoading(p => ({ ...p, [id]: true }));
       try {
         const res = await fetch(`/api/editorial?id=${id}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        if (!data.error) {
-          setFullData(p => ({ ...p, [id]: data }));
-          setEditData(p => ({ ...p, [id]: buildEditData(data) }));
-        }
+        if (data.error) throw new Error(data.error);
+        setFullData(p => ({ ...p, [id]: data }));
+        setEditData(p => ({ ...p, [id]: buildEditData(data) }));
+        loadedIds.current.add(id);
+      } catch {
+        // Keep it retryable on next expand click.
+        loadedIds.current.delete(id);
       } finally {
         setFullLoading(p => ({ ...p, [id]: false }));
       }
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const setEditField = useCallback((id: number, field: keyof EditFields, value: string) => {
     setEditData(p => ({ ...p, [id]: { ...p[id], [field]: value } }));
@@ -241,9 +298,23 @@ export default function FotoReviewPage() {
         }),
       });
       const data = await res.json();
-      setActionResult(p => ({ ...p, [articleId]: { ok: !!data.ok, msg: data.ok ? "✓ Izmjene snimljene" : (data.error || "Greška") } }));
       if (data.ok) {
         await Promise.all([refreshArticle(articleId), refreshFullData(articleId)]);
+        // If article is already published, also trigger MDX sync + rebuild
+        const article = articles.find(a => a.id === articleId);
+        if (article?.github_uploaded) {
+          // Fire-and-forget: sync MDX + rebuild
+          fetch("/api/editorial", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: articleId, action: "sync" }),
+          }).catch(() => {});
+          setActionResult(p => ({ ...p, [articleId]: { ok: true, msg: "✓ Snimljeno + rebuild pokrenut" } }));
+        } else {
+          setActionResult(p => ({ ...p, [articleId]: { ok: true, msg: "✓ Izmjene snimljene" } }));
+        }
+      } else {
+        setActionResult(p => ({ ...p, [articleId]: { ok: false, msg: data.error || "Greška" } }));
       }
     } finally {
       setSavingEdit(p => ({ ...p, [articleId]: false }));
@@ -436,16 +507,58 @@ export default function FotoReviewPage() {
     if (filterCat !== "all" && a.category !== filterCat) return false;
     if (filterImg === "with" && a.images.length === 0) return false;
     if (filterImg === "without" && a.images.length > 0) return false;
+    // Status filters
+    if (filterStatus === "published" && a.status !== "published") return false;
+    if (filterStatus === "unpublished" && a.status === "published") return false;
+    if (filterStatus === "pending" && a.status !== "pending") return false;
+    if (filterStatus === "approved" && a.status !== "approved") return false;
+    if (filterStatus === "rejected" && a.status !== "rejected") return false;
+    if (filterStatus === "rewrite" && a.status !== "rewrite") return false;
+    // Upload filter
+    if (filterUploaded === "uploaded" && !a.github_uploaded) return false;
+    if (filterUploaded === "not_uploaded" && a.github_uploaded) return false;
+    if (filterDate !== "all" && a.created_at) {
+      const d = new Date(a.created_at);
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
+      const week = new Date(today); week.setDate(week.getDate() - 7);
+      const month = new Date(today); month.setDate(month.getDate() - 30);
+      if (filterDate === "today" && d < today) return false;
+      if (filterDate === "yesterday" && (d < yesterday || d >= today)) return false;
+      if (filterDate === "7d" && d < week) return false;
+      if (filterDate === "30d" && d < month) return false;
+    }
     if (search) {
       const q = search.toLowerCase();
-      if (!a.title.toLowerCase().includes(q) && !String(a.id).includes(q)) return false;
+      if (!a.title.toLowerCase().includes(q) && !String(a.id).includes(q) &&
+          !(a.title_en ?? "").toLowerCase().includes(q)) return false;
     }
     return true;
   });
 
   const categories = ["all", ...Array.from(new Set(articles.map((a) => a.category))).sort()];
+  const getSel = useCallback((id: number): ArticleSelections => selections[id] ?? { hero: null, subtitle: null }, [selections]);
+  const selectedFiltered = filtered.filter((article) => selectedIds.has(article.id));
+  const batchSavable = selectedFiltered.filter((article) => Boolean(getSel(article.id).hero));
 
-  const getSel = (id: number): ArticleSelections => selections[id] ?? { hero: null, subtitle: null };
+  const toggleSelected = useCallback((id: number) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const handleSelectAllFiltered = useCallback(() => {
+    setSelectedIds(new Set(filtered.map((article) => article.id)));
+  }, [filtered]);
+
+  const handleClearSelected = useCallback(() => {
+    setSelectedIds(new Set());
+    setBatchResult(null);
+  }, []);
 
   const setRole = useCallback(
     (articleId: number, imageId: string, role: "hero" | "subtitle") => {
@@ -481,6 +594,14 @@ export default function FotoReviewPage() {
       if (data.ok) {
         setSelections((p) => ({ ...p, [article.id]: { hero: null, subtitle: null } }));
         await refreshArticle(article.id);
+        // If article is already published/uploaded, trigger rebuild so images appear on site
+        if (article.github_uploaded) {
+          fetch("/api/editorial", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: article.id, action: "sync" }),
+          }).catch(() => {});
+        }
       }
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : String(e);
@@ -490,10 +611,10 @@ export default function FotoReviewPage() {
     }
   };
 
-  const handlePublishLocal = async (articleId: number) => {
-    if (!confirm(`Objavi članak #${articleId} na testni sajt?`)) return;
+  const publishLocal = async (articleId: number, requireConfirm = true) => {
+    if (requireConfirm && !confirm(`Objavi članak #${articleId}?`)) return false;
     setPublishing((p) => ({ ...p, [articleId]: true }));
-    setPublishResult((p) => ({ ...p, [articleId]: { ok: false, msg: "Objavljujem..." } }));
+    setPublishResult((p) => ({ ...p, [articleId]: { ok: false, msg: "Objavljujem... (može potrajati ~2min ako treba generirati slike)" } }));
     try {
       const res = await fetch("/api/publish-local", {
         method: "POST",
@@ -503,14 +624,23 @@ export default function FotoReviewPage() {
       const data = await res.json();
       setPublishResult((p) => ({ ...p, [articleId]: {
         ok: !!data.ok,
-        msg: data.ok ? `✅ Objavljeno! Rebuild u tijeku...` : `❌ ${data.error || "Greška"}`,
+        msg: data.ok ? "✅ Objavljeno i vidljivo odmah" : `❌ ${data.error || "Greška"}`,
       }}));
+      if (data.ok) {
+        await refreshArticle(articleId);
+      }
+      return !!data.ok;
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : String(e);
       setPublishResult((p) => ({ ...p, [articleId]: { ok: false, msg } }));
+      return false;
     } finally {
       setPublishing((p) => ({ ...p, [articleId]: false }));
     }
+  };
+
+  const handlePublishLocal = async (articleId: number) => {
+    await publishLocal(articleId, true);
   };
 
   const handleDeleteArticle = async (articleId: number) => {
@@ -544,6 +674,95 @@ export default function FotoReviewPage() {
       ));
     } else {
       alert(data.error || "Brisanje slike nije uspjelo");
+    }
+  };
+
+  const handleBatchSave = async () => {
+    if (batchSavable.length === 0) {
+      setBatchResult("Nema oznacenih clanaka sa spremnim HERO odabirom.");
+      return;
+    }
+    setBatchBusy("save");
+    setBatchResult(`Spremam ${batchSavable.length} oznacenih clanaka...`);
+    for (const article of batchSavable) {
+      await handleSave(article);
+    }
+    setBatchBusy(null);
+    setBatchResult(`Spremljeno ${batchSavable.length}/${batchSavable.length} oznacenih odabira.`);
+  };
+
+  const handleBatchPublish = async () => {
+    if (selectedFiltered.length === 0) {
+      setBatchResult("Prvo oznaci clanke za batch publish.");
+      return;
+    }
+    if (!confirm(`Objaviti ${selectedFiltered.length} oznacenih clanaka?`)) return;
+    setBatchBusy("publish");
+    setBatchResult(`Objavljujem ${selectedFiltered.length} oznacenih clanaka...`);
+    let ok = 0;
+    for (const article of selectedFiltered) {
+      if (await publishLocal(article.id, false)) {
+        ok += 1;
+      }
+    }
+    setBatchBusy(null);
+    setBatchResult(`Objavljeno ${ok}/${selectedFiltered.length} oznacenih clanaka.`);
+  };
+
+  // ── Pull images from web ─────────────────────────────────────
+  const [pulling, setPulling] = useState<Record<number, boolean>>({});
+  const [previewImage, setPreviewImage] = useState<{ url: string; label: string } | null>(null);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPreviewImage(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const handlePullWeb = async (article: Article) => {
+    setPulling((p) => ({ ...p, [article.id]: true }));
+    const prevUrls = new Set(article.images.map(i => i.url));
+    setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: "🌐 Povlačim slike s weba... (~15s)" } }));
+    try {
+      const res = await fetch("/api/image-pull", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: article.id, queryVariation: Date.now() }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setActionResult((p) => ({ ...p, [article.id]: { ok: true, msg: data.message || "Povlačenje pokrenuto..." } }));
+        let attempts = 0;
+        let found = false;
+        const poll = setInterval(async () => {
+          attempts++;
+          await refreshArticle(article.id);
+          setArticles((prev) => {
+            const cur = prev.find(a => a.id === article.id);
+            if (cur && cur.images.some(i => !prevUrls.has(i.url))) found = true;
+            return prev;
+          });
+          if (found || attempts >= 8) {
+            clearInterval(poll);
+            setPulling((p) => ({ ...p, [article.id]: false }));
+            setActionResult((p) => ({
+              ...p,
+              [article.id]: found
+                ? { ok: true, msg: "✓ Web slike preuzete" }
+                : { ok: false, msg: "⚠ Povlačenje završeno — slika nije pronađena (nema og:image ili Wikimedia rezultata)" },
+            }));
+          }
+        }, 3000);
+      } else {
+        setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: data.error || "Pull nije uspio" } }));
+        setPulling((p) => ({ ...p, [article.id]: false }));
+      }
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg } }));
+      setPulling((p) => ({ ...p, [article.id]: false }));
     }
   };
 
@@ -596,6 +815,44 @@ export default function FotoReviewPage() {
     }
   };
 
+  const handleGenerateBoth = async (article: Article) => {
+    const model = getArticleModel(article.id);
+    setGenerating((p) => ({ ...p, [article.id]: "main" }));
+    setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: `Generiram main + subtitle [${model === "openai" ? "OpenAI" : "Qwen"}]...` } }));
+    try {
+      const res1 = await fetch("/api/image-regen", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: article.id, image_type: "main", model }),
+      });
+      const d1 = await res1.json();
+      if (!d1.ok) throw new Error(d1.error || "Main gen failed");
+      setGenerating((p) => ({ ...p, [article.id]: "subtitle" }));
+      setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: "Main OK — generiram subtitle..." } }));
+      const res2 = await fetch("/api/image-regen", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: article.id, image_type: "subtitle", model }),
+      });
+      const d2 = await res2.json();
+      if (!d2.ok) throw new Error(d2.error || "Subtitle gen failed");
+      setActionResult((p) => ({ ...p, [article.id]: { ok: true, msg: "✓ Obje slike generirane — čekam..." } }));
+      let attempts = 0;
+      const poll = setInterval(async () => {
+        attempts++;
+        await refreshArticle(article.id);
+        if (attempts >= 12) {
+          clearInterval(poll);
+          setGenerating((p) => ({ ...p, [article.id]: null }));
+        }
+      }, 5000);
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg } }));
+      setGenerating((p) => ({ ...p, [article.id]: null }));
+    }
+  };
+
   // ────────────────────────────────────────────────────────────
   if (loading) {
     return <div className="min-h-screen bg-black flex items-center justify-center font-mono text-cyan-400">Učitavanje članaka...</div>;
@@ -615,6 +872,30 @@ export default function FotoReviewPage() {
           <span className="text-white/30 text-xs shrink-0">
             {filtered.length} / {articles.length - deletedIds.size} &bull; {withImages} sa slikama
           </span>
+          {/* Manual URL scrape */}
+          <div className="flex items-center gap-1 flex-1 min-w-0 max-w-sm">
+            <input
+              type="url"
+              placeholder="Paste URL ili YouTube link..."
+              value={manualUrl}
+              onChange={(e) => setManualUrl(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleManualScrape()}
+              disabled={manualScraping}
+              className="flex-1 min-w-0 bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white placeholder-white/20 focus:outline-none focus:border-orange-500/50 disabled:opacity-40"
+            />
+            <button
+              onClick={handleManualScrape}
+              disabled={manualScraping || !manualUrl.startsWith("http")}
+              className="px-2 py-1 text-[10px] bg-orange-900/40 border border-orange-500/30 text-orange-300 rounded hover:bg-orange-800/50 disabled:opacity-30 disabled:cursor-not-allowed shrink-0 transition-colors"
+            >
+              {manualScraping ? "..." : "SCRAPE"}
+            </button>
+          </div>
+          {manualResult && (
+            <span className={`text-[10px] shrink-0 ${manualResult.ok ? "text-green-400" : "text-red-400"}`}>
+              {manualResult.msg}
+            </span>
+          )}
           <input
             type="text" placeholder="Pretraži..." value={search} onChange={(e) => setSearch(e.target.value)}
             className="bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 w-36"
@@ -637,10 +918,36 @@ export default function FotoReviewPage() {
             >OPENAI</button>
           </div>
 
-          <div className="flex gap-1 ml-auto items-center">
-            {([ ["all","SVE"], ["with","SA SLIKAMA"], ["without","BEZ SLIKA"] ] as const).map(([v, l]) => (
+          <div className="flex gap-1 ml-auto items-center flex-wrap justify-end">
+            {/* Image filter */}
+            {([ ["all","SVE SLIKE"], ["with","SA SLIKAMA"], ["without","BEZ SLIKA"] ] as const).map(([v, l]) => (
               <button key={v} onClick={() => setFilterImg(v)}
                 className={`px-2 py-0.5 text-[10px] rounded border transition-colors ${filterImg === v ? "bg-yellow-900/40 border-yellow-500/50 text-yellow-300" : "border-white/10 text-white/35 hover:border-white/25 hover:text-white/60"}`}
+              >{l}</button>
+            ))}
+            {/* Upload filter */}
+            {([ ["all","SVI"], ["uploaded","UPLOADED"], ["not_uploaded","NIJE UPLOAD"] ] as const).map(([v, l]) => (
+              <button key={v} onClick={() => setFilterUploaded(v)}
+                className={`px-2 py-0.5 text-[10px] rounded border transition-colors ${filterUploaded === v ? "bg-teal-900/40 border-teal-500/50 text-teal-300" : "border-white/10 text-white/35 hover:border-white/25 hover:text-white/60"}`}
+              >{l}</button>
+            ))}
+            {/* Status filter */}
+            {([ ["all","SVI STATUS"], ["unpublished","NEOBJAVLJENI"], ["published","OBJAVLJENI"], ["pending","PENDING"], ["approved","APPROVED"], ["rejected","ODBIJENI"], ["rewrite","REWRITE"] ] as const).map(([v, l]) => (
+              <button key={v} onClick={() => setFilterStatus(v)}
+                className={`px-2 py-0.5 text-[10px] rounded border transition-colors ${filterStatus === v ? (
+                  v === "published" ? "bg-cyan-900/40 border-cyan-500/50 text-cyan-300" :
+                  v === "unpublished" ? "bg-orange-900/40 border-orange-500/50 text-orange-300" :
+                  v === "rejected" ? "bg-red-900/40 border-red-500/50 text-red-300" :
+                  v === "approved" ? "bg-green-900/40 border-green-500/50 text-green-300" :
+                  v === "rewrite" ? "bg-orange-900/40 border-orange-600/50 text-orange-300" :
+                  "bg-purple-900/40 border-purple-500/50 text-purple-300"
+                ) : "border-white/10 text-white/35 hover:border-white/25 hover:text-white/60"}`}
+              >{l}</button>
+            ))}
+            {/* Date filter */}
+            {([ ["all","SVE DATUME"], ["today","DANAS"], ["yesterday","JUČER"], ["7d","7D"], ["30d","30D"] ] as const).map(([v, l]) => (
+              <button key={v} onClick={() => setFilterDate(v)}
+                className={`px-2 py-0.5 text-[10px] rounded border transition-colors ${filterDate === v ? "bg-cyan-900/40 border-cyan-500/50 text-cyan-300" : "border-white/10 text-white/35 hover:border-white/25 hover:text-white/60"}`}
               >{l}</button>
             ))}
             {/* Queue toggle */}
@@ -655,6 +962,39 @@ export default function FotoReviewPage() {
               )}
             </button>
           </div>
+        </div>
+
+        <div className="max-w-screen-2xl mx-auto px-4 pb-3 flex flex-wrap items-center gap-2 text-[10px]">
+          <span className="text-white/35">
+            Batch: {selectedFiltered.length} oznacenih, {batchSavable.length} spremnih za save
+          </span>
+          <button
+            onClick={handleSelectAllFiltered}
+            className="px-2.5 py-1 rounded border border-white/12 text-white/45 hover:text-white/70 hover:border-white/25 transition-colors"
+          >
+            OZNACI FILTRIRANE
+          </button>
+          <button
+            onClick={handleClearSelected}
+            className="px-2.5 py-1 rounded border border-white/12 text-white/45 hover:text-white/70 hover:border-white/25 transition-colors"
+          >
+            OCISTI OZNAKE
+          </button>
+          <button
+            onClick={handleBatchSave}
+            disabled={batchBusy !== null || batchSavable.length === 0}
+            className="px-2.5 py-1 rounded border border-green-700/50 text-green-300 disabled:text-white/20 disabled:border-white/10 hover:bg-green-900/20 transition-colors"
+          >
+            {batchBusy === "save" ? "SPREMAM..." : "BATCH SAVE"}
+          </button>
+          <button
+            onClick={handleBatchPublish}
+            disabled={batchBusy !== null || selectedFiltered.length === 0}
+            className="px-2.5 py-1 rounded border border-cyan-700/50 text-cyan-300 disabled:text-white/20 disabled:border-white/10 hover:bg-cyan-900/20 transition-colors"
+          >
+            {batchBusy === "publish" ? "OBJAVLJUJEM..." : "BATCH PUBLISH"}
+          </button>
+          {batchResult && <span className="text-white/45">{batchResult}</span>}
         </div>
 
         {/* Queue panel */}
@@ -723,9 +1063,18 @@ export default function FotoReviewPage() {
           const curEndings = lang === "en" ? enEndings : hrEndings;
 
           return (
-            <div key={article.id} className="border border-white/8 rounded-lg bg-[#0f0f0f] overflow-hidden">
+            <div key={article.id} ref={el => { articleRefs.current[article.id] = el; }} className={`border rounded-lg bg-[#0f0f0f] overflow-hidden ${deepLinkId === article.id ? "border-cyan-500/50" : "border-white/8"}`}>
               {/* Article header */}
               <div className="px-4 py-3 border-b border-white/8 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <label className="flex items-center gap-2 text-[10px] text-white/40 shrink-0 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.has(article.id)}
+                    onChange={() => toggleSelected(article.id)}
+                    className="accent-cyan-400"
+                  />
+                  batch
+                </label>
                 <span className="text-white/25 text-xs tabular-nums">#{article.id}</span>
                 <span className={`text-[10px] px-1.5 py-0.5 rounded border shrink-0 ${catCls}`}>
                   {article.category.toUpperCase()}
@@ -771,7 +1120,14 @@ export default function FotoReviewPage() {
                           className={`relative group rounded overflow-hidden border-2 transition-all duration-150 ${isHero ? "border-green-400 shadow-[0_0_10px_rgba(74,222,128,0.3)]" : isSub ? "border-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.3)]" : "border-white/10 hover:border-white/25"}`}
                         >
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={img.url} alt={img.label} className="w-full aspect-video object-cover block" loading="lazy" />
+                          <img
+                            src={img.url}
+                            alt={img.label}
+                            className="w-full aspect-video object-cover block cursor-zoom-in"
+                            loading="lazy"
+                            onClick={() => setPreviewImage({ url: img.url, label: img.label })}
+                            title="Klikni za uvećanje"
+                          />
                           {(isHero || isSub) && (
                             <div className={`absolute top-1 left-1 text-[10px] font-bold px-1.5 py-0.5 rounded z-10 ${isHero ? "bg-green-500 text-black" : "bg-blue-500 text-white"}`}>
                               {isHero ? "HERO" : "PODNASLOV"}
@@ -804,9 +1160,27 @@ export default function FotoReviewPage() {
                     </div>
                   )}
                 </div>
-              ) : (
-                <div className="px-4 py-3 text-white/20 text-xs italic">Nema slika</div>
-              )}
+              ) : (() => {
+                // YouTube embed if source is YouTube
+                const ytSrc = full?.source_url || null;
+                const ytMatch = ytSrc?.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/);
+                if (ytMatch) {
+                  return (
+                    <div className="p-4">
+                      <div className="rounded-lg overflow-hidden aspect-video max-w-2xl">
+                        <iframe
+                          src={`https://www.youtube.com/embed/${ytMatch[1]}`}
+                          className="w-full h-full"
+                          allowFullScreen
+                          title="YouTube preview"
+                        />
+                      </div>
+                      <div className="mt-1 text-white/20 text-[10px] italic">YouTube embed — nema slike</div>
+                    </div>
+                  );
+                }
+                return <div className="px-4 py-3 text-white/20 text-xs italic">Nema slika</div>;
+              })()}
 
               {/* Image action bar */}
               <div className="px-4 py-3 border-t border-white/8 flex items-center gap-2 flex-wrap">
@@ -819,6 +1193,19 @@ export default function FotoReviewPage() {
                   >📋 LOG</button>
                 )}
                 <div className="ml-auto flex items-center gap-2 flex-wrap justify-end">
+                  {/* Pull web images */}
+                  <button
+                    onClick={() => handlePullWeb(article)}
+                    disabled={pulling[article.id] || isGenerating}
+                    title="Povuci slike s weba (og:image → Wikimedia → Unsplash)"
+                    className={`text-xs px-2.5 py-1.5 rounded border transition-colors ${
+                      pulling[article.id]
+                        ? "border-sky-500/60 text-sky-300 animate-pulse"
+                        : (pulling[article.id] || isGenerating)
+                          ? "border-white/8 text-white/20 cursor-not-allowed"
+                          : "border-sky-700/50 text-sky-400/80 hover:bg-sky-900/20 hover:text-sky-300"
+                    }`}
+                  >{pulling[article.id] ? "🌐 Povlačim..." : "🌐 PULL WEB"}</button>
                   {/* Per-article model toggle */}
                   <div className="flex items-center border border-white/10 rounded overflow-hidden">
                     <button onClick={() => setArticleModels(p => ({ ...p, [article.id]: "qwen" }))}
@@ -840,6 +1227,9 @@ export default function FotoReviewPage() {
                   <button onClick={() => handleQueueAdd(article.id, "gen_subtitle", getArticleModel(article.id))} title="Dodaj u queue"
                     className={`text-[10px] px-1.5 py-1.5 rounded border border-indigo-800/50 text-indigo-500/60 hover:bg-indigo-900/20 hover:text-indigo-300 transition-colors ${queueAdding[`${article.id}-gen_subtitle`] ? "animate-pulse" : ""}`}
                   >+Q</button>
+                  <button onClick={() => handleGenerateBoth(article)} disabled={isGenerating}
+                    className={`text-xs px-2.5 py-1.5 rounded border transition-colors ${isGenerating ? "border-white/8 text-white/20 cursor-not-allowed" : "border-orange-700/50 text-orange-400/70 hover:bg-orange-900/20 hover:text-orange-300"}`}
+                  >{genType && isGenerating ? "⚡ Generiram..." : "⚡ GEN OBA"}</button>
                   {article.images.length > 0 && (
                     <button onClick={() => handleSave(article)} disabled={isSaving || !sel.hero}
                       className={`text-xs px-3 py-1.5 rounded border transition-colors ${sel.hero && !isSaving ? "border-green-600/60 text-green-300 hover:bg-green-900/25" : "border-white/8 text-white/20 cursor-not-allowed"}`}
@@ -1014,6 +1404,24 @@ export default function FotoReviewPage() {
           );
         })}
       </div>
+
+      {previewImage && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setPreviewImage(null)}
+        >
+          <div className="max-w-[96vw] max-h-[96vh]" onClick={(e) => e.stopPropagation()}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={previewImage.url}
+              alt={previewImage.label}
+              className="max-w-[96vw] max-h-[90vh] object-contain rounded border border-white/15 shadow-2xl"
+            />
+            <div className="mt-2 text-center text-xs text-white/60">{previewImage.label}</div>
+            <div className="mt-1 text-center text-[10px] text-white/35">ESC ili klik van slike za zatvoriti</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
