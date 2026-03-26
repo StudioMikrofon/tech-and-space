@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import Database from "better-sqlite3";
 import { readdirSync, existsSync, mkdirSync, copyFileSync, unlinkSync, readFileSync, writeFileSync } from "fs";
+import { spawn } from "child_process";
 import path from "path";
+import { bumpContentVersion } from "@/lib/content";
 
 const DB_PATH = "/opt/openclaw/futurepulse/db/futurepulse.db";
 // Legacy dirs — kept for backward-compat resolution only (no new files written here)
@@ -140,6 +142,32 @@ interface ArticleImage {
   url: string;
   label: string;
   osPath: string;
+  attribution?: string;
+  sourceUrl?: string;
+  provider?: string;
+}
+
+// Build a filename→attribution map from images_json
+function buildAttributionMap(imagesJsonRaw: string | null): Map<string, { attribution: string; sourceUrl: string; provider: string }> {
+  const map = new Map<string, { attribution: string; sourceUrl: string; provider: string }>();
+  if (!imagesJsonRaw) return map;
+  try {
+    const imgs = JSON.parse(imagesJsonRaw);
+    for (const slotKey of ["image_main", "image_subtitle"]) {
+      const slot = imgs[slotKey];
+      if (!slot || typeof slot !== "object") continue;
+      const url = slot.url as string | undefined;
+      if (!url) continue;
+      const filename = path.basename(url);
+      const attribution = (slot.attribution || slot.credit_line || slot.attribution_text || "") as string;
+      const sourceUrl = (slot.source_page_url || "") as string;
+      const provider = (slot.provider || "") as string;
+      if (filename) {
+        map.set(filename, { attribution, sourceUrl, provider });
+      }
+    }
+  } catch {}
+  return map;
 }
 
 function getArticleImages(
@@ -148,12 +176,20 @@ function getArticleImages(
   const images: ArticleImage[] = [];
   const seenOsPaths = new Set<string>();
   const articleId = article.id as number;
+  const attrMap = buildAttributionMap(article.images_json as string | null);
 
   const addImage = (id: string, url: string, label: string, osPath: string) => {
     if (seenOsPaths.has(osPath)) return;
     seenOsPaths.add(osPath);
     if (!existsSync(osPath)) return;
-    images.push({ id, url, label, osPath });
+    const filename = path.basename(osPath);
+    const attrInfo = attrMap.get(filename);
+    images.push({
+      id, url, label, osPath,
+      attribution: attrInfo?.attribution || undefined,
+      sourceUrl: attrInfo?.sourceUrl || undefined,
+      provider: attrInfo?.provider || undefined,
+    });
   };
 
   // Single scan of the article's public folder — shows active + generated history
@@ -182,7 +218,9 @@ function getArticleImages(
         } else {
           continue; // skip unrecognized files
         }
-        addImage(`pub:${folderName}/${file}`, `/images/articles/${folderName}/${file}`, label, osPath);
+        // Serve via API route so newly-added files are visible before next rebuild
+        const apiUrl = `/api/foto-review/img?folder=${encodeURIComponent(folderName)}&file=${encodeURIComponent(file)}`;
+        addImage(`pub:${folderName}/${file}`, apiUrl, label, osPath);
       }
     } catch {}
   }
@@ -215,30 +253,61 @@ function updateMdxImages(articleId: number, mainUrl: string, subtitleUrl: string
   const mdxInfo = findArticleMdxInfo(articleId);
   const mdxPath = mdxInfo?.mdxPath;
 
-  const updateFile = (filePath: string): boolean => {
+  const updateFile = (filePath: string, requireDbId = true): boolean => {
     if (!existsSync(filePath)) return false;
     let content = readFileSync(filePath, "utf8");
-    if (!content.includes(`db_id: ${articleId}`)) return false;
+    if (requireDbId && !content.includes(`db_id: ${articleId}`)) return false;
+
+    const fmMatch = content.match(/^---\n([\s\S]*?)\n---\n?/);
+    if (!fmMatch) return false;
+    let frontmatter = fmMatch[1];
+    const body = content.slice(fmMatch[0].length);
 
     // Update image.url — handles both YAML block styles:
     //   image:\n  url: "..."
-    content = content.replace(
-      /^(image:\n\s+url:\s*)"[^"]*"/m,
-      `$1"${mainUrl}"`
-    );
-    // Update subtitleImage.url if present
-    if (subtitleUrl && /^subtitleImage:/m.test(content)) {
-      content = content.replace(
-        /^(subtitleImage:\n\s+url:\s*)"[^"]*"/m,
-        `$1"${subtitleUrl}"`
+    if (/^image:\n\s+url:\s*/m.test(frontmatter)) {
+      frontmatter = frontmatter.replace(
+        /^(image:\n\s+url:\s*)"[^"]*"/m,
+        `$1"${mainUrl}"`
       );
+    } else {
+      frontmatter += `\nimage:\n  url: "${mainUrl}"\n  alt: ""`;
     }
+
+    // Update or insert subtitleImage block so already-published articles
+    // without this block can start showing the subtitle image immediately.
+    if (subtitleUrl) {
+      if (/^subtitleImage:\n\s+url:\s*/m.test(frontmatter)) {
+        frontmatter = frontmatter.replace(
+          /^(subtitleImage:\n\s+url:\s*)"[^"]*"/m,
+          `$1"${subtitleUrl}"`
+        );
+      } else {
+        const insertAfterSubtitleEn = /^subtitle_en:.*$/m;
+        const insertAfterSubtitle = /^subtitle:.*$/m;
+        const block = `\nsubtitleImage:\n  url: "${subtitleUrl}"\n  alt: ""`;
+        if (insertAfterSubtitleEn.test(frontmatter)) {
+          frontmatter = frontmatter.replace(insertAfterSubtitleEn, (m) => `${m}${block}`);
+        } else if (insertAfterSubtitle.test(frontmatter)) {
+          frontmatter = frontmatter.replace(insertAfterSubtitle, (m) => `${m}${block}`);
+        } else {
+          frontmatter += block;
+        }
+      }
+    }
+
+    content = `---\n${frontmatter}\n---\n${body}`;
     writeFileSync(filePath, content, "utf8");
     return true;
   };
 
   try {
-    if (mdxPath && updateFile(mdxPath)) return true;
+    if (mdxPath && updateFile(mdxPath, true)) {
+      // Keep HR file in sync with EN frontmatter image paths.
+      const hrPath = path.join(path.dirname(mdxPath), "index.hr.mdx");
+      if (existsSync(hrPath)) updateFile(hrPath, false);
+      return true;
+    }
 
     // Fallback: scan all content dirs (slower but safe)
     const CONTENT_DIR = path.join(process.cwd(), "content");
@@ -248,8 +317,12 @@ function updateMdxImages(articleId: number, mainUrl: string, subtitleUrl: string
       let entries: string[];
       try { entries = readdirSync(catDir); } catch { continue; }
       for (const entry of entries) {
-        const fp = path.join(catDir, entry, "index.mdx");
-        if (updateFile(fp)) return true;
+        const enPath = path.join(catDir, entry, "index.mdx");
+        if (updateFile(enPath, true)) {
+          const hrPath = path.join(catDir, entry, "index.hr.mdx");
+          if (existsSync(hrPath)) updateFile(hrPath, false);
+          return true;
+        }
       }
     }
   } catch (e) {
@@ -270,6 +343,7 @@ function rowToArticle(row: Record<string, unknown>) {
     status: row.status,
     github_uploaded: row.github_uploaded,
     created_at: row.created_at,
+    source_url: row.source_url || null,
     images,
     folderName,
   };
@@ -330,7 +404,7 @@ export async function GET(req: NextRequest) {
       const row = db
         .prepare(
           `SELECT id, title, title_en, category, lead, pipeline_stage, status,
-                  images_json, github_uploaded, created_at
+                  images_json, github_uploaded, created_at, source_url
            FROM articles WHERE id = ?`
         )
         .get(Number(singleId)) as Record<string, unknown> | undefined;
@@ -342,7 +416,7 @@ export async function GET(req: NextRequest) {
     const rows = db
       .prepare(
         `SELECT id, title, title_en, category, lead, pipeline_stage, status,
-                images_json, github_uploaded, created_at
+                images_json, github_uploaded, created_at, source_url
          FROM articles
          ORDER BY id ASC`
       )
@@ -373,7 +447,7 @@ export async function POST(req: NextRequest) {
     const db = getDb();
     const article = db
       .prepare(
-        `SELECT id, title, title_en, category, images_json FROM articles WHERE id = ?`
+        `SELECT id, title, title_en, category, images_json, github_uploaded, status FROM articles WHERE id = ?`
       )
       .get(articleId) as Record<string, unknown> | undefined;
 
@@ -392,8 +466,13 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Članak ne postoji", ok: false }, { status: 404 });
       }
 
-      // 1. Find and delete ALL MDX files with this db_id (EN + HR versions)
       const fs = require("fs");
+
+      // 1. Look up image folder info BEFORE deleting any MDX files
+      //    (findArticleMdxInfo scans MDX files, so must be called before they're removed)
+      const mdxInfo = findArticleMdxInfo(articleId);
+
+      // 2. Find and delete ALL MDX files with this db_id (EN + HR versions)
       const deletedFolders = new Set<string>();
 
       try {
@@ -405,8 +484,7 @@ export async function POST(req: NextRequest) {
 
           for (const entry of entries) {
             const entryPath = path.join(catDir, entry);
-            let entriesInFolder: string[];
-            try { entriesInFolder = readdirSync(entryPath); } catch { continue; }
+            try { readdirSync(entryPath); } catch { continue; }
 
             // Check both index.mdx and index.hr.mdx (and index.en.mdx if present)
             for (const mdxFile of ["index.mdx", "index.en.mdx", "index.hr.mdx"]) {
@@ -435,8 +513,7 @@ export async function POST(req: NextRequest) {
         console.error(`Error scanning for MDX files: ${e}`);
       }
 
-      // 2. Delete image folder
-      const mdxInfo = findArticleMdxInfo(articleId);
+      // 3. Delete image folder (using info gathered before MDX deletion)
       if (mdxInfo?.imageFolder) {
         try {
           const imgFolder = path.join(PUBLIC_ARTICLES_DIR, mdxInfo.imageFolder);
@@ -447,9 +524,10 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      // 3. Delete from DB
+      // 4. Delete from DB
       db.prepare("DELETE FROM articles WHERE id = ?").run(articleId);
       db.close();
+      bumpContentVersion();
 
       return NextResponse.json({
         ok: true,
@@ -510,6 +588,7 @@ export async function POST(req: NextRequest) {
       }
 
       db.close();
+      bumpContentVersion();
       return NextResponse.json({ ok: true, message: "Slika obrisana" });
     }
 
@@ -604,32 +683,11 @@ export async function POST(req: NextRequest) {
 
       // Update local MDX frontmatter so test site shows images
       updateMdxImages(articleId, mainPublicUrl, subPublicUrl);
-
-      // Trigger site rebuild in background (with lock to prevent parallel builds)
-      const { spawn } = await import("child_process");
-      const lockPath = "/tmp/nextjs_build.lock";
-
-      // Check if build already running
-      if (existsSync(lockPath)) {
-        return NextResponse.json({
-          ok: true,
-          message: `⏳ Build već u tijeku — čekaj ~2min prije nego što pokušaš ponovno`,
-          building: true
-        });
-      }
-
-      // Create lock file
-      writeFileSync(lockPath, JSON.stringify({ pid: process.pid, time: new Date().toISOString() }));
-
-      const rebuild = spawn(
-        "bash", ["-c", `cd /opt/openclaw/workspace/tech-pulse-css && npm run build > /tmp/foto_rebuild.log 2>&1 && systemctl restart tech-pulse-test; rm -f ${lockPath}`],
-        { detached: true, stdio: "ignore" }
-      );
-      rebuild.unref();
+      bumpContentVersion();
 
       return NextResponse.json({
         ok: true,
-        message: `✓ Slike snimljene u ${folderName} — rebuild pokrenut (~2min)`,
+        message: `✓ Slike snimljene u ${folderName} — vidljive odmah bez rebuilda`,
       });
     }
 

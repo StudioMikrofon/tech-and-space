@@ -6,13 +6,18 @@ import { CATEGORY_LABELS } from "@/lib/types";
 interface RelatedArticlesProps {
   articles: Article[];
   basePath?: string;
+  lang?: "en" | "hr";
 }
 
-export default function RelatedArticles({ articles, basePath = "" }: RelatedArticlesProps) {
+export default function RelatedArticles({ articles, basePath = "", lang = "en" }: RelatedArticlesProps) {
+  const isHr = lang === "hr";
+  const heading = isHr ? "// Vezane vijesti" : "// Related";
+  const locale = isHr ? "hr-HR" : "en-US";
+
   return (
     <div className="glass-card p-4 !hover:transform-none">
       <h3 className="text-sm font-semibold text-text-secondary mb-3 uppercase tracking-wider font-mono">
-        // Related
+        {heading}
       </h3>
       <div className="space-y-3">
         {articles.map((a) => (
@@ -39,7 +44,7 @@ export default function RelatedArticles({ articles, basePath = "" }: RelatedArti
                 <div className="flex items-center gap-1 mt-1 text-[10px] text-text-secondary/50">
                   <Clock className="w-2.5 h-2.5" />
                   <time dateTime={a.date}>
-                    {new Date(a.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                    {new Date(a.date).toLocaleDateString(locale, { month: "short", day: "numeric" })}
                   </time>
                 </div>
               </div>

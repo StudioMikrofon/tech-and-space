@@ -17,6 +17,9 @@ interface ArticleImage {
   id: string;
   url: string;
   label: string;
+  attribution?: string;
+  sourceUrl?: string;
+  provider?: string;
 }
 
 interface Article {
@@ -29,6 +32,7 @@ interface Article {
   status: string;
   github_uploaded: number;
   created_at: string;
+  source_url: string | null;
   images: ArticleImage[];
   folderName: string | null;
 }
@@ -1108,6 +1112,21 @@ export default function FotoReviewPage() {
                 </div>
               )}
 
+              {/* YouTube source notice */}
+              {(() => {
+                const ytMatch = article.source_url?.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/);
+                if (!ytMatch) return null;
+                return (
+                  <div className="mx-4 mb-2 flex items-center gap-2 px-3 py-2 rounded bg-red-950/40 border border-red-700/30 text-red-300/80 text-xs">
+                    <span>▶</span>
+                    <span>YouTube izvor — video se može koristiti umjesto slike</span>
+                    <a href={article.source_url!} target="_blank" rel="noopener noreferrer"
+                      className="ml-auto text-red-400/60 hover:text-red-300 underline text-[10px]"
+                    >otvori ↗</a>
+                  </div>
+                );
+              })()}
+
               {/* Images grid */}
               {article.images.length > 0 ? (
                 <div className="p-4">
@@ -1137,8 +1156,23 @@ export default function FotoReviewPage() {
                             className="absolute top-1 right-1 z-20 w-5 h-5 rounded bg-black/70 text-red-400 hover:bg-red-900/80 hover:text-red-200 text-xs flex items-center justify-center leading-none transition-colors"
                             title="Obriši sliku"
                           >×</button>
-                          <div className="absolute bottom-0 inset-x-0 px-1.5 py-1 bg-black/70 text-white/40 text-[9px] truncate">
-                            {img.label}
+                          <div className="absolute bottom-0 inset-x-0 bg-black/70">
+                            <div className="px-1.5 pt-1 text-white/40 text-[9px] truncate">{img.label}</div>
+                            {img.attribution && (
+                              <div className="px-1.5 pb-1 flex items-center gap-1 min-w-0">
+                                {img.sourceUrl ? (
+                                  <a href={img.sourceUrl} target="_blank" rel="noopener noreferrer"
+                                    className="text-[8px] text-blue-300/70 hover:text-blue-300 truncate leading-tight block max-w-full"
+                                    title={img.attribution}
+                                    onClick={e => e.stopPropagation()}
+                                  >📷 {img.attribution}</a>
+                                ) : (
+                                  <span className="text-[8px] text-white/30 truncate leading-tight block max-w-full" title={img.attribution}>
+                                    📷 {img.attribution}
+                                  </span>
+                                )}
+                              </div>
+                            )}
                           </div>
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors pointer-events-none" />
                           <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-2 opacity-0 group-hover:opacity-100 transition-opacity flex justify-center gap-1.5 z-10">

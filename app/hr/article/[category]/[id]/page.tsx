@@ -16,6 +16,8 @@ import ArticleDeleteButton from "@/components/ArticleDeleteButton";
 import type { Metadata } from "next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://techand.space";
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
 
 interface PageProps {
   params: Promise<{ category: string; id: string }>;
@@ -162,6 +164,13 @@ export default async function ArticlePageHr({ params }: PageProps) {
                   {new Date(article.date).toLocaleDateString("hr-HR", {
                     year: "numeric", month: "long", day: "numeric",
                   })}
+                  <span className="ml-1 opacity-50">
+                    {new Date(article.date).toLocaleTimeString("hr-HR", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                    })}
+                  </span>
                 </time>
                 <span className="ml-1 opacity-60">({formatDistanceToNow(article.date)})</span>
               </div>
@@ -192,13 +201,19 @@ export default async function ArticlePageHr({ params }: PageProps) {
               </div>
             )}
 
-            {article.videoUrl && (() => {
-              const match = article.videoUrl!.match(
-                /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/
-              );
-              const videoId = match?.[1];
-              return videoId ? <YouTubeEmbed id={videoId} title={article.title} /> : null;
-            })()}
+            {/* Key Points — 3 kratke zvjezdice */}
+            {article.keyPoints && (
+              <div className="mb-6 not-prose">
+                <ul className="space-y-2.5 border-l-4 border-yellow-400/50 pl-4">
+                  {article.keyPoints.slice(0, 3).map((point, i) => (
+                    <li key={i} className="flex items-start gap-2.5 leading-snug">
+                      <span className="mt-0.5 text-base flex-shrink-0 animate-pulse" style={{ color: "#f5c518", textShadow: "0 0 8px #f5c518, 0 0 18px #f5a500aa" }}>★</span>
+                      <span className="text-xl italic text-text-primary">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <div className="article-prose max-w-none">
               <MDXRemote
@@ -207,6 +222,15 @@ export default async function ArticlePageHr({ params }: PageProps) {
                   YouTubeEmbed,
                   ArticleBreak: () => (
                     <div className="not-prose my-8 pt-6 border-t border-white/10">
+                      {(() => {
+                        const videoCandidate = article.videoUrl || article.source?.url || "";
+                        if (!videoCandidate) return null;
+                        const match = videoCandidate.match(
+                          /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/
+                        );
+                        const videoId = match?.[1];
+                        return videoId ? <YouTubeEmbed id={videoId} title={article.title} /> : null;
+                      })()}
                       {article.subtitleImage?.url && (
                         <div className="glass-card overflow-hidden mb-4 !hover:transform-none">
                           <img
@@ -244,6 +268,17 @@ export default async function ArticlePageHr({ params }: PageProps) {
             )}
 
             <Comments term={`${article.category}/${article.id}`} />
+
+            {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && article.dbId && (
+              <div className="mt-6 flex justify-end">
+                <a
+                  href={`/foto-review?id=${article.dbId}`}
+                  className="text-xs px-3 py-1.5 rounded border border-white/15 text-white/35 hover:border-cyan-500/50 hover:text-cyan-300 transition-colors"
+                >
+                  Uredi u foto-review →
+                </a>
+              </div>
+            )}
           </div>
 
           <aside className="space-y-6">
@@ -265,7 +300,7 @@ export default async function ArticlePageHr({ params }: PageProps) {
               </a>
             </div>
 
-            {related.length > 0 && <RelatedArticles articles={related} basePath="/hr" />}
+            {related.length > 0 && <RelatedArticles articles={related} basePath="/hr" lang="hr" />}
           </aside>
         </div>
       </article>
