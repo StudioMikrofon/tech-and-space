@@ -83,6 +83,7 @@ export interface Article {
   geo: GeoLocation;
   featured: boolean;
   approved: boolean;
+  likes?: number;
   leadSentenceEn?: string;
   videoUrl?: string;
   content: string;

@@ -111,10 +111,10 @@ function CollapsedDigit({ value, label, digits = 2 }: { value: number; label: st
       <span
         className="font-mono tabular-nums leading-none"
         style={{
-          fontSize: "clamp(1.1rem, 3vw, 1.9rem)",
+          fontSize: "clamp(0.85rem, 2.2vw, 1.3rem)",
           fontWeight: 700,
           color: "#00cfff",
-          textShadow: "0 0 12px rgba(0,207,255,0.7), 0 0 28px rgba(0,207,255,0.3)",
+          textShadow: "0 0 10px rgba(0,207,255,0.7)",
           letterSpacing: "0.02em",
           fontVariantNumeric: "tabular-nums",
         }}
@@ -268,24 +268,21 @@ export default function CountdownToAGI() {
         <div className="relative z-10" style={{ transition: "padding 0.4s ease" }}>
           {!expanded ? (
             /* --- Compact floating teaser bar --- */
-            <div className="py-2 sm:py-2.5 px-3 sm:px-5">
-              {/* Stretched title */}
-              <div className="w-full flex items-center justify-center overflow-hidden mb-1">
+            <div className="py-1.5 px-3 sm:px-5">
+              {/* Compact title + numbers in one row on sm+ */}
+              <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                 <span
-                  className="font-heading font-black uppercase tracking-widest w-full text-center block"
+                  className="font-heading font-black uppercase hidden sm:block flex-shrink-0"
                   style={{
-                    fontSize: "clamp(0.44rem, 1.6vw, 0.68rem)",
-                    letterSpacing: "clamp(0.2em, 1.5vw, 0.7em)",
-                    color: "rgba(0,207,255,0.45)",
-                    textShadow: "0 0 14px rgba(0,207,255,0.25)",
-                    transition: "font-size 0.4s ease, letter-spacing 0.4s ease",
+                    fontSize: "clamp(0.38rem, 1vw, 0.55rem)",
+                    letterSpacing: "clamp(0.15em, 0.8vw, 0.35em)",
+                    color: "rgba(0,207,255,0.38)",
                   }}
                 >
-                  COUNTDOWN TO AGI
+                  AGI
                 </span>
-              </div>
-              {/* Big numbers */}
-              <div className="flex items-center justify-center gap-2 sm:gap-4">
+              {/* Numbers */}
+              <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                 {isDone ? (
                   <span className="font-heading font-bold uppercase" style={{ fontSize: "clamp(1.2rem, 5vw, 2rem)", color: "#00cfff", textShadow: "0 0 30px rgba(0,207,255,0.8)", letterSpacing: "0.18em" }}>
                     THRESHOLD REACHED
@@ -312,12 +309,7 @@ export default function CountdownToAGI() {
                   </>
                 )}
               </div>
-              {/* Chevron hint */}
-              <div className="flex justify-center mt-1">
-                <ChevronDown
-                  className="shrink-0 transition-transform duration-300"
-                  style={{ width: "12px", height: "12px", color: "rgba(0,207,255,0.3)" }}
-                />
+                <ChevronDown className="shrink-0 ml-1" style={{ width: "10px", height: "10px", color: "rgba(0,207,255,0.3)" }} />
               </div>
             </div>
           ) : (

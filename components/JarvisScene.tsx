@@ -11,6 +11,17 @@ import {
 } from "@/lib/space-tracker-data";
 
 import type { ISSData, NEOData } from "@/lib/space-pro-data";
+import { createCloudLayer } from "@/modules/weather/cloudLayer";
+import { createPrecipitationLayer } from "@/modules/weather/precipitationLayer";
+import { createStormLayer } from "@/modules/weather/stormLayer";
+import { createWindLayer } from "@/modules/weather/windLayer";
+import {
+  buildStormSystemsFromGrid,
+  getWindVector,
+  sampleWeather,
+  sampleWeatherFromGrid,
+  type WeatherGridSnapshot,
+} from "@/modules/weather/weatherField";
 
 // ---------------------------------------------------------------------------
 // Scene layout constants (all in scene units)
@@ -316,7 +327,12 @@ interface JarvisSceneProps {
   height: number;
   issData: ISSData;
   neoData?: NEOData[] | null;
+  crewCount?: number | null;
   onSelectObject?: (obj: { type: string; name: string; data: Record<string, string> } | null) => void;
+  trackerMode?: "space" | "weather";
+  onEarthSample?: (sample: ReturnType<typeof sampleWeather>) => void;
+  onInteraction?: () => void;
+  weatherGrid?: WeatherGridSnapshot | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -364,7 +380,12 @@ function latLonToSphere(lat: number, lon: number, radius: number, center: THREE.
 }
 
 /** Build the data object for an object ID — used by both click handler and focusOn */
-function getObjectData(id: string, issData: ISSData, crewCount?: number): { type: string; name: string; data: Record<string, string> } | null {
+function getObjectData(
+  id: string,
+  issData: ISSData,
+  crewCount?: number,
+  neoData?: NEOData[] | null,
+): { type: string; name: string; data: Record<string, string> } | null {
   const data: Record<string, string> = {};
   let type = "object";
   let displayName = id.toUpperCase();
@@ -405,7 +426,19 @@ function getObjectData(id: string, issData: ISSData, crewCount?: number): { type
     displayName = "Sunce";
     Object.assign(data, SUN_INFO);
   } else {
-    const neo = NEO_DATASET.entries.find((a) => a.id === id);
+    const liveNeo = neoData?.find((a) => a.id === id);
+    const neo = liveNeo
+      ? {
+          name: liveNeo.name,
+          diameterM: liveNeo.diameter_m,
+          speedKmH: liveNeo.speed_kmh,
+          distanceLD: liveNeo.distance_ld,
+          distanceKm: liveNeo.distance_km,
+          hazardous: liveNeo.hazardous,
+          closestApproach: liveNeo.approach_time,
+          approachAngle: 0,
+        }
+      : NEO_DATASET.entries.find((a) => a.id === id);
     if (neo) {
       type = "Asteroid";
       displayName = neo.name;
@@ -532,7 +565,7 @@ function hashToAngle(id: string): number {
 }
 
 const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
-  function JarvisScene({ width, height, issData, neoData, onSelectObject }, ref) {
+  function JarvisScene({ width, height, issData, neoData, crewCount, onSelectObject, trackerMode = "space", onEarthSample, onInteraction, weatherGrid }, ref) {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const pointerDownPos = useRef<{ x: number; y: number } | null>(null);
@@ -540,6 +573,16 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
     issDataRef.current = issData;
     const neoDataRef = useRef(neoData);
     neoDataRef.current = neoData;
+    const crewCountRef = useRef(crewCount);
+    crewCountRef.current = crewCount;
+    const trackerModeRef = useRef<"space" | "weather">(trackerMode);
+    trackerModeRef.current = trackerMode;
+    const weatherGridRef = useRef(weatherGrid);
+    weatherGridRef.current = weatherGrid;
+    const earthSampleRef = useRef(onEarthSample);
+    earthSampleRef.current = onEarthSample;
+    const interactionRef = useRef(onInteraction);
+    interactionRef.current = onInteraction;
 
     const internals = useRef<{
       renderer: THREE.WebGLRenderer;
@@ -567,6 +610,18 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       earthCore: THREE.Mesh;
       timeScale: TimeScale;
       sceneMode: "cinematic" | "scientific";
+      trackerMode: "space" | "weather";
+      weatherLayers: {
+        cloud: ReturnType<typeof createCloudLayer>;
+        wind: ReturnType<typeof createWindLayer>;
+        precipitation: ReturnType<typeof createPrecipitationLayer>;
+        storms: ReturnType<typeof createStormLayer>;
+      };
+      weatherGroup: THREE.Group;
+      spaceGroup: THREE.Group;
+      starfield: THREE.Points;
+      gridHelper: THREE.GridHelper;
+      earthLabel: THREE.Sprite;
     } | null>(null);
 
     // Expose focusOn + toggleAsteroidSim + setTimeScale + setMode via ref
@@ -598,11 +653,11 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
           const pos = new THREE.Vector3();
           obj.getWorldPosition(pos);
 
-          const objData = getObjectData(key, issDataRef.current);
+          const objData = getObjectData(key, issDataRef.current, crewCountRef.current ?? undefined, neoDataRef.current);
           if (objData) onSelectObject?.(objData);
 
           const { flyTarget, flyLook, dist } = computeFlyTo(key, objData?.type || "object", pos);
-          internals.current.controls.enabled = true; // re-enable so fly lerp is not blocked
+          internals.current.controls.enabled = true;
           internals.current.flyTarget = flyTarget;
           internals.current.flyLook = flyLook;
           internals.current.flyDist = dist;
@@ -695,9 +750,14 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       }
       const starGeo = new THREE.BufferGeometry();
       starGeo.setAttribute("position", new THREE.BufferAttribute(starPos, 3));
-      scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.2, sizeAttenuation: true })));
+      const starfield = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.2, sizeAttenuation: true, transparent: true, opacity: 1 }));
+      scene.add(starfield);
 
       const objectMap = new Map<string, THREE.Object3D>();
+      const spaceGroup = new THREE.Group();
+      const weatherGroup = new THREE.Group();
+      scene.add(spaceGroup);
+      scene.add(weatherGroup);
 
       // ===== TEXTURE LOADER =====
       const texLoader = new THREE.TextureLoader();
@@ -728,6 +788,21 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       atmosMesh.position.copy(EARTH_POS);
       scene.add(atmosMesh);
 
+      const sampleAt = (lat: number, lon: number, timeMs: number) =>
+        sampleWeatherFromGrid(weatherGridRef.current, lat, lon, timeMs);
+      const getStorms = (timeMs: number) => buildStormSystemsFromGrid(weatherGridRef.current, timeMs);
+      const weatherLayers = {
+        cloud: createCloudLayer(isMobile, sampleAt),
+        wind: createWindLayer(isMobile, sampleAt, (lat, lon, timeMs) => getWindVector(lat, lon, timeMs, weatherGridRef.current)),
+        precipitation: createPrecipitationLayer(isMobile, sampleAt),
+        storms: createStormLayer(getStorms),
+      };
+      weatherGroup.add(weatherLayers.cloud.object);
+      weatherGroup.add(weatherLayers.wind.object);
+      weatherGroup.add(weatherLayers.precipitation.object);
+      weatherGroup.add(weatherLayers.storms.object);
+      weatherGroup.visible = trackerModeRef.current === "weather";
+
       // Scan band
       const scanCanvas = document.createElement("canvas");
       scanCanvas.width = 512; scanCanvas.height = 256;
@@ -748,11 +823,11 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       // LD rings
       [1, 5, 10, 20].forEach((ld) => {
         const ring = createDashedRing(ld * LD_SCALE, 0x00d4ff, 0.06);
-        ring.position.copy(EARTH_POS); scene.add(ring);
+        ring.position.copy(EARTH_POS); spaceGroup.add(ring);
         const lbl = createLabel(`${ld} LD`, "#00D4FF", 1.2);
         lbl.material.opacity = 0.3;
         lbl.position.set(EARTH_POS.x + ld * LD_SCALE + 0.5, EARTH_POS.y + 0.3, EARTH_POS.z);
-        scene.add(lbl);
+        spaceGroup.add(lbl);
       });
 
       // ===== DSN STATIONS =====
@@ -799,7 +874,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       const issPos3d = latLonToSphere(issData.lat, issData.lon, EARTH_RADIUS + 0.5, EARTH_POS);
       issGroup.position.copy(issPos3d);
       issGroup.scale.setScalar(2);
-      scene.add(issGroup);
+      spaceGroup.add(issGroup);
       objectMap.set("iss", issGroup);
       const issMesh = issGroup as unknown as THREE.Mesh;
 
@@ -808,7 +883,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       issOrbitGroup.add(createDashedRing(EARTH_RADIUS + 0.5, 0x00d4ff, 0.15));
       issOrbitGroup.rotation.x = (ISS_INCLINATION * Math.PI) / 180;
       issOrbitGroup.position.copy(EARTH_POS);
-      scene.add(issOrbitGroup);
+      spaceGroup.add(issOrbitGroup);
 
       const issLabel = createLabel("ISS", "#00D4FF", 1.2);
       issLabel.position.y = 0.3;
@@ -832,13 +907,13 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         EARTH_POS.y + Math.sin(moonLonRad) * Math.sin(moonIncRad) * MOON_DIST * 0.3,
         EARTH_POS.z + Math.sin(moonLonRad) * MOON_DIST,
       );
-      scene.add(moonMesh);
+      spaceGroup.add(moonMesh);
       objectMap.set("moon", moonMesh);
 
       const moonOrbitRing = createDashedRing(MOON_DIST, 0x888888, 0.08);
       moonOrbitRing.position.copy(EARTH_POS);
       moonOrbitRing.rotation.x = moonIncRad;
-      scene.add(moonOrbitRing);
+      spaceGroup.add(moonOrbitRing);
 
       const moonLabel = createLabel("MOON", "#AAAAAA", 1);
       moonLabel.position.y = MOON_RADIUS + 0.3;
@@ -890,7 +965,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
           EARTH_POS.y + Math.sin(angle * 0.3) * 0.5,
           EARTH_POS.z + Math.sin(angle) * scaledDist,
         );
-        scene.add(aMesh);
+        spaceGroup.add(aMesh);
         objectMap.set(asteroid.id, aMesh);
 
         // Wireframe overlay
@@ -907,7 +982,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         const trail = new THREE.Points(trailGeo, new THREE.PointsMaterial({
           color: asteroid.hazardous ? 0xef4444 : 0xffcf6e, size: 0.04, transparent: true, opacity: 0.4, sizeAttenuation: true,
         }));
-        scene.add(trail);
+        spaceGroup.add(trail);
 
         // Flyby trajectory — visible, cyan dashed, centered on asteroid
         const trajPts: THREE.Vector3[] = [];
@@ -929,7 +1004,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         );
         trajLine.computeLineDistances();
         trajLine.visible = false;
-        scene.add(trajLine);
+        spaceGroup.add(trajLine);
 
         // Ghost mesh for flyby simulation (hidden by default)
         const ghostGeo = new THREE.IcosahedronGeometry(size * 0.8, 1);
@@ -937,7 +1012,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
           color: 0x00d4ff, transparent: true, opacity: 0.3, wireframe: true,
         }));
         ghostMesh.visible = false;
-        scene.add(ghostMesh);
+        spaceGroup.add(ghostMesh);
 
         // Ghost timestamp labels along trajectory
         const ghostLabels: THREE.Sprite[] = [];
@@ -950,7 +1025,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
           const lbl = createLabel(timeStr, "#00D4FF", 0.8);
           lbl.position.copy(trajPts[idx]).add(new THREE.Vector3(0, 0.5, 0));
           lbl.visible = false;
-          scene.add(lbl);
+          spaceGroup.add(lbl);
           ghostLabels.push(lbl);
         }
 
@@ -979,7 +1054,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       texLoader.load("/textures/planets/2k_sun.jpg", (tex) => { tex.wrapS = THREE.RepeatWrapping; sunMat.map = tex; sunMat.needsUpdate = true; });
       const sunMesh = new THREE.Mesh(sunGeo, sunMat);
       sunMesh.position.copy(SUN_POS);
-      scene.add(sunMesh);
+      spaceGroup.add(sunMesh);
       objectMap.set("sun", sunMesh);
 
       // Inner corona glow
@@ -988,14 +1063,14 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         new THREE.MeshBasicMaterial({ color: 0xffcc44, transparent: true, opacity: 0.12, depthWrite: false }),
       );
       sunCorona.position.copy(SUN_POS);
-      scene.add(sunCorona);
+      spaceGroup.add(sunCorona);
       // Outer corona
       const sunCoronaOuter = new THREE.Mesh(
         new THREE.SphereGeometry(6, 24, 24),
         new THREE.MeshBasicMaterial({ color: 0xffaa00, transparent: true, opacity: 0.05, depthWrite: false }),
       );
       sunCoronaOuter.position.copy(SUN_POS);
-      scene.add(sunCoronaOuter);
+      spaceGroup.add(sunCoronaOuter);
 
       // Solar flare sprites
       const solarFlares: THREE.Sprite[] = [];
@@ -1022,13 +1097,13 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
           SUN_POS.z + (Math.random() - 0.5) * 2,
         );
         flareSprite.scale.set(2 + Math.random() * 2, 1.5 + Math.random() * 1.5, 1);
-        scene.add(flareSprite);
+        spaceGroup.add(flareSprite);
         solarFlares.push(flareSprite);
       }
 
       const sunLabel = createLabel("SUN", "#FFDD44", 3);
       sunLabel.position.set(SUN_POS.x, SUN_POS.y + 5, SUN_POS.z);
-      scene.add(sunLabel);
+      spaceGroup.add(sunLabel);
 
       // ===== PLANETS — real J2000 positions, realistic rotation =====
       const planetAnims: NonNullable<typeof internals.current>["planetAnims"] = [];
@@ -1045,7 +1120,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       PLANET_DATA.forEach((p) => {
         const orbitRing = createDashedRing(p.dist, 0x00d4ff, 0.06);
         orbitRing.position.copy(SUN_POS);
-        scene.add(orbitRing);
+        spaceGroup.add(orbitRing);
 
         const pGeo = new THREE.SphereGeometry(p.radius, 24, 24);
         const fallbackCanvas = generatePlanetTexture(p.name);
@@ -1068,7 +1143,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         const startAngle = j2000Angle(p.j2000L0, p.j2000Rate);
         pMesh.position.set(SUN_POS.x + Math.cos(startAngle) * p.dist, 0, SUN_POS.z + Math.sin(startAngle) * p.dist);
         pMesh.rotation.z = (p.tilt * Math.PI) / 180;
-        scene.add(pMesh);
+        spaceGroup.add(pMesh);
         objectMap.set(`planet-${p.name.toLowerCase()}`, pMesh);
 
         // Saturn rings — real texture
@@ -1101,7 +1176,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         const probeGroup = buildProbeModel(probe.name);
         probeGroup.position.set(px, 0.2, pz);
         if (probe.name === "JWST") probeGroup.scale.setScalar(3);
-        scene.add(probeGroup);
+        spaceGroup.add(probeGroup);
         objectMap.set(probe.id, probeGroup);
 
         const trajPts: THREE.Vector3[] = [];
@@ -1116,7 +1191,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
           new THREE.LineDashedMaterial({ color: 0x00d4ff, transparent: true, opacity: 0.12, dashSize: 0.5, gapSize: 0.3 }),
         );
         trajLine.computeLineDistances();
-        scene.add(trajLine);
+        spaceGroup.add(trajLine);
 
         probeAnims.push({ group: probeGroup, trajLine });
 
@@ -1173,7 +1248,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         );
         const nebScale = 25 + Math.random() * 35;
         nebSprite.scale.set(nebScale, nebScale, 1);
-        scene.add(nebSprite);
+        spaceGroup.add(nebSprite);
       }
 
       // ===== GRID =====
@@ -1181,7 +1256,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       (gridHelper.material as THREE.Material).transparent = true;
       (gridHelper.material as THREE.Material).opacity = 0.03;
       gridHelper.position.y = -0.5;
-      scene.add(gridHelper);
+      spaceGroup.add(gridHelper);
 
       // ===== ANIMATION =====
       const clock = new THREE.Clock();
@@ -1199,6 +1274,13 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         scanBand, sunCorona, sunCoronaOuter, sunMesh, earthCore,
         timeScale: 1 as TimeScale,
         sceneMode: "cinematic" as "cinematic" | "scientific",
+        trackerMode: trackerModeRef.current,
+        weatherLayers,
+        weatherGroup,
+        spaceGroup,
+        starfield,
+        gridHelper,
+        earthLabel,
       };
       internals.current = state;
 
@@ -1206,6 +1288,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       const mouseVec = new THREE.Vector2();
 
       function onPointerDown(e: PointerEvent) {
+        interactionRef.current?.();
         pointerDownPos.current = { x: e.clientX, y: e.clientY };
       }
 
@@ -1237,7 +1320,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
 
           if (foundId) {
             const id = foundId;
-            const objData = getObjectData(id, issDataRef.current);
+            const objData = getObjectData(id, issDataRef.current, crewCountRef.current ?? undefined, neoDataRef.current);
             if (objData) {
               onSelectObject?.(objData);
 
@@ -1251,6 +1334,16 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
             }
           }
           idleTime = 0;
+        } else if (trackerModeRef.current === "weather") {
+          const earthHit = raycaster.intersectObject(earthCore, true)[0];
+          if (earthHit?.point) {
+            const local = earthHit.point.clone().sub(EARTH_POS).normalize();
+            const lat = 90 - (Math.acos(local.y) * 180) / Math.PI;
+            let lon = ((Math.atan2(local.z, -local.x) * 180) / Math.PI) - 180;
+            if (lon < -180) lon += 360;
+            if (lon > 180) lon -= 360;
+            earthSampleRef.current?.(sampleWeatherFromGrid(weatherGridRef.current, lat, lon));
+          }
         }
       }
       renderer.domElement.addEventListener("pointerdown", onPointerDown);
@@ -1260,6 +1353,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
 
       // ── Custom orbit pointer handlers ───────────────────────────────────────
       function onOrbitPointerDown(e: PointerEvent) {
+        interactionRef.current?.();
         idleTime = 0;
         state.flyTarget = null;
         state.flyLook = null;
@@ -1292,6 +1386,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       }
 
       function onOrbitWheel(e: WheelEvent) {
+        interactionRef.current?.();
         idleTime = 0;
         if (state.selectedId && !state.flyTarget) {
           // Custom zoom for focused mode
@@ -1323,6 +1418,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
 
         const delta = Math.min(clock.getDelta(), 0.05);
         const elapsed = clock.getElapsedTime();
+        const nowMs = Date.now();
         frameCount += 1;
         const updateSecondaryVisuals = !isMobile || frameCount % 2 === 0;
 
@@ -1348,6 +1444,16 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         earthCore.rotation.y += delta * 0.01;
         scanBand.rotation.y += delta * 0.01;
 
+        if (state.trackerMode === "weather") {
+          state.weatherLayers.cloud.update(elapsed, nowMs);
+          state.weatherLayers.wind.update(elapsed, nowMs);
+          state.weatherLayers.precipitation.update(elapsed, nowMs);
+          state.weatherLayers.storms.update(elapsed, nowMs);
+          (scanBand.material as THREE.MeshBasicMaterial).opacity = 0.02;
+        } else {
+          (scanBand.material as THREE.MeshBasicMaterial).opacity = 0.12;
+        }
+
         // Scan band texture
         if (updateSecondaryVisuals) {
           scanCtx.clearRect(0, 0, 512, 256);
@@ -1362,7 +1468,6 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         }
 
         // Asteroids — live position along trajectory based on time from closest approach
-        const nowMs = Date.now();
         const isPrimary = state.selectedId;
         for (let ai = 0; ai < asteroidAnims.length; ai++) {
           const aa = asteroidAnims[ai];
@@ -1498,7 +1603,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
 
         // ── Fly-in animation (lerp camera + look target toward object) ─────────
         if (state.flyLook && !interacting) {
-          controls.target.lerp(state.flyLook, 0.11);
+          controls.target.lerp(state.flyLook, 0.2);
           if (controls.target.distanceTo(state.flyLook) < 0.05) {
             controls.target.copy(state.flyLook);
             state.flyLook = null;
@@ -1517,7 +1622,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
           }
         }
         if (state.flyTarget && !interacting) {
-          camera.position.lerp(state.flyTarget, 0.09);
+          camera.position.lerp(state.flyTarget, 0.18);
           if (camera.position.distanceTo(state.flyTarget) < 0.05) state.flyTarget = null;
         }
 
@@ -1584,6 +1689,31 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         internals.current = null;
       };
     }, [width, height, neoData, onSelectObject]); // issData excluded — read via issDataRef.current; neoData stabilized in parent via useMemo
+
+    useEffect(() => {
+      if (!internals.current) return;
+      const state = internals.current;
+      state.trackerMode = trackerMode;
+      const isWeather = trackerMode === "weather";
+      state.weatherGroup.visible = isWeather;
+      state.spaceGroup.visible = !isWeather;
+      state.weatherLayers.cloud.setVisible(isWeather);
+      state.weatherLayers.wind.setVisible(isWeather);
+      state.weatherLayers.precipitation.setVisible(isWeather);
+      state.weatherLayers.storms.setVisible(isWeather);
+      state.earthLabel.material.opacity = isWeather ? 0.32 : 0.8;
+      const starMaterial = state.starfield.material as THREE.PointsMaterial;
+      starMaterial.opacity = isWeather ? 0.22 : 1;
+      state.gridHelper.visible = !isWeather;
+
+      if (isWeather) {
+        state.selectedId = null;
+        state.flyLook = EARTH_POS.clone();
+        state.flyTarget = new THREE.Vector3(0, 3.1, 7.2);
+        state.flyDist = 7.2;
+        onSelectObject?.(null);
+      }
+    }, [trackerMode, onSelectObject]);
 
     return <div ref={containerRef} className="w-full h-full cursor-grab active:cursor-grabbing" />;
   },

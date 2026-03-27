@@ -11,9 +11,10 @@ import { playSound } from "@/lib/sounds";
 interface GlobeWithQuizProps {
   geo: GeoLocation;
   categoryColor: string;
+  lang?: "en" | "hr";
 }
 
-export default function GlobeWithQuiz({ geo, categoryColor }: GlobeWithQuizProps) {
+export default function GlobeWithQuiz({ geo, categoryColor, lang = "en" }: GlobeWithQuizProps) {
   const globeRef = useRef<GlobeHandle>(null);
   const [quizOpen, setQuizOpen] = useState(false);
   const [pins, setPins] = useState([
@@ -43,7 +44,7 @@ export default function GlobeWithQuiz({ geo, categoryColor }: GlobeWithQuizProps
     <div>
       <div className="glass-card p-4 !hover:transform-none">
         <h3 className="text-sm font-semibold text-text-secondary mb-2 uppercase tracking-wider">
-          Location
+          {lang === "hr" ? "Lokacija" : "Location"}
         </h3>
         <div className="flex justify-center">
           <Globe
@@ -62,11 +63,11 @@ export default function GlobeWithQuiz({ geo, categoryColor }: GlobeWithQuizProps
           <button
             onClick={handleCloseQuiz}
             className="absolute top-2 right-2 z-10 p-1 rounded text-text-secondary/60 hover:text-text-secondary transition-colors"
-            aria-label="Close quiz"
+            aria-label={lang === "hr" ? "Zatvori kviz" : "Close quiz"}
           >
             <X className="w-3.5 h-3.5" />
           </button>
-          <GlobeQuiz onClose={handleCloseQuiz} onFlyTo={handleFlyTo} />
+          <GlobeQuiz onClose={handleCloseQuiz} onFlyTo={handleFlyTo} lang={lang} />
         </div>
       ) : (
         <button
@@ -74,7 +75,7 @@ export default function GlobeWithQuiz({ geo, categoryColor }: GlobeWithQuizProps
           className="w-full mt-3 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan text-sm font-mono hover:bg-accent-cyan/20 transition-colors cursor-pointer"
         >
           <Globe2 className="w-4 h-4" />
-          Start Quiz
+          {lang === "hr" ? "Pokreni kviz" : "Start Quiz"}
         </button>
       )}
     </div>

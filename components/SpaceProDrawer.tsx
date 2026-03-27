@@ -14,6 +14,7 @@ import {
   Moon,
   Info,
   Map,
+  ChevronUp,
 } from "lucide-react";
 import { useSpaceProData } from "@/lib/space-pro-data";
 import { getSunTimes, getMoonPhase } from "@/lib/sunmoon";
@@ -28,6 +29,37 @@ interface SpaceProDrawerProps {
   persistent?: boolean;
 }
 
+// ── HUD mode detection ────────────────────────────────────────
+type HudMode = "desktop" | "landscape" | "portrait";
+
+function useHudMode(): HudMode {
+  const [mode, setMode] = useState<HudMode>("desktop");
+
+  useEffect(() => {
+    function detect() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      if (w >= 1024) {
+        setMode("desktop");
+      } else if (h < 520 && w > h) {
+        setMode("landscape");
+      } else {
+        setMode("portrait");
+      }
+    }
+    detect();
+    window.addEventListener("resize", detect);
+    window.addEventListener("orientationchange", detect);
+    return () => {
+      window.removeEventListener("resize", detect);
+      window.removeEventListener("orientationchange", detect);
+    };
+  }, []);
+
+  return mode;
+}
+
+// ── Info texts ───────────────────────────────────────────────
 const INFO_TEXTS_HR: Record<string, string> = {
   solar:
     "Kp indeks mjeri geomagnetsku aktivnost Zemlje (0-9). Viši = jača magnetska oluja i veća šansa za auroru.",
@@ -64,9 +96,9 @@ const INFO_TEXTS_EN: Record<string, string> = {
     "Moon phases and daylight hours for your location.",
 };
 
+// ── Sub-components ────────────────────────────────────────────
 function KpGauge({ value }: { value: number }) {
-  const color =
-    "#00cfff";
+  const color = "#00cfff";
   const pct = Math.min((value / 9) * 100, 100);
 
   return (
@@ -205,16 +237,16 @@ function InfoPanel({ id, expandedInfo, isEn }: { id: string; expandedInfo: strin
 const DEFAULT_LAT = 45.815;
 const DEFAULT_LON = 15.966;
 
+// ── Main component ────────────────────────────────────────────
 export default function SpaceProDrawer({ open, onClose, persistent = false }: SpaceProDrawerProps) {
-  // Only poll when drawer is visible to avoid duplicate polling intervals
   const { data } = useSpaceProData(open || persistent ? 30000 : null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const [expandedInfo, setExpandedInfo] = useState<string | null>(null);
   const [trackerMode, setTrackerMode] = useState<"iss" | "dsn" | "asteroids" | null>(null);
   const pathname = usePathname();
   const isEn = !pathname.startsWith("/hr");
+  const hudMode = useHudMode();
 
-  // Sun + moon data computed once on mount (changes only daily)
   const sunTimes  = getSunTimes(DEFAULT_LAT, DEFAULT_LON);
   const moonPhase = getMoonPhase();
 
@@ -227,7 +259,6 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
 
   const handleClickOutside = useCallback(
     (e: MouseEvent) => {
-      // Don't close drawer when SpaceTrackerModal is open
       if (trackerMode !== null) return;
       if (drawerRef.current && !drawerRef.current.contains(e.target as Node)) {
         onClose();
@@ -256,7 +287,7 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
     storm: "#EF4444",
   };
 
-  // Persistent desktop sidebar
+  // ── Persistent desktop sidebar ─────────────────────────────
   if (persistent) {
     return (
       <>
@@ -264,7 +295,6 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
           ref={drawerRef}
           className="h-full w-[320px] bg-space-bg/80 border-l border-white/10 overflow-y-auto"
         >
-          {/* Header */}
           <div className="sticky top-0 z-10 bg-space-bg/90 backdrop-blur-md border-b border-white/10 px-4 py-3">
             <h2 className="font-heading text-base font-bold text-text-primary">
               Space Pro
@@ -273,17 +303,12 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
               {isEn ? "// Live Telemetry" : "// Telemetrija uživo"}
             </p>
           </div>
-
-          {/* Telemetry Rail */}
           <TelemetryRail data={data} />
-
-          {/* Cards */}
           <div className="p-4 space-y-3">
             {renderCards()}
           </div>
         </div>
 
-        {/* Space Tracker Modal — portalled to body to escape z-40 stacking context */}
         {trackerMode && typeof document !== "undefined" && createPortal(
           <SpaceTrackerModal
             mode={trackerMode}
@@ -296,12 +321,278 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
     );
   }
 
+  // ── Mobile landscape HUD — narrow right-edge strip ─────────
+  // Globe safe-zone: panel stays ≤200px wide on the right edge.
+  // No backdrop dimming so the globe centre remains fully visible.
+  if (hudMode === "landscape") {
+    return (
+      <>
+        <div
+          ref={drawerRef}
+          className="fixed top-0 right-0 z-[60] h-full overflow-y-auto"
+          style={{
+            width: "188px",
+            background: "rgba(3,7,18,0.78)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            borderLeft: "1px solid rgba(255,255,255,0.1)",
+          }}
+        >
+          {/* Header — ultra-compact */}
+          <div className="px-3 py-2 border-b border-white/10 flex items-center justify-between">
+            <span className="text-[9px] font-mono tracking-[0.18em] text-accent-cyan/80 uppercase">
+              SPACE.PRO
+            </span>
+            <button
+              onClick={onClose}
+              className="p-0.5 text-text-secondary/60 hover:text-accent-cyan transition-colors cursor-pointer"
+              aria-label="Close"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          </div>
+
+          {/* Vertical telemetry stack */}
+          <div className="px-2 py-2 space-y-1.5">
+            {data.solar && (
+              <LandscapeMetric
+                icon={<Sun className="w-3 h-3 text-yellow-400" />}
+                label="Kp"
+                value={String(data.solar.kp_index)}
+                sub={data.solar.flare_class}
+                quality="live"
+                warn={data.solar.kp_index >= 5}
+              />
+            )}
+            {data.iss && (
+              <LandscapeMetric
+                icon={<Satellite className="w-3 h-3 text-accent-cyan" />}
+                label="ISS"
+                value={`${data.iss.altitude}km`}
+                sub={`${(data.iss.speed ?? 0).toLocaleString()} km/h`}
+                quality="live"
+              />
+            )}
+            {data.neo_closest && (
+              <LandscapeMetric
+                icon={<Zap className="w-3 h-3 text-accent-amber" />}
+                label="NEO"
+                value={`${data.neo_closest.distance_ld.toFixed(1)} LD`}
+                sub={`${data.neo_count ?? 0} today`}
+                quality="estimated"
+              />
+            )}
+            {data.next_launch && (
+              <LandscapeMetric
+                icon={<Sparkles className="w-3 h-3 text-purple-400" />}
+                label="LAUNCH"
+                value={(() => {
+                  const h = data.next_launch!.t_minus_hours;
+                  return h == null ? "TBD" : h < 0 ? "LIVE" : h < 24 ? `T-${Math.round(h)}h` : `T-${Math.round(h / 24)}d`;
+                })()}
+                sub={data.next_launch.mission ?? ""}
+                quality="estimated"
+              />
+            )}
+            {data.dsn_active != null && (
+              <LandscapeMetric
+                icon={<Radio className="w-3 h-3 text-purple-400" />}
+                label="DSN"
+                value={`${data.dsn_active} active`}
+                sub="Deep Space"
+                quality="delayed"
+              />
+            )}
+            <div className="pt-1 border-t border-white/10">
+              <LandscapeMetric
+                icon={<Moon className="w-3 h-3 text-yellow-200" />}
+                label={moonPhase.emoji}
+                value={moonPhase.name}
+                sub={`${moonPhase.illumination}%`}
+                quality="estimated"
+              />
+            </div>
+          </div>
+
+          {/* Tracker buttons — compact icon row */}
+          <div className="px-2 pb-3 flex flex-col gap-1.5">
+            <button
+              onClick={() => setTrackerMode("iss")}
+              className="w-full flex items-center gap-1.5 px-2 py-1.5 rounded bg-cyan-400/10 border border-cyan-400/20 text-[9px] font-mono text-cyan-400 hover:bg-cyan-400/20 transition-colors cursor-pointer"
+            >
+              <Satellite className="w-3 h-3 shrink-0" />
+              ISS Map
+            </button>
+            <button
+              onClick={() => setTrackerMode("asteroids")}
+              className="w-full flex items-center gap-1.5 px-2 py-1.5 rounded bg-amber-400/10 border border-amber-400/20 text-[9px] font-mono text-accent-amber hover:bg-amber-400/20 transition-colors cursor-pointer"
+            >
+              <Zap className="w-3 h-3 shrink-0" />
+              NEO Map
+            </button>
+          </div>
+        </div>
+
+        {trackerMode && (
+          <SpaceTrackerModal
+            mode={trackerMode}
+            open={true}
+            onClose={() => setTrackerMode(null)}
+          />
+        )}
+      </>
+    );
+  }
+
+  // ── Mobile portrait HUD — bottom sheet ────────────────────
+  if (hudMode === "portrait") {
+    return (
+      <>
+        {/* Soft backdrop — less aggressive than desktop */}
+        <div
+          className="fixed inset-0 z-[55]"
+          style={{ background: "rgba(0,0,0,0.25)" }}
+          onClick={onClose}
+        />
+
+        {/* Bottom sheet */}
+        <div
+          ref={drawerRef}
+          className="fixed bottom-0 left-0 right-0 z-[60] overflow-hidden"
+          style={{
+            maxHeight: "58vh",
+            background: "rgba(3,7,18,0.96)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            borderTop: "1px solid rgba(255,255,255,0.12)",
+            borderRadius: "16px 16px 0 0",
+          }}
+        >
+          {/* Drag handle */}
+          <div className="flex justify-center pt-2.5 pb-1" onClick={onClose}>
+            <div className="w-9 h-1 rounded-full bg-white/20" />
+          </div>
+
+          {/* Header */}
+          <div className="px-4 py-2 flex items-center justify-between border-b border-white/10">
+            <div className="flex items-center gap-2">
+              <span className="font-heading text-sm font-bold text-text-primary">Space Pro</span>
+              <span className="text-[9px] font-mono text-accent-cyan/60 tracking-wider">// LIVE</span>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-1 text-text-secondary hover:text-text-primary transition-colors cursor-pointer"
+              aria-label="Close"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Scrollable content */}
+          <div className="overflow-y-auto" style={{ maxHeight: "calc(58vh - 80px)" }}>
+            {/* Telemetry rail */}
+            <div className="pt-2">
+              <TelemetryRail data={data} />
+            </div>
+
+            {/* Compact metric grid */}
+            <div className="px-4 pb-3 grid grid-cols-2 gap-2">
+              {data.solar && (
+                <PortraitMetricCard
+                  icon={<Sun className="w-3.5 h-3.5 text-yellow-400" />}
+                  title={isEn ? "Solar Activity" : "Sunčeva Aktivnost"}
+                  quality="live"
+                >
+                  <KpGauge value={data.solar.kp_index ?? 0} />
+                  <div className="flex justify-between mt-1">
+                    <span className="text-[10px] text-text-secondary">{data.solar.flare_class}</span>
+                    <span
+                      className="text-[10px] font-mono font-bold capitalize"
+                      style={{ color: auroraColors[data.solar.aurora_chance ?? "none"] || "#A7B3D1" }}
+                    >
+                      {data.solar.aurora_chance}
+                    </span>
+                  </div>
+                </PortraitMetricCard>
+              )}
+
+              {data.iss && (
+                <PortraitMetricCard
+                  icon={<Satellite className="w-3.5 h-3.5 text-accent-cyan" />}
+                  title="ISS"
+                  quality="live"
+                >
+                  <p className="font-mono font-bold text-sm text-text-primary">{data.iss.altitude} km</p>
+                  <p className="text-[10px] text-text-secondary">{(data.iss.speed ?? 0).toLocaleString()} km/h</p>
+                  <button
+                    onClick={() => setTrackerMode("iss")}
+                    className="mt-1.5 w-full flex items-center justify-center gap-1 py-1 rounded bg-cyan-400/10 border border-cyan-400/20 text-[9px] font-mono text-cyan-400 hover:bg-cyan-400/20 transition-colors cursor-pointer"
+                  >
+                    <Map className="w-2.5 h-2.5" /> Map
+                  </button>
+                </PortraitMetricCard>
+              )}
+
+              {data.neo_closest && (
+                <PortraitMetricCard
+                  icon={<Zap className="w-3.5 h-3.5 text-accent-amber" />}
+                  title={isEn ? "Asteroids" : "Asteroidi"}
+                  quality="estimated"
+                >
+                  <p className="font-mono font-bold text-sm text-accent-cyan">{data.neo_closest.distance_ld.toFixed(1)} LD</p>
+                  <p className="text-[10px] text-text-secondary truncate">{data.neo_closest.name}</p>
+                  <button
+                    onClick={() => setTrackerMode("asteroids")}
+                    className="mt-1.5 w-full flex items-center justify-center gap-1 py-1 rounded bg-amber-400/10 border border-amber-400/20 text-[9px] font-mono text-accent-amber hover:bg-amber-400/20 transition-colors cursor-pointer"
+                  >
+                    <Map className="w-2.5 h-2.5" /> Map
+                  </button>
+                </PortraitMetricCard>
+              )}
+
+              <PortraitMetricCard
+                icon={<Moon className="w-3.5 h-3.5 text-yellow-200" />}
+                title={isEn ? "Moon" : "Mjesec"}
+                quality="estimated"
+              >
+                <p className="font-mono font-bold text-sm text-text-primary">{moonPhase.emoji} {moonPhase.name}</p>
+                <p className="text-[10px] text-text-secondary">{moonPhase.illumination}% lit</p>
+                <p className="text-[10px] text-text-secondary/60 font-mono mt-0.5">
+                  ↑{sunTimes.sunrise} ↓{sunTimes.sunset}
+                </p>
+              </PortraitMetricCard>
+            </div>
+
+            {/* APOD thumbnail if available */}
+            {data.apod?.media_type === "image" && data.apod?.url && (
+              <div className="px-4 pb-4">
+                <a href={data.apod.url} target="_blank" rel="noopener noreferrer" className="block rounded-lg overflow-hidden border border-white/10">
+                  <img src={data.apod.url} alt={data.apod.title} className="w-full h-24 object-cover" />
+                  <div className="px-2 py-1.5 bg-white/5">
+                    <p className="text-[10px] font-mono text-text-secondary/70 line-clamp-1">{data.apod.title}</p>
+                  </div>
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {trackerMode && (
+          <SpaceTrackerModal
+            mode={trackerMode}
+            open={true}
+            onClose={() => setTrackerMode(null)}
+          />
+        )}
+      </>
+    );
+  }
+
+  // ── Desktop HUD — full overlay drawer (default) ────────────
   return (
     <>
-      {/* Backdrop */}
       <div className="fixed inset-0 z-[55] bg-black/40 backdrop-blur-sm drawer-backdrop" />
 
-      {/* Drawer */}
       <div
         ref={drawerRef}
         className="fixed top-0 right-0 z-[60] h-full w-full sm:w-[400px] bg-space-bg/95 backdrop-blur-xl border-l border-white/10 overflow-y-auto drawer-slide-in"
@@ -334,7 +625,6 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
         </div>
       </div>
 
-      {/* Space Tracker Modal */}
       {trackerMode && (
         <SpaceTrackerModal
           mode={trackerMode}
@@ -345,301 +635,369 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
     </>
   );
 
+  // ── Card renderer (desktop + portrait full view) ───────────
   function renderCards() {
     return (
       <>
-          {/* 1. Solar Activity */}
-          <div className="glass-card p-4 space-y-3 !hover:transform-none">
-            <div className="flex items-center gap-2">
-              <Sun className="w-4 h-4 text-yellow-400" />
-              <h3 className="text-sm font-semibold text-text-primary">
-                {isEn ? "Solar Activity" : "Sunčeva Aktivnost"}
-              </h3>
-              <InfoToggle id="solar" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
-              <div className="ml-auto">
-                <QualityBadge quality="live" source="NOAA SWPC" updatedAt={data.solar?.updated} />
-              </div>
-            </div>
-            <InfoPanel id="solar" expandedInfo={expandedInfo} isEn={isEn} />
-            <KpGauge value={data.solar?.kp_index ?? 0} />
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div>
-                <span className="text-text-secondary">{isEn ? "Flare" : "Baklja"}</span>
-                <p className="font-mono font-bold text-accent-amber">
-                  {data.solar?.flare_class ?? "—"}
-                </p>
-              </div>
-              <div>
-                <span className="text-text-secondary">{isEn ? "Solar Wind" : "Sunčev Vjetar"}</span>
-                <p className="font-mono font-bold text-text-primary">
-                  {data.solar?.solar_wind ?? 0} km/s
-                </p>
-              </div>
-              <div className="col-span-2">
-                <span className="text-text-secondary">Aurora</span>
-                <p
-                  className="font-mono font-bold capitalize"
-                  style={{
-                    color: auroraColors[data.solar?.aurora_chance ?? "none"] || "#A7B3D1",
-                  }}
-                >
-                  {data.solar?.aurora_chance ?? "none"}
-                </p>
-              </div>
+        {/* 1. Solar Activity */}
+        <div className="glass-card p-4 space-y-3 !hover:transform-none">
+          <div className="flex items-center gap-2">
+            <Sun className="w-4 h-4 text-yellow-400" />
+            <h3 className="text-sm font-semibold text-text-primary">
+              {isEn ? "Solar Activity" : "Sunčeva Aktivnost"}
+            </h3>
+            <InfoToggle id="solar" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
+            <div className="ml-auto">
+              <QualityBadge quality="live" source="NOAA SWPC" updatedAt={data.solar?.updated} />
             </div>
           </div>
-
-          {/* 2. Asteroids Today */}
-          <div className="glass-card p-4 space-y-3 !hover:transform-none">
-            <div className="flex items-center gap-2">
-              <Zap className="w-4 h-4 text-accent-amber" />
-              <h3 className="text-sm font-semibold text-text-primary">
-                {isEn ? "Today's Asteroids" : "Asteroidi Danas"}
-              </h3>
-              <InfoToggle id="asteroids" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
-              <div className="ml-auto">
-                <QualityBadge quality="estimated" source="NASA NeoWs" />
-              </div>
+          <InfoPanel id="solar" expandedInfo={expandedInfo} isEn={isEn} />
+          <KpGauge value={data.solar?.kp_index ?? 0} />
+          <div className="grid grid-cols-2 gap-3 text-xs">
+            <div>
+              <span className="text-text-secondary">{isEn ? "Flare" : "Baklja"}</span>
+              <p className="font-mono font-bold text-accent-amber">
+                {data.solar?.flare_class ?? "—"}
+              </p>
             </div>
-            <InfoPanel id="asteroids" expandedInfo={expandedInfo} isEn={isEn} />
-            <div className="grid grid-cols-3 gap-3 text-xs">
-              <div>
-                <span className="text-text-secondary">{isEn ? "Count" : "Broj"}</span>
-                <p className="font-mono font-bold text-text-primary text-lg">
-                  {data.neo_count ?? 0}
-                </p>
-              </div>
-              <div>
-                <span className="text-text-secondary">{isEn ? "Closest" : "Najbliži"}</span>
-                <p className="font-mono font-bold text-accent-cyan">
-                  {data.neo_closest?.distance_ld ?? "—"} LD
-                </p>
-                <p className="text-text-secondary truncate">
-                  {data.neo_closest?.name ?? "—"}
-                </p>
-              </div>
-              <div>
-                <span className="text-text-secondary">{isEn ? "Hazardous" : "Opasni"}</span>
-                <p
-                  className={`font-mono font-bold text-lg ${
-                    data.neo_hazardous ?? 0 > 0
-                      ? "text-red-400"
-                      : "text-green-400"
-                  }`}
-                >
-                  {data.neo_hazardous ?? 0}
-                </p>
-              </div>
+            <div>
+              <span className="text-text-secondary">{isEn ? "Solar Wind" : "Sunčev Vjetar"}</span>
+              <p className="font-mono font-bold text-text-primary">
+                {data.solar?.solar_wind ?? 0} km/s
+              </p>
             </div>
-            <button
-              onClick={() => setTrackerMode("asteroids")}
-              className="w-full min-h-11 flex items-center justify-center gap-2.5 py-3 px-4 rounded-lg bg-amber-400/10 border border-amber-400/20 text-sm font-mono text-accent-amber hover:bg-amber-400/20 transition-colors cursor-pointer"
-            >
-              <Map className="w-4.5 h-4.5 shrink-0" />
-              {isEn ? "Show on Map" : "Prikaži na Karti"}
-            </button>
+            <div className="col-span-2">
+              <span className="text-text-secondary">Aurora</span>
+              <p
+                className="font-mono font-bold capitalize"
+                style={{
+                  color: auroraColors[data.solar?.aurora_chance ?? "none"] || "#A7B3D1",
+                }}
+              >
+                {data.solar?.aurora_chance ?? "none"}
+              </p>
+            </div>
           </div>
+        </div>
 
-          {/* 3. ISS Live */}
-          <div className="glass-card p-4 space-y-3 !hover:transform-none">
-            <div className="flex items-center gap-2">
-              <Satellite className="w-4 h-4 text-accent-cyan" />
-              <h3 className="text-sm font-semibold text-text-primary">
-                {isEn ? "ISS Live" : "ISS Trenutno"}
-              </h3>
-              <InfoToggle id="iss" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
-              <div className="ml-auto">
-                <QualityBadge quality="live" source="wheretheiss.at" />
-              </div>
+        {/* 2. Asteroids Today */}
+        <div className="glass-card p-4 space-y-3 !hover:transform-none">
+          <div className="flex items-center gap-2">
+            <Zap className="w-4 h-4 text-accent-amber" />
+            <h3 className="text-sm font-semibold text-text-primary">
+              {isEn ? "Today's Asteroids" : "Asteroidi Danas"}
+            </h3>
+            <InfoToggle id="asteroids" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
+            <div className="ml-auto">
+              <QualityBadge quality="estimated" source="NASA NeoWs" />
             </div>
-            <InfoPanel id="iss" expandedInfo={expandedInfo} isEn={isEn} />
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div>
-                <span className="text-text-secondary">{isEn ? "Altitude" : "Visina"}</span>
-                <p className="font-mono font-bold text-text-primary">
-                  {data.iss?.altitude ?? 420} km
-                </p>
-              </div>
-              <div>
-                <span className="text-text-secondary">{isEn ? "Speed" : "Brzina"}</span>
-                <p className="font-mono font-bold text-text-primary">
-                  {(data.iss?.speed ?? 0).toLocaleString()} km/h
-                </p>
-              </div>
-              <div>
-                <span className="text-text-secondary">{isEn ? "Position" : "Pozicija"}</span>
-                <p className="font-mono font-bold text-accent-cyan text-xs">
-                  {(data.iss?.lat ?? 0).toFixed(1)}°, {(data.iss?.lon ?? 0).toFixed(1)}°
-                </p>
-              </div>
-              <div>
-                <span className="text-text-secondary">{isEn ? "Crew" : "Posada"}</span>
-                <p className="font-mono font-bold text-text-primary">
-                  {data.crew_count ?? 0}
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => setTrackerMode("iss")}
-              className="w-full min-h-11 flex items-center justify-center gap-2.5 py-3 px-4 rounded-lg bg-cyan-400/10 border border-cyan-400/20 text-sm font-mono text-cyan-400 hover:bg-cyan-400/20 transition-colors cursor-pointer"
-            >
-              <Map className="w-4.5 h-4.5 shrink-0" />
-              {isEn ? "Show on Map" : "Prikaži na Karti"}
-            </button>
           </div>
-
-          {/* 4. Deep Space Network */}
-          <div className="glass-card p-4 space-y-3 !hover:transform-none">
-            <div className="flex items-center gap-2">
-              <Radio className="w-4 h-4 text-purple-400" />
-              <h3 className="text-sm font-semibold text-text-primary">
-                {isEn ? "Deep Space Network" : "Mreža Dubokog Svemira"}
-              </h3>
-              <InfoToggle id="deepspace" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
-              <div className="ml-auto">
-                <QualityBadge quality="delayed" source="NASA DSN" />
-              </div>
+          <InfoPanel id="asteroids" expandedInfo={expandedInfo} isEn={isEn} />
+          <div className="grid grid-cols-3 gap-3 text-xs">
+            <div>
+              <span className="text-text-secondary">{isEn ? "Count" : "Broj"}</span>
+              <p className="font-mono font-bold text-text-primary text-lg">
+                {data.neo_count ?? 0}
+              </p>
             </div>
-            <InfoPanel id="deepspace" expandedInfo={expandedInfo} isEn={isEn} />
-            <div className="space-y-2">
-              {([{name:"Voyager 1",distance:"24.5B km",status:"active"},{name:"JWST",distance:"1.5M km",status:"active"},{name:"Parker Solar",distance:"21M km",status:"active"}]).map((link) => (
-                <div
-                  key={link.name}
-                  className="flex items-center justify-between text-xs"
-                >
-                  <span className="font-mono text-text-primary">
-                    {link.name}
-                  </span>
-                  <span className="text-text-secondary">{link.distance}</span>
-                  <span
-                    className={`w-2 h-2 rounded-full ${
-                      link.status === "active"
-                        ? "bg-green-400"
-                        : "bg-gray-500"
-                    }`}
-                  />
-                </div>
-              ))}
+            <div>
+              <span className="text-text-secondary">{isEn ? "Closest" : "Najbliži"}</span>
+              <p className="font-mono font-bold text-accent-cyan">
+                {data.neo_closest?.distance_ld ?? "—"} LD
+              </p>
+              <p className="text-text-secondary truncate">
+                {data.neo_closest?.name ?? "—"}
+              </p>
             </div>
-            <button
-              onClick={() => setTrackerMode("dsn")}
-              className="w-full min-h-11 flex items-center justify-center gap-2.5 py-3 px-4 rounded-lg bg-purple-400/10 border border-purple-400/20 text-sm font-mono text-purple-400 hover:bg-purple-400/20 transition-colors cursor-pointer"
-            >
-              <Map className="w-4.5 h-4.5 shrink-0" />
-              {isEn ? "Show on Map" : "Prikaži na Karti"}
-            </button>
+            <div>
+              <span className="text-text-secondary">{isEn ? "Hazardous" : "Opasni"}</span>
+              <p
+                className={`font-mono font-bold text-lg ${
+                  data.neo_hazardous ?? 0 > 0
+                    ? "text-red-400"
+                    : "text-green-400"
+                }`}
+              >
+                {data.neo_hazardous ?? 0}
+              </p>
+            </div>
           </div>
+          <button
+            onClick={() => setTrackerMode("asteroids")}
+            className="w-full min-h-11 flex items-center justify-center gap-2.5 py-3 px-4 rounded-lg bg-amber-400/10 border border-amber-400/20 text-sm font-mono text-accent-amber hover:bg-amber-400/20 transition-colors cursor-pointer"
+          >
+            <Map className="w-4.5 h-4.5 shrink-0" />
+            {isEn ? "Show on Map" : "Prikaži na Karti"}
+          </button>
+        </div>
 
-          {/* 5. Cosmic Events */}
-          <div className="glass-card p-4 space-y-3 !hover:transform-none">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-yellow-300" />
-              <h3 className="text-sm font-semibold text-text-primary">
-                {isEn ? "Cosmic Events" : "Kozmički Događaji"}
-              </h3>
-              <InfoToggle id="cosmic" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
-              <div className="ml-auto">
-                <QualityBadge quality="estimated" source="LIGO/GCN" />
-              </div>
+        {/* 3. ISS Live */}
+        <div className="glass-card p-4 space-y-3 !hover:transform-none">
+          <div className="flex items-center gap-2">
+            <Satellite className="w-4 h-4 text-accent-cyan" />
+            <h3 className="text-sm font-semibold text-text-primary">
+              {isEn ? "ISS Live" : "ISS Trenutno"}
+            </h3>
+            <InfoToggle id="iss" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
+            <div className="ml-auto">
+              <QualityBadge quality="live" source="wheretheiss.at" />
             </div>
-            <InfoPanel id="cosmic" expandedInfo={expandedInfo} isEn={isEn} />
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div>
-                <span className="text-text-secondary">{isEn ? "Gravitational Waves" : "Gravitacijski Valovi"}</span>
-                <p className="font-mono font-bold text-text-primary">
-                  {"N/A"}
-                </p>
-              </div>
-              <div>
-                <span className="text-text-secondary">
-                  {isEn ? "Fast Radio Bursts" : "Brzi Radio Bljeskovi"}
+          </div>
+          <InfoPanel id="iss" expandedInfo={expandedInfo} isEn={isEn} />
+          <div className="grid grid-cols-2 gap-3 text-xs">
+            <div>
+              <span className="text-text-secondary">{isEn ? "Altitude" : "Visina"}</span>
+              <p className="font-mono font-bold text-text-primary">
+                {data.iss?.altitude ?? 420} km
+              </p>
+            </div>
+            <div>
+              <span className="text-text-secondary">{isEn ? "Speed" : "Brzina"}</span>
+              <p className="font-mono font-bold text-text-primary">
+                {(data.iss?.speed ?? 0).toLocaleString()} km/h
+              </p>
+            </div>
+            <div>
+              <span className="text-text-secondary">{isEn ? "Position" : "Pozicija"}</span>
+              <p className="font-mono font-bold text-accent-cyan text-xs">
+                {(data.iss?.lat ?? 0).toFixed(1)}°, {(data.iss?.lon ?? 0).toFixed(1)}°
+              </p>
+            </div>
+            <div>
+              <span className="text-text-secondary">{isEn ? "Crew" : "Posada"}</span>
+              <p className="font-mono font-bold text-text-primary">
+                {data.crew_count ?? 0}
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setTrackerMode("iss")}
+            className="w-full min-h-11 flex items-center justify-center gap-2.5 py-3 px-4 rounded-lg bg-cyan-400/10 border border-cyan-400/20 text-sm font-mono text-cyan-400 hover:bg-cyan-400/20 transition-colors cursor-pointer"
+          >
+            <Map className="w-4.5 h-4.5 shrink-0" />
+            {isEn ? "Show on Map" : "Prikaži na Karti"}
+          </button>
+        </div>
+
+        {/* 4. Deep Space Network */}
+        <div className="glass-card p-4 space-y-3 !hover:transform-none">
+          <div className="flex items-center gap-2">
+            <Radio className="w-4 h-4 text-purple-400" />
+            <h3 className="text-sm font-semibold text-text-primary">
+              {isEn ? "Deep Space Network" : "Mreža Dubokog Svemira"}
+            </h3>
+            <InfoToggle id="deepspace" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
+            <div className="ml-auto">
+              <QualityBadge quality="delayed" source="NASA DSN" />
+            </div>
+          </div>
+          <InfoPanel id="deepspace" expandedInfo={expandedInfo} isEn={isEn} />
+          <div className="space-y-2">
+            {([{name:"Voyager 1",distance:"24.5B km",status:"active"},{name:"JWST",distance:"1.5M km",status:"active"},{name:"Parker Solar",distance:"21M km",status:"active"}]).map((link) => (
+              <div
+                key={link.name}
+                className="flex items-center justify-between text-xs"
+              >
+                <span className="font-mono text-text-primary">
+                  {link.name}
                 </span>
-                <p className="font-mono font-bold text-accent-cyan">
-                  {2} {isEn ? "detected" : "detektirano"}
-                </p>
+                <span className="text-text-secondary">{link.distance}</span>
+                <span
+                  className={`w-2 h-2 rounded-full ${
+                    link.status === "active"
+                      ? "bg-green-400"
+                      : "bg-gray-500"
+                  }`}
+                />
               </div>
+            ))}
+          </div>
+          <button
+            onClick={() => setTrackerMode("dsn")}
+            className="w-full min-h-11 flex items-center justify-center gap-2.5 py-3 px-4 rounded-lg bg-purple-400/10 border border-purple-400/20 text-sm font-mono text-purple-400 hover:bg-purple-400/20 transition-colors cursor-pointer"
+          >
+            <Map className="w-4.5 h-4.5 shrink-0" />
+            {isEn ? "Show on Map" : "Prikaži na Karti"}
+          </button>
+        </div>
+
+        {/* 5. Cosmic Events */}
+        <div className="glass-card p-4 space-y-3 !hover:transform-none">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-yellow-300" />
+            <h3 className="text-sm font-semibold text-text-primary">
+              {isEn ? "Cosmic Events" : "Kozmički Događaji"}
+            </h3>
+            <InfoToggle id="cosmic" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
+            <div className="ml-auto">
+              <QualityBadge quality="estimated" source="LIGO/GCN" />
             </div>
           </div>
-
-          {/* 6. Astronomy Picture of the Day */}
-          <div className="glass-card p-4 space-y-3 !hover:transform-none">
-            <div className="flex items-center gap-2">
-              <Camera className="w-4 h-4 text-pink-400" />
-              <h3 className="text-sm font-semibold text-text-primary">
-                {isEn ? "Astronomy Picture of the Day" : "Astronomska Slika Dana"}
-              </h3>
-              <InfoToggle id="apod" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
-              <div className="ml-auto">
-                <StatusBadge label={isEn ? "Daily" : "Dnevno"} color="#A78BFA" />
-              </div>
-            </div>
-            <InfoPanel id="apod" expandedInfo={expandedInfo} isEn={isEn} />
-            {data.apod?.media_type === "image" && data.apod?.url && (
-              <a href={data.apod.url} target="_blank" rel="noopener noreferrer" className="block cursor-pointer hover:opacity-90 transition-opacity">
-                <img src={data.apod.url} alt={data.apod.title} className="w-full h-auto rounded-lg max-h-48 object-cover" />
-              </a>
-            )}
-            <div className="text-xs">
-              <p className="font-semibold text-text-primary mb-1">
-                {data.apod?.title ?? "—"}
+          <InfoPanel id="cosmic" expandedInfo={expandedInfo} isEn={isEn} />
+          <div className="grid grid-cols-2 gap-3 text-xs">
+            <div>
+              <span className="text-text-secondary">{isEn ? "Gravitational Waves" : "Gravitacijski Valovi"}</span>
+              <p className="font-mono font-bold text-text-primary">
+                {"N/A"}
               </p>
-              <p className="text-text-secondary line-clamp-3">
-                {data.apod?.explanation ?? "—"}
+            </div>
+            <div>
+              <span className="text-text-secondary">
+                {isEn ? "Fast Radio Bursts" : "Brzi Radio Bljeskovi"}
+              </span>
+              <p className="font-mono font-bold text-accent-cyan">
+                {2} {isEn ? "detected" : "detektirano"}
               </p>
             </div>
           </div>
+        </div>
 
-          {/* 7. Light & Moon */}
-          <div className="glass-card p-4 space-y-3 !hover:transform-none">
-            <div className="flex items-center gap-2">
-              <Moon className="w-4 h-4 text-yellow-200" />
-              <h3 className="text-sm font-semibold text-text-primary">
-                {isEn ? "Light & Moon" : "Svjetlost i Mjesec"}
-              </h3>
-              <InfoToggle id="light" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
-              <div className="ml-auto">
-                <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
-              </div>
+        {/* 6. Astronomy Picture of the Day */}
+        <div className="glass-card p-4 space-y-3 !hover:transform-none">
+          <div className="flex items-center gap-2">
+            <Camera className="w-4 h-4 text-pink-400" />
+            <h3 className="text-sm font-semibold text-text-primary">
+              {isEn ? "Astronomy Picture of the Day" : "Astronomska Slika Dana"}
+            </h3>
+            <InfoToggle id="apod" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
+            <div className="ml-auto">
+              <StatusBadge label={isEn ? "Daily" : "Dnevno"} color="#A78BFA" />
             </div>
-            <InfoPanel id="light" expandedInfo={expandedInfo} isEn={isEn} />
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div>
-                <span className="text-text-secondary">{isEn ? "Sunrise" : "Izlazak Sunca"}</span>
-                <p className="font-mono font-bold text-accent-amber">
-                  {sunTimes.sunrise}
-                </p>
-              </div>
-              <div>
-                <span className="text-text-secondary">{isEn ? "Sunset" : "Zalazak Sunca"}</span>
-                <p className="font-mono font-bold text-orange-400">
-                  {sunTimes.sunset}
-                </p>
-              </div>
-              <div>
-                <span className="text-text-secondary">{isEn ? "Moon Phase" : "Faza Mjeseca"}</span>
-                <p className="font-mono font-bold text-text-primary">
-                  {moonPhase.emoji} {moonPhase.name}
-                </p>
-              </div>
-              <div>
-                <span className="text-text-secondary">{isEn ? "Illumination" : "Osvijetljenost"}</span>
-                <p className="font-mono font-bold text-yellow-200">
-                  {moonPhase.emoji} {moonPhase.illumination}%
-                </p>
-              </div>
-            </div>
-            <p className="text-xs text-text-secondary font-mono">
-              📍 Zagreb, HR — {sunTimes.dayLengthH > 0
-                ? `${Math.floor(sunTimes.dayLengthH)}h ${Math.round((sunTimes.dayLengthH % 1) * 60)}min ${isEn ? "of daylight" : "dnevnog svjetla"}`
-                : isEn ? "polar conditions" : "polarne prilike"}
+          </div>
+          <InfoPanel id="apod" expandedInfo={expandedInfo} isEn={isEn} />
+          {data.apod?.media_type === "image" && data.apod?.url && (
+            <a href={data.apod.url} target="_blank" rel="noopener noreferrer" className="block cursor-pointer hover:opacity-90 transition-opacity">
+              <img src={data.apod.url} alt={data.apod.title} className="w-full h-auto rounded-lg max-h-48 object-cover" />
+            </a>
+          )}
+          <div className="text-xs">
+            <p className="font-semibold text-text-primary mb-1">
+              {data.apod?.title ?? "—"}
+            </p>
+            <p className="text-text-secondary line-clamp-3">
+              {data.apod?.explanation ?? "—"}
             </p>
           </div>
+        </div>
 
-          {/* 7. Game Radar */}
-          <div className="glass-card p-4 space-y-3 !hover:transform-none">
-            <GameWatchlist />
+        {/* 7. Light & Moon */}
+        <div className="glass-card p-4 space-y-3 !hover:transform-none">
+          <div className="flex items-center gap-2">
+            <Moon className="w-4 h-4 text-yellow-200" />
+            <h3 className="text-sm font-semibold text-text-primary">
+              {isEn ? "Light & Moon" : "Svjetlost i Mjesec"}
+            </h3>
+            <InfoToggle id="light" expandedInfo={expandedInfo} setExpandedInfo={setExpandedInfo} />
+            <div className="ml-auto">
+              <StatusBadge label={isEn ? "Live" : "Uživo"} color="#34D399" />
+            </div>
           </div>
+          <InfoPanel id="light" expandedInfo={expandedInfo} isEn={isEn} />
+          <div className="grid grid-cols-2 gap-3 text-xs">
+            <div>
+              <span className="text-text-secondary">{isEn ? "Sunrise" : "Izlazak Sunca"}</span>
+              <p className="font-mono font-bold text-accent-amber">
+                {sunTimes.sunrise}
+              </p>
+            </div>
+            <div>
+              <span className="text-text-secondary">{isEn ? "Sunset" : "Zalazak Sunca"}</span>
+              <p className="font-mono font-bold text-orange-400">
+                {sunTimes.sunset}
+              </p>
+            </div>
+            <div>
+              <span className="text-text-secondary">{isEn ? "Moon Phase" : "Faza Mjeseca"}</span>
+              <p className="font-mono font-bold text-text-primary">
+                {moonPhase.emoji} {moonPhase.name}
+              </p>
+            </div>
+            <div>
+              <span className="text-text-secondary">{isEn ? "Illumination" : "Osvijetljenost"}</span>
+              <p className="font-mono font-bold text-yellow-200">
+                {moonPhase.emoji} {moonPhase.illumination}%
+              </p>
+            </div>
+          </div>
+          <p className="text-xs text-text-secondary font-mono">
+            📍 Zagreb, HR — {sunTimes.dayLengthH > 0
+              ? `${Math.floor(sunTimes.dayLengthH)}h ${Math.round((sunTimes.dayLengthH % 1) * 60)}min ${isEn ? "of daylight" : "dnevnog svjetla"}`
+              : isEn ? "polar conditions" : "polarne prilike"}
+          </p>
+        </div>
+
+        {/* 8. Game Radar */}
+        <div className="glass-card p-4 space-y-3 !hover:transform-none">
+          <GameWatchlist />
+        </div>
       </>
     );
   }
+}
+
+// ── Landscape metric row ──────────────────────────────────────
+function LandscapeMetric({
+  icon,
+  label,
+  value,
+  sub,
+  quality,
+  warn = false,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  sub?: string;
+  quality: DataQuality;
+  warn?: boolean;
+}) {
+  return (
+    <div className="flex items-start gap-1.5 px-1.5 py-1.5 rounded border border-white/8 bg-white/4">
+      <div className="shrink-0 mt-0.5">{icon}</div>
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-1">
+          <span className="text-[8px] font-mono uppercase tracking-wider text-text-secondary/50">{label}</span>
+          <span className={`w-1 h-1 rounded-full shrink-0 ${
+            quality === "live" ? "bg-green-400 animate-pulse" :
+            quality === "delayed" ? "bg-yellow-400" : "bg-white/20"
+          }`} />
+        </div>
+        <p className={`font-mono font-bold text-[10px] leading-tight ${warn ? "text-red-400" : "text-text-primary"}`}>
+          {value}
+        </p>
+        {sub && (
+          <p className="text-[8px] font-mono text-text-secondary/40 truncate leading-tight">{sub}</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Portrait metric card ──────────────────────────────────────
+function PortraitMetricCard({
+  icon,
+  title,
+  quality,
+  children,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  quality: DataQuality;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="p-3 rounded-lg border border-white/10 bg-white/4 space-y-1.5">
+      <div className="flex items-center gap-1.5">
+        {icon}
+        <span className="text-[10px] font-semibold text-text-secondary uppercase tracking-wider leading-none">
+          {title}
+        </span>
+        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ml-auto ${
+          quality === "live" ? "bg-green-400 animate-pulse" :
+          quality === "delayed" ? "bg-yellow-400" : "bg-white/20"
+        }`} />
+      </div>
+      {children}
+    </div>
+  );
 }

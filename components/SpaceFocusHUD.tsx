@@ -556,7 +556,7 @@ export default function SpaceFocusHUD({ obj, dashData, onClose }: SpaceFocusHUDP
 
       {/* Corner HUD panels — hidden on mobile portrait, scaled on landscape */}
       {!isPortrait && (
-        <div style={isMobile ? { transform: "scale(0.72)", transformOrigin: "top left" } : undefined}>
+        <div style={isMobile ? { transform: "scale(0.58)", transformOrigin: "top left", opacity: 0.78 } : undefined}>
           {/* TOP-LEFT — Primary data */}
           <Panel corner="tl" label={`${obj.type} — ${obj.name.slice(0, 16)}`} badge="PRIMARY" accent={accent} delay={0}>
             {built.hero.map((r, i) => <TelRow key={i} label={r.label} value={r.value} status={r.status} />)}

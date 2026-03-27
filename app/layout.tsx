@@ -30,6 +30,7 @@ import SpaceStage from "@/components/SpaceStage";
 import KonamiCode from "@/components/KonamiCode";
 import Ticker from "@/components/Ticker";
 import SpaceProSidebar from "@/components/SpaceProSidebar";
+import MainShell from "@/components/MainShell";
 import AgentPanel from "@/components/AgentPanel";
 import AmbientSound from "@/components/AmbientSound";
 import { getAllArticles } from "@/lib/content";
@@ -81,7 +82,7 @@ export default function RootLayout({
         <div className="relative z-10 nebula-bg min-h-screen w-full max-w-full overflow-x-hidden flex flex-col">
           <Header />
           <div className="flex flex-1 w-full max-w-full overflow-x-hidden">
-            <main className="flex-1 w-full max-w-full overflow-x-hidden lg:mr-[320px] pb-10">{children}</main>
+            <MainShell>{children}</MainShell>
             <SpaceProSidebar />
           </div>
           <Footer />

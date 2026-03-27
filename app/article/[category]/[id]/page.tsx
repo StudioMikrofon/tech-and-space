@@ -22,6 +22,7 @@ import RelatedArticles from "@/components/RelatedArticles";
 import ArticleDeleteButton from "@/components/ArticleDeleteButton";
 import GlitchEffect from "@/components/GlitchEffect";
 import GlobeWithQuiz from "@/components/GlobeWithQuiz";
+import LikeButton from "@/components/LikeButton";
 import type { Metadata } from "next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://techand.space";
@@ -344,6 +345,14 @@ export default async function ArticlePage({ params }: PageProps) {
                     </span>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Like button */}
+            {article.dbId && (
+              <div className="mt-6 flex items-center gap-3">
+                <LikeButton dbId={article.dbId} initialLikes={article.likes ?? 0} />
+                <span className="text-xs text-text-secondary/40 font-mono">// liked by readers</span>
               </div>
             )}
 

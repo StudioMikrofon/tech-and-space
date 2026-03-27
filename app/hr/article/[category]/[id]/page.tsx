@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { ArrowLeft, ExternalLink, Clock, Tag, MapPin } from "lucide-react";
 import Link from "next/link";
-import { getAllArticlesHr, getArticleBySlugHr, getRelatedArticles } from "@/lib/content";
-import { CATEGORY_LABELS, CATEGORY_COLORS } from "@/lib/types";
+import { getAllArticlesHr, getArticleBySlugHr, getRelatedArticlesHr } from "@/lib/content";
+import { CATEGORY_LABELS_HR, CATEGORY_COLORS } from "@/lib/types";
 import { formatDistanceToNow } from "@/lib/utils";
 import GlobeWithQuiz from "@/components/GlobeWithQuiz";
 import ArticleGlobeBackground from "@/components/ArticleGlobeBackground";
@@ -73,7 +73,7 @@ export default async function ArticlePageHr({ params }: PageProps) {
   const article = getArticleBySlugHr(category, id);
   if (!article) notFound();
 
-  const related = getRelatedArticles(article.id, article.category, article.tags);
+  const related = getRelatedArticlesHr(article.id, article.category, article.tags);
 
   const canonicalUrl = `${SITE_URL}/article/${category}/${id}`;
   const ogImage = article.image?.url?.startsWith("http")
@@ -143,7 +143,7 @@ export default async function ArticlePageHr({ params }: PageProps) {
           <div>
             <div className="flex items-center gap-2 flex-wrap mb-4">
               <span className={`category-badge category-badge-${article.category}`}>
-                {CATEGORY_LABELS[article.category]}
+                {CATEGORY_LABELS_HR[article.category]}
               </span>
               {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && (
                 <>
@@ -285,7 +285,7 @@ export default async function ArticlePageHr({ params }: PageProps) {
 
           <aside className="space-y-6">
             {article.geo && (
-              <GlobeWithQuiz geo={article.geo} categoryColor={CATEGORY_COLORS[article.category]} />
+              <GlobeWithQuiz geo={article.geo} categoryColor={CATEGORY_COLORS[article.category]} lang="hr" />
             )}
             {article.source.url && article.source.url.startsWith("http") && (
               <div className="glass-card p-4 !hover:transform-none">

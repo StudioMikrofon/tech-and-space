@@ -17,7 +17,6 @@ export default function Header() {
   const [soundOn, setSoundOn] = useState(true);
   const [spaceProOpen, setSpaceProOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
-
   const lastScrollY = useRef(0);
   const rafRef = useRef<number | null>(null);
 
@@ -131,13 +130,14 @@ export default function Header() {
                 {CATEGORY_LABELS[cat]}
               </Link>
             ))}
+            <div className="mx-2 h-5 w-px bg-white/10" />
             <button
               onClick={() => {
                 playSound("click");
                 setSpaceProOpen(true);
               }}
               onMouseEnter={() => playSound("hover")}
-              className="px-3 py-1.5 text-sm text-accent-cyan hover:text-text-primary hover:bg-accent-cyan/10 rounded-lg transition-colors border border-accent-cyan/20 hover:border-accent-cyan/40 flex items-center gap-1.5 ml-2"
+              className="px-3 py-1.5 text-sm text-accent-cyan hover:text-text-primary hover:bg-accent-cyan/10 rounded-lg transition-colors border border-accent-cyan/20 hover:border-accent-cyan/40 flex items-center gap-1.5 ml-1"
             >
               <Telescope className="w-3.5 h-3.5" />
               Space Pro
@@ -183,7 +183,6 @@ export default function Header() {
               {soundOn ? <Volume2 className="w-4 h-4 sm:w-4 sm:h-4" /> : <VolumeX className="w-4 h-4 sm:w-4 sm:h-4" />}
             </button>
 
-            {/* Mobile Space Pro button */}
             <button
               className="md:hidden flex h-9 w-9 items-center justify-center text-accent-cyan hover:text-text-primary transition-colors"
               onClick={() => {

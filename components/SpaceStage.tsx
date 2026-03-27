@@ -236,14 +236,15 @@ export default function SpaceStage() {
     }
 
     // -----------------------------------------------------------------------
-    // Star layers — OPTIMIZED: reduced counts
+    // Star layers — 4 depth layers for parallax depth
     // -----------------------------------------------------------------------
     const mobileFactor = () => (isMobile() ? 0.5 : 1);
 
     const layerConfigs = [
-      { count: 140, minR: 0.3, maxR: 0.8, speed: 0.02 },
-      { count: 80, minR: 0.6, maxR: 1.2, speed: 0.05 },
-      { count: 35, minR: 1.0, maxR: 1.8, speed: 0.1 },
+      { count: 260, minR: 0.15, maxR: 0.55, speed: 0.008 },  // far background — dense, tiny
+      { count: 180, minR: 0.4,  maxR: 0.9,  speed: 0.025 },  // mid-far
+      { count: 100, minR: 0.7,  maxR: 1.4,  speed: 0.06 },   // mid
+      { count: 40,  minR: 1.2,  maxR: 2.2,  speed: 0.12 },   // foreground — large, fast drift
     ];
 
     function createStars(): Star[][] {
@@ -254,8 +255,10 @@ export default function SpaceStage() {
         for (let i = 0; i < count; i++) {
           let tint: [number, number, number] = [234, 240, 255];
           const r = Math.random();
-          if (r < 0.08) tint = [180, 210, 255];
-          else if (r < 0.15) tint = [190, 240, 255];
+          if (r < 0.06) tint = [160, 200, 255];        // blue giants
+          else if (r < 0.12) tint = [200, 235, 255];   // blue-white
+          else if (r < 0.17) tint = [255, 245, 210];   // warm yellow
+          else if (r < 0.20) tint = [255, 220, 180];   // orange star
 
           stars.push({
             x: Math.random() * width,
@@ -352,16 +355,21 @@ export default function SpaceStage() {
     // -----------------------------------------------------------------------
     function createNebulaPulses(): NebulaPulse[] {
       if (prefersReducedMotion) return [];
-      const count = 2 + Math.floor(Math.random() * 2);
+      const count = 4 + Math.floor(Math.random() * 3);
       const pulses: NebulaPulse[] = [];
       const colors: [number, number, number][] = [
-        [100, 80, 200], [60, 130, 200], [140, 60, 180],
+        [100, 80, 200],   // violet
+        [60, 130, 200],   // blue
+        [140, 60, 180],   // purple
+        [40, 160, 180],   // teal
+        [180, 60, 100],   // deep magenta
+        [80, 60, 220],    // indigo
       ];
       for (let i = 0; i < count; i++) {
         pulses.push({
           x: randRange(width * 0.1, width * 0.9),
           y: randRange(height * 0.1, height * 0.9),
-          radius: randRange(150, 350),
+          radius: randRange(200, 500),
           phase: Math.random() * Math.PI * 2,
           phaseSpeed: randRange(0.0003, 0.0008),
           color: colors[i % colors.length],
@@ -764,7 +772,7 @@ export default function SpaceStage() {
       if (!prefersReducedMotion) {
         for (const np of nebulaPulses) {
           np.phase += np.phaseSpeed * dt;
-          const alpha = 0.02 + 0.02 * Math.sin(np.phase);
+          const alpha = 0.028 + 0.028 * Math.sin(np.phase);
           const alphaRounded = Math.round(alpha * 1000) / 1000;
 
           // Only recreate gradient if alpha changed

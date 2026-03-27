@@ -81,6 +81,7 @@ function parseMdxFile(filePath: string): Article | null {
       geo: data.geo,
       featured: data.featured || false,
       approved: data.approved,
+      likes: data.likes ? Number(data.likes) : 0,
       content,
       part1En: data.part1_en,
       part2En: data.part2_en,
@@ -213,6 +214,32 @@ export function getRelatedArticles(
   limit = 4
 ): Article[] {
   const all = getAllArticles();
+  const tagSet = new Set(tags);
+
+  const scored = all
+    .filter((a) => a.id !== currentId)
+    .map((a) => {
+      const sameCategory = a.category === category ? 2 : 0;
+      const sharedTags = a.tags.filter((t) => tagSet.has(t)).length;
+      return { article: a, score: sameCategory + sharedTags };
+    })
+    .filter((x) => x.score > 0)
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        new Date(b.article.date).getTime() - new Date(a.article.date).getTime()
+    );
+
+  return scored.slice(0, limit).map((x) => x.article);
+}
+
+export function getRelatedArticlesHr(
+  currentId: string,
+  category: Category,
+  tags: string[],
+  limit = 4
+): Article[] {
+  const all = getAllArticlesHr();
   const tagSet = new Set(tags);
 
   const scored = all

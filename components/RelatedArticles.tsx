@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Clock } from "lucide-react";
 import type { Article } from "@/lib/types";
-import { CATEGORY_LABELS } from "@/lib/types";
+import { CATEGORY_LABELS, CATEGORY_LABELS_HR } from "@/lib/types";
 
 interface RelatedArticlesProps {
   articles: Article[];
@@ -13,6 +13,7 @@ export default function RelatedArticles({ articles, basePath = "", lang = "en" }
   const isHr = lang === "hr";
   const heading = isHr ? "// Vezane vijesti" : "// Related";
   const locale = isHr ? "hr-HR" : "en-US";
+  const categoryLabels = isHr ? CATEGORY_LABELS_HR : CATEGORY_LABELS;
 
   return (
     <div className="glass-card p-4 !hover:transform-none">
@@ -36,10 +37,10 @@ export default function RelatedArticles({ articles, basePath = "", lang = "en" }
               )}
               <div className="min-w-0">
                 <span className={`category-badge category-badge-${a.category} text-[9px] mb-1 inline-block`}>
-                  {CATEGORY_LABELS[a.category]}
+                  {categoryLabels[a.category]}
                 </span>
                 <p className="text-xs text-text-primary group-hover:text-accent-cyan transition-colors leading-tight line-clamp-2">
-                  {a.title}
+                  {isHr ? (a.title || a.titleEn) : (a.titleEn || a.title)}
                 </p>
                 <div className="flex items-center gap-1 mt-1 text-[10px] text-text-secondary/50">
                   <Clock className="w-2.5 h-2.5" />

@@ -1,9 +1,11 @@
 import { getAllArticlesHr } from "@/lib/content";
+import { CATEGORIES } from "@/lib/types";
 import HeroSection from "@/components/HeroSection";
-import ArticleGrid from "@/components/ArticleGrid";
 import SpaceBar from "@/components/SpaceBar";
 import SolarSystem from "@/components/SolarSystem";
 import GamingWidget from "@/components/GamingWidget";
+import CategorySwimlane from "@/components/CategorySwimlane";
+import WeatherPulseWidget from "@/components/WeatherPulseWidget";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +25,6 @@ export default function HomePageHr() {
     );
   }
 
-  const gridArticles = articles.filter((a) => a.id !== featured.id);
   const latestPerCategory = articles.reduce<typeof articles>((acc, a) => {
     if (!acc.find((x) => x.category === a.category)) acc.push(a);
     return acc;
@@ -42,6 +43,18 @@ export default function HomePageHr() {
       return acc;
     }, {});
 
+  const nonFeatured = articles.length > 1 ? articles.filter((a) => a.id !== featured.id) : articles;
+  const swimlaneData = CATEGORIES.map((cat) => ({
+    category: cat,
+    articles: nonFeatured.filter((a) => a.category === cat),
+  })).filter((entry) => entry.articles.length > 0);
+
+  swimlaneData.sort((a, b) => {
+    const latestA = new Date(a.articles[0]?.date ?? 0).getTime();
+    const latestB = new Date(b.articles[0]?.date ?? 0).getTime();
+    return latestB - latestA;
+  });
+
   return (
     <>
       <div className="fixed inset-0 pointer-events-none opacity-[0.15] z-0">
@@ -49,6 +62,7 @@ export default function HomePageHr() {
       </div>
       <HeroSection featured={featured} headlines={headlines} latestPerCategory={latestPerCategory} latestPerCategoryMultiple={latestPerCategoryMultiple} />
       <SpaceBar />
+      <WeatherPulseWidget lang="hr" />
       <section className="w-full max-w-7xl mx-auto px-0 sm:px-4 pb-6">
         <GamingWidget lang="hr" />
       </section>
@@ -56,7 +70,15 @@ export default function HomePageHr() {
         <h2 className="section-header font-heading text-2xl font-bold text-text-primary mb-6">
           Najnovije vijesti
         </h2>
-        <ArticleGrid articles={gridArticles} basePath="/hr" />
+        {swimlaneData.map(({ category, articles: catArticles }) => (
+          <CategorySwimlane
+            key={category}
+            category={category}
+            articles={catArticles}
+            basePath="/hr"
+            lang="hr"
+          />
+        ))}
       </section>
     </>
   );

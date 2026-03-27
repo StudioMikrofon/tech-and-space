@@ -5,7 +5,7 @@ import { Globe2, X } from "lucide-react";
 import GlobeQuiz from "./GlobeQuiz";
 import { playSound } from "@/lib/sounds";
 
-export default function ArticleQuizButton() {
+export default function ArticleQuizButton({ lang = "en" }: { lang?: "en" | "hr" }) {
   const [quizOpen, setQuizOpen] = useState(false);
 
   if (quizOpen) {
@@ -14,11 +14,11 @@ export default function ArticleQuizButton() {
         <button
           onClick={() => setQuizOpen(false)}
           className="absolute top-2 right-2 z-10 p-1 rounded text-text-secondary/60 hover:text-text-secondary transition-colors"
-          aria-label="Close quiz"
+          aria-label={lang === "hr" ? "Zatvori kviz" : "Close quiz"}
         >
           <X className="w-3.5 h-3.5" />
         </button>
-        <GlobeQuiz onClose={() => setQuizOpen(false)} />
+        <GlobeQuiz onClose={() => setQuizOpen(false)} lang={lang} />
       </div>
     );
   }
@@ -32,7 +32,7 @@ export default function ArticleQuizButton() {
       className="w-full mt-3 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan text-sm font-mono hover:bg-accent-cyan/20 transition-colors cursor-pointer"
     >
       <Globe2 className="w-4 h-4" />
-      Start Quiz
+      {lang === "hr" ? "Pokreni kviz" : "Start Quiz"}
     </button>
   );
 }

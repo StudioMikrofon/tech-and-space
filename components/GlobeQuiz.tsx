@@ -245,20 +245,86 @@ function questionText(loc: Location): string {
     case "lake":     return `Where is ${loc.name}?`;
     case "desert":   return `Where is the ${loc.name}?`;
     case "strait":   return `Where is the ${loc.name}?`;
-    default:         return `Where is this city located?`;
+    case "capital":  return `Which country does this capital belong to?`;
+    default:         return `Which country is this city in?`;
+  }
+}
+
+function questionTextHr(loc: Location): string {
+  switch (loc.type) {
+    case "river":    return `U kojoj se regiji nalazi rijeka ${loc.name}?`;
+    case "mountain": return `U kojoj se državi ili regiji nalazi ${loc.name}?`;
+    case "landmark": return `U kojoj se državi nalazi ${loc.name}?`;
+    case "lake":     return `U kojoj se regiji nalazi ${loc.name}?`;
+    case "desert":   return `U kojoj se regiji nalazi ${loc.name}?`;
+    case "strait":   return `Gdje se nalazi ${loc.name}?`;
+    case "capital":  return `Kojoj državi pripada ovaj glavni grad?`;
+    default:         return `U kojoj se državi nalazi ovaj grad?`;
   }
 }
 
 function answerLabel(loc: Location): string {
-  return `${loc.name}, ${loc.country}`;
+  return loc.country;
+}
+
+function haversineDistance(a: Location, b: Location): number {
+  const toRad = (value: number) => (value * Math.PI) / 180;
+  const dLat = toRad(b.lat - a.lat);
+  const dLon = toRad(b.lon - a.lon);
+  const lat1 = toRad(a.lat);
+  const lat2 = toRad(b.lat);
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+  return 6371 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+}
+
+function continentFor(loc: Location): string {
+  if (loc.lat < -55) return "antarctica";
+  if (loc.lon >= -170 && loc.lon < -25) return "americas";
+  if (loc.lon >= -25 && loc.lon <= 60 && loc.lat >= -35 && loc.lat <= 37) return "africa";
+  if (loc.lon >= -10 && loc.lon <= 60 && loc.lat > 37) return "europe";
+  if (loc.lon >= 60 && loc.lon <= 180 && loc.lat >= -10) return "asia";
+  if (loc.lon >= 110 && loc.lat < -10) return "oceania";
+  return "global";
+}
+
+function uniqueByAnswerLabel(locations: Location[]): Location[] {
+  const seen = new Set<string>();
+  return locations.filter((loc) => {
+    const label = answerLabel(loc);
+    if (seen.has(label)) return false;
+    seen.add(label);
+    return true;
+  });
+}
+
+function buildOptions(question: Location): string[] {
+  const sameType = ALL_LOCATIONS.filter((loc) => loc.name !== question.name && loc.type === question.type);
+  const sameContinent = sameType.filter((loc) => continentFor(loc) === continentFor(question));
+  const otherRegions = sameType.filter((loc) => continentFor(loc) !== continentFor(question));
+
+  const nearbyCandidates = uniqueByAnswerLabel(
+    sameContinent.sort((a, b) => haversineDistance(question, a) - haversineDistance(question, b))
+  );
+  const broaderCandidates = uniqueByAnswerLabel(
+    otherRegions.sort((a, b) => haversineDistance(question, a) - haversineDistance(question, b))
+  );
+
+  const wrong = uniqueByAnswerLabel([...nearbyCandidates, ...broaderCandidates])
+    .filter((loc) => answerLabel(loc) !== answerLabel(question))
+    .slice(0, 3);
+
+  return shuffle([question, ...wrong].map((loc) => answerLabel(loc)));
 }
 
 interface GlobeQuizProps {
   onFlyTo?: (lat: number, lon: number) => void;
   onClose: () => void;
+  lang?: "en" | "hr";
 }
 
-export default function GlobeQuiz({ onFlyTo, onClose }: GlobeQuizProps) {
+export default function GlobeQuiz({ onFlyTo, onClose, lang = "en" }: GlobeQuizProps) {
   const [round, setRound] = useState(0);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
@@ -281,13 +347,7 @@ export default function GlobeQuiz({ onFlyTo, onClose }: GlobeQuizProps) {
     setCurrentLoc(q);
     onFlyToRef.current?.(q.lat, q.lon);
 
-    // Generate 4 options from the same type pool when possible, otherwise mix
-    const sameType = ALL_LOCATIONS.filter(c => c.name !== q.name && c.type === q.type);
-    const diffType = ALL_LOCATIONS.filter(c => c.name !== q.name && c.type !== q.type);
-    const wrongPool = sameType.length >= 3 ? sameType : [...sameType, ...diffType];
-    const wrong = shuffle(wrongPool).slice(0, 3);
-    const opts = shuffle([q, ...wrong].map(c => answerLabel(c)));
-    setOptions(opts);
+    setOptions(buildOptions(q));
     setCorrectAnswer(answerLabel(q));
     setAnswered(null);
   }, []);
@@ -337,34 +397,36 @@ export default function GlobeQuiz({ onFlyTo, onClose }: GlobeQuizProps) {
   };
 
   const typeLabel: Record<LocType, string> = {
-    capital:  "🏛 Capital",
-    city:     "🏙 City",
-    river:    "🌊 River",
-    mountain: "⛰ Mountain",
-    landmark: "🏛 Landmark",
-    lake:     "🌊 Lake",
-    desert:   "🏜 Desert",
-    strait:   "🌊 Strait",
+    capital:  lang === "hr" ? "🏛 Glavni grad" : "🏛 Capital",
+    city:     lang === "hr" ? "🏙 Grad" : "🏙 City",
+    river:    lang === "hr" ? "🌊 Rijeka" : "🌊 River",
+    mountain: lang === "hr" ? "⛰ Planina" : "⛰ Mountain",
+    landmark: lang === "hr" ? "🏛 Znamenitost" : "🏛 Landmark",
+    lake:     lang === "hr" ? "🌊 Jezero" : "🌊 Lake",
+    desert:   lang === "hr" ? "🏜 Pustinja" : "🏜 Desert",
+    strait:   lang === "hr" ? "🌊 Tjesnac" : "🌊 Strait",
   };
 
   if (gameOver) {
     return (
       <div className="glass-card p-6 text-center space-y-4 max-w-sm mx-auto">
-        <h3 className="font-heading text-2xl font-bold text-accent-amber">Quiz Complete!</h3>
+        <h3 className="font-heading text-2xl font-bold text-accent-amber">
+          {lang === "hr" ? "Kviz završen!" : "Quiz Complete!"}
+        </h3>
         <p className="text-4xl font-bold font-mono text-text-primary">{score}</p>
-        <p className="text-sm text-text-secondary">points</p>
+        <p className="text-sm text-text-secondary">{lang === "hr" ? "bodova" : "points"}</p>
         <div className="flex gap-3 justify-center">
           <button
             onClick={restart}
             className="px-4 py-2 rounded-lg bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan font-mono text-sm hover:bg-accent-cyan/20 transition-colors cursor-pointer"
           >
-            Play Again
+            {lang === "hr" ? "Igraj opet" : "Play Again"}
           </button>
           <button
             onClick={onClose}
             className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-text-secondary font-mono text-sm hover:bg-white/10 transition-colors cursor-pointer"
           >
-            Close
+            {lang === "hr" ? "Zatvori" : "Close"}
           </button>
         </div>
       </div>
@@ -375,10 +437,16 @@ export default function GlobeQuiz({ onFlyTo, onClose }: GlobeQuizProps) {
     <div className="glass-card p-4 space-y-3 max-w-sm mx-auto !hover:transform-none">
       {/* HUD */}
       <div className="flex items-center justify-between text-xs font-mono">
-        <span className="text-text-secondary">Round {round + 1}/{TOTAL_ROUNDS}</span>
-        <span className="text-accent-amber font-bold">Score: {score}</span>
+        <span className="text-text-secondary">
+          {lang === "hr" ? `Runda ${round + 1}/${TOTAL_ROUNDS}` : `Round ${round + 1}/${TOTAL_ROUNDS}`}
+        </span>
+        <span className="text-accent-amber font-bold">
+          {lang === "hr" ? `Bodovi: ${score}` : `Score: ${score}`}
+        </span>
         {streak > 1 && (
-          <span className="text-red-400 font-bold">Streak x{streak}</span>
+          <span className="text-red-400 font-bold">
+            {lang === "hr" ? `Niz x${streak}` : `Streak x${streak}`}
+          </span>
         )}
       </div>
 
@@ -392,7 +460,9 @@ export default function GlobeQuiz({ onFlyTo, onClose }: GlobeQuizProps) {
       )}
 
       <p className="text-sm text-text-primary font-semibold text-center">
-        {currentLoc ? questionText(currentLoc) : "Where is this location?"}
+        {currentLoc
+          ? (lang === "hr" ? questionTextHr(currentLoc) : questionText(currentLoc))
+          : (lang === "hr" ? "Gdje se nalazi ova lokacija?" : "Where is this location?")}
       </p>
 
       {/* Options */}
@@ -424,7 +494,9 @@ export default function GlobeQuiz({ onFlyTo, onClose }: GlobeQuizProps) {
 
       {answered !== null && (
         <p className={`text-xs font-mono text-center ${answered ? "text-green-400" : "text-red-400"}`}>
-          {answered ? "Correct!" : `Wrong! It was ${correctAnswer}`}
+          {answered
+            ? (lang === "hr" ? "Točno!" : "Correct!")
+            : (lang === "hr" ? `Netočno! Točan odgovor je ${correctAnswer}` : `Wrong! It was ${correctAnswer}`)}
         </p>
       )}
     </div>
