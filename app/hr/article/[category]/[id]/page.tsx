@@ -5,7 +5,7 @@ import Link from "next/link";
 import { getAllArticlesHr, getArticleBySlugHr, getRelatedArticles } from "@/lib/content";
 import { CATEGORY_LABELS, CATEGORY_COLORS } from "@/lib/types";
 import { formatDistanceToNow } from "@/lib/utils";
-import GlobeWidget from "@/components/GlobeWidget";
+import GlobeWithQuiz from "@/components/GlobeWithQuiz";
 import ArticleGlobeBackground from "@/components/ArticleGlobeBackground";
 import SolarSystemBackground from "@/components/SolarSystemBackground";
 import Comments from "@/components/Comments";
@@ -180,15 +180,17 @@ export default async function ArticlePageHr({ params }: PageProps) {
                   <span>{article.geo.name}</span>
                 </div>
               )}
-              <a
-                href={article.source.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 hover:text-accent-cyan transition-colors"
-              >
-                <ExternalLink className="w-3 h-3" />
-                {article.source.name}
-              </a>
+              {article.source.url && article.source.url.startsWith("http") && (
+                <a
+                  href={article.source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:text-accent-cyan transition-colors"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  {article.source.name || (() => { try { return new URL(article.source.url).hostname.replace(/^www\./, ""); } catch { return "Source"; } })()}
+                </a>
+              )}
             </div>
 
             {article.image?.url && (
@@ -283,22 +285,24 @@ export default async function ArticlePageHr({ params }: PageProps) {
 
           <aside className="space-y-6">
             {article.geo && (
-              <GlobeWidget geo={article.geo} categoryColor={CATEGORY_COLORS[article.category]} />
+              <GlobeWithQuiz geo={article.geo} categoryColor={CATEGORY_COLORS[article.category]} />
             )}
-            <div className="glass-card p-4 !hover:transform-none">
-              <h3 className="text-sm font-semibold text-text-secondary mb-2 uppercase tracking-wider font-mono">
-                // Izvor
-              </h3>
-              <a
-                href={article.source.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-accent-cyan hover:underline"
-              >
-                <ExternalLink className="w-4 h-4" />
-                {article.source.name}
-              </a>
-            </div>
+            {article.source.url && article.source.url.startsWith("http") && (
+              <div className="glass-card p-4 !hover:transform-none">
+                <h3 className="text-sm font-semibold text-text-secondary mb-2 uppercase tracking-wider font-mono">
+                  // Izvor
+                </h3>
+                <a
+                  href={article.source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-accent-cyan hover:underline"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  {article.source.name || (() => { try { return new URL(article.source.url).hostname.replace(/^www\./, ""); } catch { return "Source"; } })()}
+                </a>
+              </div>
+            )}
 
             {related.length > 0 && <RelatedArticles articles={related} basePath="/hr" lang="hr" />}
           </aside>

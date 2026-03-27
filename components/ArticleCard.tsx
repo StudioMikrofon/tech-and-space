@@ -165,13 +165,8 @@ export default function ArticleCard({ article, onGeoClick, basePath = "" }: Arti
         <h3 className="font-heading font-bold text-text-primary text-base sm:text-lg leading-snug mb-1 line-clamp-2 group-hover:text-accent-cyan transition-colors duration-300">
           {article.title}
         </h3>
-        {article.leadSentenceEn && (
-          <p className="text-xs text-text-secondary/70 line-clamp-1 mb-1">
-            {article.leadSentenceEn}
-          </p>
-        )}
         <p className="text-sm sm:text-[0.9rem] text-text-secondary line-clamp-3 mb-3 flex-1 leading-relaxed">
-          {article.excerpt}
+          {article.leadSentenceEn || article.excerpt}
         </p>
 
         {/* Meta */}

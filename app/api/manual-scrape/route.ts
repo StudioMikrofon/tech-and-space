@@ -52,16 +52,21 @@ async def main():
 asyncio.run(main())
 `;
 
-  const { stdout, code } = await runPython(script, 90000);
+  const { stdout, stderr, code } = await runPython(script, 200000);
 
   if (code !== 0 || !stdout.trim()) {
-    return NextResponse.json({ error: "Scrape failed" }, { status: 500 });
+    // Try to extract a useful error from stderr
+    const errLine = (stderr || "").split("\n").filter(Boolean).slice(-3).join(" | ");
+    return NextResponse.json({ error: "Scrape failed", detail: errLine }, { status: 500 });
   }
 
   try {
-    const result = JSON.parse(stdout.trim().split("\n").pop() || "{}");
+    // Last non-empty JSON line (skip any logger output)
+    const lines = stdout.trim().split("\n").filter(Boolean);
+    const jsonLine = [...lines].reverse().find(l => l.trim().startsWith("{"));
+    const result = JSON.parse(jsonLine || "{}");
     return NextResponse.json(result);
   } catch {
-    return NextResponse.json({ error: "Parse error" }, { status: 500 });
+    return NextResponse.json({ error: "Parse error", raw: stdout.slice(-200) }, { status: 500 });
   }
 }

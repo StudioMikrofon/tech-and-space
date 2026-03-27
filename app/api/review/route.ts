@@ -89,8 +89,11 @@ export async function PATCH(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { id, title, title_en, part1, part1_en, part2, part2_en, subtitle, subtitle_en } = body;
+    const { id, title, title_en, part1, part1_en, part2, part2_en, subtitle, subtitle_en, category } = body;
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+
+    const ALLOWED_CATS = ["AI", "Gaming", "Technology", "Robotics", "Space", "Medicine", "Society", "Energy"];
+    const safeCategory = category && ALLOWED_CATS.includes(category) ? category : null;
 
     const db = getDb();
     db.prepare(`
@@ -102,13 +105,15 @@ export async function PATCH(req: NextRequest) {
         part2 = COALESCE(?, part2),
         part2_en = COALESCE(?, part2_en),
         subtitle = COALESCE(?, subtitle),
-        subtitle_en = COALESCE(?, subtitle_en)
+        subtitle_en = COALESCE(?, subtitle_en),
+        category = COALESCE(?, category)
       WHERE id = ?
     `).run(
       title ?? null, title_en ?? null,
       part1 ?? null, part1_en ?? null,
       part2 ?? null, part2_en ?? null,
       subtitle ?? null, subtitle_en ?? null,
+      safeCategory,
       id
     );
     db.close();

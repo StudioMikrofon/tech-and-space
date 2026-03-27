@@ -20,6 +20,7 @@ interface ArticleImage {
   attribution?: string;
   sourceUrl?: string;
   provider?: string;
+  description?: string;
 }
 
 interface Article {
@@ -113,6 +114,7 @@ export default function FotoReviewPage() {
   const [fullData, setFullData] = useState<Record<number, FullArticle>>({});
   const [fullLoading, setFullLoading] = useState<Record<number, boolean>>({});
   const [editData, setEditData] = useState<Record<number, EditFields>>({});
+  const [editCategory, setEditCategory] = useState<Record<number, string>>({});
   const [editLang, setEditLang] = useState<Record<number, "hr" | "en">>({});
   const [savingEdit, setSavingEdit] = useState<Record<number, boolean>>({});
   const [regenningEndings, setRegenningEndings] = useState<Record<number, boolean>>({});
@@ -141,12 +143,21 @@ export default function FotoReviewPage() {
   // Manual scrape
   const [manualUrl, setManualUrl] = useState("");
   const [manualScraping, setManualScraping] = useState(false);
-  const [manualResult, setManualResult] = useState<{ ok: boolean; msg: string } | null>(null);
+  const [manualResult, setManualResult] = useState<{ ok: boolean; msg: string; steps?: string[]; articleId?: number } | null>(null);
+  const [manualStep, setManualStep] = useState("");
 
   const handleManualScrape = async () => {
     if (!manualUrl.trim() || !manualUrl.startsWith("http")) return;
     setManualScraping(true);
     setManualResult(null);
+    setManualStep("Scrapam stranicu...");
+    // Cycle step labels while waiting
+    const stepLabels = ["Scrapam stranicu...", "Pretražujem Reddit...", "Generiram brief...", "Pišem članak..."];
+    let stepIdx = 0;
+    const stepTimer = setInterval(() => {
+      stepIdx = (stepIdx + 1) % stepLabels.length;
+      setManualStep(stepLabels[stepIdx]);
+    }, 4000);
     try {
       const r = await fetch("/api/manual-scrape", {
         method: "POST",
@@ -155,14 +166,30 @@ export default function FotoReviewPage() {
       });
       const data = await r.json();
       if (data.success) {
-        setManualResult({ ok: true, msg: `✓ Članak kreiran: ${data.title?.substring(0, 60)}` });
+        setManualResult({
+          ok: true,
+          msg: `✓ #${data.article_id} — ${(data.title || "").substring(0, 55)}`,
+          steps: data.steps,
+          articleId: data.article_id,
+        });
         setManualUrl("");
+        // Refresh article list and scroll to new article
+        const refreshed = await fetch("/api/foto-review").then(r => r.json()).catch(() => null);
+        if (refreshed?.articles) setArticles(refreshed.articles);
+        if (data.article_id) {
+          setTimeout(() => {
+            const el = articleRefs.current[data.article_id];
+            if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+          }, 600);
+        }
       } else {
-        setManualResult({ ok: false, msg: data.error || "Greška" });
+        setManualResult({ ok: false, msg: data.message || data.error || "Scrape failed", steps: data.steps });
       }
     } catch {
       setManualResult({ ok: false, msg: "Network error" });
     } finally {
+      clearInterval(stepTimer);
+      setManualStep("");
       setManualScraping(false);
     }
   };
@@ -286,6 +313,7 @@ export default function FotoReviewPage() {
     if (!e) return;
     setSavingEdit(p => ({ ...p, [articleId]: true }));
     try {
+      const catEdit = editCategory[articleId];
       const res = await fetch("/api/review", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -299,6 +327,7 @@ export default function FotoReviewPage() {
           subtitle_en: e.subtitle_en || null,
           part2: e.part2 || null,
           part2_en: e.part2_en || null,
+          category: catEdit || null,
         }),
       });
       const data = await res.json();
@@ -892,13 +921,29 @@ export default function FotoReviewPage() {
               disabled={manualScraping || !manualUrl.startsWith("http")}
               className="px-2 py-1 text-[10px] bg-orange-900/40 border border-orange-500/30 text-orange-300 rounded hover:bg-orange-800/50 disabled:opacity-30 disabled:cursor-not-allowed shrink-0 transition-colors"
             >
-              {manualScraping ? "..." : "SCRAPE"}
+              {manualScraping ? <span className="animate-pulse">{manualStep || "..."}</span> : "SCRAPE"}
             </button>
           </div>
           {manualResult && (
-            <span className={`text-[10px] shrink-0 ${manualResult.ok ? "text-green-400" : "text-red-400"}`}>
-              {manualResult.msg}
-            </span>
+            <div className="flex flex-col gap-0.5 shrink-0 max-w-xs">
+              <span className={`text-[10px] ${manualResult.ok ? "text-green-400" : "text-red-400"}`}>
+                {manualResult.msg}
+                {manualResult.ok && manualResult.articleId && (
+                  <button
+                    onClick={() => {
+                      const el = articleRefs.current[manualResult.articleId!];
+                      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+                    }}
+                    className="ml-2 text-cyan-400 underline hover:text-cyan-300"
+                  >↓ skoči</button>
+                )}
+              </span>
+              {manualResult.steps && manualResult.steps.length > 0 && (
+                <div className="text-[9px] text-white/30 leading-tight">
+                  {manualResult.steps.map((s, i) => <div key={i}>{s}</div>)}
+                </div>
+              )}
+            </div>
           )}
           <input
             type="text" placeholder="Pretraži..." value={search} onChange={(e) => setSearch(e.target.value)}
@@ -1098,7 +1143,7 @@ export default function FotoReviewPage() {
                 {article.github_uploaded ? <span className="text-cyan-500/70 text-[10px] shrink-0">✓ uploaded</span> : null}
                 {/* Expand toggle */}
                 <button
-                  onClick={() => handleExpand(article.id)}
+                  onClick={() => { handleExpand(article.id); setEditCategory(p => ({ ...p, [article.id]: p[article.id] ?? article.category })); }}
                   className={`text-[10px] px-2 py-0.5 rounded border transition-colors shrink-0 ${isExpanded ? "border-cyan-500/50 text-cyan-300 bg-cyan-900/20" : "border-white/15 text-white/35 hover:border-white/30 hover:text-white/60"}`}
                 >
                   {isExpanded ? "▲ SAŽMI" : "▼ PROŠIRI"}
@@ -1158,6 +1203,11 @@ export default function FotoReviewPage() {
                           >×</button>
                           <div className="absolute bottom-0 inset-x-0 bg-black/70">
                             <div className="px-1.5 pt-1 text-white/40 text-[9px] truncate">{img.label}</div>
+                            {img.description && (
+                              <div className="px-1.5 text-white/60 text-[8px] leading-tight line-clamp-2" title={img.description}>
+                                {img.description}
+                              </div>
+                            )}
                             {img.attribution && (
                               <div className="px-1.5 pb-1 flex items-center gap-1 min-w-0">
                                 {img.sourceUrl ? (
@@ -1173,6 +1223,7 @@ export default function FotoReviewPage() {
                                 )}
                               </div>
                             )}
+                            {!img.attribution && <div className="pb-1" />}
                           </div>
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors pointer-events-none" />
                           <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-2 opacity-0 group-hover:opacity-100 transition-opacity flex justify-center gap-1.5 z-10">
@@ -1359,6 +1410,23 @@ export default function FotoReviewPage() {
                             className="text-xs px-3 py-1.5 rounded border border-red-900/50 text-red-500/70 hover:bg-red-950/30 hover:text-red-400 transition-colors"
                           >ODBIJ</button>
                         </div>
+                      </div>
+
+                      {/* Category picker */}
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] text-white/30 tracking-widest uppercase shrink-0">Kategorija</span>
+                        <select
+                          value={editCategory[article.id] ?? article.category}
+                          onChange={(ev) => setEditCategory(p => ({ ...p, [article.id]: ev.target.value }))}
+                          className="text-xs px-2 py-1 rounded border border-white/15 bg-black/40 text-white/80 focus:outline-none focus:border-white/30"
+                        >
+                          {["AI","Gaming","Technology","Robotics","Space","Medicine","Society","Energy"].map(cat => (
+                            <option key={cat} value={cat}>{cat}</option>
+                          ))}
+                        </select>
+                        {(editCategory[article.id] && editCategory[article.id] !== article.category) && (
+                          <span className="text-[10px] text-yellow-400/70">● promijenjeno</span>
+                        )}
                       </div>
 
                       {/* Editable fields */}

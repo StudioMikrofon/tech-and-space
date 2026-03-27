@@ -55,6 +55,8 @@ export interface ArticleSource {
 export interface ArticleImage {
   url: string;
   alt: string;
+  credit?: string;
+  creditUrl?: string;
 }
 
 export interface Article {

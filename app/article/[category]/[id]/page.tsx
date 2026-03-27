@@ -12,7 +12,6 @@ import {
   CATEGORY_COLORS,
 } from "@/lib/types";
 import { formatDistanceToNow } from "@/lib/utils";
-import GlobeWidget from "@/components/GlobeWidget";
 import ArticleGlobeBackground from "@/components/ArticleGlobeBackground";
 import SolarSystemBackground from "@/components/SolarSystemBackground";
 import Comments from "@/components/Comments";
@@ -22,7 +21,7 @@ import LangSwitcher from "@/components/LangSwitcher";
 import RelatedArticles from "@/components/RelatedArticles";
 import ArticleDeleteButton from "@/components/ArticleDeleteButton";
 import GlitchEffect from "@/components/GlitchEffect";
-import ArticleQuizButton from "@/components/ArticleQuizButton";
+import GlobeWithQuiz from "@/components/GlobeWithQuiz";
 import type { Metadata } from "next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://techand.space";
@@ -254,9 +253,13 @@ export default async function ArticlePage({ params }: PageProps) {
               {/* Image source credit */}
               <p className="text-[0.68rem] font-mono tracking-wider text-text-secondary/40 mt-2 mb-8 px-0.5">
                 {article.image?.url
-                  ? article.image.url.startsWith("http")
-                    ? `Image: ${article.source?.name || "External source"}`
-                    : "Illustration: AI Generated"
+                  ? article.image.credit
+                    ? article.image.creditUrl
+                      ? <><span>📷 </span><a href={article.image.creditUrl} target="_blank" rel="noopener noreferrer" className="hover:text-text-secondary/70 underline underline-offset-2 transition-colors">{article.image.credit}</a></>
+                      : <>📷 {article.image.credit}</>
+                    : article.image.url.startsWith("http")
+                      ? `Image: ${article.source?.name || "External source"}`
+                      : "Illustration: AI Generated"
                   : null}
               </p>
             </div>
@@ -362,15 +365,12 @@ export default async function ArticlePage({ params }: PageProps) {
 
           {/* Sidebar */}
           <aside className="space-y-6 article-enter-delay-2">
-            {/* Globe widget */}
+            {/* Globe widget + quiz */}
             {article.geo && (
-              <div>
-                <GlobeWidget
-                  geo={article.geo}
-                  categoryColor={CATEGORY_COLORS[article.category]}
-                />
-                <ArticleQuizButton />
-              </div>
+              <GlobeWithQuiz
+                geo={article.geo}
+                categoryColor={CATEGORY_COLORS[article.category]}
+              />
             )}
 
             {/* Source info */}

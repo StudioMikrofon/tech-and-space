@@ -145,11 +145,12 @@ interface ArticleImage {
   attribution?: string;
   sourceUrl?: string;
   provider?: string;
+  description?: string;
 }
 
 // Build a filename→attribution map from images_json
-function buildAttributionMap(imagesJsonRaw: string | null): Map<string, { attribution: string; sourceUrl: string; provider: string }> {
-  const map = new Map<string, { attribution: string; sourceUrl: string; provider: string }>();
+function buildAttributionMap(imagesJsonRaw: string | null): Map<string, { attribution: string; sourceUrl: string; provider: string; description: string }> {
+  const map = new Map<string, { attribution: string; sourceUrl: string; provider: string; description: string }>();
   if (!imagesJsonRaw) return map;
   try {
     const imgs = JSON.parse(imagesJsonRaw);
@@ -162,8 +163,9 @@ function buildAttributionMap(imagesJsonRaw: string | null): Map<string, { attrib
       const attribution = (slot.attribution || slot.credit_line || slot.attribution_text || "") as string;
       const sourceUrl = (slot.source_page_url || "") as string;
       const provider = (slot.provider || "") as string;
+      const description = (slot.selected_reason || slot.alt_text || slot.caption || "") as string;
       if (filename) {
-        map.set(filename, { attribution, sourceUrl, provider });
+        map.set(filename, { attribution, sourceUrl, provider, description });
       }
     }
   } catch {}
@@ -189,6 +191,7 @@ function getArticleImages(
       attribution: attrInfo?.attribution || undefined,
       sourceUrl: attrInfo?.sourceUrl || undefined,
       provider: attrInfo?.provider || undefined,
+      description: attrInfo?.description || undefined,
     });
   };
 
