@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { useSpaceProData } from "@/lib/space-pro-data";
 import SpaceProDrawer from "./SpaceProDrawer";
 
@@ -13,6 +14,8 @@ function KpColor(kp: number): string {
 export default function SpaceBar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { data } = useSpaceProData(30000);
+  const pathname = usePathname();
+  const isEn = !pathname.startsWith("/hr");
 
   const kp = data.solar?.kp_index ?? 0;
   const flare = data.solar?.flare_class ?? "—";
@@ -39,9 +42,9 @@ export default function SpaceBar() {
           <div className="w-px h-4 bg-white/10" />
           <div
             className="flex items-center gap-1.5 whitespace-nowrap"
-            title="Solarna baklja — klasa trenutne erupcije na Suncu (A/B/C/M/X)."
+            title={isEn ? "Solar flare — current eruption class (A/B/C/M/X)." : "Solarna baklja — klasa trenutne erupcije na Suncu (A/B/C/M/X)."}
           >
-            <span className="text-text-secondary">Baklja</span>
+            <span className="text-text-secondary">{isEn ? "Flare" : "Baklja"}</span>
             <span className="font-bold text-accent-amber">{flare}</span>
           </div>
           <div className="w-px h-4 bg-white/10" />
@@ -63,9 +66,9 @@ export default function SpaceBar() {
           <div className="w-px h-4 bg-white/10" />
           <div
             className="flex items-center gap-1.5 whitespace-nowrap"
-            title="Broj ljudi trenutno u svemiru."
+            title={isEn ? "People currently in space." : "Broj ljudi trenutno u svemiru."}
           >
-            <span className="text-text-secondary">Ljudi</span>
+            <span className="text-text-secondary">{isEn ? "Crew" : "Posada"}</span>
             <span className="font-bold text-yellow-200">👨‍🚀 {crew}</span>
           </div>
         </div>

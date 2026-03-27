@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ArrowRight, Clock, Satellite } from "lucide-react";
 import { playSound } from "@/lib/sounds";
 import Globe from "./Globe";
-import CountdownToAGI from "./CountdownToAGI";
 import type { GlobeHandle } from "./GlobeWrapper";
 import type { Article } from "@/lib/types";
 import { CATEGORY_LABELS, CATEGORY_COLORS } from "@/lib/types";
@@ -344,13 +343,8 @@ export default function HeroSection({
           </div>
         </div>
 
-        {/* AGI widget — floats at top of globe zone, transparent over space */}
-        <div className="absolute top-0 left-0 right-0 z-20">
-          <CountdownToAGI />
-        </div>
-
-        {/* Live feed indicator — shifted down to clear AGI bar */}
-        <div className="absolute top-14 sm:top-16 left-0 right-0 z-20 flex items-center justify-center gap-2 text-xs font-mono text-accent-cyan/70 pointer-events-none">
+        {/* Live feed indicator */}
+        <div className="absolute top-4 sm:top-5 left-0 right-0 z-20 flex items-center justify-center gap-2 text-xs font-mono text-accent-cyan/70 pointer-events-none">
           <Satellite className="w-3 h-3 animate-pulse shrink-0" />
           <span className="terminal-text whitespace-nowrap">LIVE FEED // ORBITAL NETWORK</span>
           <span className="live-dot shrink-0" />

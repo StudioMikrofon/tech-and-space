@@ -11,6 +11,7 @@ import GamingWidget from "@/components/GamingWidget";
 import CategorySwimlane from "@/components/CategorySwimlane";
 import WeatherPulseWidget from "@/components/WeatherPulseWidget";
 import MostLiked from "@/components/MostLiked";
+import CountdownToAGI from "@/components/CountdownToAGI";
 
 const SolarSystem = dynamicImport(() => import("@/components/SolarSystem"), { loading: () => null });
 
@@ -78,6 +79,11 @@ export default function HomePage() {
 
       {/* Weather bar — compact, between gaming and news */}
       <WeatherPulseWidget />
+
+      {/* AGI Countdown — below weather, above most liked */}
+      <div className="w-full max-w-7xl mx-auto px-0 sm:px-4 mb-4">
+        <CountdownToAGI />
+      </div>
 
       {/* Most Liked — reader picks, before Latest News */}
       <MostLiked />

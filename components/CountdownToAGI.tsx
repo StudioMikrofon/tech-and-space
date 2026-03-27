@@ -269,18 +269,19 @@ export default function CountdownToAGI() {
           {!expanded ? (
             /* --- Compact floating teaser bar --- */
             <div className="py-1.5 px-3 sm:px-5">
-              {/* Compact title + numbers in one row on sm+ */}
-              <div className="flex items-center justify-center gap-1.5 sm:gap-2">
+              <div className="flex items-center justify-center gap-2 sm:gap-3">
+                {/* Label — visible when collapsed so users know what this is */}
                 <span
-                  className="font-heading font-black uppercase hidden sm:block flex-shrink-0"
+                  className="font-heading font-black uppercase flex-shrink-0"
                   style={{
-                    fontSize: "clamp(0.38rem, 1vw, 0.55rem)",
-                    letterSpacing: "clamp(0.15em, 0.8vw, 0.35em)",
-                    color: "rgba(0,207,255,0.38)",
+                    fontSize: "clamp(0.45rem, 1.2vw, 0.62rem)",
+                    letterSpacing: "clamp(0.12em, 0.6vw, 0.28em)",
+                    color: "rgba(0,207,255,0.5)",
                   }}
                 >
-                  AGI
+                  COUNTDOWN TO AGI
                 </span>
+                <span className="w-px h-3 bg-white/10 flex-shrink-0" />
               {/* Numbers */}
               <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                 {isDone ? (
@@ -315,9 +316,6 @@ export default function CountdownToAGI() {
           ) : (
             /* --- Compact expanded header --- */
             <div className="px-3 sm:px-5 py-2.5 sm:py-3 flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-6">
-              <span className="font-heading font-bold uppercase shrink-0 w-full sm:w-auto text-center sm:text-left" style={{ fontSize: "clamp(0.52rem, 1.8vw, 0.75rem)", letterSpacing: "0.18em", color: "rgba(214,242,255,0.6)" }}>
-                Countdown to AGI
-              </span>
               <div className="flex items-center gap-1.5 sm:gap-3 flex-1 justify-center min-w-0">
                 {isDone ? (
                   <span className="font-heading font-bold uppercase" style={{ fontSize: "clamp(0.8rem, 3vw, 1rem)", color: "#00cfff", letterSpacing: "0.16em" }}>

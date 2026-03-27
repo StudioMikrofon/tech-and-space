@@ -78,11 +78,34 @@ export default function CategorySwimlane({
       </div>
 
       {/* Horizontal scroll track */}
-      <div className="relative min-w-0">
-        {/* Left fade */}
-        <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-bg-primary to-transparent z-10 pointer-events-none" />
-        {/* Right fade */}
-        <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-bg-primary to-transparent z-10 pointer-events-none" />
+      <div className="relative min-w-0 group/swimlane">
+        {/* Left fade + big arrow */}
+        <div className="absolute left-0 top-0 bottom-2 w-16 bg-gradient-to-r from-bg-primary to-transparent z-10 pointer-events-none" />
+        <button
+          onClick={() => scroll("left")}
+          aria-label="Scroll left"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-16 flex items-center justify-center rounded-r-xl
+                     bg-white/5 border border-white/10 text-white/30
+                     opacity-0 group-hover/swimlane:opacity-100
+                     hover:bg-white/15 hover:text-white/80 hover:border-white/30
+                     transition-all duration-200"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+
+        {/* Right fade + big arrow */}
+        <div className="absolute right-0 top-0 bottom-2 w-16 bg-gradient-to-l from-bg-primary to-transparent z-10 pointer-events-none" />
+        <button
+          onClick={() => scroll("right")}
+          aria-label="Scroll right"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-16 flex items-center justify-center rounded-l-xl
+                     bg-white/5 border border-white/10 text-white/30
+                     opacity-0 group-hover/swimlane:opacity-100
+                     hover:bg-white/15 hover:text-white/80 hover:border-white/30
+                     transition-all duration-200"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
 
         <div
           ref={scrollRef}

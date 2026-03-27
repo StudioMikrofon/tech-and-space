@@ -89,11 +89,19 @@ export async function PATCH(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { id, title, title_en, part1, part1_en, part2, part2_en, subtitle, subtitle_en, category } = body;
+    const { id, title, title_en, part1, part1_en, part2, part2_en, subtitle, subtitle_en, category, lead_sentence, lead_sentence_en } = body;
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
 
-    const ALLOWED_CATS = ["AI", "Gaming", "Technology", "Robotics", "Space", "Medicine", "Society", "Energy"];
-    const safeCategory = category && ALLOWED_CATS.includes(category) ? category : null;
+    // Map from display names → DB constraint values (lowercase, 'tech' not 'technology')
+    const CAT_MAP: Record<string, string> = {
+      "AI": "ai", "Gaming": "gaming", "Technology": "tech", "tech": "tech",
+      "Robotics": "robotics", "Space": "space", "Medicine": "medicine",
+      "Society": "society", "Energy": "energy",
+      // also accept lowercase inputs
+      "ai": "ai", "gaming": "gaming", "robotics": "robotics",
+      "space": "space", "medicine": "medicine", "society": "society", "energy": "energy",
+    };
+    const safeCategory = category && CAT_MAP[category] ? CAT_MAP[category] : null;
 
     const db = getDb();
     db.prepare(`
@@ -106,7 +114,9 @@ export async function PATCH(req: NextRequest) {
         part2_en = COALESCE(?, part2_en),
         subtitle = COALESCE(?, subtitle),
         subtitle_en = COALESCE(?, subtitle_en),
-        category = COALESCE(?, category)
+        category = COALESCE(?, category),
+        lead_sentence = COALESCE(?, lead_sentence),
+        lead_sentence_en = COALESCE(?, lead_sentence_en)
       WHERE id = ?
     `).run(
       title ?? null, title_en ?? null,
@@ -114,6 +124,7 @@ export async function PATCH(req: NextRequest) {
       part2 ?? null, part2_en ?? null,
       subtitle ?? null, subtitle_en ?? null,
       safeCategory,
+      lead_sentence ?? null, lead_sentence_en ?? null,
       id
     );
     db.close();

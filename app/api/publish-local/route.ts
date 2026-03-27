@@ -56,7 +56,8 @@ def load_article(db):
              selected_ending_id, final_body_hr, final_body_en,
              meta_tags_json, key_points_hr, key_points_en,
              summary_block_hr, summary_block_en,
-             seo_title_en, seo_description_en, seo_keywords_en
+             seo_title_en, seo_description_en, seo_keywords_en,
+             lead_sentence, lead_sentence_en
       FROM articles WHERE id=?
     """, (${articleId},)).fetchone()
     conn.close()
@@ -487,7 +488,18 @@ print(json.dumps({
     const data = pyData;
     if (!data.ok) return NextResponse.json(data, { status: 400 });
     bumpContentVersion();
-    return NextResponse.json({ ...data, rebuilding: false, live: true });
+
+    // Rebuild + restart in background so new public/ images are served
+    // (Next.js production server needs restart when new directories are added to public/)
+    const WORKSPACE = "/opt/openclaw/workspace/tech-pulse-css";
+    const rebuild = spawn(
+      "bash",
+      ["-c", `/opt/openclaw/futurepulse/venv/bin/python3 /opt/openclaw/futurepulse/sync_leads_to_mdx.py >> /tmp/publish-rebuild.log 2>&1; cd ${WORKSPACE} && npm run build >> /tmp/publish-rebuild.log 2>&1 && systemctl restart tech-pulse-test`],
+      { detached: true, stdio: "ignore" }
+    );
+    rebuild.unref();
+
+    return NextResponse.json({ ...data, rebuilding: true, live: true });
   } catch {
     return NextResponse.json({ error: "Parse error", raw: result.stdout }, { status: 500 });
   }

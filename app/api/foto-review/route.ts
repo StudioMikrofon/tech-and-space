@@ -819,6 +819,76 @@ asyncio.run(run())
       return NextResponse.json({ ok: true, message: "Pisanje HR verzije pokrenuto (~45s)" });
     }
 
+    // ── regen_lead ───────────────────────────────────────────────────────────────
+    if (action === "regen_lead") {
+      const { spawn } = await import("child_process");
+      const PYTHON = "/opt/openclaw/futurepulse/venv/bin/python3";
+      const FP_DIR = "/opt/openclaw/futurepulse";
+      const script = `
+import sys, asyncio, sqlite3
+sys.path.insert(0, '.')
+import logging
+logging.basicConfig(filename='logs/foto_review.log', level=logging.INFO)
+
+async def run():
+    conn = sqlite3.connect('db/futurepulse.db', timeout=10)
+    conn.row_factory = sqlite3.Row
+    row = conn.execute('SELECT * FROM articles WHERE id=?', (${articleId},)).fetchone()
+    conn.close()
+    if not row:
+        print('Article not found')
+        return
+    from core.api_pool import get_api_pool
+    pool = get_api_pool()
+    title_en = row['title_en'] or row['title'] or ''
+    part1_en = row['part1_en'] or row['part1'] or ''
+    part1_hr = row['part1'] or ''
+    category = row['category'] or 'tech'
+    prompt_en = f"""You are a lead sentence writer. Write ONE precise English sentence (max 130 chars) for this article.
+It must add a specific fact, number, or name NOT in the headline. Start with the subject or a fact — NEVER start with When/While/After/As/Following.
+Headline: {title_en}
+First paragraph: {part1_en[:400]}
+Return ONLY the sentence, nothing else."""
+    prompt_hr = f"""Napiši JEDNU preciznu rečenicu na hrvatskom (max 130 znakova) za ovaj članak.
+Mora dodati specifičan podatak, broj ili ime koji NIJE u naslovu. Počni subjektom ili činjenicom — NIKAD ne počinji s Kad/Kada/Dok/Nakon/Prema.
+Naslov: {row['title'] or title_en}
+Uvod: {part1_hr[:400]}
+Vrati SAMO rečenicu, ništa drugo."""
+    import asyncio as aio
+    lead_en = ''
+    lead_hr = ''
+    for model in ['mistral-large', 'nv-llama', 'nv-mistral']:
+        try:
+            result = await pool.chat(model=model, messages=[{'role':'user','content':prompt_en}], max_tokens=100)
+            lead_en = (result.get('content') or '').strip().strip('"').strip("'")
+            if lead_en: break
+        except Exception as e:
+            logging.warning(f'EN lead regen model {model} failed: {e}')
+    for model in ['mistral-large', 'nv-llama', 'nv-mistral']:
+        try:
+            result = await pool.chat(model=model, messages=[{'role':'user','content':prompt_hr}], max_tokens=100)
+            lead_hr = (result.get('content') or '').strip().strip('"').strip("'")
+            if lead_hr: break
+        except Exception as e:
+            logging.warning(f'HR lead regen model {model} failed: {e}')
+    conn2 = sqlite3.connect('db/futurepulse.db', timeout=10)
+    if lead_en:
+        conn2.execute('UPDATE articles SET lead_sentence_en=? WHERE id=?', (lead_en, ${articleId}))
+    if lead_hr:
+        conn2.execute('UPDATE articles SET lead_sentence=? WHERE id=?', (lead_hr, ${articleId}))
+    conn2.commit()
+    conn2.close()
+    print(f'lead_hr={lead_hr[:60]!r}')
+    print(f'lead_en={lead_en[:60]!r}')
+
+asyncio.run(run())
+`;
+      db.close();
+      const proc = spawn(PYTHON, ["-c", script], { cwd: FP_DIR, detached: true, stdio: "ignore" });
+      proc.unref();
+      return NextResponse.json({ ok: true, message: "Regeneracija leada pokrenuta (~15s)" });
+    }
+
     // ── queue_add ────────────────────────────────────────────────────────────────
     if (action === "queue_add") {
       const { taskType, model: qModel } = body as { taskType: string; model?: string };

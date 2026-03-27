@@ -55,11 +55,15 @@ interface FullArticle {
   body_md: string | null;
   source_url: string | null;
   github_uploaded: number;
+  lead_sentence: string | null;
+  lead_sentence_en: string | null;
 }
 
 interface EditFields {
   title: string;
   title_en: string;
+  lead_sentence: string;
+  lead_sentence_en: string;
   part1: string;
   part1_en: string;
   subtitle: string;
@@ -118,6 +122,7 @@ export default function FotoReviewPage() {
   const [editLang, setEditLang] = useState<Record<number, "hr" | "en">>({});
   const [savingEdit, setSavingEdit] = useState<Record<number, boolean>>({});
   const [regenningEndings, setRegenningEndings] = useState<Record<number, boolean>>({});
+  const [regenningLead, setRegenningLead] = useState<Record<number, boolean>>({});
   const [writingEn, setWritingEn] = useState<Record<number, boolean>>({});
   const [showLog, setShowLog] = useState<Record<number, boolean>>({});
   const [logLines, setLogLines] = useState<string[]>([]);
@@ -256,6 +261,8 @@ export default function FotoReviewPage() {
     return {
       title: data.title || "",
       title_en: data.title_en || "",
+      lead_sentence: data.lead_sentence || "",
+      lead_sentence_en: data.lead_sentence_en || "",
       part1,
       part1_en: data.part1_en || "",
       subtitle: data.subtitle || "",
@@ -321,6 +328,8 @@ export default function FotoReviewPage() {
           id: articleId,
           title: e.title || null,
           title_en: e.title_en || null,
+          lead_sentence: e.lead_sentence || null,
+          lead_sentence_en: e.lead_sentence_en || null,
           part1: e.part1 || null,
           part1_en: e.part1_en || null,
           subtitle: e.subtitle || null,
@@ -469,6 +478,36 @@ export default function FotoReviewPage() {
       }, 5000);
     } else {
       setRegenningEndings(p => ({ ...p, [articleId]: false }));
+    }
+  };
+
+  // ── Regen lead ───────────────────────────────────────────────
+  const handleRegenLead = async (articleId: number) => {
+    setRegenningLead(p => ({ ...p, [articleId]: true }));
+    setActionResult(p => ({ ...p, [articleId]: { ok: false, msg: "Regeneriram lead... (~15s)" } }));
+    const res = await fetch("/api/foto-review", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "regen_lead", articleId }),
+    });
+    const data = await res.json();
+    setActionResult(p => ({ ...p, [articleId]: { ok: !!data.ok, msg: data.message || data.error || "?" } }));
+    if (data.ok) {
+      let attempts = 0;
+      const poll = setInterval(async () => {
+        attempts++;
+        await refreshFullData(articleId);
+        const latest = fullData[articleId];
+        if ((latest?.lead_sentence_en) || attempts >= 6) {
+          clearInterval(poll);
+          setRegenningLead(p => ({ ...p, [articleId]: false }));
+          if (latest?.lead_sentence_en) {
+            setActionResult(p => ({ ...p, [articleId]: { ok: true, msg: "✓ Lead regeneriran" } }));
+          }
+        }
+      }, 4000);
+    } else {
+      setRegenningLead(p => ({ ...p, [articleId]: false }));
     }
   };
 
@@ -1436,6 +1475,30 @@ export default function FotoReviewPage() {
                           onChange={(v) => setEditField(article.id, lang === "hr" ? "title" : "title_en", v)}
                           rows={2}
                         />
+                        {/* Lead sentence */}
+                        <div className="space-y-1">
+                          <div className="flex items-center justify-between">
+                            <label className="text-[9px] tracking-widest text-cyan-500/50 uppercase block">
+                              {lang === "hr" ? "LEAD REČENICA (HR)" : "LEAD SENTENCE (EN)"}
+                            </label>
+                            <button
+                              onClick={() => handleRegenLead(article.id)}
+                              disabled={regenningLead[article.id]}
+                              className={`text-[9px] px-2 py-0.5 rounded border transition-colors ${regenningLead[article.id] ? "border-cyan-500/40 text-cyan-300 animate-pulse" : "border-cyan-800/40 text-cyan-500/50 hover:bg-cyan-900/20 hover:text-cyan-400"}`}
+                            >{regenningLead[article.id] ? "⚡ Generiram..." : "⚡ REGEN LEAD"}</button>
+                          </div>
+                          <textarea
+                            value={lang === "hr" ? edits.lead_sentence : edits.lead_sentence_en}
+                            onChange={(e) => setEditField(article.id, lang === "hr" ? "lead_sentence" : "lead_sentence_en", e.target.value)}
+                            rows={2}
+                            placeholder={lang === "hr" ? "Kratka rečenica koja opisuje ključnu informaciju iz članka (max 130 znakova)..." : "Short sentence describing key info from article (max 130 chars)..."}
+                            className="w-full bg-cyan-950/20 border border-cyan-800/30 rounded px-3 py-2 text-xs text-cyan-100/80 leading-relaxed resize-y focus:outline-none focus:border-cyan-500/40 focus:bg-cyan-950/30 transition-colors placeholder-cyan-900/60"
+                            spellCheck={false}
+                          />
+                          {(lang === "hr" ? edits.lead_sentence : edits.lead_sentence_en).length > 130 && (
+                            <span className="text-[9px] text-red-400/70">⚠ Previše znakova ({(lang === "hr" ? edits.lead_sentence : edits.lead_sentence_en).length}/130)</span>
+                          )}
+                        </div>
                         <EditField label={lang === "hr" ? "UVOD (part1)" : "LEAD (part1_en)"}
                           value={lang === "hr" ? edits.part1 : edits.part1_en}
                           onChange={(v) => setEditField(article.id, lang === "hr" ? "part1" : "part1_en", v)}
