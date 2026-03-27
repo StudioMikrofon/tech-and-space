@@ -1,0 +1,37 @@
+---
+id: "2026-03-17-rfx-fuse-revives-breimans-lost-vision-for-machine-"
+title: "RFX-Fuse: Šumska inteligencija koju smo zaboravili izgraditi"
+lang: "hr"
+category: "space"
+date: "2026-03-17T12:00:00Z"
+excerpt: "Kada su leo breiman i adele cutler 1995."
+exec_summary: "RFX-Fuse revives Breiman and Cutler’s original Random Forest vision as a *true* unified ML engine—classification, similarity, outlier detection, and more in a single model. For scientific missions (e.g., satellite data analysis), this reduces toolchain fragmentation by 60-80%, but the real test is whether its integrated approach sacrifices rigor for convenience. The bigger question: Can consolidated models change how we design exploration pipelines?"
+key_points:
+  - "Breimanov i Cutlerov izvorni Random Forest – napokon cjelovit"
+  - "Jedan model umjesto pet alata u suvremenim ML pipeline-ovima"
+  - "GPU podrška za ubrzanu proximitetnu sličnost i detekciju anomala"
+source:
+  name: ""
+  url: ""
+image:
+  url: "/images/articles/rfx-fuse-revives-breimans-lost-vision-for-machine-/main.jpg"
+  alt: "RFX-Fuse: Šumska inteligencija koju smo zaboravili izgraditi"
+subtitle: "Zašto je unifikirani ML engine važan za znanstvenu eksploraciju podataka"
+subtitleImage:
+  url: "/images/articles/rfx-fuse-revives-breimans-lost-vision-for-machine-/subtitle.jpg"
+  alt: "Zašto je unifikirani ML engine važan za znanstvenu eksploraciju podataka"
+tags: ["RFX-Fuse", "Machine Learning Engine", "Space Data Exploration"]
+geo:
+  name: "Santa Clara, CA"
+  lat: 37.3875
+  lon: -122.0575
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Kada su leo breiman i adele cutler 1995. predložili random forest, nisu mislili samo na klasifikator. Njegov dizajn bio je univerzalni — klasifikacija, regresija, nesupervizirano učenje, procjena sličnosti, detekcija izuzetaka, popunjavanje nedostajućih podataka i vizualizacija, sve u jednom paketu. No, moderni okviri poput scikit-learna implementirali su samo dio te vizije, ostavljajući istraživače ovisnima o fragmentiranom ekosustavu alata. RFX-Fuse, predstavljen u arXiv radu 2603.13234v1, vraća tu izvornu ambiciju. Umjesto kombiniranja XGBoosta za predikciju, FAISS-a za sličnost, SHAP-a za interpretabilnost i isolation foresta za anomalije, ovaj engine nudi sve to u jednom modelu — s nativnom GPU podrškom. Prema dostupnim informacijama, to smanjuje operativnu složenost za 60-80% u tipičnim pipeline-ovima. Za znanstvene misije koje rade s ograničenim resursima — poput analize satelitskih podataka ili real-time procesiranja senzorskih tokova — ovo nije samo optimizacija, nego preduvjet za skalabilnost.
+
+<ArticleBreak />
+
+Kritična točka leži u validaciji: breimanov originalni dizajn nikad nije bio testiran u modernim uvjetima. RFX-Fuse tvrdi da čuva matematičku riguroznost, ali čini se da najveća prednost nije u performansama, nego u konzistentnosti. Kada isti model generira predikcije, detektira anomalije i izračunava sličnost između uzoraka, smanjuje se rizik od compounding error-a — greške koja se akumulira pri prelasku između raznih alata. Što se tiče primjene, autori ističu da je engine posebno koristan za proximity-based zadatke, poput klasifikacije neoznačenih podataka na temelju sličnosti s referentnim skupom. To bi moglo ubrzati analizu, recimo, spektroskopskih podataka s marsovih rovera, gdje je ručno označavanje nemoguće, a sličnost između uzoraka ključna. No, pitanje ostaje: kako se ovo ponaša na edge uređajima s ograničenom računskom snagom? Dio machine learning zajednice već reagira — ne toliko zbog performansi, koliko zbog filozofije. RFX-Fuse podsjeća da je originalni random forest bio zamišljen kao sveobuhvatan pristup, a ne kao još jedan algoritam u arsenalu. Ako se ovo potvrdi u praksi, moglo bi promijeniti način na koji gradimo ML sustave: manje o stapanju alata, više o integriranom razmišljanju.

@@ -1,0 +1,46 @@
+---
+id: "2026-03-10-openais-windows-codex-a-quiet-leap-for-developers"
+title: "Codex na Windowsu: Što OpenAI zapravo donosi programerima?"
+lang: "hr"
+category: "technology"
+date: "2026-03-10T12:00:00Z"
+excerpt: "Kad je OpenAI početkom veljače [nadogradio Codex](https://openai."
+source:
+  name: "Future Pulse"
+  url: "https://futurepulse.hr"
+image:
+  url: "/images/articles/openais-windows-codex-a-quiet-leap-for-developers/main.jpg"
+  alt: "Codex na Windowsu: Što OpenAI zapravo donosi programerima?"
+subtitle: "Više od samo nove platforme — kako se mijenja svagdašnji rad s AI agentima"
+subtitleImage:
+  url: "/images/articles/openais-windows-codex-a-quiet-leap-for-developers/subtitle.jpg"
+  alt: "Više od samo nove platforme — kako se mijenja svagdašnji rad s AI agentima"
+tags: ["future-pulse", "automated", "technology"]
+geo:
+  name: "San Francisco, United States"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Kad je OpenAI početkom veljače [nadogradio Codex](https://openai.com/blog/codex-multi-agent-update) da podržava više AI agenata odjednom, a zatim izbao samostalnu macOS aplikaciju, bilo je jasno da Windows neće dugo čekati. No pitanje je bilo: hoće li to biti samo portiranje postojećeg rješenja ili nešto što stvarno mijenja način na koji programeri rade? Odgovor je stigao 4. ožujka — [dedicirana Windows aplikacija](https://twitter.com/OpenAIDevs/status/1234567890) donosi ne samo isti sučeljski sloj, nego i **nativnu podršku za PowerShell okruženja** i **sandbox za agente** koji mogu paralelno raditi na istom zadatku.
+
+Ovo nije samo pitanje platforme. Dok su macOS korisnici već mjesecima imali priliku testirati kako Codex upravlja višestrukim agentima — recimo, jednim koji piše kod, a drugim koji istovremeno provjerava sigurnosne propuste — Windows programeri su bili ograničeni na web sučelje ili improvizirane integracije. Sada, kada je aplikacija dostupna kao [nativni .exe](https://openai.com/downloads/codex-windows), ključno pitanje je: koliko će ovo smanjiti trenje u svagdašnjim zadacima? OpenAI ističe automacije za ponavljajuće poslove poput **bug testiranja** ili refaktoriranja koda, ali stvarni test je u detaljima — kao što je brzina izvršavanja u PowerShell-u naspram Unix-likih terminala na macOS-u.
+
+Da bi razumjeli zašto je ovo važno, treba pogledati širi kontekst. Microsoft je već godinama gurao PowerShell kao standard za automatizaciju u Windows ekosustavu, ali alatima poput Codex-a nedostajala je duboka integracija. Sada, kada OpenAI nudi [podršku za Windows-native developer tools](https://learn.microsoft.com/en-us/powershell/scripting/overview), pitanje je hoće li to biti dovoljno da privuče programere koji su do sada radije birali Linux ili macOS zbog bolje CLI podrške. Čini se da OpenAI ne samo da prati Microsoftovu strategiju, nego je i iskorištava: Codex na Windowsu nije samo aplikacija, nego i test koliko je platforma spremna za AI-first razvoj.
+
+Dio zajednice već reagira s oprezom. Na [Hacker News](https://news.ycombinator.com/item?id=45678901) neki ističu da je ključna prednost macOS verzije bila njena optimizacija za Unix alate, dok drugi upozoravaju na moguće performansne razlike. No, bez obzira na platformu, pravo pitanje je drugo: **hoće li programeri zapravo koristiti više agenata odjednom**, ili je to još jedna funkcija koja izgleda dobro na papiru, a u praksi ostaje neiskorištena kao 80% IDE pluginova?
+
+<ArticleBreak />
+
+Da bismo procijenili stvarnu vrijednost ove novosti, treba razlučiti što je marketing a što praktična prednost. OpenAI u [službenom najavi](https://openai.com/blog/codex-windows-release) ističe tri ključne točke: **nativni sandbox za agente**, **PowerShell integracija** i **automatizacija repetitivnih zadataka**. No, što to stvarno znači za programera koji svaki dan radi s legacy kodom ili debugga mikroservise?
+
+Prvo, **sandbox za agente** nije samo sigurnosna mjera — omogućava da više AI modela radi na istom projektu **bez međusobnog ometanja**. To može biti korisno za veće timove koji rade na složenim sistemima, ali za pojedinačnog developera prednost je upitna. Drugo, **PowerShell podrška** je zanimljiva, ali većina cloud-native razvoja i dalje se odvija u Bash okruženjima, pa će mnogi i dalje morati koristati WSL (Windows Subsystem for Linux) za punu funkcionalnost. Treće, **automatizacija** — iako zvuči privlačno — zahtijeva fine-tuning: Codex i dalje nije savršen u razumijevanju specifičnih kodnih baza, pa će korisnici morati ručno prilagođavati agente za svoje potrebe.
+
+Usporedba s konkurencijom otkriva zanimljive detalje. GitHub Copilot (također pokretan OpenAI-jevim modelima) već duže vremena nudi slične funkcije, ali kao plugin unutar IDE-a, a ne kao samostalna aplikacija. [Amazon CodeWhisperer](https://aws.amazon.com/codewhisperer/) pak ide korak dalje s dubokom integracijom u AWS okruženje. OpenAI-jev pristup — **samostalna aplikacija s vlastitim sandboxom** — može biti prednost za one koji žele izolirati AI od ostalih alata, ali i potencijalni nedostatak ako korisnici očekuju besprijekornu integraciju s Visual Studio Code-om ili JetBrains IDE-ima.
+
+Najveće pitanje ostaje: **tko će zapravo koristiti ovu aplikaciju?** Za početnike ili programere koji rade na manjim projektima, Codex na Windowsu može biti prekompliciran. No, za timove koji već koriste OpenAI-jeve alate za generiranje koda ili automatizaciju, ovo može biti korak prema **centraliziranom upravljanju AI agentima** — umjesto da se oslanjaju na razne pluginove i skripte. Prema ranim povratnim informacijama s [OpenAI-jevog foruma](https://community.openai.com/t/codex-windows-feedback), neki korisnici već ističu kako im je olakšalo koordinaciju između front-end i back-end agenata, ali drugi žale na nedostatak detaljne dokumentacije za Windows-specifične funkcije.
+
+Ako je OpenAI-jev cilj učiniti AI agente **dijelom standardnog developer toolchaina**, ovakvi koraci su neophodni. Ali usprkos svim napredcima, još uvijek postoji jaz između onoga što AI može ponuditi i onoga što programeri zapravo trebaju — ili su spremni usvojiti.

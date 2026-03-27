@@ -1,0 +1,42 @@
+---
+id: "2026-03-24-llm-introspection-benchmark-theater-or-real-progre"
+db_id: 693
+title: "LLM introspekcija: nova taksonomija ili pakiranje starog?"
+lang: "hr"
+category: "ai"
+date: "2026-03-24T12:00:00Z"
+excerpt: "Kad su istraživači iz [arXiv](https://arxiv."
+exec_summary: "The paper introduces a formal taxonomy for LLM introspection, but the real story is whether this is a measurable capability or just clever text manipulation. The new benchmark (Introspect-Bench) aims to separate genuine meta-cognition from statistical mimicry—critical for high-stakes applications but still unproven in real-world deployment."
+key_points:
+  - "Introspekcija kao latentni račun nad politikom modela"
+  - "Introspect-Bench testira granice LLM-a izvan općeg znanja"
+  - "Meta-kognicija ili samo pametan tekstualni trik?"
+source:
+  name: ""
+  url: "https://arxiv.org/abs/2603.20276"
+image:
+  url: "/images/articles/llm-introspection-benchmark-theater-or-real-progre/main.jpg"
+  alt: "LLM introspekcija: nova taksonomija ili pakiranje starog?"
+subtitle: "Benchmark nasuprot stvarne introspekcije: tko mjeri točno?"
+subtitleImage:
+  url: "/images/articles/llm-introspection-benchmark-theater-or-real-progre/subtitle.jpg"
+  alt: "Benchmark nasuprot stvarne introspekcije: tko mjeri točno?"
+tags: ["LLM", "Introspection", "Benchmarking"]
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+lead_sentence: "Introspect-Bench razlikuje stvarnu meta-kogniciju od uzorak prepoznavanja"
+approved: true
+---
+-
+
+Kad su istraživači iz [arXiv](https://arxiv.org/abs/2603.20276v1) objavili rad pod naslovom *Me, Myself, and π*, čitalo se kao još jedan pokušaj da se LLM-ovima pripiše *čovjekoliko* razmišljanje. Ali ovdje je zanimljivo ne što modeli *mogu*, već što autorima *fali*: jasna granica između pravog samopromatranja i vještog pretvaranja na temelju obučenog teksta. Problem je star koliko i same LLM-e: kada model kaže *'ne znam'* ili *'ovo je moja nesigurnost X%'*, radi li o [meta-kogniciji](https://en.wikipedia.org/wiki/Metacognition) ili samo o fine-tuniranom pattern-matchingu? Novi rad predlaže taksonomiju koja introspekciu formalizira kao *latentne operatore* nad modelovom politikom i parametrima. Drugim riječima, ne radi se o pitanju *jesu li* modeli svjesni, već *možemo li to uopće izmjeriti* bez da im pripisujemo ljudske kategorije. Autori predstavljaju **Introspect-Bench**, suite testova dizajniran da razdvaja *'pravo'* razumijevanje od *'lažnog'* – odnosno, od onoga što je samo posuđeno iz obučenog korpusa. Ali ovdje dolazimo do ključnog pitanja: ako benchmark zahtijeva da model *simulira* introspekciu da bi prošao, je li to uopće test ili samo sofisticiraniji Turingov test? Prema dostupnim informacijama, rad ističe da trenutni pristupi često miješaju **opće znanje** (npr. *'ljudi ponekad pogreše'*) s pravom procjenom vlastitih ograničenja. To nije nova kritika – ali je rijetko tko pokušao sistematski razvrstati što je što. Čak i ako ova taksonomija ne postane standard, ona barem postavlja pitanje koje bi trebali postaviti svaki put kada čujemo kako neki model *'razumije'* svoju nesigurnost: *a po čemu to znate?*
+
+<ArticleBreak />
+
+Realnost je, naravno, da nijedan benchmark ne može zamijeniti stvarno svjesno razmišljanje – ali to nije ni cilj. Pitanje je može li **Introspect-Bench** barem filtrirati modele koji *pretvaraju* da razmišljaju o sebi od onih koji to čine na temelju statističke vjerojatnosti. Za razliku od prethodnih pristupa, ovdje se introspekcija ne mjeri samo kroz točnost odgovora, već kroz to *kako* model dolazi do zaključka o svojoj (ne)sigurnosti. Zanimljivo je da rad ne spominje konkretne modele niti usporedbe – što ili znači da je pristup teorijski, ili da autori izbjegavaju da se upuštaju u *benchmark ratove* koji obično prate takva istraživanja. [Developer community](https://news.ycombinator.com/) već primjećuje da bi ovaj pristup mogao biti koristan za filtriranje *'bullshit'* odgovora, ali i da je teško zamisliti kako bi se ova taksonomija primijenila u produkciji. Jer dok je u laboratoriju lako kontrolirati uvjete, u stvarnom svijetu modeli rade s prljavim podacima, nejasnim upitima i – što je najvažnije – očekivanjem da *nekako* odgovore. Industrijski učinak ovdje nije u tome tko će imati *'najintrospektivniji'* model, već tko će moći dokazati da njegov model *ne laže* o svojoj nesigurnosti. To je ključno za aplikacije kao što su medicinska dijagnostika ili pravne konsultacije, gdje *'ne znam'* mora biti pouzdano, a ne samo strategija za izbjegavanje grešaka. Ako se ova metodologija uhvatila, mogla bi postati standard za certifikaciju modela – ili barem novi layer u marketinškom žargonu. Za sada, međutim, ostaje pitanje koliko je ovo zapravo novo. Formalizacija introspekcije kao latentnih operacija zvuči impozantno, ali je li to samo drugi način da se kaže *'pogledajmo što model radi pod haubom'*? A ako jeste, zašto nam je trebala nova taksonomija za nešto što bi trebalo biti dio osnovnog razvoja modela?
+
+Pitanje je koliko će ova taksonomija biti prihvaćena u industriji i koliko će se primijeniti u stvarnom svijetu. Ako se uhvati, mogla bi biti koristan alat za razvoj modela koji su pouzdani i transparentni. Međutim, još uvijek postoje brojna pitanja i izazovi koji trebaju biti riješeni.

@@ -1,0 +1,42 @@
+---
+id: "2026-03-25-crocodil-a-diffusion-model-that-might-actually-fix"
+db_id: 685
+title: "CRoCoDiL: Iza maski, u latenti prostor"
+lang: "hr"
+category: "ai"
+date: "2026-03-25T12:00:00Z"
+excerpt: "Još jedan *diffusion model* za jezik ulazi u igru, ali ovaj put s [kontinuiranim latentnim prostorom](https://arxiv."
+exec_summary: "CRoCoDiL shifts masked diffusion models from discrete tokens to continuous latent space, claiming better semantic coherence—but benchmarks ≠ real-world performance. The real question is whether this fine-tuning approach will scale beyond academia or become another overhyped NLP experiment."
+key_points:
+  - "MDM-ovi dobivaju kontinuirani semantički upgrade"
+  - "Dva nova načina sinteze teksta iz istog okvira"
+  - "Autoenkoder s latentnim reprezentacijama – stvarna novost?"
+source:
+  name: ""
+  url: "https://arxiv.org/abs/2603.20210"
+image:
+  url: "/images/articles/crocodil-a-diffusion-model-that-might-actually-fix/main.jpg"
+  alt: "CRoCoDiL: Iza maski, u latenti prostor"
+subtitle: "Demo nasuprot deploymenta: Gdje se krije pravi napredak"
+subtitleImage:
+  url: "/images/articles/crocodil-a-diffusion-model-that-might-actually-fix/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: Gdje se krije pravi napredak"
+tags: ["CRoCoDiL", "Latent Space", "Deployment"]
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+lead_sentence: "CRoCoDiL popravlja maskirani tekst s kontinuiranom difuzijom"
+approved: true
+---
+-
+
+Još jedan *diffusion model* za jezik ulazi u igru, ali ovaj put s [kontinuiranim latentnim prostorom](https://arxiv.org/abs/2603.20210) umjesto diskretnih tokena. CRoCoDiL, kako ga autori zovu, ne nudi samo još jedan akronim za NLP konferencije – on pokušava riješiti stari problem Masked Diffusion Models (MDM): **tokeni koji se ponašaju kao slučajni susjedi**, a ne kao dio koherentne rečenice. Problem je star koliko i sami MDM-ovi: generiranje teksta token po token, bez kontekstualne veze, često rezultira rečenicama koje *zvuče* kao da ih je napisao bot koji je pročitao Wikipediju na brzinu. Autori iz [arXiv rada](https://arxiv.org/abs/2603.20210v1) tvrde da je rješenje u **prelasku s diskretnih u kontinuirane latentne reprezentacije** – drugim riječima, model ne radi više s pojedinačnim riječima nego s *gustim vektorima* koji predstavljaju značenje cijele rečenice. To bi, *teorijski*, trebalo smanjiti šum i poboljšati koherenciju. Ali ovdje počinje zabava. CRoCoDiL nije samo novi model – to je **fine-tuning pristup** koji zajedno trenira encoder i *demasker* (da, to je tehnički izraz). Što znači da, umjesto da maskirate tokene i nadate se najboljem, model pokušava *razumjeti* što maskira prije nego što popuni praznine. Zanimljivo, ali i upitno: koliko će ovo funkcionirati izvan kontroliranih benchmarkova? Dva nova načina sinteze teksta – oba iz istog okvira – sugeriraju da autori misle na fleksibilnost. Ali, kao i uvijek, **demo nije produkt**. Pažljivo čitajući rad, vidljivo je da se radi o *potencijalu*, a ne o gotovom rješenju. Čak i ako benchmarkovi izgledaju obećavajuće, pravo pitanje je: **tko će ovo zapravo moći koristiti?**
+
+<ArticleBreak />
+
+Ako pogledamo [trenutne reakcije u NLP communityju](https://www.reddit.com/r/MachineLearning/comments/12x5y4z/r_continuous_and_robust_conditioned_diffusion/), vidimo uobičajeni obrazac: entuzijazam kod onih koji vole igrati s novim modelima, skepsa kod onih koji moraju integrirati stvari u produkciju. Jedan korisnik primjećuje da je **latentni prostor ipak ograničen veličinom modela** – što znači da CRoCoDiL možda neće skalirati tako lako kao što se čini. Drugi upozorava na *computational cost*: fine-tuning encoder-demasker arhitekture nije brza ili jeftina zabava. Kako se ovo uklapa u veću sliku? Pa, [Meta](https://ai.meta.com/) i [Google](https://deepmind.google/) već godinama guraju diffusion modele za tekst, ali nikome još nije uspjelo napraviti nešto što radi *dobro* van laboratorija. CRoCoDiL bi mogao biti korak naprijed – ili još jedan akademski eksperiment koji će završiti u *pile of shame* neispunjenih obećanja. **Stvarni signal ovdje je u tome tko će ovo usvojiti**: ako vidimo da startupovi ili cloud provajderi počnu eksperimentirati s ovim u sljedećih šest mjeseci, tek tada možemo govoriti o utjecaju. Za sada, najzanimljivije je pitanje **latentnog prostora**. Ako CRoCoDiL zaista može bolje modelirati semantičke veze, to bi moglo biti korisno za zadatke kao što su *summarization* ili *controlled generation* – ali opet, sve ovisi o tome koliko je model robustan kada naiđe na *real-world noise*. A to, kao i uvijek, nećemo znati dok ga netko ne baci u divljinu interneta. I tu priča postaje zanimljivija od same objave: **ako ovo funkcionira, tko će biti prvi koji će ga iskoristiti za nešto više od generiranja apstraktnih sažetaka?**
+
+CRoCoDiL otvara nova vrata u svijetu NLP-a, nudeći mogućnost boljeg razumijevanja semantičkih veza u tekstovima. Međutim, još uvijek postoje brojna pitanja i izazovi koji trebaju biti riješeni prije nego što se ovo može implementirati u praksi. Ako se uspije razrijediti sumnje i riješiti tehničke probleme, CRoCoDiL bi mogao postati važan dio svijeta umjetne inteligencije.

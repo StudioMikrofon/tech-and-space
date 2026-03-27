@@ -1,0 +1,37 @@
+---
+id: "2026-03-17-ternary-cpus-why-binarys-reign-might-finally-be-cr"
+title: "Ternarni procesor: Hoće li trojka zamijeniti binarnu logiku?"
+lang: "hr"
+category: "technology"
+date: "2026-03-17T12:00:00Z"
+excerpt: "Većina inženjera bi se nasmijala na pitanje: jesu li svi procesori binarni."
+exec_summary: "A ternary RISC processor implemented on FPGA challenges binary dominance, but its real-world impact depends on ecosystem adoption. The article dissects practical hurdles—tooling gaps, cost trade-offs, and niche use cases—while questioning whether this is a meaningful shift or an academic curiosity."
+key_points:
+  - "Trojni RISC procesor radi na FPGA platformi"
+  - "Binarnu dominaciju izaziva nebinarni pristup"
+  - "Potencijal za efikasniju obradu — ali za koga?"
+source:
+  name: ""
+  url: ""
+image:
+  url: "/images/articles/ternary-cpus-why-binarys-reign-might-finally-be-cr/main.jpg"
+  alt: "Ternarni procesor: Hoće li trojka zamijeniti binarnu logiku?"
+subtitle: "Zašto bi vas uopće trebalo briga ako CPU ne radi u nuli i jedinicama?"
+subtitleImage:
+  url: "/images/articles/ternary-cpus-why-binarys-reign-might-finally-be-cr/subtitle.jpg"
+  alt: "Zašto bi vas uopće trebalo briga ako CPU ne radi u nuli i jedinicama?"
+tags: ["Ternary Processor", "Binary Logic", "CPU Architecture"]
+geo:
+  name: "Santa Clara, CA"
+  lat: 37.3875
+  lon: -122.0575
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Većina inženjera bi se nasmijala na pitanje: jesu li svi procesori binarni. Odgovor je — naravno, osim u akademskim laboratorijima ili u retro-računalnim projektima. Ali evo novog iznimka: **Ternarni RISC procesor** implementiran na FPGA čipu, koji umjesto bitova (0/1) radi s **tritovima** (0/1/2). To nije samo teorijska igračka: [dokumentacija projekta](https://github.com/ternary-risc/ternary-core) pokazuje da je riječ o funkcionalnom dizajnu s [RISC-V inspiriranom arhitekturom](https://riscv.org/), ali s ključnom razlikom — trojnim logičkim vratima. Zanimljivo je što ovaj pristup **ne traži potpuno novi hardver**. FPGA ([Field-Programmable Gate Array](https://www.xilinx.com/products/technology/fpga.html)) omogućava programabilnu logiku, pa je ternarni procesor u stvari *emuliran* na postojećoj binarnoj infrastrukturi. To znači da razvijatelji mogu testirati prednosti — kao što su **manja potrošnja energije** za određene operacije ili **efikasnije reprezentiranje podataka** (npr. trojna logika može u jednom koraku obraditi informaciju koja binarnom treba dva) — bez potrebe za skupe ASIC čipove. Ali tu dolazimo do prvog praktičnog pitanja: **tko bi to zapravo koristio?** Akademska zajednica već godina istražuje [nebinarne računalne modele](https://ieeexplore.ieee.org/document/9155323), ali komercijalna primjena ostaje rijetkost. Razlog? Ekosustav alata, kompajlera i operacijskih sustava optimiziran je desetljećima *isključivo* za binarnu logiku. Čak i ako ternarni procesor ponudi 20% uštede na energiji (što je [samo pretpostavka](https://arxiv.org/abs/2001.04309)), programeri bi morali prepisivati kritične dijelove koda — ili čekati da se alati prilagode.
+
+<ArticleBreak />
+
+Industrija polagano reagira. [Intel je 2017. eksperimentirao](https://www.intel.com/content/www/us/en/research/ternary-computing.html) s ternarnom memorijom, ali bez konkretnih proizvoda. S druge strane, [startupi kao što je TernaryAI](https://ternary.ai) tvrde kako njihove rješenje može ubrzati machine learning modele — ali bez nezavisnih benchmarkova, teško je suditi. Pravi test će biti **koji problem ternarna logika rješava bolje od binarne**, a ne samo *da li može*. Za prosječnog korisnika, ovo (još) nije relevantno. Ali za ugrađene sustave — npr. IoT uređaje koji rade na baterije godinama — **manja potrošnja** može biti ključna. Problem je što čak i tamo binarni ARM Cortex-M čipovi nude [dovoljnu efikasnost](https://www.arm.com/why-arm/technologies/iot) po znato nižoj cijeni. Ternarni pristup bi mogao naći nišu u **specijaliziranim akceleratorima**, kao što su kriptografski koprocesori ili signalni procesori, gdje trojna logika može pojednostaviti određene matematičke operacije. Najveće usko grlo nije tehnologija, već **poslovna logika**. Proizvođači čipova neće ulagati u ternarne linije dok ne vide masovnu potražnju, a programeri neće pisati kod dok ne bude hardvera. Klasičan *koče-pile* problem. Ako se ipak probije, prvo bi trebali očekivati hibridne rješenje — npr. binarni CPU s ternarnim koprocesorom za specifične zadatke, slično kao što danas imamo GPU-e za grafiku.

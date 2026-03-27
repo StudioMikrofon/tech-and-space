@@ -1,0 +1,39 @@
+---
+id: "2026-03-20-accidental-hacker-gets-30k-for-7-000-robot-securit"
+title: "DJI plaća 30K za slučajni haking 7000 robovaca"
+lang: "hr"
+category: "robotics"
+date: "2026-03-20T12:00:00Z"
+excerpt: "Valentinovo 2024."
+exec_summary: "A seemingly harmless PlayStation hack exposed 7,000 DJI robovacs to potential privacy breaches, revealing critical IoT scaling flaws. The incident highlights how demo-ready products often lack deployment-grade security, especially in cloud architecture—raising questions about DJI’s prioritization of speed over safety in mass-market robotics."
+key_points:
+  - "PlayStation kontroler otkrio ranjivost u DJI-jevim robovacima"
+  - "7000 uređaja izloženo potencijalnom pristupu privatnim prostorima"
+  - "Bug bounty program ili pokriveni sigurnosni propust?"
+source:
+  name: ""
+  url: ""
+image:
+  url: "/images/articles/accidental-hacker-gets-30k-for-7-000-robot-securit/main.jpg"
+  alt: "DJI plaća 30K za slučajni haking 7000 robovaca"
+subtitle: "Kada hobi postane sigurnosni incident: što nam ovo govori o IoT skaliranju"
+subtitleImage:
+  url: "/images/articles/accidental-hacker-gets-30k-for-7-000-robot-securit/subtitle.jpg"
+  alt: "Kada hobi postane sigurnosni incident: što nam ovo govori o IoT skaliranju"
+tags: ["DJI", "Drone Hacking", "IoT Security"]
+geo:
+  name: "Shenzhen, China"
+  lat: 22.5431
+  lon: 114.0579
+  countryCode: "CN"
+featured: false
+approved: true
+---
+
+Valentinovo 2024. donijelo je neočekivani dar za jednog entuzijasta: dok je pokušavao spojiti svoj DJI robovac s PlayStation kontrolerom, otkrio je nezaštićenu mrežu od **7000 uređaja** spremnih za daljinsko upravljanje. Problem nije bio u hakerskim vještinama — već u tome što je **DJI-jeva infrastruktura** dopuštala pristup tuđim uređajima **bez autentikacije**. Kompanija je reagirala [bug bounty nagradom od 30.000 USD](https://www.theverge.com), ali pitanje ostaje: kako je uopće došlo do toga da tisuće robovaca budu izložene na ovaj način? Iza priče o 'sretnom hakeru' krije se klasičan problem IoT skaliranja: **demo radi, deployment ne**. DJI-ji robovaci na [CES prezentacijama](https://www.ces.tech) izgledaju besprijekorno — ali što se događa kada ih tisuće korisnika poveže na istu cloud infrastrukturu? Prema dostupnim informacijama, problem je bio u **nedovoljno segmentiranom API-ju**, koji je dopuštao lateralno kretanje između uređaja. To nije samo sigurnosni propust; to je **arhitektonski failure** koji upućuje na to da je kompanija prioritizirala brzo skaliranje nad osnovnom izolacijom sistema. Čudno je da se o ovome čuje tek sad, kada je korisnik *slučajno* naišao na problem. **Gdje su penetracijska testiranja?** Gdje su auditi prije masovnog deploymenta? Ili je, možda, DJI — kao i mnogi drugi u IoT svijetu — pretpostavio da će 'zatvoreni ekosustav' biti dovoljna zaštita?
+
+<ArticleBreak />
+
+Praktični implikaciji ovog incidenta idu dalje od same nagrade. **7000 robovaca** nije mali broj — to je skoro komercijalna flota. Ako je jedan entuzijast s PlayStationom mogao pronaći ovu ranjivost, što bi učinio organizirani napadač? [Sigurnosni istraživači](https://krebsonsecurity.com) već godina upozoravaju na IoT kao **najslabiju kariku** u kućnoj mreži, ali ovdje vidimo da problem nije samo u jeftinim uređajima, već i u **high-end proizvodima** s ambicijama za masovno tržište. Hardverski limiti ovdje nisu ključni — problem je u **cloud arhitekturi**. DJI-ji robovaci koriste [RTOS](https://en.wikipedia.org/wiki/Real-time_operating_system) s ograničenim resursima, što znači da svaka dodatna sigurnosna sloja košta performanse. Ali to nije opravdanje: ako kompanija planira skalirati na stotine tisuća uređaja, **izolacija instanci** mora biti *default*, a ne *afterthought*. Čak i ako je ovdje riječ o 'edge case'-u, pitanje je zašto ga nitko nije predvideo. Najironičnije je što DJI **već ima iskusnost** s sigurnosnim incidentima — njihovi dronovi su [2020. zabranjeni](https://www.bbc.com/news/technology-55278964) u SAD-u zbog potencijalnih rizika. Da li je ovo još jedan znak da kompanija **žuri s deploymentom** prije nego što riješi osnovne sigurnosne probleme? Ili je, pak, riječ o svjesnom riziku u potrazi za tržišnim udjelom? Bez obzira na odgovor, jasno je jedno: **IoT skaliranje nije samo pitanje broja uređaja, već i njihove sigurnosne zrelosti**.
+
+Ovo je još jedan primjer kako kompanije moraju ozbiljno shvatiti sigurnost svojih proizvoda, posebno kada se radi o velikim brojevima uređaja koji su povezani na internet. Sigurnosna zrelost proizvoda mora biti prioritet, a ne samo dodatak koji se dodaje kasnije. Nadamo se da će ovaj incident poslužiti kao upozorenje za sve kompanije koje se bave IoT tehnologijama.

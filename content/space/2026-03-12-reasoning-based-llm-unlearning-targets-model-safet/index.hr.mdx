@@ -1,0 +1,32 @@
+---
+id: "2026-03-12-reasoning-based-llm-unlearning-targets-model-safet"
+title: "Kako razumijevanje može poboljšati ‘zaboravljanje’ AI modela"
+lang: "hr"
+category: "space"
+date: "2026-03-12T12:00:00Z"
+excerpt: "Kada govorimo o velikim jezikovnim modelima, riječ *zaboravljanje* ne podrazumijeva ljudski proces, nego **ciljano uklanjanje specifičnih informacija** iz pretreniranog modela — bez narušavanja njegove opće funkcionalnosti."
+source:
+  name: "Future Pulse"
+  url: "https://futurepulse.hr"
+image:
+  url: "/images/articles/reasoning-based-llm-unlearning-targets-model-safet/main.jpg"
+  alt: "Kako razumijevanje može poboljšati ‘zaboravljanje’ AI modela"
+subtitle: "Od gradientnih metoda do rasuđivanja: zašto ‘pametno zaboravljanje’ može promijeniti pravila igre u AI sigurnosti"
+subtitleImage:
+  url: "/images/articles/reasoning-based-llm-unlearning-targets-model-safet/subtitle.jpg"
+  alt: "Od gradientnih metoda do rasuđivanja: zašto ‘pametno zaboravljanje’ može promijeniti pravila igre u AI sigurnosti"
+tags: ["future-pulse", "automated", "space"]
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Kada govorimo o velikim jezikovnim modelima, riječ *zaboravljanje* ne podrazumijeva ljudski proces, nego **ciljano uklanjanje specifičnih informacija** iz pretreniranog modela — bez narušavanja njegove opće funkcionalnosti. To je ključno za tri kritična područja: **sigurnost** (npr. uklanjanje štetnih uputa), **autorska prava** (brisanje zaštićenog sadržaja) i **privatnost** (izbrisivanje osjetljivih podataka). Međutim, dosadašnje metode, poput [gradient ascenta (GA)](https://proceedings.neurips.cc/paper/2020/hash/323fbe32fbd8d8285d5a93d890f9eaa8-Abstract.html), imaju fundamentalni problem: one su **neselektivne**. Umjesto da precizno uklone samo neželjene podatke, često degradiraju cjelokupne performanse modela, ostavljajući iza sebe nepotpuno ‘zaboravljanje’ ili čak generiranje besmislene izlaze. Problem postaje očit kada analiziramo rezultate postojećih pristupa. Na primjer, studija objavljena 2023. na *NeurIPS*-u pokazala je kako GA može dovesti do **gubitka do 15% točnosti** na općim zadacima nakon pokušaja uklanjanja samo 1% podataka. To nije prihvatljivo za modele koji se koriste u kritičnim aplikacijama, od medicinske dijagnostike do autonomnih vozila. Upravo zato novi rad [2603.09980v1](https://arxiv.org/abs/2603.09980v1) predlaže **razumom vođeno zaboravljanje** (*reasoning-based unlearning*), pristup koji ne oslanja se samo na matematičke gradijente, nego na **logičko rasuđivanje o strukturi znanja** unutar modela. Autori ističu kako je ključna razlika u načinu definiranja *cilja zaboravljanja*. Umjesto da se model ‘tjeramo’ da zaboravi putem nasumičnih promjena težina (kao u GA), novi pristup **eksplicitno identificira i izolira** neželjene obrasce znanja kroz proces sličan ljudskom zaključivanju. To bi, prema njihovim ranim rezultatima, moglo smanjiti kolateralnu štetu na opće sposobnosti modela. Međutim, pitanje ostaje: može li ovaj pristup skalirati na modele s milijardama parametara, poput GPT-4 ili Llame 3?
+
+<ArticleBreak />
+
+Da bismo razumjeli značaj ovog rada, vrijedi se vratiti na **kronologiju problema zaboravljanja u AI-u**. Prvi val istraživanja (2018.–2021.) fokusirao se na *fine-tuning* i prugu ‘zaboravi’ (*forgetting*) kroz ponovljeno treniranje na modificiranim skupovima podataka — što je bilo sporo i nepraktično za velike modele. Drugi val (2022.–2023.) uveo je metode poput GA, koje su bile brže, ali nespecifične. Sada, treći val — predstavljen ovim radom — pokušava **integrirati razumijevanje** u sam proces, što podrazumijeva da model *aktivno razmatra* koje je znanje relevantno za zadržavanje, a koje za uklanjanje. Važno je naglasiti da ovaj pristup još uvijek nije testiran na najsloženijim modelima, niti postoje javno dostupni benchmarkovi koji bi potvrdili njegovu učinkovitost u stvarnim uvjetima. Međutim, **znanstvena zajednica** već reagira s opreznim optimizmom. Na primjer, [Yann LeCun](https://twitter.com/ylecun) je u nedavnom tweetu istakao kako je ‘zaboravljanje’ jedan od najvećih neriješenih problema u AI-etici, ali da ‘razumom vođeni pristupi’ mogu biti put ka rješenju — ako se pokažu robustnima. S druge strane, dio istraživača, poput onih iz [Stanfordovog HAIL laboratorija](https://hail.stanford.edu/), upozorava na rizik da čak i ‘pametno’ zaboravljanje stvori nove *slijepa područja* u modelu, koja bi mogla biti iskorištena za *adversarial attacks*. Što slijedi? Autori najavljuju sljedeću fazu istraživanja: testiranje na modelima većim od 10 milijardi parametara i razvoj **standardiziranih metrika** za procjenu ‘zaboravljenih’ modela. Kritično pitanje ostaje i **regulatorni okvir**: ako AI modeli moraju ‘zaboraviti’ po zakonu (npr. prema [EU AI Actu](https://artificialintelligenceact.eu/)), koji će biti prihvatljivi pragovi degradacije performansi? I, najvažnije, tko će odrediti **što smije biti zaboravljeno** — razvijači, regulatori ili sami korisnici? Za sada je jasno jedno: zaboravljanje više nije samo tehnički problem, nego **pitanje kontrole nad znanjima** koje AI sustavi akumuliraju. A to je pitanje koje će oblikovati ne samo sigurnost modela, nego i povjerenje društva u AI kao alat.

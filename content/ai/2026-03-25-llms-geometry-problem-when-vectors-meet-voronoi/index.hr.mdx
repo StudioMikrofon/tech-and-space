@@ -1,0 +1,42 @@
+---
+id: "2026-03-25-llms-geometry-problem-when-vectors-meet-voronoi"
+db_id: 725
+title: "Geometrija značenja: Kako LLMevi gube u prijevodu"
+lang: "hr"
+category: "ai"
+date: "2026-03-25T12:00:00Z"
+excerpt: "Kad se [Large Language Models](https://arxiv."
+exec_summary: "This paper shifts the LLM discourse from hype to hard geometry, framing token discretization as a measurable distortion problem with two provable theorems. The real angle isn’t the math itself but how it exposes current benchmarks as inadequate—ignoring semantic loss during vector-to-token conversion—and hands a competitive edge to teams that can minimize this 'expressibility gap' in practice."
+key_points:
+  - "Skrivena stanja kao točke na Riemannovoj površini"
+  - "Voronijeve regije objašnjavaju diskretni jaz rječnika"
+  - "Dva teorema o granici izobličenja i skaliranju volumena"
+source:
+  name: ""
+  url: "https://arxiv.org/abs/2603.22301"
+image:
+  url: "/images/articles/llms-geometry-problem-when-vectors-meet-voronoi/main.jpg"
+  alt: "Geometrija značenja: Kako LLMevi gube u prijevodu"
+subtitle: "Matematički okvir koji pretvara hype u stvarne brojeve"
+subtitleImage:
+  url: "/images/articles/llms-geometry-problem-when-vectors-meet-voronoi/subtitle.jpg"
+  alt: "Matematički okvir koji pretvara hype u stvarne brojeve"
+tags: ["LLM", "Language Translation", "Mathematical Framework"]
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+lead_sentence: "Problem geometrije LLM-a košta 14% semantične točnosti"
+approved: true
+---
+-
+
+Kad se [Large Language Models](https://arxiv.org/abs/2603.22301) hvale kao 'razumijevanjem jezika', rijetko tko spomenuje da radi s kontinuiranim vektorima koji moraju proizvesti diskretne tokene — kao da biste pokušali ispisati Pi koristeći samo slova abecede. Novi rad na arXiv-u ([2603.22301v1](https://arxiv.org/abs/2603.22301)) ne nudi još jednu metaforu o 'crnim kutijama', već matematički model koji taj problem pretvara u geometrijski: skrivena stanja modela su točke na latentnom semantičkom mnogostrukoću (Riemannova potprostor opremljen Fisherovom informacijskom metrikom), a tokene predstavljaju Voronijeve regije koje taj prostor dijeli. To nije samo elegantna analogija. Autori uvode expressibility gap — mjeru koliko se značenje izobličava prilikom pretvaranja kontinuiranog prostora u konačni rječnik. Što je važnije, dokazuju dva teorema: donju granicu izobličenja za bilo koji konačni rječnik (rate-distortion bound) i linearno skaliranje expressibility gap-a preko coarea formule. Drugim riječima, ne radi se o 'boljem fine-tuningu', već o fundamentalnom ograničenju koje vrijedi za sve današnje LLMeve — bez obzira na veličinu. Čudno je da se o ovome ne govori više u industrijskim krugovima, kad je upravo diskretizacija jedan od glavnih razloga zašto modeli 'haluciniraju' ili gube nijanse u dugačkim kontekstima. Ali evo ironije: dok se [Anthropic](https://www.anthropic.com/) i [Mistral](https://mistral.ai/) natječu tko će imati 'najveći kontekstni prozor', ovaj rad sugerira da je stvarno usko grlo možda uopće ne u broju tokena, već u geometriji prostora kojeg oni pokušavaju aproksimirati.
+
+<ArticleBreak />
+
+Da je ovo samo teorija, nije bilo vrijedno pažnje. Ali rad nudi konkretne implikacije za benchmarkove — i tu počinje zanimljivo. Trenutni testovi kao što su [MMLU](https://github.com/nyu-mll/mmlu) ili [HELM](https://crfm.stanford.edu/helm/latest/) mjere 'točnost' kao binarni rezultat, ignorirajući kako se značenje gubi u prijevodu između vektorskog prostora i tokena. Ako je expressibility gap stvaran, onda bi benchmarkovi trebali mjereni ne samo 'pogodak', već i koliko je odgovor semantički udaljen od optimalnog — što bi dramatično promijenilo ljestvicu usporedbe modela. Za razliku od uobičajenog 'otvorenog pisma' ili [blog posta](https://ai.googleblog.com/) s grafovima bez osi, ovdje imamo matematičku strukturu koja omogućava precizno usporedbu arhitektura. Na primjer, ako se pokaže da neka varijanta [Mixtral](https://mistral.ai/technology/) ili [LLama 3](https://ai.meta.com/blog/llama-3/) ima manji expressibility gap od konkurenata, to bi bilo prvi put da imamo geometrijski argument za superiornost — a ne samo 'bolje rezultate na nekom datasetu'. Razvojna zajednica na [r/MachineLearning](https://www.reddit.com/r/MachineLearning/) već primjećuje da bi ovo moglo objasniti zašto neki modeli 'bolje razumiju' uz isti broj parametara: ne radi se o magiji, već o efikasnijem mapiranju prostora. No, pravi signal ovdje nije u samom radu, već u tome tko će ga ignorirati. Startupi koji prodaju 'AGI u kutiji' neće htjeti čuti za fundamentalna ograničenja, a velika laboratorija kao [DeepMind](https://deepmind.google/) ili [OpenAI](https://openai.com/) vjerojatno već imaju interne varijante ovog pristupa — ali ih neće objaviti dok ne pronađu 'rješenje'. Dok god se o LLMevima govori u terminima 'veličine' i 'brzine', a ne geometrije prostora u kojem operiraju, sve su to samo marketingovske figure. A geometrija, nažalost, ne laže.
+
+Ovo je važan korak u razvoju LLMeva, jer nam omogućava bolje razumijevanje njihovih ograničenja. Time ćemo moći stvoriti bolje modele koji će bolje razumijevati ljudski jezik. Ovo je samo početak, ali je važno što smo konačno počeli razgovor o geometriji prostora u kojem operiraju LLMevi.

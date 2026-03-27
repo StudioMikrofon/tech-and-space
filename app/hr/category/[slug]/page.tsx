@@ -13,6 +13,8 @@ import CategoryLoadingTerminal from "@/components/CategoryLoadingTerminal";
 import LangSwitcher from "@/components/LangSwitcher";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }

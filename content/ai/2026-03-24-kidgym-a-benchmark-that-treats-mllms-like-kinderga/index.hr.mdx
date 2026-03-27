@@ -1,0 +1,42 @@
+---
+id: "2026-03-24-kidgym-a-benchmark-that-treats-mllms-like-kinderga"
+db_id: 679
+title: "KidGym: Dječji IQ testovi za AI – ili samo novi benchmark?"
+lang: "hr"
+category: "ai"
+date: "2026-03-24T12:00:00Z"
+excerpt: "Kad čujete da su istraživači napravili benchmark inspiriran Wechslerovim testovima inteligencije za djecu, prva misao je: pa naravno, sada ćemo mjeriti IQ modela."
+exec_summary: "KidGym repurposes child IQ test logic to evaluate MLLMs across five capabilities, but its real impact depends on whether synthetic 2D tasks translate to real-world performance. The benchmark’s academic origins suggest it’s more about comparison than deployment—yet if adopted by industry, it could shift how multimodal models are trained and marketed."
+key_points:
+  - "MLLMs na dječjem razumijevanju – Wechslerov pristup za AI"
+  - "12 zadataka, pet ključnih sposobnosti – ali koliko je to realno?"
+  - "Tko profitira: akademici, Big Tech ili open-source?"
+source:
+  name: ""
+  url: "https://arxiv.org/abs/2603.20209"
+image:
+  url: "/images/articles/kidgym-a-benchmark-that-treats-mllms-like-kinderga/main.jpg"
+  alt: "KidGym: Dječji IQ testovi za AI – ili samo novi benchmark?"
+subtitle: "Između laboratorijskih zadataka i stvarnih multimodalnih izazova"
+subtitleImage:
+  url: "/images/articles/kidgym-a-benchmark-that-treats-mllms-like-kinderga/subtitle.jpg"
+  alt: "Između laboratorijskih zadataka i stvarnih multimodalnih izazova"
+tags: ["KidGym", "Multimodal AI", "Benchmarking"]
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+lead_sentence: "KidGym mjeri MLLM s 12 zadaćama nadahnutim dječjim testovima inteligencije."
+approved: true
+---
+-
+
+Kad čujete da su istraživači napravili benchmark inspiriran Wechslerovim testovima inteligencije za djecu, prva misao je: pa naravno, sada ćemo mjeriti IQ modela. Ali KidGym, novi 2D grid-based benchmark za Multimodal Large Language Models (MLLMs), nije samo još jedan alat za hvalisanje točnosti. On je, barem u teoriji, pokušaj da se razbije AI inteligencija na pet testabilnih sposobnosti: izvršavanje, percepcija, rasuđivanje, učenje i planiranje. Što je, uzgred, zanimljivije od uobičajenog »može li generirati sliku iz teksta« pristupa. Problem je što benchmarkovi, koliko god bili pametno dizajnirani, ostaju sintetički. KidGym nudi 12 zadataka – od prepoznavanja uzoraka do sekvencijalnog planiranja – ali pitanje je koliko to odgovara stvarnim multimodalnim izazovima. Na primjer, može li model koji riješi 2D lavirint zapravo planirati putanju robota u skladištu? Ili je ovo samo još jedan korak u igri benchmarka koji će biti nadmašen za šest mjeseci? Zanimljivo je tko stoji iza ovog: arXiv papir 2603.20209v1 dolazi iz akademskih krugova, a ne od Big Techa. To znači da je vjerojatnije da će KidGym postati oružje za usporedbu modela nego komercijalni proizvod. Ali i da će, ako se pokaže korisnim, brzo biti ugrađen u eval pipelineove svih većih igrača – od Metaovog LLaVA do Googleovog Gemini.
+
+<ArticleBreak />
+
+Da razumijemo zašto ovo uopće znači nešto, valja pogledati što se zapravo mjeri. KidGym ne testira samo »da li model vidi sliku«, već pokušava procijeniti kako model kombinira vizualne i tekstualne informacije da riješi problem. To je ključna razlika u odnosu na ranije benchmarke kao što je MMBench, koji su se više usredotočivali na čisto prepoznavanje. Ali – i ovdje dolazimo do reality gap-a – koliko ovih 2D grid zadataka odgovara stvarnim scenarijima? Recimo, može li model koji riješi KidGym zadatak s pamćenjem objekata zapravo pamtili kontekst u dugom razgovoru s korisnikom? Developer signal je za sada umjereno pozitivan. Na GitHubu i forumima poput Reddit r/MachineLearning dio zajednice hvali pristup jer razlaže multimodalne sposobnosti na konkretne komponente. Ali ima i skeptika: »Još jedan benchmark koji će biti optimiziran do smrti, a modeli će i dalje biti beskorisni u productionu«, piše jedan korisnik. To je, naravno, klasičan ciklus: benchmark → optimizacija → novi benchmark. Najzanimljivije je pitanje tko ovdje stječe prednost. Akademska zajednica dobiva alat za finije usporedbe, a startapi koji rade na MLLM-ovima (poput Adept AI ili Inflection AI) mogu ga iskoristiti za diferencijaciju. Ali pravi profit ćemo vidjeti tek kada neki od ovih zadataka postanu dio standardnih evala – kao što je bilo s Hugging Faceovim Evaluate za NLP. Do tada, KidGym ostaje zanimljiv eksperiment, ali ne i dokaz da MLLM-ovi stvarno razumiju svijet kao djeca.
+
+Akademska zajednica i startapi koji rade na MLLM-ovima mogu koristiti KidGym za usporedbu i diferencijaciju. Međutim, važno je zapamtiti da je ovo samo jedan korak u razvoju AI tehnologije. Još uvijek ima mnogo toga što se mora učiniti da bi se postigao stvarni napredak.

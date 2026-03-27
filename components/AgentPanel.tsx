@@ -56,6 +56,7 @@ export default function AgentPanel() {
   const [loading, setLoading]             = useState(false);
   const [response, setResponse]           = useState<AgentResponse | null>(null);
   const [applied, setApplied]             = useState(false);
+  const [saved, setSaved]                 = useState(false);
   const [progress, setProgress]           = useState(0);
   const [backendLoading, setBackendLoading] = useState(false);
   const [backendResult, setBackendResult]   = useState<{ ok: boolean; msg: string; imageUrl?: string } | null>(null);
@@ -74,6 +75,8 @@ export default function AgentPanel() {
 
   // Article DB ID resolved from URL (for article pages)
   const [pageArticleDbId, setPageArticleDbId] = useState<number | null>(null);
+  const [saveLoading, setSaveLoading] = useState(false);
+  const [saveResult, setSaveResult] = useState<{ ok: boolean; msg: string } | null>(null);
 
   // Voice recording state
   const [recording, setRecording]         = useState(false);
@@ -131,9 +134,20 @@ export default function AgentPanel() {
 
   // Resolve article DB ID from URL when on an article page
   useEffect(() => {
-    const match = window.location.pathname.match(/^\/(?:hr\/)?article\/[^/]+\/(.+)$/);
+    const path = window.location.pathname;
+    // Match patterns: /article/category/slug or /hr/article/category/slug
+    const match = path.match(/^\/(?:hr\/)?article\/[^/]+\/(.+)$/);
     if (!match) return;
     const slug = match[1];
+    
+    // Also try to get ID from DOM attribute first (faster)
+    const domId = document.querySelector("[data-article-db-id]")?.getAttribute("data-article-db-id");
+    if (domId && !isNaN(Number(domId))) {
+      setPageArticleDbId(Number(domId));
+      return;
+    }
+    
+    // Fallback: fetch from API
     fetch(`/api/editorial?slug=${encodeURIComponent(slug)}`)
       .then((r) => r.json())
       .then((d) => { if (d.id) setPageArticleDbId(Number(d.id)); })
@@ -303,6 +317,73 @@ export default function AgentPanel() {
     document.body.style.cursor = "";
   };
 
+  // Save edited text to database permanently
+  const saveToDatabase = async () => {
+    if (!response?.content || !pageArticleDbId) return;
+    setSaveLoading(true);
+    setSaveResult(null);
+
+    // Determine which field was edited based on selected element
+    let field = "part1"; // default
+    const targetEl = applyTargetRef.current;
+    
+    // Check if user selected a specific element
+    if (targetEl) {
+      const tagName = targetEl.tagName.toLowerCase();
+      if (tagName === "h1") {
+        field = "title";
+      } else if (tagName === "h2" || tagName === "h3") {
+        field = "subtitle";
+      } else if (selectedInfo?.toLowerCase().includes("lead") || selectedInfo?.toLowerCase().includes("uvod")) {
+        field = "part1";
+      } else if (selectedInfo?.toLowerCase().includes("part2") || selectedInfo?.toLowerCase().includes("dio")) {
+        field = "part2";
+      }
+    } else if (response.original) {
+      // No element selected - try to detect from original text position in document
+      const h1Text = document.querySelector("h1")?.textContent?.trim() || "";
+      const h2Text = document.querySelector("h2")?.textContent?.trim() || "";
+      const originalTrimmed = response.original.trim();
+      
+      if (h1Text && originalTrimmed.startsWith(h1Text.slice(0, 30))) {
+        field = "title";
+      } else if (h2Text && originalTrimmed.startsWith(h2Text.slice(0, 30))) {
+        field = "subtitle";
+      } else if (originalTrimmed.length < 150) {
+        field = "part1"; // short text = lead
+      } else {
+        field = "part2"; // longer text = body
+      }
+    }
+
+    try {
+      const res = await fetch("/api/editorial", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: pageArticleDbId,
+          action: "edit",
+          field,
+          value: response.content,
+          lang: window.location.pathname.startsWith("/hr/") ? "hr" : "en",
+        }),
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        setSaveResult({ ok: true, msg: data.message || "Izmjena spremljena!" });
+        setSaved(true);
+      } else {
+        const err = await res.json().catch(() => ({ error: "Greška pri spremanju" }));
+        setSaveResult({ ok: false, msg: err.error || "Greška pri spremanju" });
+      }
+    } catch {
+      setSaveResult({ ok: false, msg: "Mrežna greška" });
+    } finally {
+      setSaveLoading(false);
+    }
+  };
+
   // ── AGENT SEND ─────────────────────────────────────────────────────────────
   const send = async () => {
     if (!instruction.trim() && !selectedText) return;
@@ -320,10 +401,8 @@ export default function AgentPanel() {
       ? `[Odabrani sadržaj]\n${selectedInfo ? selectedInfo + "\n" : ""}${selectedText.trim().slice(0, 600)}\n\n[Zadatak] ${instruction.trim()}`
       : instruction.trim();
 
-    // When nothing is selected, grab article body so agent can find text to replace
-    const bodyContext = !selectedText
-      ? (document.querySelector("article")?.innerText ?? document.querySelector("main")?.innerText ?? "").slice(0, 2000)
-      : "";
+    // ALWAYS grab article body so agent can find exact original text for replacement
+    const bodyContext = (document.querySelector("article")?.innerText ?? document.querySelector("main")?.innerText ?? "").slice(0, 3000);
 
     try {
       const res = await fetch("/api/agent", {
@@ -352,16 +431,45 @@ export default function AgentPanel() {
   };
 
   // Walk all text nodes in the page and replace first occurrence of `original` with `replacement`
+  // Uses fuzzy matching: normalizes whitespace for better match success
   const replaceTextInDom = (original: string, replacement: string): boolean => {
+    const normalizeWhitespace = (s: string) => s.replace(/\s+/g, ' ').trim();
+    const normalizedOriginal = normalizeWhitespace(original);
+    
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     const nodes: Text[] = [];
     let n;
     while ((n = walker.nextNode())) nodes.push(n as Text);
+    
     for (const textNode of nodes) {
       if (textNode.parentElement?.closest("#agent-panel")) continue;
-      if (textNode.textContent?.includes(original)) {
-        undoTextRef.current = { node: textNode, original: textNode.textContent };
-        textNode.textContent = textNode.textContent.replace(original, replacement);
+      const textContent = textNode.textContent;
+      if (!textContent) continue;
+      
+      // Try exact match first
+      if (textContent.includes(original)) {
+        undoTextRef.current = { node: textNode, original: textContent };
+        textNode.textContent = textContent.replace(original, replacement);
+        return true;
+      }
+      
+      // Try normalized whitespace match
+      const normalizedText = normalizeWhitespace(textContent);
+      if (normalizedText.includes(normalizedOriginal)) {
+        undoTextRef.current = { node: textNode, original: textContent };
+        // Replace using the normalized version
+        const idx = normalizedText.indexOf(normalizedOriginal);
+        // Find actual start position in original text
+        let actualStart = 0, wsCount = 0;
+        for (let i = 0; i < idx && actualStart < textContent.length; i++) {
+          if (/\s/.test(normalizedText[i]) && /\s/.test(textContent[actualStart])) {
+            while (/\s/.test(textContent[actualStart])) actualStart++;
+          } else {
+            actualStart++;
+          }
+        }
+        const actualEnd = actualStart + (original.length);
+        textNode.textContent = textContent.slice(0, actualStart) + replacement + textContent.slice(actualEnd);
         return true;
       }
     }
@@ -737,11 +845,27 @@ export default function AgentPanel() {
                     {response.explanation && <p className="text-text-secondary text-xs font-mono mb-2 italic">{response.explanation}</p>}
                     <div className="text-text-primary leading-relaxed max-h-36 overflow-y-auto text-xs font-mono whitespace-pre-wrap bg-black/20 rounded p-2">{response.content}</div>
                     {response.action === "rewrite" && (
-                      <div className="flex gap-2 mt-2">
+                      <div className="flex flex-col gap-2 mt-2">
                         {(applyTargetRef.current || response.original) ? (
                           !applied
-                            ? <button onClick={applyRewrite} className="flex-1 py-1 rounded bg-accent-cyan/20 border border-accent-cyan/40 text-accent-cyan text-xs font-mono hover:bg-accent-cyan/30 transition-all">▶ Apply na stranicu</button>
-                            : <button onClick={undoRewrite} className="flex-1 py-1 rounded bg-white/10 border border-white/20 text-text-secondary text-xs font-mono hover:bg-white/20 transition-all">Undo</button>
+                            ? <button onClick={applyRewrite} className="w-full py-1 rounded bg-accent-cyan/20 border border-accent-cyan/40 text-accent-cyan text-xs font-mono hover:bg-accent-cyan/30 transition-all">▶ Apply na stranicu</button>
+                            : <>
+                                <button onClick={undoRewrite} className="flex-1 py-1 rounded bg-white/10 border border-white/20 text-text-secondary text-xs font-mono hover:bg-white/20 transition-all">Undo</button>
+                                {!saved && pageArticleDbId && (
+                                  <button 
+                                    onClick={saveToDatabase} 
+                                    disabled={saveLoading}
+                                    className="flex-1 py-1 rounded bg-green-400/20 border border-green-400/40 text-green-400 text-xs font-mono hover:bg-green-400/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                                  >
+                                    {saveLoading ? "⟳ Spremam..." : "💾 SPREMI TRAJNO"}
+                                  </button>
+                                )}
+                                {saved && saveResult && (
+                                  <div className={`flex-1 py-1 px-2 rounded border text-xs font-mono text-center ${saveResult.ok ? "bg-green-400/10 border-green-400/30 text-green-400" : "bg-red-400/10 border-red-400/30 text-red-400"}`}>
+                                    {saveResult.msg}
+                                  </div>
+                                )}
+                              </>
                         ) : (
                           <span className="flex-1 text-[10px] font-mono text-text-secondary/40 py-1">Odaberi element za Apply</span>
                         )}
@@ -801,7 +925,11 @@ export default function AgentPanel() {
               </div>
             )}
 
-            <p className="text-text-secondary/30 text-xs font-mono text-center">Izmjene su samo preview. Kopiraj tekst za spremanje.</p>
+            <p className="text-text-secondary/30 text-xs font-mono text-center">
+              {!pageArticleDbId 
+                ? "⚠️ Nismo pronašli ID članka — otvori stranicu članka za spremanje" 
+                : "1️⃣ Apply na stranicu → 2️⃣ Klikni 💾 SPREMI TRAJNO"}
+            </p>
           </div>
         )}
 

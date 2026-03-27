@@ -67,7 +67,11 @@ export interface Article {
   scrapeDateDate?: string; // Original scrape date, separate from edit date
   excerpt: string;
   excerptEn?: string;
-  execSummary?: string; // 2-3 sentence summary from writer
+  execSummary?: string; // 2-3 sentence summary from writer (legacy)
+  summaryBlock?: string; // 3-4 sentence summary block (HR) - PREMIUM SPEC
+  summaryBlockEn?: string; // 3-4 sentence summary block (EN) - PREMIUM SPEC
+  keyPoints?: string[]; // 3 short HR bullet highlights
+  keyPointsEn?: string[]; // 3 short EN bullet highlights
   source: ArticleSource;
   image: ArticleImage;
   subtitle?: string;
@@ -77,6 +81,7 @@ export interface Article {
   geo: GeoLocation;
   featured: boolean;
   approved: boolean;
+  leadSentenceEn?: string;
   videoUrl?: string;
   content: string;
   part1En?: string; // English content part 1

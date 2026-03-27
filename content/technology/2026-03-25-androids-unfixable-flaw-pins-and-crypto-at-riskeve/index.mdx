@@ -1,0 +1,52 @@
+---
+id: "2026-03-25-androids-unfixable-flaw-pins-and-crypto-at-riskeve"
+db_id: 732
+title: "Android’s Unfixable Flaw: PINs and Crypto at Risk—Even When Off"
+category: "technology"
+date: "2026-03-25T12:00:00Z"
+excerpt: "For years, the ritual was simple: set a PIN, maybe add a fingerprint, and assume your Android phone was locked down."
+exec_summary: "Ledger’s Donjon team uncovered a MediaTek chip flaw exposing over a billion Android devices to PIN and crypto-wallet theft—even when powered off. This shifts the security burden from software to hardware, forcing users to reconsider Android as a 'vault' for sensitive data and pressuring manufacturers to adopt costlier, Apple-like security modules."
+key_points:
+  - "Hardware flaw exposes PINs in 37% of Android devices"
+  - "Attack works even on powered-off phones"
+  - "Crypto wallets and messages vulnerable by design"
+source:
+  name: ""
+  url: "https://www.techradar.com/pro/security/smartphones-were-never-designed-to-be-vaults-how-hackers-can-steal-pins-and-private-data-from-over-a-billion-android-devices-even-while-theyre-switched-off"
+image:
+  url: "/images/articles/androids-unfixable-flaw-pins-and-crypto-at-riskeve/main.jpg"
+  alt: "Android’s Unfixable Flaw: PINs and Crypto at Risk—Even When Off"
+subtitle: "Milijarda Android uređaja postaje nesigurna za pohranu osjetljivih podataka"
+subtitle_en: "The real-world gap between ‘secure’ specs and actual hardware risks"
+subtitleImage:
+  url: "/images/articles/androids-unfixable-flaw-pins-and-crypto-at-riskeve/subtitle.jpg"
+  alt: "The real-world gap between ‘secure’ specs and actual hardware risks"
+tags: ["Android", "Cryptocurrency Wallets", "Data Security", "PIN Vulnerability"]
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+lead_sentence: "MediaTek chips in 37% of Android devices have a design flaw"
+approved: true
+---
+-
+
+For years, the ritual was simple: set a PIN, maybe add a fingerprint, and assume your Android phone was locked down. That assumption just collapsed. A [hardware-level vulnerability](https://www.ledger.com/ledger-donjon-unveils-new-attack-vectors-on-android-devices) discovered by Ledger’s Donjon team—buried in MediaTek chips—lets attackers extract PINs, messages, and crypto wallet keys **in seconds**, even when the device is *turned off*. No malware needed. No user interaction required. Just a $10 Raspberry Pi and physical access.
+
+This isn’t a bug to patch. It’s a **design flaw** in the chipset powering [37% of Android devices](https://www.counterpointresearch.com/global-smartphone-ap-soc-market-share/)—from budget Xiaomis to mid-range Samsungs. The attack exploits MediaTek’s ‘deep sleep’ mode, where the chip keeps running low-level processes (and, critically, storing encryption keys) to enable features like ‘find my device.’ Convenience, it turns out, has a price: your security keys never actually leave the hardware.
+
+The crypto community is already sounding alarms. [Ledger’s report](https://www.ledger.com/ledger-donjon-unveils-new-attack-vectors-on-android-devices) notes that hardware wallets connected to vulnerable phones could be drained via this vector. But the ripple effect is wider: **any app relying on device-level encryption**—password managers, secure messengers, even some banking apps—now has a hardcoded backdoor.
+
+<ArticleBreak />
+
+MediaTek’s response? A [statement](https://www.mediatek.com/news/events) calling the attack ‘highly complex’ and noting it requires physical access. That’s cold comfort. Physical access is the entire threat model for PINs and biometrics—what good is a lock if the key is taped to the door? The flaw also undermines Android’s [file-based encryption](https://source.android.com/docs/security/features/encryption), which assumes the hardware can be trusted to scrub keys on shutdown. Spoiler: it can’t.
+
+The market context here is brutal. Qualcomm, MediaTek’s main rival, has its own [history of hardware vulnerabilities](https://www.theregister.com/2023/03/10/qualcomm_chip_flaws/), but none this systemic. Google’s [Pixel 8](https://store.google.com/product/pixel_8) (with its Tensor G3 chip) and Apple’s iPhones are unaffected—but that’s a luxury segment. For the billions using MediaTek-powered devices, the options are grim: **buy a new phone, accept the risk, or treat every ‘off’ device as compromised**.
+
+Developers are scrambling. Signal’s [Moxie Marlinspike](https://signal.org/blog/) has long warned about trusting hardware security modules; this proves his point. Meanwhile, regulators may finally wake up: if a flaw this severe can’t be patched, does ‘right to repair’ need a ‘right to secure’ amendment?
+
+The real kicker? This isn’t even the first time MediaTek’s firmware has been [exploited for persistent access](https://www.bleepingcomputer.com/news/security/new-mediatek-flaws-let-attackers-eavesdrop-on-android-calls/). At some point, ‘convenience’ becomes negligence.
+
+In other words, we’ve hit the limits of security theater. PINs and biometrics were never the real barrier—they were just the user-facing part of a chain that assumed the hardware underneath was honest. This flaw proves that chain is only as strong as its weakest chip.

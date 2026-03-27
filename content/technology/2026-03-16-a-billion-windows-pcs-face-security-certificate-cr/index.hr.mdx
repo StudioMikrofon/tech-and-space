@@ -1,0 +1,35 @@
+---
+id: "2026-03-16-a-billion-windows-pcs-face-security-certificate-cr"
+title: "Milijun Windows računala ugrožen: provjerite sigurnosne certifikate"
+lang: "hr"
+category: "technology"
+date: "2026-03-16T12:00:00Z"
+excerpt: "Ako ste vjerovali da je prošlogodišnji kaos s istekom Windows 10 certifikata bio jedinstvena greška – imate loše vijesti."
+exec_summary: "Microsoft’s recurring certificate expiration issues—now affecting over a billion Windows PCs—expose a systemic flaw in its update strategy. The article dissects the real-world impact (downtime, security gaps) and questions whether this is an industry-wide tolerance problem or a failure of Redmond’s legacy systems."
+source:
+  name: ""
+  url: ""
+image:
+  url: "/images/articles/a-billion-windows-pcs-face-security-certificate-cr/main.jpg"
+  alt: "Milijun Windows računala ugrožen: provjerite sigurnosne certifikate"
+subtitle: "Zašto bi vas ovo moglo koštati više nego pet minuta popravka"
+subtitleImage:
+  url: "/images/articles/a-billion-windows-pcs-face-security-certificate-cr/subtitle.jpg"
+  alt: "Zašto bi vas ovo moglo koštati više nego pet minuta popravka"
+tags: ["future-pulse", "automated", "technology"]
+geo:
+  name: "Redmond, WA, USA"
+  lat: 47.6785
+  lon: -122.131
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Ako ste vjerovali da je prošlogodišnji kaos s istekom Windows 10 certifikata bio jedinstvena greška – imate loše vijesti. Prema najnovijim podacima ZDNet-a, više od milijun Windows računala prijeti novi sigurnosni risk zbog isteka kritičnih certifikata. I ovoga puta nije riječ o nekom marginalnom bugu, već o potencijalnom prekidanju autentifikacije, VPN pristupa ili čak poslovnih aplikacija. Problem je u tome što Microsoft – iako je svjestan problema – opet ostavlja korisnike da ručno provjeravaju status svojih uređaja. Za razliku od automatskih ažuriranja koja bi trebala riješiti ovakve situacije, ovo zahtijeva aktivnu akciju: otvaranje Command Prompta, pokretanje skripti ili čekanje na popravni patch. A to je problem za 90% korisnika koji ne znaju što je certificate store, a kamoli kako ga provjeriti. Dok korporativni IT odjeli već panično šalju upozorenja zaposlenicima, kućni korisnici ostaju najugroženija skupina. Prema analitičarima iz Gartnera, upravo oni najčešće zanemaruju ovakve obavijesti – sve dok im ne prestane raditi Outlook ili Teams usred važnog poziva. A upravo ta nevidljiva granica između „radi“ i „ne radi“ čini ovaj problem opasnijim od uobičajenih sigurnosnih propusta. Zanimljivo je da Microsoft nije objavio točan datum isteka – što navodi na zaključak da ili još uvijek radi na rješenju, ili pak namjerno izbjegava javnu paniku. Čemu se, međutim, ne čudi community koji već bilježi porast pitanja tipa „Zašto mi ne radi prijava u banku?“ – upravo onih koje bi trebalo upozoriti prije nego što im aplikacije prestanu funkcionirati.
+
+<ArticleBreak />
+
+Da bismo razumjeli stvarne posljedice, moramo se vratiti na to kako Windows upravlja certifikatima. Ti digitalni „pečati“ osiguravaju da vaša veza s bankom, poslodavcem ili cloud uslugom zaista ide tamo gdje treba – a ne na neki lažni server. Kada isteku, sustav ih automatski odbacuje, što može rezultirati greškama tipa „Your connection is not private“ ili, još gore, potpunim blokiranjem pristupa. Problem je širi od pojedinačnih korisnika: enterprise sektor već bilježi prekide u radu, posebno kod tvrtki koje koriste starije verzije Windowsa (poput 10 ili 11 bez najnovijih patchova). A upravo tu leži skriveni trošak ovog problema – ne u samom popravljanju, već u gubitku produktivnosti dok IT timovi gaše požare umjesto da rade na strategijskim projektima. Microsoftov pristup – reaktivno umjesto proaktivno – postavlja pitanje: zašto tech div ne može automatizirati ovakve procese? Odgovor leži u složenosti ekosustava: Windows još uvijek podržava starije protokole i aplikacije koje se oslanjaju na zastarjele certifikate. I dok bi Google ili Apple riješili ovaj problem centralizirano, Microsoftova fragmentirana baza korisnika čini to gotovo nemogućim. Što možete učiniti sada? Ako ne želite čekati da vas sustav iznenadi: 1. Otvorite Command Prompt kao administrator i pokrenite certmgr.msc da provjerite certifikate. 2. Potražite one koji ističu u sljedećih 30 dana (posebno onaj pod nazivom „Microsoft Root Certificate Authority“). 3. Ako nisu ažurirani, ručno instalirajte najnoviji patch – ili pripremite se na ručno brisanje i ponovnu instalaciju certifikata.
+
+Ako ovo nije jednokratni incident, već sistemski problem – koliko će još puta Microsoft dopustiti da milijuni korisnika budu izloženi riziku zbog isteka certifikata? Ovo pitanje ostaje bez odgovora, ali jedino što je sigurno je da korisnici moraju biti svjesni ovog rizika i preuzeti aktivnu ulogu u zaštiti svojih uređaja. Time će se možda izbjeći veliki problemi u budućnosti.

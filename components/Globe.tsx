@@ -9,7 +9,7 @@ const GlobeWrapper = dynamic(() => import("./GlobeWrapper"), {
   ssr: false,
   loading: () => (
     <div className="flex items-center justify-center w-full h-full">
-      <div className="globe-loading-ring" />
+      <div className="tp-dots"><span/><span/><span/></div>
     </div>
   ),
 });
@@ -53,7 +53,7 @@ const GlobeComponent = forwardRef<GlobeHandle, GlobeProps>(
     if (webGLSupported === null) {
       return (
         <div className="flex items-center justify-center w-full h-full">
-          <div className="globe-loading-ring" />
+          <div className="tp-dots"><span/><span/><span/></div>
         </div>
       );
     }

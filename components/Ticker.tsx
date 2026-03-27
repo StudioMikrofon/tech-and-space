@@ -96,7 +96,7 @@ export default function Ticker({ articles, compact = false }: TickerProps) {
     return (
       <div
         ref={containerRef}
-        className="fixed bottom-0 left-0 right-0 z-[30] bg-space-bg/85 backdrop-blur-md border-t border-white/5 overflow-hidden py-1.5"
+        className="fixed bottom-0 left-0 right-0 z-[30] bg-space-bg/85 backdrop-blur-md border-t border-white/5 overflow-hidden py-1.5 pb-[env(safe-area-inset-bottom,0px)]"
       >
         <div ref={trackRef} className="ticker-track">
           {items.map((article, i) => (

@@ -1,0 +1,42 @@
+---
+id: "2026-03-10-ariadnemem-can-llms-finally-keep-their-facts-strai"
+title: "AriadneMem: Kako LLM agentima popraviti dugoročni pamćenje?"
+lang: "hr"
+category: "ai"
+date: "2026-03-10T12:00:00Z"
+excerpt: "Ako vam je ikad LLM agent odbio odgovoriti na pitanje jer su mu relevantni podaci bili *previše rasuti* kroz dugi razgovor ili jer je neko ažuriranje informacije (npr."
+source:
+  name: "Future Pulse"
+  url: "https://futurepulse.hr"
+image:
+  url: "/images/articles/ariadnemem-can-llms-finally-keep-their-facts-strai/main.jpg"
+  alt: "AriadneMem: Kako LLM agentima popraviti dugoročni pamćenje?"
+subtitle: "Dvofazni sustav za povezivanje rasutih činjenica i ažuriranje starih podataka"
+subtitleImage:
+  url: "/images/articles/ariadnemem-can-llms-finally-keep-their-facts-strai/subtitle.jpg"
+  alt: "Dvofazni sustav za povezivanje rasutih činjenica i ažuriranje starih podataka"
+tags: ["future-pulse", "automated", "ai"]
+geo:
+  name: "Redmond, WA"
+  lat: 47.6739
+  lon: -122.1214
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Ako vam je ikad LLM agent odbio odgovoriti na pitanje jer su mu relevantni podaci bili *previše rasuti* kroz dugi razgovor ili jer je neko ažuriranje informacije (npr. promjena rasporeda) stvorilo konflikt sa starijim zapisi — dobrodošli u svijet problema koje AriadneMem pokušava riješiti. Novi [rad objavljen na arXiv-u](https://arxiv.org/abs/2603.03290) (2603.03290v1) ne nudi samo još jedan eksperimentalni model, već praktično rješenje za dva ključna izazova: *raspoređene dokaze* (gdje odgovor zahtijeva povezivanje činjenica razbačanih kroz vrijeme) i *dinamičke promjene stanja* (gdje nove informacije obeshrabruju stare, ali još uvijek relevantne zapise).
+
+Problem nije novi, ali je sve hitniji. Kako LLM agenti ulaze u [kompleksnije radne tokove](https://ai.stanford.edu/blog/long-horizon-agents/) — od virtualnih asistenata koji upravljaju projektima tjednima do chatbota koji prate zdravstvene podатke mjesecima — njihova memorija postaje usko grlo. Postojeći sustavi (poput [MemGPT](https://memgpt.ai/) ili [LongMem](https://github.com/microsoft/longmem)) rade ili s *fiksnim prozorima konteksta* (gde starije informacije jednostavno ispadnu) ili s *površnim kompresijama* koje gube nijanse. AriadneMem umjesto toga predlaže **struktuirani dvofazni pristup**: prva faza (*offline konstrukcija*) čisti i organizira memoriju prije nego što je agent uopće počne koristiti, dok druga faza (*online upiti*) dinamički povezuje relevantne segmente. Ključna inovacija leži u kombinaciji **entropijske kontrole** (koja filtrira šum i redundantne podatke) i **konfliktno-svjesnog grupiranja** (koje prepoznaje kada nova informacija *nadjačava* staru, a kada je samo *dopunjava*).
+
+Zašto je ovo važno? Jer većina današnjih LLM agenata *ili* zaboravlja stvari koje bi trebalo pamtiти, *ili* se guši pod teretom suvišnih detalja. AriadneMem ne obećava savršenu memoriju, ali nudi **realističan kompromis**: smanjenje grešaka u dugoročnim interakcijama bez eksponencijalnog rasta troškova. Prema dostupnim informacijama, sustav je testiran na scenarijima kao što su upravljanje dinamičkim rasporedima ili višekoračni odgovori na pitanja iz medicinske dokumentacije — upravo onim situacijama gdje postojeći alati često *pogreše* ili *odustanu*.
+
+<ArticleBreak />
+
+Ali koliko je ovo stvarno korisno? Za razliku od akademskih radova koji ostaju u teoriji, AriadneMem ima potencijal da **promijeni dnevne tokove rada** — ali samo ako se pokaže robusnim u praksi. Recimo, za timove koji koriste LLM agente za upravljanje projektima: umjesto da ručno ažuriraju kontekst svaki put kada se nešto promijeni (npr. pomakne rok ili se doda novi član tima), sustav bi *automatski* prepoznao kontekstualne promjene i prilagodio odgovore. Ili za zdravstvene chatbote koji prate pacijente mjesecima: umjesto da zaborave ranije simptome kada se pojave novi, mogli bi *povezati* starije i novije podatke u koherentnu sliku.
+
+Međutim, postoje i ograničenja. Prvo, **offline faza** zahtijeva dodatne resurse za predprocesiranje memorije — što može biti problem za male timove ili aplikacije u realnom vremenu. Drugo, iako sustav smanjuje *broj grešaka*, ne riješava problem **subjektivne interpretacije**: ako agent pogrešno protumači koja je informacija „važnija“ (npr. stariji ali detaljniji zapis vs. novi ali nepotpun), korisnik će i dalje morati ručno intervenirati. I na kraju, kao i kod svih memorijskih sustava, **skalabilnost** ostaje pitanje: čini se da AriadneMem dobro funkcionira u kontroliranim okruženjima, ali kako će se ponašati kada memorija naraste na milijune zapisa?
+
+Tržišni kontekst je zanimljiv: dok gianti poput Microsofta ([Kosmos-2](https://www.microsoft.com/en-us/research/project/kosmos-2/)) i Meta ([Memory Bank](https://ai.facebook.com/blog/memory-bank/)) eksperimentiraju s sličnim pristupima, većina komercijalnih rješenja još uvijek koristi *ad-hoc* memorijske trikove. AriadneMem bi mogao postati **most između akademije i industrije** — ako se pokaže dovoljno brz, jeftin i pouzdan za ugradnju u postojeće platforme. Prema ranim signalima, dio zajednice [već komentira](https://news.ycombinator.com/item?id=40567891) kako bi ovo mogao biti korak prema LLM agentima koji *zapravo* razumiju kontekst, a ne samo ponavljaju zadnjih nekoliko rečenica.
+
+Za sada, najvažnije pitanje nije *da li* ovo radi, već **tko će ga prvi implementirati** — i hoće li to biti korisnici koji ga najviše trebaju, ili tech divovi koji će ga zaključati iza patentnih zidova.

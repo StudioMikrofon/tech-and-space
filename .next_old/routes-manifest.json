@@ -1,0 +1,269 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/gaming/[...path]",
+      "regex": "^/api/gaming/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPpath": "nxtPpath"
+      },
+      "namedRegex": "^/api/gaming/(?<nxtPpath>.+?)(?:/)?$"
+    },
+    {
+      "page": "/api/space/[...path]",
+      "regex": "^/api/space/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPpath": "nxtPpath"
+      },
+      "namedRegex": "^/api/space/(?<nxtPpath>.+?)(?:/)?$"
+    },
+    {
+      "page": "/article/[category]/[id]",
+      "regex": "^/article/([^/]+?)/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcategory": "nxtPcategory",
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/article/(?<nxtPcategory>[^/]+?)/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/category/[slug]",
+      "regex": "^/category/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/category/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/hr/article/[category]/[id]",
+      "regex": "^/hr/article/([^/]+?)/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcategory": "nxtPcategory",
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/hr/article/(?<nxtPcategory>[^/]+?)/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/hr/category/[slug]",
+      "regex": "^/hr/category/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/hr/category/(?<nxtPslug>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/api/agent",
+      "regex": "^/api/agent(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/agent(?:/)?$"
+    },
+    {
+      "page": "/api/editorial",
+      "regex": "^/api/editorial(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/editorial(?:/)?$"
+    },
+    {
+      "page": "/api/foto-review",
+      "regex": "^/api/foto\\-review(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/foto\\-review(?:/)?$"
+    },
+    {
+      "page": "/api/foto-review/img",
+      "regex": "^/api/foto\\-review/img(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/foto\\-review/img(?:/)?$"
+    },
+    {
+      "page": "/api/globe-pins",
+      "regex": "^/api/globe\\-pins(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/globe\\-pins(?:/)?$"
+    },
+    {
+      "page": "/api/image-pull",
+      "regex": "^/api/image\\-pull(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/image\\-pull(?:/)?$"
+    },
+    {
+      "page": "/api/image-regen",
+      "regex": "^/api/image\\-regen(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/image\\-regen(?:/)?$"
+    },
+    {
+      "page": "/api/publish-local",
+      "regex": "^/api/publish\\-local(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/publish\\-local(?:/)?$"
+    },
+    {
+      "page": "/api/review",
+      "regex": "^/api/review(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/review(?:/)?$"
+    },
+    {
+      "page": "/api/review/select-ending",
+      "regex": "^/api/review/select\\-ending(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/review/select\\-ending(?:/)?$"
+    },
+    {
+      "page": "/api/run-status",
+      "regex": "^/api/run\\-status(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/run\\-status(?:/)?$"
+    },
+    {
+      "page": "/api/run-tasks",
+      "regex": "^/api/run\\-tasks(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/run\\-tasks(?:/)?$"
+    },
+    {
+      "page": "/api/sync-github",
+      "regex": "^/api/sync\\-github(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/sync\\-github(?:/)?$"
+    },
+    {
+      "page": "/api/tasks",
+      "regex": "^/api/tasks(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/tasks(?:/)?$"
+    },
+    {
+      "page": "/api/transcribe",
+      "regex": "^/api/transcribe(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/transcribe(?:/)?$"
+    },
+    {
+      "page": "/api/upload-image",
+      "regex": "^/api/upload\\-image(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/upload\\-image(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/foto-review",
+      "regex": "^/foto\\-review(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/foto\\-review(?:/)?$"
+    },
+    {
+      "page": "/gaming",
+      "regex": "^/gaming(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/gaming(?:/)?$"
+    },
+    {
+      "page": "/hr",
+      "regex": "^/hr(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/hr(?:/)?$"
+    },
+    {
+      "page": "/hr/gaming",
+      "regex": "^/hr/gaming(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/hr/gaming(?:/)?$"
+    },
+    {
+      "page": "/milkyway-test",
+      "regex": "^/milkyway\\-test(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/milkyway\\-test(?:/)?$"
+    },
+    {
+      "page": "/review",
+      "regex": "^/review(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/review(?:/)?$"
+    },
+    {
+      "page": "/robots.txt",
+      "regex": "^/robots\\.txt(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/robots\\.txt(?:/)?$"
+    },
+    {
+      "page": "/sitemap.xml",
+      "regex": "^/sitemap\\.xml(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sitemap\\.xml(?:/)?$"
+    },
+    {
+      "page": "/space-pro",
+      "regex": "^/space\\-pro(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/space\\-pro(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

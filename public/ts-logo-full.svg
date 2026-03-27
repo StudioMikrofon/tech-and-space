@@ -1,84 +1,149 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 110" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 110" fill="none">
   <defs>
-    <filter id="glow-ring" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="4" result="b1"/>
-      <feGaussianBlur stdDeviation="1.5" result="b2"/>
+    <!-- Glows -->
+    <filter id="glow-ring" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3.5" result="b1"/>
+      <feGaussianBlur stdDeviation="1" result="b2"/>
       <feMerge>
         <feMergeNode in="b1"/>
         <feMergeNode in="b2"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <filter id="glow-dot" x="-100%" y="-100%" width="300%" height="300%">
-      <feGaussianBlur stdDeviation="3" result="b"/>
+    <filter id="glow-dot" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
       <feMerge>
         <feMergeNode in="b"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <filter id="glow-text" x="-5%" y="-30%" width="110%" height="160%">
-      <feGaussianBlur stdDeviation="1.5" result="b"/>
+    <filter id="glow-text" x="-4%" y="-40%" width="108%" height="180%">
+      <feGaussianBlur stdDeviation="1.2" result="b"/>
       <feMerge>
         <feMergeNode in="b"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <linearGradient id="rg1" x1="10%" y1="0%" x2="90%" y2="100%">
-      <stop offset="0%" stop-color="#d0e4f8"/>
-      <stop offset="35%" stop-color="#90b8e0"/>
-      <stop offset="65%" stop-color="#5090cc"/>
-      <stop offset="100%" stop-color="#c8dcf4"/>
+    <filter id="glow-amp" x="-20%" y="-60%" width="140%" height="220%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Ring gradient — cool steel blue to bright cyan -->
+    <linearGradient id="rg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#b8d8f8" stop-opacity="0.7"/>
+      <stop offset="40%"  stop-color="#4ab4e8"/>
+      <stop offset="70%"  stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#c4e0f8" stop-opacity="0.5"/>
     </linearGradient>
-    <linearGradient id="rg2" x1="90%" y1="0%" x2="10%" y2="100%">
-      <stop offset="0%" stop-color="#d0e4f8"/>
-      <stop offset="35%" stop-color="#90b8e0"/>
-      <stop offset="65%" stop-color="#5090cc"/>
-      <stop offset="100%" stop-color="#c8dcf4"/>
+    <linearGradient id="rg2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#b8d8f8" stop-opacity="0.6"/>
+      <stop offset="40%"  stop-color="#4ab4e8"/>
+      <stop offset="70%"  stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#c4e0f8" stop-opacity="0.5"/>
     </linearGradient>
+
+    <!-- Horizontal ring gradient -->
+    <linearGradient id="rg3" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%"   stop-color="#00d4ff" stop-opacity="0.15"/>
+      <stop offset="30%"  stop-color="#00d4ff" stop-opacity="0.55"/>
+      <stop offset="70%"  stop-color="#00d4ff" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#00d4ff" stop-opacity="0.15"/>
+    </linearGradient>
+
+    <!-- Core sphere gradient -->
+    <radialGradient id="sphere-g" cx="42%" cy="38%" r="60%">
+      <stop offset="0%"  stop-color="#a0e4ff"/>
+      <stop offset="45%" stop-color="#00b4e8"/>
+      <stop offset="100%" stop-color="#004870"/>
+    </radialGradient>
+
+    <!-- Reticle ring clip -->
+    <clipPath id="icon-clip">
+      <circle cx="55" cy="55" r="50"/>
+    </clipPath>
   </defs>
 
-  <!-- Cyan glow halos (background, blurred) -->
-  <ellipse cx="55" cy="55" rx="48" ry="17" transform="rotate(45 55 55)"
-    stroke="#00cfff" stroke-width="8" fill="none" opacity="0.15" filter="url(#glow-ring)"/>
-  <ellipse cx="55" cy="55" rx="48" ry="17" transform="rotate(-45 55 55)"
-    stroke="#00cfff" stroke-width="8" fill="none" opacity="0.15" filter="url(#glow-ring)"/>
+  <!-- ── Icon mark ──────────────────────────────────────────────────────── -->
 
-  <!-- Ring 1 — tilted +45° -->
-  <ellipse cx="55" cy="55" rx="48" ry="17" transform="rotate(45 55 55)"
-    stroke="url(#rg1)" stroke-width="5.5" fill="none"
+  <!-- Outer thin reticle circles -->
+  <circle cx="55" cy="55" r="49" stroke="#00d4ff" stroke-width="0.5" fill="none" opacity="0.18"/>
+  <circle cx="55" cy="55" r="44" stroke="#4ab4e8" stroke-width="0.4" fill="none" opacity="0.12"/>
+
+  <!-- Subtle quadrant tick marks -->
+  <line x1="55" y1="6"   x2="55" y2="13"  stroke="#00d4ff" stroke-width="1" opacity="0.4"/>
+  <line x1="55" y1="97"  x2="55" y2="104" stroke="#00d4ff" stroke-width="1" opacity="0.4"/>
+  <line x1="6"  y1="55"  x2="13" y2="55"  stroke="#00d4ff" stroke-width="1" opacity="0.4"/>
+  <line x1="97" y1="55"  x2="104" y2="55" stroke="#00d4ff" stroke-width="1" opacity="0.4"/>
+
+  <!-- Horizontal equatorial ring (perspective ellipse) -->
+  <ellipse cx="55" cy="55" rx="46" ry="11"
+    stroke="url(#rg3)" stroke-width="1.2" fill="none" opacity="0.6"/>
+
+  <!-- Glow halos for orbital rings -->
+  <ellipse cx="55" cy="55" rx="44" ry="16" transform="rotate(45 55 55)"
+    stroke="#00cfff" stroke-width="7" fill="none" opacity="0.08" filter="url(#glow-ring)"/>
+  <ellipse cx="55" cy="55" rx="44" ry="16" transform="rotate(-45 55 55)"
+    stroke="#00cfff" stroke-width="7" fill="none" opacity="0.08" filter="url(#glow-ring)"/>
+
+  <!-- Orbital ring 1 — +45° -->
+  <ellipse cx="55" cy="55" rx="44" ry="16" transform="rotate(45 55 55)"
+    stroke="url(#rg1)" stroke-width="2" fill="none"
     filter="url(#glow-ring)" stroke-linecap="round"/>
 
-  <!-- Ring 2 — tilted -45° -->
-  <ellipse cx="55" cy="55" rx="48" ry="17" transform="rotate(-45 55 55)"
-    stroke="url(#rg2)" stroke-width="5.5" fill="none"
+  <!-- Orbital ring 2 — -45° -->
+  <ellipse cx="55" cy="55" rx="44" ry="16" transform="rotate(-45 55 55)"
+    stroke="url(#rg2)" stroke-width="2" fill="none"
     filter="url(#glow-ring)" stroke-linecap="round"/>
 
-  <!-- Endpoint nodes -->
-  <circle cx="55" cy="7" r="6" fill="#9bbce0" filter="url(#glow-dot)"/>
-  <circle cx="55" cy="7" r="3.5" fill="#00cfff" opacity="0.9"/>
+  <!-- Orbit node dots (intersections) -->
+  <circle cx="55" cy="11"  r="3.5" fill="#001a2e" filter="url(#glow-dot)"/>
+  <circle cx="55" cy="11"  r="2.2" fill="#00d4ff" opacity="0.95"/>
 
-  <circle cx="55" cy="103" r="6" fill="#9bbce0" filter="url(#glow-dot)"/>
-  <circle cx="55" cy="103" r="3.5" fill="#00cfff" opacity="0.9"/>
+  <circle cx="55" cy="99"  r="3.5" fill="#001a2e" filter="url(#glow-dot)"/>
+  <circle cx="55" cy="99"  r="2.2" fill="#00d4ff" opacity="0.95"/>
 
-  <circle cx="7" cy="55" r="6" fill="#9bbce0" filter="url(#glow-dot)"/>
-  <circle cx="7" cy="55" r="3.5" fill="#00cfff" opacity="0.9"/>
+  <circle cx="11" cy="55"  r="3.5" fill="#001a2e" filter="url(#glow-dot)"/>
+  <circle cx="11" cy="55"  r="2.2" fill="#00d4ff" opacity="0.95"/>
 
-  <circle cx="103" cy="55" r="6" fill="#9bbce0" filter="url(#glow-dot)"/>
-  <circle cx="103" cy="55" r="3.5" fill="#00cfff" opacity="0.9"/>
+  <circle cx="99" cy="55"  r="3.5" fill="#001a2e" filter="url(#glow-dot)"/>
+  <circle cx="99" cy="55"  r="2.2" fill="#00d4ff" opacity="0.95"/>
 
-  <!-- Center node -->
-  <circle cx="55" cy="55" r="5" fill="#b0ccec" filter="url(#glow-dot)"/>
-  <circle cx="55" cy="55" r="2.5" fill="#00cfff" opacity="0.95"/>
+  <!-- Central sphere -->
+  <circle cx="55" cy="55" r="9.5" fill="url(#sphere-g)" filter="url(#glow-dot)"/>
+  <circle cx="55" cy="55" r="9.5" stroke="#00d4ff" stroke-width="0.8" fill="none" opacity="0.6"/>
+  <!-- Specular highlight -->
+  <circle cx="52" cy="52" r="3"  fill="#ffffff" opacity="0.22"/>
+  <circle cx="55" cy="55" r="2"  fill="#00d4ff" opacity="0.5"/>
 
-  <!-- TECH & SPACE text -->
-  <text x="128" y="44" font-family="'Orbitron','Space Grotesk',monospace"
-    font-size="31" font-weight="900" fill="#dceeff" letter-spacing="4"
-    filter="url(#glow-text)">TECH <tspan fill="#00cfff">&amp;</tspan> SPACE</text>
+  <!-- ── Text area ───────────────────────────────────────────────────────── -->
 
-  <!-- Separator line -->
-  <line x1="128" y1="53" x2="376" y2="53" stroke="#00cfff" stroke-width="0.8" opacity="0.35"/>
+  <!-- TECH -->
+  <text x="128" y="46" font-family="'Chakra Petch','Arial Black',sans-serif"
+    font-size="30" font-weight="900" fill="#e8f4ff" letter-spacing="5"
+    filter="url(#glow-text)">TECH</text>
+
+  <!-- & — distinct accent color with stronger glow -->
+  <text x="224" y="46" font-family="'Chakra Petch','Arial Black',sans-serif"
+    font-size="30" font-weight="900" fill="#00d4ff" letter-spacing="0"
+    filter="url(#glow-amp)">&amp;</text>
+
+  <!-- SPACE -->
+  <text x="249" y="46" font-family="'Chakra Petch','Arial Black',sans-serif"
+    font-size="30" font-weight="900" fill="#e8f4ff" letter-spacing="5"
+    filter="url(#glow-text)">SPACE</text>
+
+  <!-- Separator with tapered ends -->
+  <line x1="128" y1="55.5" x2="127" y2="55.5" stroke="#00d4ff" stroke-width="0" opacity="0"/>
+  <rect x="128" y="55" width="262" height="0.7" fill="url(#rg3)" opacity="0.5" rx="0.3"/>
 
   <!-- Tagline -->
   <text x="129" y="76" font-family="'Space Grotesk','Orbitron',monospace"
-    font-size="11.5" font-weight="500" fill="#6a9cbf" letter-spacing="5.5" opacity="0.9">YOUR PORTAL TO THE FUTURE</text>
+    font-size="10.5" font-weight="400" fill="#4a90b8" letter-spacing="6.5" opacity="0.85">YOUR PORTAL TO THE FUTURE</text>
+
+  <!-- Live indicator dot (subtle, right-aligned near tagline) -->
+  <circle cx="391" cy="72" r="2.5" fill="#00ff88" opacity="0.7" filter="url(#glow-dot)"/>
 </svg>

@@ -1,0 +1,50 @@
+---
+id: "2026-03-23-quic-in-proxy-mode-cloudflares-2x-speedup-isnt-jus"
+db_id: 638
+title: "QUIC in Proxy Mode: Cloudflare’s 2x speedup isn’t just hype"
+category: "technology"
+date: "2026-03-23T12:00:00Z"
+excerpt: "When Cloudflare [rebuilt its SASE client](https://blog."
+exec_summary: "Cloudflare’s shift to QUIC in Proxy Mode doubles throughput and cuts latency, but the real story is whether this forces the SASE market to compete on measurable performance—not just security. For users, it means faster cloud apps if their infrastructure supports it; for competitors, it’s a wake-up call to stop hiding behind vague ‘holistic’ claims."
+key_points:
+  - "QUIC replaces TCP, doubling throughput in Cloudflare One"
+  - "User-space overhead killed—latency drops for real-world tasks"
+  - "SASE vendors now face pressure to match performance"
+source:
+  name: ""
+  url: "https://blog.cloudflare.com/faster-sase-proxy-mode-quic/"
+image:
+  url: "/images/articles/quic-in-proxy-mode-cloudflares-2x-speedup-isnt-jus/main.jpg"
+  alt: "QUIC in Proxy Mode: Cloudflare’s 2x speedup isn’t just hype"
+subtitle: "Realna prednost ili samo benchmark trik — što korisnici osjećaju u praksi"
+subtitle_en: "The real-world gap between protocol specs and user experience"
+subtitleImage:
+  url: "/images/articles/quic-in-proxy-mode-cloudflares-2x-speedup-isnt-jus/subtitle.jpg"
+  alt: "The real-world gap between protocol specs and user experience"
+tags: ["Cloudflare", "SASE", "QUIC Protocol"]
+geo:
+  name: "San Francisco, United States"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+lead_sentence: "Cloudflare's QUIC upgrade yields 2x throughput boost, slashing latency for remote workers."
+approved: true
+---
+-
+
+When Cloudflare [rebuilt its SASE client](https://blog.cloudflare.com/quicker-sase-client-proxy-mode/) to use QUIC streams instead of TCP for Proxy Mode, it didn’t just tweak a setting—it eliminated an entire layer of friction. The result? A **2x throughput boost** and latency reductions that actually matter for remote workers, not just benchmark charts.
+
+The problem wasn’t TCP itself, but the *user-space* TCP stacks that added unnecessary overhead. QUIC, built for the modern internet, handles multiplexing and connection migration natively, without the round-trips that bog down legacy setups. For end users, this translates to faster file transfers, snappier SaaS apps, and fewer VPN-like stutters during video calls—**the kind of improvements that show up in daily workflows, not just lab tests**.
+
+This isn’t theoretical. Cloudflare’s own data confirms the gains, and the shift aligns with a broader industry push toward [QUIC adoption](https://www.rfc-editor.org/rfc/rfc9000) in performance-critical tools. But the real test isn’t the protocol—it’s whether competitors can replicate the gains without Cloudflare’s global edge network.
+
+<ArticleBreak />
+
+For the SASE market, this move is a shot across the bow. Vendors like Zscaler and Netskope have long promised low-latency security, but Cloudflare’s QUIC implementation sets a new baseline. The pressure is on: either match the performance or risk losing enterprise customers who’ve grown tired of trade-offs between security and speed.
+
+Yet there’s a catch. QUIC’s benefits depend on **server-side support**, and not every enterprise app or legacy service plays nice with HTTP/3. Cloudflare can enforce this at its edge, but most companies will hit compatibility walls—especially in hybrid environments. Early adopters may see gains, but widespread impact hinges on ecosystem adoption, not just one vendor’s upgrade.
+
+The bigger question is whether this marks a turning point for SASE. If QUIC becomes the default for secure proxies, it could finally kill the myth that ‘security adds latency.’ But for now, it’s a high-stakes experiment—one that forces the industry to prove whether protocol upgrades translate to real-world wins or just better marketing slides.
+
+In other words, Cloudflare didn’t just optimize a client—it exposed how much legacy protocols were costing us. The real signal here is that SASE’s next phase won’t be about features, but about eliminating artificial slowdowns we’ve normalized for years.

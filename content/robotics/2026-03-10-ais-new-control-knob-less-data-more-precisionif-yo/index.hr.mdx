@@ -1,0 +1,44 @@
+---
+id: "2026-03-10-ais-new-control-knob-less-data-more-precisionif-yo"
+title: "Periodni sustav za AI: Što to znači za multimodalne modele?"
+lang: "hr"
+category: "robotics"
+date: "2026-03-10T12:00:00Z"
+excerpt: "Izbor pravog pristupa za **multimodalne AI modele** – oni koji kombiniraju tekst, slike, zvuk i druge podatke – dosad je bio pitanje probanja i pogrešaka."
+source:
+  name: "Future Pulse"
+  url: "https://futurepulse.hr"
+image:
+  url: "/images/articles/ais-new-control-knob-less-data-more-precisionif-yo/main.jpg"
+  alt: "Periodni sustav za AI: Što to znači za multimodalne modele?"
+subtitle: "Novi matematički okvir može smanjiti troškove i povećati točnost – ali će ga industrija prihvatiti?"
+subtitleImage:
+  url: "/images/articles/ais-new-control-knob-less-data-more-precisionif-yo/subtitle.jpg"
+  alt: "Novi matematički okvir može smanjiti troškove i povećati točnost – ali će ga industrija prihvatiti?"
+tags: ["future-pulse", "automated", "robotics"]
+geo:
+  name: "Atlanta, United States"
+  lat: 33.749
+  lon: -84.388
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Izbor pravog pristupa za **multimodalne AI modele** – oni koji kombiniraju tekst, slike, zvuk i druge podatke – dosad je bio pitanje probanja i pogrešaka. Tim fizičara sa [Sveučilišta Emory](https://www.emory.edu/) objavio je studiju koja predlaže **unificirani matematički okvir** za razumijevanje kako različite AI tehnike zapravo rade istu stvar: komprimiraju podatke dok zadržavaju ono što je najprediktivnije. Njegov ključni koncept, koji istraživači nazivaju *„control knob“* (upravljačka ručica), ne samo da objašnjava postojeće metode, nego bi mogao **smanjiti potrošnju podataka i računalne snage** za 20–40% u nekim scenarijima, prema njihovim procjenama.
+
+To nije samo akademska zanimljivost. Trenutno, razvoj multimodalnih modela – kao što su [LLM-ovi s vizualnim ulazima](https://arxiv.org/abs/2309.17421) ili roboti koji učitavaju iz video zapisa – zahtijeva ogromne količine podataka i računalnih resursa. Čak i velika imena poput [Nvidie](https://www.nvidia.com/en-us/) i [Google DeepMinda](https://deepmind.google/) suočavaju se s problemom: kako skalirati modele bez eksplozije troškova i ugrožavanja okoline. Emoryjev pristup nudi **praktičnu metodu za optimizaciju** – ne samo teorijski model.
+
+Ali koliko je ovo stvarno korisno? Dok je matematička osnova potvrđena, **praktična primjena** još uvijek treba proći test industrije. Čini se da bi *„control knob“* mogao pomći istraživačima da brže odaberu pravu tehniku za određeni problem, umjesto da troše mjesece na eksperimentiranje. To je posebno važno za **startupe i manje timove** koji nemaju pristup googlovskim ili metaovskim računalnim farmama. Međutim, pitanje je hoće li velike tvrtke, koje već imaju uspostavljene *pipeline*-ove, htjeti mijenjati pristup radi teorijske uštede.
+
+Jedna od ključnih prednosti ovog okvira je što **razjašnjava zašto neke tehnike bolje funkcioniraju od drugih** u određenim kontekstima. Na primjer, zašto neki modeli bolje rade s tekstom i slikama kada koriste određenu vrstu kompresije. To bi moglo smanjiti broj *„crnih kutija“* u AI razvoju – problema koji muči i korisnike i regulatore. Međutim, kao i uvijek, razlika između **laboratorijskih rezultata** i **stvarne implementacije** može biti značajna. Rani signali sugeriraju da bi ovaj pristup mogao biti koristan u **robotici**, gdje multimodalni podaci (npr. senzori + kamere) često zahtijevaju real-time procesiranje s ograničenim resursima.
+
+<ArticleBreak />
+
+Da razumijemo zašto je ovo važno, vrijedi pogledati trenutno stanje u industriji. Trenutno, razvoj multimodalnih modela podrazumijeva **visoke troškove i veliku potrošnju energije**. Prema podacima [International Energy Agency](https://www.iea.org/reports/data-centres-and-data-transmission-networks), centra podataka već troše oko 1–1.5% globalne električne energije, a AI modeli su jedan od glavnih krivaca za taj rast. Ako Emoryjev okvir stvarno može smanjiti potrebu za podacima i računalnom snagom, to bi moglo biti **značajan korak prema „zelenijem“ AI-ju** – barem u teoriji.
+
+Međutim, postoji nekoliko prepreka. Prva je **adopcija**: velike tvrtke poput [OpenAI](https://openai.com/) ili [Anthropica](https://www.anthropic.com/) već imaju uspostavljene procese i možda neće htjeti riskirati promjenu. Druga je **kompatibilnost**: okvir je još uvijek u ranoj fazi, i nije jasno koliko se lako može integrirati u postojeće alate poput [PyTorcha](https://pytorch.org/) ili [TensorFlowa](https://www.tensorflow.org/). Treća, i možda najvažnija, je **korisničko iskustvo**: čak i ako model postane efikasniji, pitanje je hoće li to rezultirati bržim, točnijim ili jeftinijim proizvodima za krajnje korisnike – ili će uštede ostati na razini centra podataka.
+
+Zanimljivo je kako **robotički sektor** može imati najveću korist od ovog pristupa. Roboti koji rade u stvarnom svijetu (npr. u skladištima ili bolnicama) često moraju procesuirati više vrsta podataka odjednom – slike, zvuk, senzorske podatke – s ograničenim hardverom. Ako *„control knob“* omogućuje bolju kompresiju bez gubitka ključnih informacija, to bi moglo značiti **duže vrijeme rada na bateriji** ili brže odlučivanje u kritičnim situacijama. Međutim, kao što primjećuju neki istraživači iz [robotike na CMU-u](https://www.ri.cmu.edu/), teorijski modeli često ne uzimaju u obzir *„šum“* stvarnog svijeta – nepredvidive varijable koje mogu pokvariti čak i najpažljivije dizajnirane algoritme.
+
+Na kraju, ovo nije *„revolucija“*, ali je **značajan korak prema sistematičnijem razvoju AI-ja**. Ako se potvrdi u praksi, mogao bi smanjiti troškove, ubrzati istraživanje i možda čak smanjiti ekološki otisak. Međutim, kao i uvijek, **đavo je u detaljima** – a oni će se pokazati tek kada se okvir počne koristiti izvan laboratorija.

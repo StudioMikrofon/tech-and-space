@@ -206,7 +206,8 @@ const DEFAULT_LAT = 45.815;
 const DEFAULT_LON = 15.966;
 
 export default function SpaceProDrawer({ open, onClose, persistent = false }: SpaceProDrawerProps) {
-  const { data } = useSpaceProData();
+  // Only poll when drawer is visible to avoid duplicate polling intervals
+  const { data } = useSpaceProData(open || persistent ? 30000 : null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const [expandedInfo, setExpandedInfo] = useState<string | null>(null);
   const [trackerMode, setTrackerMode] = useState<"iss" | "dsn" | "asteroids" | null>(null);
@@ -432,9 +433,9 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
             </div>
             <button
               onClick={() => setTrackerMode("asteroids")}
-              className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-amber-400/10 border border-amber-400/20 text-xs font-mono text-accent-amber hover:bg-amber-400/20 transition-colors cursor-pointer"
+              className="w-full min-h-11 flex items-center justify-center gap-2.5 py-3 px-4 rounded-lg bg-amber-400/10 border border-amber-400/20 text-sm font-mono text-accent-amber hover:bg-amber-400/20 transition-colors cursor-pointer"
             >
-              <Map className="w-3.5 h-3.5" />
+              <Map className="w-4.5 h-4.5 shrink-0" />
               {isEn ? "Show on Map" : "Prikaži na Karti"}
             </button>
           </div>
@@ -480,9 +481,9 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
             </div>
             <button
               onClick={() => setTrackerMode("iss")}
-              className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-cyan-400/10 border border-cyan-400/20 text-xs font-mono text-cyan-400 hover:bg-cyan-400/20 transition-colors cursor-pointer"
+              className="w-full min-h-11 flex items-center justify-center gap-2.5 py-3 px-4 rounded-lg bg-cyan-400/10 border border-cyan-400/20 text-sm font-mono text-cyan-400 hover:bg-cyan-400/20 transition-colors cursor-pointer"
             >
-              <Map className="w-3.5 h-3.5" />
+              <Map className="w-4.5 h-4.5 shrink-0" />
               {isEn ? "Show on Map" : "Prikaži na Karti"}
             </button>
           </div>
@@ -522,9 +523,9 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
             </div>
             <button
               onClick={() => setTrackerMode("dsn")}
-              className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-purple-400/10 border border-purple-400/20 text-xs font-mono text-purple-400 hover:bg-purple-400/20 transition-colors cursor-pointer"
+              className="w-full min-h-11 flex items-center justify-center gap-2.5 py-3 px-4 rounded-lg bg-purple-400/10 border border-purple-400/20 text-sm font-mono text-purple-400 hover:bg-purple-400/20 transition-colors cursor-pointer"
             >
-              <Map className="w-3.5 h-3.5" />
+              <Map className="w-4.5 h-4.5 shrink-0" />
               {isEn ? "Show on Map" : "Prikaži na Karti"}
             </button>
           </div>

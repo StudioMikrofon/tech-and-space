@@ -1,0 +1,32 @@
+---
+id: "2026-03-11-intels-heracles-chip-crushes-encryptions-biggest-b"
+title: "Intelov Heracles: 5.500 puta brži od Xeona, ali za što?"
+lang: "hr"
+category: "technology"
+date: "2026-03-11T12:00:00Z"
+excerpt: "Ako vam je ikad bilo dosadno čekati da se podaci dešifriraju prije obrade, Intel je možda upravo predstavio rješenje koje će vas zainteresirati — ili barem one koji rade s osjetljivim podacima u oblaku."
+source:
+  name: "Tom's Hardware"
+  url: "https://www.tomshardware.com/tech-industry/cyber-security/intels-heracles-chip-computes-fully-encrypted-data-without-decrypting-it-chip-is-1-074-to-5-547-times-faster-than-a-24-core-intel-xeon-in-fhe-math-operations"
+image:
+  url: "/images/articles/intels-heracles-chip-crushes-encryptions-biggest-b/main.jpg"
+  alt: "Intelov Heracles: 5.500 puta brži od Xeona, ali za što?"
+subtitle: "Što znači kad računalo obradi šifrirane podatke bez dekripcije — i tko će to zapravo koristiti?"
+subtitleImage:
+  url: "/images/articles/intels-heracles-chip-crushes-encryptions-biggest-b/subtitle.jpg"
+  alt: "Što znači kad računalo obradi šifrirane podatke bez dekripcije — i tko će to zapravo koristiti?"
+tags: ["future-pulse", "automated", "technology"]
+geo:
+  name: "Santa Clara, United States"
+  lat: 37.3541
+  lon: -121.9552
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Ako vam je ikad bilo dosadno čekati da se podaci dešifriraju prije obrade, Intel je možda upravo predstavio rješenje koje će vas zainteresirati — ili barem one koji rade s osjetljivim podacima u oblaku. Novootkriveni **Heracles** čip, specijaliziran za **potpuno homomorfno enkripciju (FHE)**, ne samo da obavlja izračune direktno na šifriranim podacima, nego to radi **1.074 do 5.547 puta brže** od 24-jezgrenog Intel Xeona u istim operacijama. To nije samo inkrementalno poboljšanje: prema [Intelovim podacima](https://www.tomshardware.com/news/intel-heracles-fhe-accelerator), radi se o **8192-putnom SIMD izračunskom jezgru** koje bi moglo eliminirati cijelu klasu sigurnosnih rizika — pod uvjetom da netko zaista zna kako ga iskoristiti. Fully homomorphic encryption (FHE) nije nova ideja, ali je dosad bila previše spora za praktičnu upotrebu. Heracles to mijenja, barem na papiru. Umjesto da podatke prvo dešifrira, a zatim obradi (što otvara vrata potencijalnim napadima tijekom tog procesa), čip radi izravno na šifriranim blokovima. Za tvrtke koje rade s medicinskim zapisima, financijskim transakcijama ili vojno-osjetljivim informacijama, to znači **manje točaka propusta** — ali i nove izazove. „Potpuna homomorfna enkripcija je sveti gral sigurnosti podataka“, kažu stručnjaci već godinama, ali je pitanje koliko će je industrija zapravo usvojiti kad većina sustava radi na klasičnim modelima. Problem je u tome što FHE nije samo pitanje bržine, nego i **kompatibilnosti**. Heracles je specijalizirana jedinica, što znači da aplikacije moraju biti pisane ili prilagođene za njenu arhitekturu. To nije kao nadogradnja CPU-a; radi se o potpunom preispitivanju kako se podaci obrađuju. A tu dolazimo do ključnog pitanja: **tko će ulagati u ovakvo rješenje prije nego što postane standard?** Oblačni provajderi poput AWS-a ili Azure-a možda, ali za prosječnog korisnika — ili čak većinu tvrtki — ovo je još uvijek daleko od praktične primjene. Čak i ako zanemarimo troškove razvoja, ostaje pitanje **stvarnih performansi u realnim scenarijima**. Intel navodi impresivne brojke, ali one se odnose na **specifične FHE matematičke operacije**, ne na svaki dani zadatak. Čini se da je Heracles optimiziran za nizke latencije u enkriptiranim okruženjima, ali to ne znači da će, recimo, baze podataka iznenada početi raditi 5.000 puta brže. „Ovo je kao usporedba Formule 1 s traktorom — impresivno, ali ne za svaku svrhu“, primjećuje jedan [inženjer iz sigurnosne zajednice](https://community.intel.com/t5/Blogs/ct-p/Blogs).
+
+<ArticleBreak />
+
+Da bismo razumjeli zašto je Heracles važan, moramo se vratiti na osnovni problem: **sigurnost podataka u obradi**. Trenutno, čak i ako su podaci šifrirani prilikom pohrane ili prijenosa, moraju se dešifrirati za obradu — što stvaraju „prozore ranjivosti“. FHE to eliminira, ali po cijeni izračunske kompleksnosti. Heracles tu cijenu drastično snižava, ali ne i na nulu. „Za većinu tvrtki, trošak implementacije FHE-a i dalje je previsok u odnosu na korist“, kaže [analitičar iz Gartnera](https://www.gartner.com/en), dodajući da bi ovo moglo biti zanimljivo „samo za one koji imaju ekstremne zahtjeve za privatnošću, poput zdravstvenih ustanova ili obavještajnih agencija“. Zanimljivo je i to kako se Heracles uklapa u širi **tržišni kontekst**. Intel nije sam u ovoj utrci: [Microsoft](https://www.microsoft.com/en-us/research/project/microsoft-seal/) već godina razvija SEAL biblioteku za FHE, a startupi poput [Duality Technologies](https://www.duality.cloud/) nude komercijalna rješenja. Međutim, većina tih rješenja radi na postojećim CPU-ima ili GPU-ima, što znači kompromise u brzini. Heracles je prvi čip namijenjen **isključivo** FHE-u, što ga čini potencijalno presudnim — ako industrija prihvati njegov model. „Ovo nije kao dodavanje još jedne jezgre u procesor“, objašnjava jedan arhitekt iz [Linley Groupa](https://www.linleygroup.com/), „radi se o potpuno novom načinu razmišljanja o enkripciji.“ Ali postoji i **praktična zapreka**: većina razvojnih alata i frameworka nije spremna za FHE. Čak i ako Heracles postigne obećane performanse, programeri će morati naučiti nove načine pisanja koda, a tvrtke će morati ulagati u nove infrastrukture. To nije kao prelazak s HDD-a na SSD; ovo je više kao prelazak s benzinaca na električne automobile — potrebna je cijela ekosustav promjena. A tu dolazimo do ključnog pitanja: **hoće li Intel uspjeti uvjeriti industriju da je ovo vrijedno truda?** Za sada, Heracles ostaje **tehnički triumf s nejasnom tržišnom sudbinom**. Intel ga predstavlja kao rješenje za „iduću generaciju sigurnih izračuna“, ali pravo pitanje glasi: **koje će tvrtke biti spremne platiti cijenu ranog usvajanja?** Oblačni divovi možda, ali za većinu ostatka svijeta, ovo je još uvijek eksperiment — koliko god impresivnih brojeka Intel ponudio.

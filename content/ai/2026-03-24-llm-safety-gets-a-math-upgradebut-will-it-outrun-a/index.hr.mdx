@@ -1,0 +1,43 @@
+---
+id: "2026-03-24-llm-safety-gets-a-math-upgradebut-will-it-outrun-a"
+db_id: 666
+title: "ES2: Sigurnost AI-a ili samo nova ambalaža?"
+lang: "hr"
+category: "ai"
+date: "2026-03-24T12:00:00Z"
+excerpt: "Kada se radi o sigurnosti velikih jezikovnih modela, svaka nova metoda dolazi s obavezom dokaza."
+exec_summary: "ES2 isn’t a breakthrough—it’s an optimization of an existing observation that harmful/safe embeddings are linearly separable. The real story is the shift from post-hoc safety filters to representation-level tuning, which benefits big players with fine-tuning resources. Benchmarks look good, but real-world adversarial robustness remains unproven."
+key_points:
+  - "Harmful vs. safe embeddingi *linearno* su razdvojivi"
+  - "ES2 širi razmak — ali koliko to vrijedi u praksi?"
+  - "Meta i Google već testiraju slične pristupe"
+source:
+  name: ""
+  url: "https://arxiv.org/abs/2603.20206"
+image:
+  url: "/images/articles/llm-safety-gets-a-math-upgradebut-will-it-outrun-a/main.jpg"
+  alt: "ES2: Sigurnost AI-a ili samo nova ambalaža?"
+subtitle: "Od teorije do deploya: koliko je ovo stvarno korisno?"
+subtitleImage:
+  url: "/images/articles/llm-safety-gets-a-math-upgradebut-will-it-outrun-a/subtitle.jpg"
+  alt: "Od teorije do deploya: koliko je ovo stvarno korisno?"
+tags: ["ES2", "AI Deployment", "AI Safety"]
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+lead_sentence: "ES2 oružava geometriju embedding prostora kako bi povećao razmak između sigurnih i štetnih upita, pretvarajući ranjivost u obranu."
+approved: true
+---
+-
+-
+
+Kada se radi o sigurnosti velikih jezikovnih modela, svaka nova metoda dolazi s obavezom dokaza. Najnoviji pristup — **Embedding Space Separation (ES2)** — ne nudi revoluciju, već **prepakirano uočavanje**: harmful i safe upiti već su linearno razdvojivi u latentnom prostoru, a ES2 to samo eksploatira. Autori [arXiv studije](https://arxiv.org/abs/2603.20206) tvrde da njihova fine-tuning metoda **širi razmak** između tih reprezentacija, čineći napade bazirane na embedding perturbacijama težim. No, ovo nije novi 'srebrni metak' za AI sigurnost. Čak i ako ES2 povećava distancu u embedding prostoru — što je [potvrđeno](https://arxiv.org/abs/2603.20206) na sintetičkim benchmarkovima — **realni napadi** (npr. jailbreakovi) često kombiniraju perturbacije s drugim inženjerskim trikovima. Drugim riječima: ako je protivnik spreman mijenjati upit na više načina, linearna separabilnost postaje samo jedan od mnogih faktora. A tu priča postaje zanimljivija od same objave. Što je onda stvarno novo? ES2 ne uvodi novi koncept, već **optimira postojeći**: umjesto da se oslanja na post-hoc filtre (npr. moderacijske slojeve), radi na samoj reprezentaciji. To je korisno za modele koji već imaju dobre embeddingove — ali ne rješava problem za one s lošom baznom separacijom. Prema dostupnim informacijama, metoda je testirana na **Llama-2 i Mistral modele**, što znači da je primjenjiva na trenutne SOTA arhitekture, ali ne i na starije ili manje modele.
+
+<ArticleBreak />
+
+I tu dolazimo do ključnog pitanja: **tko ovdje zapravo dobiva prednost?** Odgovor nije akademska zajednica — već **veliki igrači** koji već imaju resurse za fine-tuning. Meta, Google i Anthropic [eksperimentiraju](https://ai.meta.com/blog/llm-safety-embeddings/) sa sličnim pristupima, ali za razliku od ES2, njihovi radovi često ostaju zatvoreni. Ovdje imamo otvoreni pristup koji bi mogao postati standard — ako se pokaže robusan u produkciji. No, čini se da je pravi signal ovdje **trend**: sve više timova prelazi s 'naknadne' sigurnosne mjere na **reprezentacijsko inženjerstvo**. Developer community je podijeljen. Na [GitHub threadovima](https://github.com/LAION-AI/Open-Assistant/discussions) linkedanim sa studijom, dio korisnika ističe da ES2 **ne rješava** problem generativnih halucinacija — samo ga premješta na drugu razinu apstrakcije. Drugi, poput istraživača iz [Hugging Face](https://huggingface.co/blog/llm-safety), primjećuju da bi metoda mogla biti korisna za **low-resource scenarije**, gdje fine-tuning sigurnosnih slojeva nije izvodljiv. Ali opet: sve su to **rani signali**, a ne dokazi. Benchmarci koje autori navode (npr. **92% uspješne klasifikacije** harmful upita) zvuče impresivno — dok se ne sjetimo da su testirani na **statistički generiranim perturbacijama**, a ne na realnim napadima. To je klasičan **jaz između benchmarka i proizvoda**: što god radilo u kontroliranim uvjetima, u produkciji će naići na kreativnije protivnike. A ako se ovo potvrdi u praksi, ES2 bi mogao postati **obavezan korak** u fine-tuning pipeline-u — ali ne i samostalno rješenje. Za svu buku, stvarna priča je da ES2 **ne mijenja paradigmu**, već je **optimizira**. To možda zvuči kao tehnički detalj, ali za timove koji rade na deploymentu, razlika između 'djelomično bolje' i 'radikalno novo' je **milijun dolara u troškovima moderacije**.
+
+U konačnici, ES2 predstavlja korak naprijed u sigurnosti AI-a, ali ne i revoluciju. Potencijal metode leži u njenoj sposobnosti da optimizira postojeće modele, ali još uvijek nije jasno koliko će biti efektivan u praksi. Vrijeme će pokazati hoće li ES2 postati standardom u industriji ili će biti zamijenjen novijim i boljim pristupima.

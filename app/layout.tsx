@@ -1,6 +1,27 @@
-import type { Metadata } from "next";
-import { Orbitron, Space_Grotesk, Fira_Code, Poppins } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Chakra_Petch, Space_Grotesk, Fira_Code } from "next/font/google";
 import "./globals.css";
+
+const chakraPetch = Chakra_Petch({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--loaded-font-heading",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--loaded-font-body",
+  display: "swap",
+});
+
+const firaCode = Fira_Code({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--loaded-font-mono",
+  display: "swap",
+});
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TerminalBoot from "@/components/TerminalBoot";
@@ -12,31 +33,6 @@ import SpaceProSidebar from "@/components/SpaceProSidebar";
 import AgentPanel from "@/components/AgentPanel";
 import AmbientSound from "@/components/AmbientSound";
 import { getAllArticles } from "@/lib/content";
-
-const orbitron = Orbitron({
-  variable: "--font-orbitron",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const firaCode = Fira_Code({
-  variable: "--font-fira-code",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const poppins = Poppins({
-  variable: "--font-poppins",
-  weight: ["600", "700", "800"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -59,6 +55,12 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -67,19 +69,19 @@ export default function RootLayout({
   const articles = getAllArticles();
 
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`dark ${chakraPetch.variable} ${spaceGrotesk.variable} ${firaCode.variable}`}>
       <body
-        className={`${orbitron.variable} ${spaceGrotesk.variable} ${firaCode.variable} ${poppins.variable} font-body antialiased bg-space-bg text-text-primary`}
+        className="font-body antialiased bg-space-bg text-text-primary"
       >
         <TerminalBoot />
         <SpaceStage />
         <PageTransition />
         <AmbientSound />
         <KonamiCode />
-        <div className="relative z-10 nebula-bg min-h-screen flex flex-col">
+        <div className="relative z-10 nebula-bg min-h-screen w-full max-w-full overflow-x-hidden flex flex-col">
           <Header />
-          <div className="flex flex-1">
-            <main className="flex-1 lg:mr-[320px] pb-10">{children}</main>
+          <div className="flex flex-1 w-full max-w-full overflow-x-hidden">
+            <main className="flex-1 w-full max-w-full overflow-x-hidden lg:mr-[320px] pb-10">{children}</main>
             <SpaceProSidebar />
           </div>
           <Footer />
@@ -89,12 +91,12 @@ export default function RootLayout({
           <>
             <AgentPanel />
             <a
-              href="/review"
-              title="Review Panel"
+              href="/foto-review"
+              title="Foto Review"
               className="fixed bottom-6 right-[4.5rem] z-[9998] h-12 px-3 rounded-full bg-space-bg border border-white/15 text-text-secondary hover:text-accent-cyan hover:border-accent-cyan/40 text-xs font-mono flex items-center gap-1.5 transition-all"
               style={{ boxShadow: "0 0 12px rgba(0,0,0,0.4)" }}
             >
-              ⊞ Review
+              ⊞ Foto Review
             </a>
           </>
         )}

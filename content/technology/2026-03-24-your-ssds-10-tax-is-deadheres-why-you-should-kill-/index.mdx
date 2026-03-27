@@ -1,0 +1,50 @@
+---
+id: "2026-03-24-your-ssds-10-tax-is-deadheres-why-you-should-kill-"
+db_id: 659
+title: "Your SSD’s 10% tax is dead—here’s why you should kill it"
+category: "technology"
+date: "2026-03-24T12:00:00Z"
+excerpt: "For years, SSD owners religiously left 10% of their drives empty—a relic of early flash memory’s fragility."
+exec_summary: "The article analyzes the industry shift away from user-managed SSD over-provisioning, arguing it represents a maturation of storage technology that returns practical capacity and simplicity to users while shifting maintenance burdens back to manufacturers."
+key_points:
+  - "Modern SSDs no longer need artificial free space"
+  - "A decade-old tweak now wastes money and performance"
+  - "The real bottleneck isn’t drive endurance anymore"
+source:
+  name: ""
+  url: "https://www.xda-developers.com/stop-wasting-your-modern-ssd-on-over-provisioning/"
+image:
+  url: "/images/articles/your-ssds-10-tax-is-deadheres-why-you-should-kill-/main.jpg"
+  alt: "Your SSD’s 10% tax is dead—here’s why you should kill it"
+subtitle: "Stvarni kapacitet se konačno podudara s onim na naljepnici"
+subtitle_en: "The overprovisioning myth that’s costing you storage and speed"
+subtitleImage:
+  url: "/images/articles/your-ssds-10-tax-is-deadheres-why-you-should-kill-/subtitle.jpg"
+  alt: "The overprovisioning myth that’s costing you storage and speed"
+tags: ["SSD", "Storage Capacity", "Hardware"]
+geo:
+  name: "Seoul, South Korea"
+  lat: 37.5665
+  lon: 126.978
+  countryCode: "US"
+featured: false
+lead_sentence: "Leaving 10% of SSD space empty now throttles performance by 15% in sustained workloads."
+approved: true
+---
+-
+
+For years, SSD owners religiously left 10% of their drives empty—a relic of early flash memory’s fragility. The logic was simple: extra free space meant fewer writes per cell, extending the drive’s lifespan. But in 2026, that advice is as outdated as spinning platter backups.
+
+Modern [TLC and QLC NAND](https://www.anandtech.com/show/17050/the-intel-ssd-670p-14-tb-and-22-tb-review) handles wear far better than the planar NAND of 2015, and controllers now dynamically manage cell usage without user intervention. Worse, that reserved space isn’t just wasted—it’s actively harmful. [Benchmark tests](https://www.tomshardware.com/reviews/ssd-overprovisioning-benchmark,5934.html) show artificially limiting capacity can throttle performance by 15% in sustained workloads, as the drive scrambles to remap blocks in a shrunk addressable space.
+
+The industry moved on years ago. Enterprise SSDs like [Samsung’s PM1743](https://www.servethehome.com/samsung-pm1743-3-84tb-ssd-review/) ship with *dynamic* overprovisioning, adjusting on the fly. Consumer drives? They’ve baked the equivalent into firmware. Yet the myth persists, propped up by decade-old forum posts and cautionary tales from the SSD Stone Age.
+
+<ArticleBreak />
+
+The real cost isn’t just lost gigabytes—it’s the opportunity cost. A 1TB drive with 10% reserved isn’t a 900GB drive; it’s a 1TB drive running with a self-imposed handicap. For creators juggling 4K video or gamers staring down 200GB game installs, that’s the difference between *working* and *waiting for files to shuffle*.
+
+Even the [Linux kernel’s discard/trim](https://www.kernel.org/doc/html/latest/admin-guide/device-mapper/dm-integrity.html) defaults have evolved, prioritizing smart block management over blunt capacity sacrifices. The holdouts? Mostly DIY NAS builders and paranoid archivists—groups that, ironically, *do* still benefit from manual overprovisioning in edge cases (like [24/7 write-heavy workloads](https://www.snia.org/forums/cmsi/ssd)). For 95% of users, though, the practice now belongs in the same bin as defragging SSDs.
+
+The shift mirrors how we treat RAM today: we stopped obsessively freeing it up once we realized the OS manages it better than we ever could. SSDs have crossed that threshold. The question isn’t whether you *can* reclaim that 10%—it’s why you haven’t already.
+
+If modern drives don’t need this crutch, why do manufacturers still ship tools to enable it? Is it inertia, liability hedging, or a quiet admission that not all NAND is created equal? Watch whether [budget SSD brands](https://www.techspot.com/review/2450-kingston-nv2-vs-crucial-p5-plus/) start disabling overprovisioning by default—or if they’ll let users keep shooting themselves in the foot.

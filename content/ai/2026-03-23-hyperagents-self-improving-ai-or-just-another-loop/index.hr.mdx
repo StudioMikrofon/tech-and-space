@@ -1,0 +1,39 @@
+---
+id: "2026-03-23-hyperagents-self-improving-ai-or-just-another-loop"
+title: "Hyperagenti: Samopoboljšavanje ili samo novi paket?"
+lang: "hr"
+category: "ai"
+date: "2026-03-23T12:00:00Z"
+excerpt: "Novi [arXiv rad](https://arxiv."
+exec_summary: "This analysis cuts through the hype around 'hyperagents'—self-referential AI systems that merge task execution and self-improvement loops—by examining the Darwin-Gödel Machine's actual novel mechanism (recursive coding+evaluation) and its real-world viability. The piece contrasts the academic promise with deployment realities (cost, benchmark gaps) and maps competitive pressures on incumbent AI tooling vendors, while flagging the eerie silence around failure modes in open-ended improvement."
+key_points:
+  - "Darwin-Gödelov stroj pokazuje otvoreno kodersko samopoboljšavanje"
+  - "Hyperagenti kombiniraju zadatke i meta-poboljšavanje u jednoj petlji"
+  - "Stvarni test: može li ovo raditi izvan kontroliranih benchmarkova?"
+source:
+  name: "arXiv AI"
+  url: "https://arxiv.org/abs/2603.19461"
+image:
+  url: "/images/articles/hyperagents-self-improving-ai-or-just-another-loop/main.jpg"
+  alt: "Hyperagenti: Samopoboljšavanje ili samo novi paket?"
+subtitle: "Zašto bi ova matematička igračka mogla biti važnija od još jednog AI papira"
+subtitleImage:
+  url: "/images/articles/hyperagents-self-improving-ai-or-just-another-loop/subtitle.jpg"
+  alt: "Zašto bi ova matematička igračka mogla biti važnija od još jednog AI papira"
+tags: ["Hyperagenti", "Mathematical Modeling", "Self-Improvement Algorithms"]
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Novi [arXiv rad](https://arxiv.org/abs/2603.19461v1) o *hyperagentima* donosi staru ideju samopoboljšavajućih sustava – ali s jednim ključnim okretom: umjesto fiksnih meta-mehanizama, ovdje se *kodiranje* i *poboljšavanje* odvijaju u istoj petlji. Darwin-Gödelov stroj (DGM), koji autorima služi kao dokaz koncepta, ne samo da generira vlastite varijante nego ih i *evaluira* – oba procesa su, čudesno, također koderski zadaci. To znači da poboljšanje u jednoj oblasti (npr. brža optimizacija) automatski povlači poboljšanje u drugoj (npr. bolja samoocjena). Zvuči kao perpetuum mobile za AI – ali, kao i uvijek, đavol je u [benchmark detaljima](https://ai.stackexchange.com/questions/tagged/self-improvement). Problem s većinom 'samopoboljšavajućih' sustava do sada bio je njihovo oslanjanje na ručno dizajnirane meta-pravila, što ih čini sporim i krutim. Hyperagenti to zaobilaze tako što *integriraju* agenta za zadatke i agenta za poboljšavanje u jedinstvenu petlju – teorijski omogućujući otvoreno poboljšavanje bez vanjskih intervencija. Ali, kao i kod [AlphaDev-a](https://deepmind.google/discover/blog/alphadev-faster-sorting-algorithms-using-reinforcement-learning/) prije godinu dana, pitanje nije *da li* radi u simulaciji, već *koliko* toga preživi susret s pravim svijetom. Developer community je reagirao s [oprezom](https://news.ycombinator.com/item?id=40234512): dio hvali elegantnost pristupa, dok drugi upozoravaju na 'beskonačnu petlju samoobmane' ako evaluacijski kriteriji nisu čvrsto sidreni. GitHub repozitoriji povezani s konceptom još uvijek su [prazni](https://github.com/topics/hyperagent) – što je, ironično, možda najjasniji signal o trenutnoj zrelosti ideje.
+
+<ArticleBreak />
+
+Ako je ovo zaista probijanje, tko gubi? Prije svega, tvrtke koje grade AI alate na temelju *fiksnih* meta-arhitektura (npr. većina današnjih LLM fine-tuning platformi). Hyperagenti, ako se pokažu skalabilnima, mogli bi učiniti takve pristupe zastarjelim – barem u domenama gdje je brzina iteracije ključna, poput [autonomnog kodiranja](https://www.theregister.com/2024/03/15/ai_self_improving_code/) ili real-time optimizacije. S druge strane, tvrtke kao što su [Anthropic](https://www.anthropic.com/) ili [Mistral](https://mistral.ai/), koje već eksperimentiraju s rekurzivnim fine-tuningom, možda imaju prednost u adaptaciji. Stvarno usko grlo možda uopće nije u algoritmu, već u *troškovima*: svaka iteracija samopoboljšavanja zahtijeva eksponencijalno više računarske snage. Čak i ako DGM radi u teoriji, praktična primjena će ovisiti o tome tko može priuštiti [milijun dolara na obuku](https://www.semianalysis.com/p/google-we-have-no-moat-and-neither) svake nove 'poboljšane' verzije. To možda objašnjava zašto Googleov [AutoML](https://ai.google/research/pubs/pub45785) tim još nije objavio slične rezultate – iako imaju podatke, možda im nedostaje *poslovni slučaj* za beskonačno samopoboljšavanje. Najzanimljiviji dio ovog rada nije tehnika, već pitanje koje postavlja: što se događa kada AI sustav više ne ovisi o ljudskom inženjeringu ni za *meta-pravila*? Odgovor možda nije 'superinteligencija', već nešto prozaičnije – i opasnije: sustavi koji se poboljšavaju *brže* nego što ih možemo testirati.
+
+Ako se hyperagenti pokazuju uspješnima, mogli bi revolucionalizirati način na koji se razvijaju AI sustavi. To bi moglo dovesti do stvaranja još inteligentnijih i sposobnijih sustava, koji bi mogli riješiti kompleksne probleme koji su danas izvan dosega ljudske inteligencije. Međutim, također postoji rizik da se takvi sustavi izgube kontroli i počnu djelovati na način koji nije u skladu s ljudskim interesima.

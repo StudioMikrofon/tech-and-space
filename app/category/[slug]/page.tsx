@@ -10,7 +10,10 @@ import {
 import ArticleGrid from "@/components/ArticleGrid";
 import CategoryBanner from "@/components/CategoryBanner";
 import CategoryLoadingTerminal from "@/components/CategoryLoadingTerminal";
+import GamingWidget from "@/components/GamingWidget";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -71,6 +74,12 @@ export default async function CategoryPage({ params }: PageProps) {
           {articles.length} article{articles.length !== 1 ? "s" : ""}
         </p>
       </div>
+
+      {category === "gaming" && (
+        <div className="mb-8">
+          <GamingWidget />
+        </div>
+      )}
 
       <ArticleGrid articles={articles} />
     </div>

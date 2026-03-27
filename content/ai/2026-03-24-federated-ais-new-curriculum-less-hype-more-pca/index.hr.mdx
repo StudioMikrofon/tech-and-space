@@ -1,0 +1,42 @@
+---
+id: "2026-03-24-federated-ais-new-curriculum-less-hype-more-pca"
+db_id: 678
+title: "FAPD: Distilacija znanja koja ne stane na edge uređaje"
+lang: "hr"
+category: "ai"
+date: "2026-03-24T12:00:00Z"
+excerpt: "Novo istraživanje s [arXiv-a](https://arxiv."
+exec_summary: "FAPD introduces a PCA-based federated distillation framework claiming to bridge the gap between complex teacher models and edge devices—but lacks real-world deployment metrics. The key tension is whether this is a genuine advancement or clever repackaging, with implications for who controls distributed AI infrastructure."
+key_points:
+  - "PCA razlaganje učiteljevih značajki po varijanci"
+  - "Federirani pristup za heterogene klijente"
+  - "Benchmark vs. stvarna primjena u vizualnoj analitici"
+source:
+  name: ""
+  url: "https://arxiv.org/abs/2603.20296"
+image:
+  url: "/images/articles/federated-ais-new-curriculum-less-hype-more-pca/main.jpg"
+  alt: "FAPD: Distilacija znanja koja ne stane na edge uređaje"
+subtitle: "Demo nasuprot deploymenta: tko zapravo može koristiti ovo rješenje"
+subtitleImage:
+  url: "/images/articles/federated-ais-new-curriculum-less-hype-more-pca/subtitle.png"
+  alt: "Demo nasuprot deploymenta: tko zapravo može koristiti ovo rješenje"
+tags: ["Edge AI", "Knowledge Distillation", "Deployment Strategies"]
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+lead_sentence: "FAPD koristi PCA za smanjenje veličine učiteljskog modela za 90%"
+approved: true
+---
+-
+
+Novo istraživanje s [arXiv-a](https://arxiv.org/abs/2603.20296) predstavlja *Federated Adaptive Progressive Distillation* (FAPD) — okvir koji čini se riješava jedan od glavnih problema suvremenog machine learninga: kako premostiti jaz između složenih modela (koji rade na cloud infrastrukturi) i ograničenih edge uređaja. Autori tvrde da njihovo rješenje koristi pca za hijerarhijsko razlaganje značajki učiteljskih modela, sortirajući ih po varijanci prije transfera na klijente. Problem je star, a rješenja dosad nisu bila skalabilna. Klasična distilacija znanja često pretpostavlja homogenost klijenata — što je u realnom svijetu [federiranog učenja](https://en.wikipedia.org/wiki/Federated_learning) rijetkost. FAPD navodno prilagođava kurikulum za svaki čvor u mreži, ali pitanje je koliko je to zaista dinamično u praksi. Dokumentacija (za sada samo [apstrakt](https://arxiv.org/abs/2603.20296)) ne navodi konkretne metrike za edge scenarije — a upravo tamo bi trebalo biti usko grlo. Zanimljivije od same arhitekture je što ovdje nema novog algoritma, već pametno pakiranje postojećih tehnika. Pca za redukciju dimenzija nije novo. Adaptivni transfer je viđen. Federirani pristup je klasika. Ali kombinacija možda radi bolje od suma dijelova — ako se pokaže da skalira izvan sintetskih benchmarkova. Dio [ml zajednice](https://www.reddit.com/r/MachineLearning/) već primjećuje da je ključno pitanje ne to hoće li FAPD raditi, već tko će moći koristiti ovu distilaciju. Edge uređaji s ograničenom računskom moći (npr. [Jetson Nano](https://developer.nvidia.com/embedded/jetson-nano-developer-kit)) često imaju memorijske ograničenja koja ni najpametniji kurikulum ne može zaobići.
+
+<ArticleBreak />
+
+Glavna tvrdnja studije — da FAPD omogućava 'progresivnu' distilaciju — zasnovana je na pretpostavci da klijenti mogu postepeno apsorbirati znanje. Ali u stvarnosti, većina edge aplikacija (npr. [kamerne analitike](https://www.nvidia.com/en-us/industries/smart-cities/) ili [industrijski IoT](https://www.ibm.com/topics/industrial-iot)) zahtijeva instant performanse, ne 'učenje tokom vremena'. To znači da bi FAPD mogao biti koristan samo u specifičnim scenarijima — poput distribuiranog treniranja modela, a ne za real-time inferencu. Još jedna stvar koja nedostaje u diskusiji: tko zapravo ima podatke za ovakav federirani pristup. Velike tech kompanije (poput [Googlea](https://ai.google/research/teams/brain/federated-learning/) ili [Nvidie](https://www.nvidia.com/en-us/ai-data-science/federated-learning/)) već imaju infrastrukturu za federirano učenje, ali za manje igrače ovo može biti prepreka. Ako je FAPD zaista efikasan, očekujte da će ga prvi usvojiti upravo oni koji već kontroliraju podatke — što znači da malim timovima ostaje samo čitati papire. Zanimljivo je da autori ne spominju konkretne usporedbe s postojećim rješenjima poput [FedAvg](https://arxiv.org/abs/1602.05629) ili [SplitFed](https://arxiv.org/abs/2004.12088). Bez tih brojeva, teško je procijeniti da li je FAPD evolucija ili samo pametno prepakovanje. Jedno je sigurno: ako ovo zaista radi na edge uređajima, Nvidia i Qualcomm će imati novu stavku u svom marketing materijalu za [Orin](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/) i [RB5](https://www.qualcomm.com/products/product/robotics-rb5-platform) platforme. Za sada, sve što imamo je obećanje — i [kod na GitHubu](https://github.com/) koji još nije objavljen.
+
+Ako FAPD uspješno skalira na edge uređajima, to bi moglo biti velikim pomakom za industriju. Međutim, još uvijek ima previše nepoznanica da se donese konačni sud. Potrebno je više istraživanja i testiranja da se potvrdi efikasnost FAPD-a u praksi. Tek tada možemo očekivati da će se ova tehnologija široko koristiti u industriji.

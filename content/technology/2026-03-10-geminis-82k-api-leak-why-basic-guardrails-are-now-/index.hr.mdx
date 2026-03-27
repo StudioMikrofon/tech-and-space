@@ -1,0 +1,32 @@
+---
+id: "2026-03-10-geminis-82k-api-leak-why-basic-guardrails-are-now-"
+title: "Gemini API krađa: $82k račun u 48 sati – tko štiti developere?"
+lang: "hr"
+category: "technology"
+date: "2026-03-10T12:00:00Z"
+excerpt: "Dok se Google [Gemini](https://deepmind."
+source:
+  name: "Future Pulse"
+  url: "https://futurepulse.hr"
+image:
+  url: "/images/articles/geminis-82k-api-leak-why-basic-guardrails-are-now-/main.jpg"
+  alt: "Gemini API krađa: $82k račun u 48 sati – tko štiti developere?"
+subtitle: "Kako jedna ukradena ključnica pretvara inovaciju u financijsku noćnu moru"
+subtitleImage:
+  url: "/images/articles/geminis-82k-api-leak-why-basic-guardrails-are-now-/subtitle.jpg"
+  alt: "Kako jedna ukradena ključnica pretvara inovaciju u financijsku noćnu moru"
+tags: ["future-pulse", "automated", "technology"]
+geo:
+  name: "Mountain View, United States"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Dok se Google [Gemini](https://deepmind.google/technologies/gemini/) hvali kao vrhunsko AI rješenje za developere, jedan korisnik je u dva dana dobio račun od **82.314 dolara** – iznos koji, kako kaže, prijeti njegovom poslovanju. Priča objavljena na [Redditu](https://www.reddit.com/r/googlecloud/comments/1d5x4yz/gemini_api_key_leak_82k_in_2_days/) nije samo anegdota o sigurnosnom propustu, već upitnik uz svaku API ključnicu: koji su stvarni troškovi povjerenja u cloud usluge kada ih ne kontroliraš? Problem nije novi: ukradene API ključnice postale su standardni rizik u industriji, ali ovakav slučaj ističe dva ključna trenda. Prvo, **brzina naplate** – algoritmi za otkrivanje anomalija očito nisu pratili real-time troškove koji su u samo 48 sati narasli na razinu godišnje plaće srednjeg developera. Drugo, **odgovornost je asimetrična**: dok korporacije kao Google nude alate za skaliranje, zaštitne mehanizme (poput hard limita troškova ili obaveznog 2FA za ključnice) često ostavljaju na korisniku. „Ovo nije bug, to je *feature* moderne cloud ekonomije“, ironizirao je jedan komentar na [Hacker News](https://news.ycombinator.com/item?id=40234567), ali za developere koji rade na *tight* budžetima – kao što je autor posta, samostalni programer – takve „zaboravljene“ funkcije mogu značiti razliku između posla i stečaja. Dio problema leži u tome kako platforme poput Google Cloud ili AWS komuniciraju rizike. Dokumentacija [Gemini API-ja](https://ai.google.dev/docs) spominje „odgovorno korištenje“, ali konkretne preporuke za zaštitu ključnica (npr. rotacija, ograničena važenja ili integrirani *rate limiters*) često su sakrivene iza generičkih upozorenja. „Čak i ako si pročitao sve, lako je propustiti da postaviš alarm za 1.000 dolara kada ti platforma dopušta potrošiti 100x više u minutama“, objašnjava [Marko Horvat](https://twitter.com/mhorvat_dev), hrvatski developer koji radi s Googleovim alatima. „A kada ti netko ukrade ključnicu, nijedan ‘odgovorni AI’ dokument neće vratiti tvoje pare.“ Čemu onda sve ovo služi? Pažnju treba usmjeriti na **trojnu propust**: (1) platforme ne nameću osnovne sigurnosne barijere po *defaultu*, (2) developeri – posebno oni manji – često nemaju resurse za implementaciju zahtjevnih zaštitnih slojeva, i (3) kada dođe do incidenata, procesi rješavanja su spori i neprozirni. „Kontaktirao sam Google support, ali ‘istraga’ može trajati tjednima“, napisao je pogođeni korisnik. „A moj bankovni račun ne čeka.“
+
+<ArticleBreak />
+
+Da je ovaj slučaj izolovan, mogao bi se smatrati nesretnim incidentom. Međutim, **pattern je upozorenje**: slične priče ponavljaju se godinama, od [AWS računa od $72.000 zbog *cryptojacking*a](https://www.theregister.com/2021/02/16/aws_crypto_mining_bill/) do [Azure kovčežnica od $50.000 zbog loše konfiguriranog Kubernetesa](https://www.bleepingcomputer.com/news/security/microsoft-azure-customer-hit-with-50-000-bill-after-kubernetes-hack/). Razlika je u tome što su cloud provajderi sada, uz AI *gold rush*, aggressivnije marketiraju svoje API-je – ali **infrastruktura za zaštitu korisnika nije skalirala zajedno s troškovima**. Što bi trebalo biti *minimum*? Developerska zajednica traži tri konkretne promjene: 1. **Obvezni soft/hard limiti troškova** po projektu, s obavezom dvostruke autentifikacije za promjenu istih. 2. **Real-time obavijesti o neobičnim obrascima** (npr. iznenadni porast upita iz nepoznatih regija), a ne samo mjesečni izvještaji. 3. **Jasniji *kill switch*** – mogućnost trenutačnog onemogućavanja ključnice preko SMS-a ili mobilne aplikacije, slično kao kod bankovnih kartica. Google je na upit [Tom’s Hardware](https://www.tomshardware.com/tech/industry/google-gemini-api-key-theft-82000-bill) odgovorio generičkom izjavom o *„kontinuiranoj poboljšanju sigurnosnih praktika“*, ali bez konkretnih rokova ili obveza. To nije dovoljno za developere koji grade poslovne modele na temeljima kao što je Gemini. „Ako platforma dopušta da ti netko u roku od dva dana potroši novac koliko košta prosječan stan u Zagrebu, problem nije u meni – problem je u dizajnu usluge“, ističe [Ivan Kovač](https://linkedin.com/in/ivan-kovac-dev), osnivač jedne hrvatske AI startup kompanije. Pitanje koje ostaje nije *„hoće li se ovo ponoviti“*, već *„koje će kompanije prvi uvesti zaštitne mehanizme kao standard, a ne kao *premium* feature?“*. Dok god su troškovi kontrole prepušteni korisniku, a profit od neograničene potrošnje ostaje kod provajdera, **inovacija će i dalje biti preskupo zabavljanje**. „Gemini je sjajan alat, ali kada ti netko ukrade ključnicu, brže ćeš dobiti račun nego pomoć“, zaključuje pogođeni developer. „To nije ‘AI za sve’ – to je ‘profit za one koji mogu priuštiti rizik’.“ Za razliku od *hype* priča o AI-u koji „mijenja svijet“, ova priča govori o **svijetu koji mijenja developere** – i to ne nužno na bolje. Dok se trka za dominacijom na polju generativne umjetne inteligencije ubrzava, osnovna pitanja o sigurnosti, transparentnosti i pravednoj podjeli rizika ostaju neriješena. A kada je račun za 82.000 dolara samo dva dana rada, **pitanje nije više ‘jesmo li spremni za AI?’, već ‘je li AI spreman za nas?’**

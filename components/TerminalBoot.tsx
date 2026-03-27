@@ -12,9 +12,9 @@ const BOOT_LINES = [
   "> SYSTEM ONLINE",
 ];
 
-const CHAR_DELAY = 20;
-const LINE_PAUSE = 200;
-const FADE_OUT_DELAY = 600;
+const CHAR_DELAY = 7;
+const LINE_PAUSE = 80;
+const FADE_OUT_DELAY = 400;
 const SESSION_KEY = "tp-booted";
 
 export default function TerminalBoot() {
@@ -38,15 +38,11 @@ export default function TerminalBoot() {
     }
   }, []);
 
-  // Check session storage and decide whether to show
+  // Terminal boot disabled — always skip
   useEffect(() => {
     if (typeof window === "undefined") return;
-
-    const alreadyBooted = sessionStorage.getItem(SESSION_KEY);
-    if (alreadyBooted) {
-      setPhase("done");
-      return;
-    }
+    setPhase("done");
+    return;
 
     setVisible(true);
     playSound("boot");
@@ -139,7 +135,7 @@ export default function TerminalBoot() {
           align-items: center;
           justify-content: center;
           font-family: "Courier New", "Lucida Console", monospace;
-          animation: crt-flicker 0.08s infinite alternate;
+          animation: crt-flicker 3s ease-in-out infinite alternate;
           transition: opacity 0.5s ease-out;
         }
 
@@ -234,10 +230,32 @@ export default function TerminalBoot() {
         @keyframes white-flash {
           0% {
             background: #fff;
+            filter: brightness(2) saturate(0);
+          }
+          30% {
+            background: #0a0;
+            filter: brightness(1.5) hue-rotate(90deg);
+            transform: skewX(-2deg);
+          }
+          60% {
+            background: #001;
+            filter: brightness(0.8);
+            transform: skewX(1deg);
           }
           100% {
             background: #000;
+            filter: brightness(1);
+            transform: none;
           }
+        }
+
+        @keyframes glitch-line {
+          0%   { clip-path: inset(0 0 95% 0); transform: translateX(-4px); }
+          20%  { clip-path: inset(30% 0 60% 0); transform: translateX(4px); }
+          40%  { clip-path: inset(60% 0 30% 0); transform: translateX(-2px); }
+          60%  { clip-path: inset(80% 0 10% 0); transform: translateX(3px); }
+          80%  { clip-path: inset(10% 0 80% 0); transform: translateX(-1px); }
+          100% { clip-path: inset(0 0 0 0); transform: none; }
         }
       `}</style>
 

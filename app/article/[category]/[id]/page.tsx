@@ -20,11 +20,19 @@ import YouTubeEmbed from "@/components/YouTubeEmbed";
 import GlobeModal from "@/components/GlobeModal";
 import LangSwitcher from "@/components/LangSwitcher";
 import RelatedArticles from "@/components/RelatedArticles";
-import ArticleEditPanel from "@/components/ArticleEditPanel";
 import ArticleDeleteButton from "@/components/ArticleDeleteButton";
+import GlitchEffect from "@/components/GlitchEffect";
+import ArticleQuizButton from "@/components/ArticleQuizButton";
 import type { Metadata } from "next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://techand.space";
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+
+function hasUnsafeMdxAngles(text: string): boolean {
+  // MDX treats '<' as JSX start. Reject obvious non-tag uses like n<50.
+  return /<(?!\/?[A-Za-z]|!--)/.test(text);
+}
 
 interface PageProps {
   params: Promise<{ category: string; id: string }>;
@@ -133,6 +141,7 @@ export default async function ArticlePage({ params }: PageProps) {
 
   return (
     <>
+      <GlitchEffect />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -199,6 +208,13 @@ export default async function ArticlePage({ params }: PageProps) {
                       month: "long",
                       day: "numeric",
                     })}
+                    <span className="ml-1 opacity-50">
+                      {new Date(article.date).toLocaleTimeString("en-US", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      })}
+                    </span>
                   </time>
                   <span className="ml-1 opacity-60">
                     ({formatDistanceToNow(article.date)})
@@ -210,22 +226,24 @@ export default async function ArticlePage({ params }: PageProps) {
                     <span>{article.geo.name}</span>
                   </div>
                 )}
-                <a
-                  href={article.source.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1 hover:text-accent-cyan transition-colors"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  {article.source.name}
-                </a>
+                {article.source.url && article.source.url.startsWith("http") && (
+                  <a
+                    href={article.source.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 hover:text-accent-cyan transition-colors"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    {article.source.name || (() => { try { return new URL(article.source.url).hostname.replace(/^www\./, ""); } catch { return "Source"; } })()}
+                  </a>
+                )}
               </div>
             </div>
 
             {/* Article image */}
             <div className="article-enter-delay-2">
               {article.image?.url && (
-                <div className="glass-card overflow-hidden mb-8 !hover:transform-none">
+                <div className="glass-card overflow-hidden !hover:transform-none">
                   <img
                     src={article.image.url}
                     alt={article.image.alt}
@@ -233,39 +251,40 @@ export default async function ArticlePage({ params }: PageProps) {
                   />
                 </div>
               )}
+              {/* Image source credit */}
+              <p className="text-[0.68rem] font-mono tracking-wider text-text-secondary/40 mt-2 mb-8 px-0.5">
+                {article.image?.url
+                  ? article.image.url.startsWith("http")
+                    ? `Image: ${article.source?.name || "External source"}`
+                    : "Illustration: AI Generated"
+                  : null}
+              </p>
             </div>
 
-            {/* YouTube embed from frontmatter videoUrl */}
-            {article.videoUrl && (() => {
-              const match = article.videoUrl!.match(
-                /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/
-              );
-              const videoId = match?.[1];
-              return videoId ? (
-                <div className="article-enter-delay-2">
-                  <YouTubeEmbed id={videoId} title={article.title} />
-                </div>
-              ) : null;
-            })()}
-
-            {/* Executive Summary (lead paragraphs) */}
-            {article.execSummary && (
+            {/* Key Points — 3 short bullet highlights */}
+            {(article.keyPointsEn || article.keyPoints) && (
               <div className="article-enter-delay-3 mb-6 not-prose">
-                <p className="text-text-secondary italic text-lg leading-relaxed font-medium border-l-4 border-accent-cyan/40 pl-4">
-                  {article.execSummary}
-                </p>
+                <ul className="space-y-2.5 border-l-4 border-yellow-400/50 pl-4">
+                  {(article.keyPointsEn || article.keyPoints)!.slice(0, 3).map((point, i) => (
+                    <li key={i} className="flex items-start gap-2.5 leading-snug">
+                      <span className="mt-0.5 text-base flex-shrink-0 animate-pulse" style={{ color: "#f5c518", textShadow: "0 0 8px #f5c518, 0 0 18px #f5a500aa" }}>★</span>
+                      <span className="text-xl italic text-text-primary">{point}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 
             {/* MDX content with ArticleBreak injected between part1 and part2 */}
-            <div className="article-enter-delay-3 article-prose max-w-none">
+            <div className="article-enter-delay-3 article-prose max-w-none mt-8">
               {(() => {
                 // Use English content if available, otherwise Croatian
-                const enContent = article.part1En && article.part2En
+                const enFromParts = article.part1En && article.part2En
                   ? `${article.part1En}\n\n<ArticleBreak />\n\n${article.part2En}`
                   : article.part1En
                   ? article.part1En
                   : null;
+                const enContent = enFromParts && !hasUnsafeMdxAngles(enFromParts) ? enFromParts : null;
 
                 const displaySubtitle = article.subtitleEn || article.subtitle;
                 const contentToRender = enContent || article.content;
@@ -277,6 +296,15 @@ export default async function ArticlePage({ params }: PageProps) {
                       YouTubeEmbed,
                       ArticleBreak: () => (
                         <div className="not-prose my-8 pt-6 border-t border-white/10">
+                          {(() => {
+                            const videoCandidate = article.videoUrl || article.source?.url || "";
+                            if (!videoCandidate) return null;
+                            const match = videoCandidate.match(
+                              /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/
+                            );
+                            const videoId = match?.[1];
+                            return videoId ? <YouTubeEmbed id={videoId} title={article.title} /> : null;
+                          })()}
                           {article.subtitleImage?.url && (
                             <div className="glass-card overflow-hidden mb-4 !hover:transform-none">
                               <img
@@ -319,9 +347,16 @@ export default async function ArticlePage({ params }: PageProps) {
             {/* Comments */}
             <Comments term={`${article.category}/${article.id}`} />
 
-            {/* Editorial panel — only on test site */}
-            {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && (
-              <ArticleEditPanel dbId={article.dbId} articleSlug={article.id} />
+            {/* Edit button — only on test site */}
+            {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && article.dbId && (
+              <div className="mt-6 flex justify-end">
+                <a
+                  href={`/foto-review?id=${article.dbId}`}
+                  className="text-xs px-3 py-1.5 rounded border border-white/15 text-white/35 hover:border-cyan-500/50 hover:text-cyan-300 transition-colors"
+                >
+                  Uredi u foto-review →
+                </a>
+              </div>
             )}
           </div>
 
@@ -329,27 +364,32 @@ export default async function ArticlePage({ params }: PageProps) {
           <aside className="space-y-6 article-enter-delay-2">
             {/* Globe widget */}
             {article.geo && (
-              <GlobeWidget
-                geo={article.geo}
-                categoryColor={CATEGORY_COLORS[article.category]}
-              />
+              <div>
+                <GlobeWidget
+                  geo={article.geo}
+                  categoryColor={CATEGORY_COLORS[article.category]}
+                />
+                <ArticleQuizButton />
+              </div>
             )}
 
             {/* Source info */}
-            <div className="glass-card p-4 !hover:transform-none">
-              <h3 className="text-sm font-semibold text-text-secondary mb-2 uppercase tracking-wider font-mono">
-                // Source
-              </h3>
-              <a
-                href={article.source.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-accent-cyan hover:underline"
-              >
-                <ExternalLink className="w-4 h-4" />
-                {article.source.name}
-              </a>
-            </div>
+            {article.source.url && article.source.url.startsWith("http") && (
+              <div className="glass-card p-4 !hover:transform-none">
+                <h3 className="text-sm font-semibold text-text-secondary mb-2 uppercase tracking-wider font-mono">
+                  // Source
+                </h3>
+                <a
+                  href={article.source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-accent-cyan hover:underline"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  {article.source.name || (() => { try { return new URL(article.source.url).hostname.replace(/^www\./, ""); } catch { return "Source"; } })()}
+                </a>
+              </div>
+            )}
 
             {/* Related articles */}
             {related.length > 0 && <RelatedArticles articles={related} />}

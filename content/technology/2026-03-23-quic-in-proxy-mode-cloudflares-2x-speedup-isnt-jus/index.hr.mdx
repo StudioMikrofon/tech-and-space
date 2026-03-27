@@ -1,0 +1,42 @@
+---
+id: "2026-03-23-quic-in-proxy-mode-cloudflares-2x-speedup-isnt-jus"
+db_id: 638
+title: "QUIC u Proxy Modu: Cloudflare ubrzava SASE za 2x"
+lang: "hr"
+category: "technology"
+date: "2026-03-23T12:00:00Z"
+excerpt: "Kada cloudflare objavi da je prepisao dio svoje SASE arhitekture, obično to znači da će netko drugi morati pratiti."
+exec_summary: "Cloudflare’s shift to QUIC in Proxy Mode doubles throughput and cuts latency, but the real story is whether this forces the SASE market to compete on measurable performance—not just security. For users, it means faster cloud apps if their infrastructure supports it; for competitors, it’s a wake-up call to stop hiding behind vague ‘holistic’ claims."
+key_points:
+  - "QUIC zamjenjuje TCP u Proxy Modu — bez overheada"
+  - "2x veći throughput, manja kašnjenja za korisnike"
+  - "SASE tržište pod pritiskom: tko prati, tko ostaje iza"
+source:
+  name: ""
+  url: "https://blog.cloudflare.com/faster-sase-proxy-mode-quic/"
+image:
+  url: "/images/articles/quic-in-proxy-mode-cloudflares-2x-speedup-isnt-jus/main.jpg"
+  alt: "QUIC u Proxy Modu: Cloudflare ubrzava SASE za 2x"
+subtitle: "Realna prednost ili samo benchmark trik — što korisnici osjećaju u praksi"
+subtitleImage:
+  url: "/images/articles/quic-in-proxy-mode-cloudflares-2x-speedup-isnt-jus/subtitle.jpg"
+  alt: "Realna prednost ili samo benchmark trik — što korisnici osjećaju u praksi"
+tags: ["Cloudflare", "SASE", "QUIC Protocol"]
+geo:
+  name: "San Francisco, United States"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+lead_sentence: "Cloudflare-ov prelazak na QUIC omogućio je 2x ubrzanje, smanjujući zakasnelost za udaljene radnike."
+approved: true
+---
+-
+
+Kada cloudflare objavi da je prepisao dio svoje SASE arhitekture, obično to znači da će netko drugi morati pratiti. Ovaj put riječ je o proxy modu u cloudflare one clientu, gdje su inženjeri zamijenili tradicionalne tcp stogove s quic streamovima. Rezultat? **Dvostruki throughput** i *znatno* manja kašnjenja — barem na papiru. Problem s takvim najavama je što često zaborave objasniti **tko zapravo osjeća razliku**. Korisnici s lošom mrežnom infrastrukturom? Poduzeća koja koriste SASE za udaljene timove? Ili je riječ o *micro-optimizaciji* koja će biti vidljiva samo u kontroliranim testovima? Cloudflare tvrdi da je eliminirao *user-space tcp overhead* — što u prevodu znači manje resursa potrošenih na upravljanje vezom, a više na stvarni promet. Ali koliko je to relevantno kada većina korisnika ne zna ni što je tcp? Prava pitanja su: **hoće li se aplikacije učitavati brže**, hoće li vpn veze biti stabilnije, ili je ovo još jedan slučaj gdje marketing prodaje *specifikacije* umjesto iskustva. Prema dostupnim informacijama, najveća prednost bi trebala biti vidljiva u scenarijima s visokim gubitkom paketa — tipično za mobilne korisnike ili one na nestabilnim vezama. Čudno je da cloudflare ne spominje konkretne brojeve za kašnjenje (samo *„znatno“*), ali dvostruki throughput je dovoljan da konkurenti poput zscalera ili netskopea počnu provjeravati svoje benchmarkove. Sase tržište je i tako pod pritiskom — svaki postotak performanse može biti razlika između ugovora od milijun dolara ili gubitka klijenta.
+
+<ArticleBreak />
+
+Da razumijemo zašto je ovo važno, treba se sjetiti kako sase (secure access service edge) funkcionira u praksi. Korisnici se spoje na cloud proxy, koji filtrira i usmjerava promet — a svako kašnjenje u tom lancu znači sporije aplikacije, frustrirane zaposlenike ili čak prekide video poziva. Quic ovdje donosi dvije ključne prednosti: **brže uspostavljanje veze** (jer kombinira tls handshake s transportnim slojem) i **bolju otpornost na gubitak paketa** (zahvaljujući integriranom *retransmission* mehanizmu). Ali ima i „ali“. Quic nije čarobni štapić — ako je usko grlo u *last-mile* vezi (npr. loš wi-fi u kafiću), nijedna optimizacija na proxy razini toga neće riješiti. Također, neka poduzeća još uvijek preferiraju tcp zbog bolje kompatibilnosti s legacy sistemima. Cloudflareov potez je jasno upućen pretežno cloud-native kompanijama, koje već koriste moderne protokole. Zanimljivo je što se ova promjena dogodila upravo sada, kada je sase tržište u fazi konsolidacije. Igrači poput palo alto networksa ili fortineta već godinama prodaju „unificirani“ pristup sigurnosti i performansi — ali rijetko nude konkretne brojke o realnom utjecaju na korisničko iskustvo. Cloudflareov fokus na **mjerljive metrike** (2x throughput) može biti signal da će se tržište kretati prema transparentnijim usporedbama.
+
+Što znači za korisnike? Ako vaša kompanija koristi cloudflare one, možda ćete primijetiti brže učitavanje cloud aplikacija — ali samo ako je vaš isp dovoljno moderan da podržava quic bez throttlanja. Ovo je još jedan dokaz da se sase ne natječe samo sigurnošću, već i brzinom kao ključnim diferencijatorom. Time će se korisnici još više oslanjati na performanse svojih sase rješenja.

@@ -125,8 +125,19 @@ async def ensure_images(article):
     try:
         raw = article.get('images_json', '') or '{}'
         data = json.loads(raw) if isinstance(raw, str) else {}
-        if data.get('image_main', {}).get('url'):
-            return True  # Already have images
+        main_url = (data.get('image_main') or {}).get('url', '')
+        if main_url:
+            # CRITICAL: Verify the image file actually exists on disk!
+            # Stale images_json URLs (deleted/moved files) are the #1 cause of imageless articles.
+            if main_url.startswith('/images/articles/'):
+                check_path = WORKSPACE / 'public' / main_url.lstrip('/')
+            else:
+                check_path = FP_IMAGES / Path(main_url).name
+            if check_path.exists():
+                return True  # Image file verified on disk
+            else:
+                print(f'WARN: images_json URL exists but file missing: {check_path}', file=sys.stderr)
+                # Fall through to re-generate images
     except Exception:
         pass
 
@@ -331,14 +342,16 @@ if not title_en or not part1_en:
     print(json.dumps({'ok': False, 'error': 'EN content still missing after generation attempt'}))
     sys.exit(1)
 
-# Set published_at BEFORE convert_to_mdx so the MDX date field has the real publish time
+# Record actual publish time in DB, but use created_at (scrape time) for MDX date
 from datetime import datetime as _dt
 _publish_time = _dt.utcnow().strftime('%Y-%m-%d %H:%M:%S')
 conn = db.get_conn()
 conn.execute("UPDATE articles SET published_at=? WHERE id=?", (_publish_time, ${articleId}))
 conn.commit()
 conn.close()
-article['published_at'] = _publish_time
+# MDX date = scraping time (created_at), not publish time
+_scrape_time = (article.get('created_at') or '').strip()
+article['published_at'] = _scrape_time if _scrape_time else _publish_time
 
 # Convert to MDX
 try:
@@ -365,26 +378,79 @@ for img_type, key in [('main', 'main_url'), ('subtitle', 'subtitle_url')]:
     src_url = imgs.get(key, '') or ''
     if not src_url:
         continue
+
+    src = None
+    # Strategy 1: resolve from images_json URL
     if src_url.startswith('/images/articles/'):
-        src = WORKSPACE / 'public' / src_url.lstrip('/')
-    else:
-        src = Path(src_url) if src_url.startswith('/') else FP_IMAGES / Path(src_url).name
-    if src.exists():
-        ext = src.suffix
-        dst = img_folder / f'{img_type}{ext}'
-        if src.resolve() != dst.resolve():
-            shutil.copy2(src, dst)
-        copied.append(str(dst))
-    else:
-        # Fallback: find any main/sub image in the slug folder
-        fallback_folder = PUBLIC_IMAGES / slug
-        if fallback_folder.exists():
-            pattern = 'main' if img_type == 'main' else 'subtitle'
-            for ext_try in ('.jpg', '.jpeg', '.png', '.webp'):
-                candidate = fallback_folder / f'{img_type}{ext_try}'
-                if candidate.exists():
-                    copied.append(str(candidate))
+        candidate = WORKSPACE / 'public' / src_url.lstrip('/')
+        if candidate.exists():
+            src = candidate
+    if src is None:
+        # Strategy 2: look in FP_IMAGES by basename
+        candidate = FP_IMAGES / Path(src_url).name
+        if candidate.exists():
+            src = candidate
+    if src is None:
+        # Strategy 3: scan ALL images_json URL directories for the file
+        # Handles case where images_json has a different slug than current slug
+        if '/images/articles/' in src_url:
+            src_dir = WORKSPACE / 'public' / src_url.lstrip('/').rsplit('/', 1)[0]
+            if src_dir.exists():
+                for f in src_dir.iterdir():
+                    if f.is_file() and f.suffix.lower() in ('.jpg', '.jpeg', '.png', '.webp'):
+                        if (img_type == 'main' and ('main' in f.stem.lower() or '_main_' in f.name.lower())) or \
+                           (img_type == 'subtitle' and ('sub' in f.stem.lower() or '_sub_' in f.name.lower())):
+                            src = f
+                            break
+    if src is None:
+        # Strategy 4: scan target folder for existing main/subtitle files
+        for ext_try in ('.jpg', '.jpeg', '.png', '.webp'):
+            candidate = img_folder / f'{img_type}{ext_try}'
+            if candidate.exists():
+                copied.append(str(candidate))
+                break
+        # Strategy 5: scan FP_IMAGES for art{id}_main/sub files
+        if img_type not in [Path(c).stem.split('.')[0] for c in copied]:
+            art_prefix = f'art{article.get("id", 0)}_'
+            search_pattern = '_main_' if img_type == 'main' else '_sub_'
+            for f in sorted(FP_IMAGES.iterdir(), reverse=True) if FP_IMAGES.exists() else []:
+                if f.name.startswith(art_prefix) and search_pattern in f.name.lower() and f.suffix.lower() in ('.jpg', '.jpeg', '.png', '.webp'):
+                    src = f
                     break
+        if src is None:
+            continue
+
+    ext = src.suffix
+    dst = img_folder / f'{img_type}{ext}'
+    if src.resolve() != dst.resolve():
+        shutil.copy2(src, dst)
+    copied.append(str(dst))
+
+# Update images_json to canonical paths after copy, so future operations use correct URLs
+if copied:
+    canonical_imgs = {}
+    for c in copied:
+        cp = Path(c)
+        canon_url = f'/images/articles/{slug}/{cp.name}'
+        if cp.stem.startswith('main'):
+            canonical_imgs['image_main'] = {'url': canon_url, 'alt': article.get('title_en', '')}
+        elif cp.stem.startswith('subtitle'):
+            canonical_imgs['image_subtitle'] = {'url': canon_url, 'alt': article.get('subtitle_en', '')}
+    if canonical_imgs:
+        try:
+            existing_imgs = json.loads(article.get('images_json', '{}') or '{}')
+            # Preserve metadata (prompts, providers) but update URLs
+            for k, v in canonical_imgs.items():
+                if k in existing_imgs and isinstance(existing_imgs[k], dict):
+                    existing_imgs[k]['url'] = v['url']
+                else:
+                    existing_imgs[k] = v
+            conn = db.get_conn()
+            conn.execute("UPDATE articles SET images_json=? WHERE id=?", (json.dumps(existing_imgs), ${articleId}))
+            conn.commit()
+            conn.close()
+        except Exception:
+            pass  # Non-fatal: canonical URL update is best-effort
 
 # Update DB status (published_at already set above)
 conn = db.get_conn()

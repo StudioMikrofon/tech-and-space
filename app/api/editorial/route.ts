@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Database from "better-sqlite3";
 import { spawn } from "child_process";
+import { bumpContentVersion } from "@/lib/content";
 
 const DB_PATH = "/opt/openclaw/futurepulse/db/futurepulse.db";
 const PYTHON  = "/opt/openclaw/futurepulse/venv/bin/python3";
@@ -10,12 +11,15 @@ function checkAuth() {
   return process.env.NEXT_PUBLIC_AGENT_PANEL === "true";
 }
 
-function getDb() {
-  return new Database(DB_PATH, { readonly: false });
+function getDb(readonly = false) {
+  const db = new Database(DB_PATH, { readonly });
+  db.pragma("busy_timeout = 5000");
+  return db;
 }
 
 const FIELDS = `id, title, title_en, subtitle, subtitle_en, status, chosen_ending,
-                endings_json, endings_en, part1, part1_en, part2, part2_en, images_json, body_md`;
+                endings_json, endings_en, part1, part1_en, part2, part2_en, images_json, body_md,
+                source_url, github_uploaded`;
 
 // GET /api/editorial?id=150  OR  /api/editorial?slug=2026-03-07-some-article-slug
 export async function GET(req: NextRequest) {
@@ -28,7 +32,7 @@ export async function GET(req: NextRequest) {
   if (!id && !slug) return NextResponse.json({ error: "Missing id or slug" }, { status: 400 });
 
   try {
-    const db = getDb();
+    const db = getDb(true);
     let row: Record<string, unknown> | undefined;
 
     if (id && !isNaN(Number(id))) {
@@ -50,15 +54,15 @@ export async function GET(req: NextRequest) {
 }
 
 // POST /api/editorial
-// body: { id, action: "ending"|"reject"|"rewrite", ending?: "A"|"B"|"C" }
+// body: { id, action: "ending"|"reject"|"rewrite"|"edit", ending?: "A"|"B"|"C", field?: string, value?: string, lang?: "hr"|"en" }
 export async function POST(req: NextRequest) {
   if (!checkAuth()) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
   try {
-    const { id, action, ending } = await req.json();
+    const { id, action, ending, field, value, lang = "hr" } = await req.json();
     if (!id || !action) return NextResponse.json({ error: "Missing id or action" }, { status: 400 });
 
-    const db = getDb();
+    const db = getDb(false);
 
     if (action === "reject") {
       db.prepare("UPDATE articles SET status='rejected' WHERE id=?").run(id);
@@ -70,6 +74,72 @@ export async function POST(req: NextRequest) {
       db.prepare("UPDATE articles SET status='rewrite' WHERE id=?").run(id);
       db.close();
       return NextResponse.json({ ok: true, message: "Označen za prepis" });
+    }
+
+    if (action === "edit") {
+      // Edit a specific field (title, part1, part2, subtitle, etc.)
+      if (!field || !value) {
+        db.close();
+        return NextResponse.json({ error: "Missing field or value" }, { status: 400 });
+      }
+
+      // Whitelist allowed fields to prevent SQL injection
+      const allowedFields = ["title", "title_en", "subtitle", "subtitle_en", "part1", "part1_en", "part2", "part2_en"];
+      // Map base field to language-specific column: subtitle+lang=en → subtitle_en
+      let dbField = field;
+      if (lang === "en" && !field.endsWith("_en")) {
+        const enField = `${field}_en`;
+        if (allowedFields.includes(enField)) dbField = enField;
+      }
+
+      if (!allowedFields.includes(dbField)) {
+        db.close();
+        return NextResponse.json({ error: "Invalid field" }, { status: 400 });
+      }
+
+      // Update the field in database
+      db.prepare(`UPDATE articles SET ${dbField}=? WHERE id=?`).run(value, id);
+      db.close();
+      bumpContentVersion();
+
+      // Trigger sync to MDX files in background
+      const script = `
+import sys; sys.path.insert(0, '.')
+from sync_db_to_mdx import sync_article_to_mdx
+import logging
+logging.basicConfig(filename='logs/editorial_sync.log', level=logging.INFO)
+result = sync_article_to_mdx(${id})
+print(result)
+`;
+      const proc = spawn(PYTHON, ["-c", script], {
+        cwd: FP_DIR,
+        detached: true,
+        stdio: "ignore",
+      });
+      proc.unref();
+
+      return NextResponse.json({ ok: true, message: "Izmjena spremljena — vidljiva odmah" });
+    }
+
+    if (action === "sync") {
+      db.close();
+      bumpContentVersion();
+      // Trigger sync to MDX files in background
+      const syncScript = `
+import sys; sys.path.insert(0, '.')
+from sync_db_to_mdx import sync_article_to_mdx
+import logging
+logging.basicConfig(filename='logs/editorial_sync.log', level=logging.INFO)
+result = sync_article_to_mdx(${id})
+print(result)
+`;
+      const syncProc = spawn(PYTHON, ["-c", syncScript], {
+        cwd: FP_DIR,
+        detached: true,
+        stdio: "ignore",
+      });
+      syncProc.unref();
+      return NextResponse.json({ ok: true, message: "Sync pokrenut — promjene će biti vidljive odmah" });
     }
 
     if (action === "ending") {
@@ -84,6 +154,7 @@ export async function POST(req: NextRequest) {
         "UPDATE articles SET chosen_ending=?, approved=1, status='approved' WHERE id=?"
       ).run(ending, id);
       db.close();
+      bumpContentVersion();
 
       // Trigger background publish (same as review panel)
       const script = `
@@ -91,7 +162,7 @@ import sys; sys.path.insert(0, '.')
 from core.vps_publisher import publish_single
 import logging
 logging.basicConfig(filename='logs/editorial_publish.log', level=logging.INFO)
-result = publish_single(${id})
+result = publish_single(${id}, rebuild=False)
 print(result)
 `;
       const proc = spawn(PYTHON, ["-c", script], {
@@ -101,7 +172,7 @@ print(result)
       });
       proc.unref();
 
-      return NextResponse.json({ ok: true, message: "Publish pokrenut (~60s)" });
+      return NextResponse.json({ ok: true, message: "Publish pokrenut bez rebuilda" });
     }
 
     return NextResponse.json({ error: "Unknown action" }, { status: 400 });

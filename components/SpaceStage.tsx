@@ -1318,7 +1318,7 @@ export default function SpaceStage() {
       <canvas
         ref={bgCanvasRef}
         id="space-stage-canvas"
-        className="fixed inset-0"
+        className="fixed inset-0 w-full h-full max-w-full"
         style={{
           zIndex: gameActive ? 5 : 0,
           pointerEvents: gameActive ? "auto" : "none",
@@ -1330,7 +1330,7 @@ export default function SpaceStage() {
       {/* Overlay canvas (z-20) — rare objects over content */}
       <canvas
         ref={overlayCanvasRef}
-        className="fixed inset-0 pointer-events-none"
+        className="fixed inset-0 w-full h-full max-w-full pointer-events-none"
         style={{ zIndex: 20 }}
         aria-hidden="true"
       />

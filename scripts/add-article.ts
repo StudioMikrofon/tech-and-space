@@ -20,6 +20,7 @@ const SCHEMA_PATH = path.join(__dirname, "content-schema.json");
 
 interface ArticlePayload {
   id: string;
+  db_id: number;  // CRITICAL: Must have database ID from foto-review approval
   title: string;
   category: string;
   date: string;
@@ -67,6 +68,15 @@ function validate(data: Record<string, unknown>): { valid: boolean; errors: stri
     return { valid: false, errors };
   }
 
+  // CRITICAL: Must have db_id from foto-review approval system
+  // Nothing goes to test.techand.space without foto-review approval!
+  if (!data.db_id || typeof data.db_id !== "number" || data.db_id <= 0) {
+    return { 
+      valid: false, 
+      errors: ["db_id: REQUIRED - Article must be from foto-review system with valid db_id (number > 0)"] 
+    };
+  }
+
   if (!content || typeof content !== "string" || (content as string).trim().length < 10) {
     return { valid: false, errors: ["content: must be a non-empty string (min 10 chars)"] };
   }
@@ -77,14 +87,16 @@ function validate(data: Record<string, unknown>): { valid: boolean; errors: stri
 function generateMdx(data: ArticlePayload): string {
   const { content, ...frontmatter } = data;
 
-  // Set defaults
-  if (frontmatter.approved === undefined) frontmatter.approved = true;
+  // CRITICAL: approved is ALWAYS false by default - only foto-review can approve!
+  // Never default to true - that bypasses the entire review system!
+  if (frontmatter.approved === undefined) frontmatter.approved = false;
   if (frontmatter.featured === undefined) frontmatter.featured = false;
 
   // Build YAML frontmatter
   const yaml = [
     "---",
     `id: "${frontmatter.id}"`,
+    `db_id: ${frontmatter.db_id}`,  // CRITICAL: Include db_id in output
     `title: "${frontmatter.title.replace(/"/g, '\\"')}"`,
     `category: "${frontmatter.category}"`,
     `date: "${frontmatter.date}"`,

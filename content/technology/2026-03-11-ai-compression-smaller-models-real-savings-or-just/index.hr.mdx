@@ -1,0 +1,32 @@
+---
+id: "2026-03-11-ai-compression-smaller-models-real-savings-or-just"
+title: "Multiverse stiskuje AI: manja memorija, niži troškovi – ali za koga?"
+lang: "hr"
+category: "technology"
+date: "2026-03-11T12:00:00Z"
+excerpt: "Kada kompanija objavi da može prepoloviti memorijske zahtjeve velikih AI modela, prvo pitanje nije *kako*, već *zašto bi nas to trebalo zanimati*."
+source:
+  name: "Future Pulse"
+  url: "https://futurepulse.hr"
+image:
+  url: "/images/articles/ai-compression-smaller-models-real-savings-or-just/main.jpg"
+  alt: "Multiverse stiskuje AI: manja memorija, niži troškovi – ali za koga?"
+subtitle: "Što znači kada se velika jezgra modela može pokrenuti na uobičajenom hardveru?"
+subtitleImage:
+  url: "/images/articles/ai-compression-smaller-models-real-savings-or-just/subtitle.jpg"
+  alt: "Što znači kada se velika jezgra modela može pokrenuti na uobičajenom hardveru?"
+tags: ["future-pulse", "automated", "technology"]
+geo:
+  name: "San Sebastián, Spain"
+  lat: 43.3209
+  lon: -1.9845
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Kada kompanija objavi da može prepoloviti memorijske zahtjeve velikih AI modela, prvo pitanje nije *kako*, već *zašto bi nas to trebalo zanimati*. [Multiverse Computing](https://www.multiversecomputing.com/) upravo je predstavio komprimirani OpenAI-jev model koji, prema njihovim tvrdnjama, ne samo da smanjuje potrošnju memorije, nego i niže troškove infrastrukture – a to su upravo dvije glavne prepreke širem usvajanju naprednih AI rješenja. Ne radi se o uklanjanju 'cigala' iz sustava, kako tvrde u svojoj metafori (*„prepisujemo plan, ne skidamo opeke“*), već o fundamentalnom pitanju: može li se visoka performansa AI-a postići bez visoke cijene? Ono što ovaj pristup čini zanimljivim jest da ne ide putem *approximate computing*-a (gdje se žrtvuje preciznost radi bržine), već se oslanja na [kvantno-inspirirane algoritme](https://arxiv.org/abs/2105.02276) za kompresiju modela bez značajnog gubitka kvalitete. Prema dostupnim informacijama, rješenje je testirano na OpenAI-jevim modelima, a rezultati sugeriraju da bi korisnici mogli pokretati aplikacije koje danas zahtijevaju skupu GPU infrastrukturu – na standardnim serverima, ili čak lokalno. To nije samo pitanje uštede: za startupove i srednje tvrtke koje eksperimentiraju s AI-om, razlika između 16GB i 8GB RAM-a po modelu može značiti izbor između *imati* ili *nemati* operativni budžet za razvoj. No, koliko je ovo stvarno novo? Tržište već nudi rješenja za optimizaciju modela – od [Quantized LLMs](https://huggingface.co/docs/optimum/concept_guides/quantization) do pruning tehnika koje 'orežu' suvišne parametre. Multiverseov pristup se, međutim, ističe time što ne zahtijeva promjenu postojeće infrastrukture: komprimirani model radi na istim frameworkovima (PyTorch, TensorFlow) i ne nameće dodatne slojeve apstrakcije. To je ključno za poduzeća koja ne žele ulagati u nove alate, ali im je potrebna efikasnija AI potrošnja.
+
+<ArticleBreak />
+
+Da bi se razumjelo za koga je ovo stvarno važno, treba pogledati tko danas najviše pati od visokih troškova AI infrastrukture. [Istraživanje iz 2023.](https://www.infoq.com/news/2023/03/ai-infrastructure-costs/) pokazuje da čak 60% tvrtki koje razvijaju AI modele navodi *troškove računalne snage* kao glavnu barijeru skaliranju. Multiverseovo rješenje neće vjerojatno promijeniti igru za Googlov *DeepMind* ili Meta-jeve interne modele – ali bi moglo otvoriti vrata manjim igračima, poput regionalnih fintech startupova ili zdravstvenih ustanova koje eksperimentiraju s lokalnim LLM-ovima za analizu podataka. Čak i ako kompresija znači gubitak, recimo, 5% točnosti (što Multiverse još uvijek nije detaljno dokumentirao), za mnoge use case-ove – kao što su chatbotovi za korisničku podršku ili interne pretraživači dokumentacije – to može biti prihvatljiva razmjena. Međutim, postoji i druga strana medalje: ako se kompresija pokaže dovoljno učinkovitom, mogla bi dodatno centralizirati moć u rukama nekoliko cloud provajdera. [AWS, Google Cloud i Azure](https://www.forbes.com/sites/janakiram/2023/05/15/the-cloud-wars-are-becoming-ai-wars/) već nude „optimizirane“ AI instance – a ako bi kompresija postala standard, oni bi mogli ponuditi „jeftinije“ pakete koji zapravo vežu korisnike na njihovu platformu.

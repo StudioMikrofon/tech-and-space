@@ -1,0 +1,42 @@
+---
+id: "2026-03-24-jointfms-synthetic-sde-trick-clever-or-just-benchm"
+db_id: 665
+title: "JointFM: Stohastička revolucija ili samo novi omotač?"
+lang: "hr"
+category: "ai"
+date: "2026-03-24T12:00:00Z"
+excerpt: "Stohastičke diferencijalne jednadžbe (SDE) dugo su bile zlatni standard za modeliranje sustava pod nesigurnošću – ali njihova primjena u praksi često je bila skupa, krhka i računski zahtjevna."
+exec_summary: "JointFM-0.1 flips the SDE paradigm by training on synthetic equations instead of calibrating to real data—claiming zero task-specific tuning. The angle: whether this is a genuine leap for risk modeling or another foundation model repackaged for hype. Key tension lies in the untested real-world robustness and lack of independent benchmarks on production-grade data."
+key_points:
+  - "Prvi *foundation model* za predviđanje distribuiranih vremenskih serija"
+  - "Invertiranje SDE paradigme – sintetske jednadžbe umjesto kalibracije"
+  - "Bez task-specifične kalibracije, ali pitanja ostaju o realnom performansu"
+source:
+  name: ""
+  url: "https://arxiv.org/abs/2603.20266"
+image:
+  url: "/images/articles/jointfms-synthetic-sde-trick-clever-or-just-benchm/main.jpg"
+  alt: "JointFM: Stohastička revolucija ili samo novi omotač?"
+subtitle: "Demo nasuprot deploymenta: Kada teorija susreće proizvodnu realnost"
+subtitleImage:
+  url: "/images/articles/jointfms-synthetic-sde-trick-clever-or-just-benchm/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: Kada teorija susreće proizvodnu realnost"
+tags: ["JointFM", "Stochastic Modeling", "Deployment vs Demo"]
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+lead_sentence: "JointFM-0.1 se uči na beskonačnim sintetičkim SDE-ovima, obećavajući predviđanje bez kalibracije."
+approved: true
+---
+-
+
+Stohastičke diferencijalne jednadžbe (SDE) dugo su bile zlatni standard za modeliranje sustava pod nesigurnošću – ali njihova primjena u praksi često je bila skupa, krhka i računski zahtjevna. [Technical report JointFM-0.1](https://arxiv.org/abs/2603.20266) sada predlaže obrat: umjesto da prilagođavamo SDE podacima, model se trenira na beskonačnom toku sintetskih SDE-a, obezbeđujući, prema autorima, generičku sposobnost predviđanja zajedničkih distribucija iz spojenih vremenskih serija. To zvuči kao elegantno rješenje – ali je li to stvarno **promjena paradigme** ili samo pametno prepakovanje postojećih tehnika? Razlika je u detalju: JointFM ne zahtijeva *task-specifičnu kalibraciju*, što je u teoriji veliki plus za industrijsku primjenu. Međutim, [prethodna iskustva s *foundation modelima*](https://www.nature.com/articles/s41586-023-06262-6) u drugim domenama pokazuju da je prelazak s benchmarka na realne performanse često pun zapreka. Čak i ako model radi savršeno na sintetskim podacima, pitanje je koliko će biti robustan kada se suoči s šumom, nedostajućim vrijednostima i *distribution shiftom* u proizvodnji – problemima koji obično razotkriju jaz između akademskih rezultata i industrijskih potreba. Autori ističu da je ovo **prvi foundation model** za distribuirane predikcije spojenih vremenskih serija, što je teško osporiti. Ali je li to dovoljno da opravda entuzijazam? [Reakcije na GitHubu](https://github.com/search?q=JointFM) i specijaliziranim forumima (npr. [ML Reddit](https://www.reddit.com/r/MachineLearning/)) još su rijetke, što nije neočekivano za *arXiv preprint* – ali ni signal povjerenja.
+
+<ArticleBreak />
+
+Gdje bi JointFM mogao stvarno promijeniti igru? Financijske institucije koje se bave rizičnim modeliranjem, energetski sektor s predviđanjem potražnje, ili čak biotehnologija s analizom multiplih biomarkera – svi ti domeni oduvijek se bore s nedostatcima tradicionalnih SDE pristupa. Ako se JointFM pokaže robustnim, mogao bi smanjiti troškove kalibracije i ubrzati iteracije, što je ključno u okruženjima gdje se uvjeti brzo mijenjaju. Međutim, **stvarno usko grlo možda uopće nije tamo gdje ga marketing traži**: umjesto samog modela, problem bi mogao biti u kvaliteti i reprezentativnosti *sintetskih SDE-a* na kojima se trenira. Ako su ti podaci previše udaljeni od realnih distribucija, model će generirati lijepo izgledajuće, ali beskorisne predikcije. Još jedna stvar koja nedostaje u priči je **benchmark kontekst**. Autori navode superiorne rezultate na sintetskim skupovima, ali nema usporedbe s postojećim rješenjima (npr. [Diffusion-based time-series models](https://arxiv.org/abs/2305.10288)) na *realnim* podacima. Bez toga, teško je procijeniti da li je JointFM zaista korak naprijed ili samo drugačiji pristup istom problemu. Razvojna zajednica će vjerojatno čekati neovisne replikacije prije nego što počne ozbiljno razmatrati integraciju. Za sada ostaje pitanje tko najviše dobiva na ovoj objavi. Akademska zajednica sigurno – novi pristup je zanimljiv za istraživanje. Startupi koji prodaju 'AI-for-risk-modeling' rješenja možda dobivaju novi *buzzword* za pitch deckove. Ali za one koji stvarno grade sisteme, **pravi signal ovdje je** u tome će li JointFM izdržati susret s proizvodnom realnošću – ili će, kao toliko drugih *foundation modela*, ostati zanimljiv samo na papiru.
+
+U konačnici, uspjeh JointFM-a ovisi o njegovoj sposobnosti da se suprotstavi proizvodnoj realnosti i da pruži korisne predikcije u različitim domenama. Ako se pokaže kao robustan i precizan, mogao bi postati važan alat za financijske institucije, energetski sektor i biotehnologiju.

@@ -9,7 +9,7 @@ type SoundName =
   | 'quizCorrect' | 'quizWrong' | 'glitch' | 'select' | 'tab';
 
 const STORAGE_KEY = 'tp-sound';
-const MASTER_VOL  = 0.08;
+const MASTER_VOL  = 0.06;
 
 let ctx: AudioContext | null = null;
 let ambientLoopNode: OscillatorNode | null = null;
@@ -183,65 +183,66 @@ const sounds: Partial<Record<SoundName, (audio: AudioContext) => void>> = {
   // 1. HOVER — subspace frequency blip: 2-partial sine, very short
   hover(audio) {
     const now = audio.currentTime;
-    const g   = gain(audio, 0);
+    const g = gain(audio, 0);
     g.gain.setValueAtTime(0, now);
-    g.gain.linearRampToValueAtTime(MASTER_VOL * 0.65, now + 0.008);
-    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.07);
+    g.gain.linearRampToValueAtTime(MASTER_VOL * 0.35, now + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+    osc(audio, g, 'sine', 980, now, 0.08, 1120);
 
-    osc(audio, g, 'sine', 880, now, 0.065, 820);
-    const g2 = gain(audio, 0);
-    g2.gain.setValueAtTime(0, now + 0.008);
-    g2.gain.exponentialRampToValueAtTime(0.0001, now + 0.07);
-    osc(audio, g2, 'sine', 1760, now + 0.008, 0.06, 1600);
-    g2.gain.value = MASTER_VOL * 0.25;
+    const air = gain(audio, 0);
+    air.gain.setValueAtTime(0, now + 0.01);
+    air.gain.linearRampToValueAtTime(MASTER_VOL * 0.08, now + 0.018);
+    air.gain.exponentialRampToValueAtTime(0.0001, now + 0.07);
+    const n = whiteNoise(audio, 0.06);
+    const f = bpf(audio, air, 5200, 2.5);
+    n.connect(f); n.start(now + 0.01); n.stop(now + 0.07);
   },
 
   // 2. CLICK — sharp console keypress: attack transient + resonant tail
   click(audio) {
     const now = audio.currentTime;
+    const body = gain(audio, 0);
+    body.gain.setValueAtTime(0, now);
+    body.gain.linearRampToValueAtTime(MASTER_VOL * 0.42, now + 0.004);
+    body.gain.exponentialRampToValueAtTime(0.0001, now + 0.11);
+    osc(audio, body, 'triangle', 720, now, 0.1, 540);
 
-    // Transient: shaped noise burst
-    const tG = gain(audio, MASTER_VOL);
-    tG.gain.setValueAtTime(MASTER_VOL, now);
-    tG.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+    const attack = gain(audio, 0);
+    attack.gain.setValueAtTime(0, now);
+    attack.gain.linearRampToValueAtTime(MASTER_VOL * 0.12, now + 0.002);
+    attack.gain.exponentialRampToValueAtTime(0.0001, now + 0.028);
     const n = whiteNoise(audio, 0.03);
-    const f = bpf(audio, tG, 3200, 4);
+    const f = bpf(audio, attack, 4200, 3.2);
     n.connect(f); n.start(now); n.stop(now + 0.03);
 
-    // Resonant body: triangle wave, decays slowly
-    const bG = gain(audio, MASTER_VOL * 0.7);
-    bG.gain.setValueAtTime(MASTER_VOL * 0.7, now + 0.005);
-    bG.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
-    osc(audio, bG, 'triangle', 680, now + 0.005, 0.17, 560);
-
-    // Sub click: very short bass thump
-    const sG = gain(audio, MASTER_VOL * 0.5);
-    sG.gain.setValueAtTime(MASTER_VOL * 0.5, now);
-    sG.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
-    osc(audio, sG, 'sine', 180, now, 0.04, 60);
+    const tail = gain(audio, 0);
+    tail.gain.setValueAtTime(0, now + 0.01);
+    tail.gain.linearRampToValueAtTime(MASTER_VOL * 0.16, now + 0.016);
+    tail.gain.exponentialRampToValueAtTime(0.0001, now + 0.13);
+    osc(audio, tail, 'sine', 1320, now + 0.01, 0.12, 1140);
   },
 
   // 3. SELECT — lighter variant of click for tab switching
   select(audio) {
     const now = audio.currentTime;
-    const g   = gain(audio, MASTER_VOL * 0.6);
-    g.gain.setValueAtTime(MASTER_VOL * 0.6, now);
-    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
-    osc(audio, g, 'triangle', 900, now, 0.10, 1100);
+    const g = gain(audio, MASTER_VOL * 0.28);
+    g.gain.setValueAtTime(MASTER_VOL * 0.28, now);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.11);
+    osc(audio, g, 'sine', 820, now, 0.1, 980);
 
-    const g2  = gain(audio, MASTER_VOL * 0.3);
-    g2.gain.setValueAtTime(MASTER_VOL * 0.3, now + 0.015);
-    g2.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
-    osc(audio, g2, 'sine', 1800, now + 0.015, 0.09);
+    const g2 = gain(audio, MASTER_VOL * 0.14);
+    g2.gain.setValueAtTime(MASTER_VOL * 0.14, now + 0.01);
+    g2.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+    osc(audio, g2, 'triangle', 1640, now + 0.01, 0.08, 1820);
   },
 
   // 4. TAB — very quick tick for sidebar tab changes
   tab(audio) {
     const now = audio.currentTime;
-    const g   = gain(audio, MASTER_VOL * 0.55);
-    g.gain.setValueAtTime(MASTER_VOL * 0.55, now);
-    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
-    osc(audio, g, 'square', 1400, now, 0.035, 1200);
+    const g = gain(audio, MASTER_VOL * 0.2);
+    g.gain.setValueAtTime(MASTER_VOL * 0.2, now);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.055);
+    osc(audio, g, 'triangle', 1500, now, 0.05, 1280);
   },
 
   // 5. GLITCH — digital scramble: noise bursts with pitch steps
@@ -272,84 +273,56 @@ const sounds: Partial<Record<SoundName, (audio: AudioContext) => void>> = {
   // 6. TRANSITION — glitch scramble → space whoosh → clean
   transition(audio) {
     const now = audio.currentTime;
+    const rise = gain(audio, 0);
+    rise.gain.setValueAtTime(0, now);
+    rise.gain.linearRampToValueAtTime(MASTER_VOL * 0.3, now + 0.06);
+    rise.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+    osc(audio, rise, 'triangle', 240, now, 0.22, 960);
 
-    // Phase 1 (0–180ms): digital glitch burst
-    const glitchSteps = 6;
-    const sd          = 0.025;
-    const gFreqs      = [3600, 900, 2400, 600, 4200, 300];
-    for (let i = 0; i < glitchSteps; i++) {
-      const t  = now + i * sd;
-      const gv = MASTER_VOL * (0.8 - i * 0.1);
-      const g  = gain(audio, gv);
-      g.gain.setValueAtTime(gv, t);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + sd);
-      if (i % 2 === 0) {
-        const n = whiteNoise(audio, sd * 1.1);
-        const f = bpf(audio, g, gFreqs[i], 4);
-        n.connect(f); n.start(t); n.stop(t + sd * 1.1);
-      } else {
-        osc(audio, g, 'sawtooth', gFreqs[i], t, sd * 0.9);
-      }
-    }
+    const sweep = gain(audio, 0);
+    sweep.gain.setValueAtTime(0, now + 0.05);
+    sweep.gain.linearRampToValueAtTime(MASTER_VOL * 0.26, now + 0.14);
+    sweep.gain.linearRampToValueAtTime(0, now + 0.34);
+    const wn = whiteNoise(audio, 0.34);
+    const wf = audio.createBiquadFilter();
+    wf.type = 'bandpass'; wf.Q.value = 1.1;
+    wf.frequency.setValueAtTime(700, now + 0.05);
+    wf.frequency.exponentialRampToValueAtTime(5200, now + 0.34);
+    wn.connect(wf); wf.connect(sweep);
+    wn.start(now + 0.05); wn.stop(now + 0.39);
 
-    // Phase 2 (160ms–400ms): noise sweep 200→8000Hz (whoosh)
-    const wStart = now + 0.16;
-    const wDur   = 0.26;
-    const wG     = gain(audio, 0);
-    wG.gain.setValueAtTime(0, wStart);
-    wG.gain.linearRampToValueAtTime(MASTER_VOL * 1.2, wStart + 0.06);
-    wG.gain.linearRampToValueAtTime(0, wStart + wDur);
-    const wn  = whiteNoise(audio, wDur + 0.05);
-    const wf  = audio.createBiquadFilter();
-    wf.type = 'bandpass'; wf.Q.value = 0.8;
-    wf.frequency.setValueAtTime(200, wStart);
-    wf.frequency.exponentialRampToValueAtTime(8000, wStart + wDur);
-    wn.connect(wf); wf.connect(wG);
-    wn.start(wStart); wn.stop(wStart + wDur + 0.1);
-
-    // Phase 3 (350ms): clean confirmation sine
-    const cStart = now + 0.35;
-    const cG     = gain(audio, MASTER_VOL * 0.5);
-    cG.gain.setValueAtTime(MASTER_VOL * 0.5, cStart);
-    cG.gain.exponentialRampToValueAtTime(0.0001, cStart + 0.15);
-    osc(audio, cG, 'sine', 1200, cStart, 0.14, 1400);
+    const confirm = gain(audio, MASTER_VOL * 0.18);
+    confirm.gain.setValueAtTime(MASTER_VOL * 0.18, now + 0.24);
+    confirm.gain.exponentialRampToValueAtTime(0.0001, now + 0.42);
+    osc(audio, confirm, 'sine', 1280, now + 0.24, 0.18, 1520);
   },
 
   // 7. BOOT — CRT power-on: sub rumble, pitch ramp, digital handshake
   boot(audio) {
     const now = audio.currentTime;
+    const rumble = gain(audio, 0);
+    rumble.gain.setValueAtTime(0, now);
+    rumble.gain.linearRampToValueAtTime(MASTER_VOL * 0.25, now + 0.18);
+    rumble.gain.linearRampToValueAtTime(0, now + 0.7);
+    osc(audio, rumble, 'sine', 46, now, 0.7, 62);
 
-    // Sub rumble (0–500ms)
-    const rG = gain(audio, 0);
-    rG.gain.setValueAtTime(0, now);
-    rG.gain.linearRampToValueAtTime(MASTER_VOL * 0.6, now + 0.15);
-    rG.gain.linearRampToValueAtTime(0, now + 0.5);
-    osc(audio, rG, 'sawtooth', 45, now, 0.5, 80);
-    const rlp = lpf(audio, audio.destination, 200);
-    rG.connect(rlp);
+    const lift = gain(audio, 0);
+    lift.gain.setValueAtTime(0, now + 0.18);
+    lift.gain.linearRampToValueAtTime(MASTER_VOL * 0.22, now + 0.34);
+    lift.gain.exponentialRampToValueAtTime(0.0001, now + 0.86);
+    osc(audio, lift, 'triangle', 120, now + 0.18, 0.68, 1480);
 
-    // Pitch rise sweep (200ms–700ms)
-    const swG = gain(audio, MASTER_VOL * 0.35);
-    swG.gain.setValueAtTime(0, now + 0.2);
-    swG.gain.linearRampToValueAtTime(MASTER_VOL * 0.35, now + 0.35);
-    swG.gain.linearRampToValueAtTime(0, now + 0.8);
-    osc(audio, swG, 'sawtooth', 80, now + 0.2, 0.6, 1800);
-
-    // Digital handshake tones (600ms, 700ms, 850ms)
-    [[600, 880, 0.12], [700, 1100, 0.1], [850, 1320, 0.14]].forEach(([ms, f, vol]) => {
-      const t  = now + (ms as number) / 1000;
-      const g  = gain(audio, vol as number);
-      g.gain.setValueAtTime(vol as number, t);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
-      osc(audio, g, 'triangle', f as number, t, 0.11);
+    [[0.62, 780], [0.73, 1040], [0.84, 1320]].forEach(([delay, freq]) => {
+      const g = gain(audio, MASTER_VOL * 0.14);
+      g.gain.setValueAtTime(MASTER_VOL * 0.14, now + delay);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + delay + 0.14);
+      osc(audio, g, 'sine', freq, now + delay, 0.13);
     });
 
-    // Final confirm tone (950ms)
-    const cG = gain(audio, MASTER_VOL * 0.6);
-    cG.gain.setValueAtTime(MASTER_VOL * 0.6, now + 0.95);
-    cG.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
-    osc(audio, cG, 'sine', 1760, now + 0.95, 0.25);
-    addReverb(audio, cG, audio.destination, 0.15, 300);
+    const confirm = gain(audio, MASTER_VOL * 0.22);
+    confirm.gain.setValueAtTime(MASTER_VOL * 0.22, now + 0.94);
+    confirm.gain.exponentialRampToValueAtTime(0.0001, now + 1.3);
+    osc(audio, confirm, 'triangle', 1760, now + 0.94, 0.34, 1960);
   },
 
   // 8. SUCCESS — clean dual-tone comms confirm (not video-gamey)
@@ -369,47 +342,42 @@ const sounds: Partial<Record<SoundName, (audio: AudioContext) => void>> = {
   // 9. DATA STREAM — digital packet burst: fast freq steps with noise gate
   dataStream(audio) {
     const now   = audio.currentTime;
-    const total = 0.12;
-    const step  = 0.01;
-    const freqs = [2400, 1600, 3200, 800, 2800, 1200, 3600, 1000, 2200, 1800, 400, 3000];
+    const freqs = [980, 1240, 1480, 1720];
+    freqs.forEach((freq, i) => {
+      const t = now + i * 0.026;
+      const g = gain(audio, MASTER_VOL * 0.12);
+      g.gain.setValueAtTime(MASTER_VOL * 0.12, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
+      osc(audio, g, 'triangle', freq, t, 0.07, freq + 60);
+    });
 
-    const g = gain(audio, 0);
-    g.gain.setValueAtTime(0, now);
-    g.gain.linearRampToValueAtTime(MASTER_VOL * 0.6, now + 0.01);
-    g.gain.setValueAtTime(MASTER_VOL * 0.6, now + total - 0.02);
-    g.gain.linearRampToValueAtTime(0, now + total);
-
-    const o = audio.createOscillator();
-    o.type = 'square';
-    freqs.forEach((f, i) => o.frequency.setValueAtTime(f, now + i * step));
-    o.connect(g); o.start(now); o.stop(now + total + 0.01);
-
-    const f = lpf(audio, audio.destination, 2500);
-    g.connect(f);
+    const air = gain(audio, 0);
+    air.gain.setValueAtTime(0, now);
+    air.gain.linearRampToValueAtTime(MASTER_VOL * 0.05, now + 0.01);
+    air.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+    const n = whiteNoise(audio, 0.12);
+    const f = bpf(audio, air, 4600, 2.2);
+    n.connect(f); n.start(now); n.stop(now + 0.12);
   },
 
   // 10. PING — deep-space sonar: fundamental + overtone + echo
   ping(audio) {
     const now = audio.currentTime;
+    const core = gain(audio, MASTER_VOL * 0.18);
+    core.gain.setValueAtTime(MASTER_VOL * 0.18, now);
+    core.gain.exponentialRampToValueAtTime(0.0001, now + 0.42);
+    osc(audio, core, 'sine', 1080, now, 0.42, 900);
 
-    // Fundamental
-    const g = gain(audio, MASTER_VOL * 0.8);
-    g.gain.setValueAtTime(MASTER_VOL * 0.8, now);
-    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
-    osc(audio, g, 'sine', 1200, now, 0.6, 900);
+    const overtone = gain(audio, MASTER_VOL * 0.08);
+    overtone.gain.setValueAtTime(MASTER_VOL * 0.08, now);
+    overtone.gain.exponentialRampToValueAtTime(0.0001, now + 0.24);
+    osc(audio, overtone, 'triangle', 2160, now, 0.22, 1800);
 
-    // Overtone (3rd harmonic, quieter)
-    const g2 = gain(audio, MASTER_VOL * 0.25);
-    g2.gain.setValueAtTime(MASTER_VOL * 0.25, now);
-    g2.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
-    osc(audio, g2, 'sine', 3600, now, 0.3, 2700);
-
-    // Echo (delayed 220ms, half amplitude)
-    const eG = gain(audio, MASTER_VOL * 0.3);
-    eG.gain.setValueAtTime(0, now + 0.22);
-    eG.gain.linearRampToValueAtTime(MASTER_VOL * 0.3, now + 0.24);
-    eG.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
-    osc(audio, eG, 'sine', 1100, now + 0.22, 0.5, 800);
+    const echo = gain(audio, 0);
+    echo.gain.setValueAtTime(0, now + 0.18);
+    echo.gain.linearRampToValueAtTime(MASTER_VOL * 0.09, now + 0.21);
+    echo.gain.exponentialRampToValueAtTime(0.0001, now + 0.56);
+    osc(audio, echo, 'sine', 980, now + 0.18, 0.34, 820);
   },
 
   // 11. AMBIENT — 10s segment (use startAmbient/stopAmbient for loop)
@@ -440,7 +408,7 @@ const sounds: Partial<Record<SoundName, (audio: AudioContext) => void>> = {
     // Low freq whoosh (200→600Hz)
     const lG = gain(audio, 0);
     lG.gain.setValueAtTime(0, now);
-    lG.gain.linearRampToValueAtTime(MASTER_VOL * 0.7, now + 0.08);
+    lG.gain.linearRampToValueAtTime(MASTER_VOL * 0.32, now + 0.08);
     lG.gain.linearRampToValueAtTime(0, now + dur);
     const ln = whiteNoise(audio, dur + 0.05);
     const lf = audio.createBiquadFilter();
@@ -453,7 +421,7 @@ const sounds: Partial<Record<SoundName, (audio: AudioContext) => void>> = {
     // High freq shimmer (2000→6000Hz, slight delay)
     const hG = gain(audio, 0);
     hG.gain.setValueAtTime(0, now + 0.04);
-    hG.gain.linearRampToValueAtTime(MASTER_VOL * 0.4, now + 0.12);
+    hG.gain.linearRampToValueAtTime(MASTER_VOL * 0.18, now + 0.12);
     hG.gain.linearRampToValueAtTime(0, now + dur);
     const hn = whiteNoise(audio, dur);
     const hf = audio.createBiquadFilter();
@@ -464,8 +432,8 @@ const sounds: Partial<Record<SoundName, (audio: AudioContext) => void>> = {
     hn.start(now + 0.04); hn.stop(now + dur + 0.02);
 
     // Sub tail (sinusoidal thump at the start)
-    const sG = gain(audio, MASTER_VOL * 0.4);
-    sG.gain.setValueAtTime(MASTER_VOL * 0.4, now);
+    const sG = gain(audio, MASTER_VOL * 0.16);
+    sG.gain.setValueAtTime(MASTER_VOL * 0.16, now);
     sG.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
     osc(audio, sG, 'sine', 80, now, 0.12, 30);
   },
@@ -479,18 +447,18 @@ const sounds: Partial<Record<SoundName, (audio: AudioContext) => void>> = {
 
     for (let i = 0; i < pulses; i++) {
       const t  = now + i * (pDur + pGap);
-      const gv = MASTER_VOL * (i === 0 ? 1 : 0.75);
+      const gv = MASTER_VOL * (i === 0 ? 0.42 : 0.34);
       const g  = gain(audio, gv);
       g.gain.setValueAtTime(gv, t);
       g.gain.setValueAtTime(gv, t + pDur - 0.008);
       g.gain.exponentialRampToValueAtTime(0.0001, t + pDur + 0.02);
 
       // Two-tone chord: fundamental + tritone (tense interval)
-      osc(audio, g, 'square', 660, t, pDur);
-      const g2  = gain(audio, gv * 0.5);
+      osc(audio, g, 'triangle', 660, t, pDur);
+      const g2  = gain(audio, gv * 0.35);
       g2.gain.setValueAtTime(gv * 0.5, t);
       g2.gain.exponentialRampToValueAtTime(0.0001, t + pDur + 0.02);
-      osc(audio, g2, 'square', 928, t, pDur); // ~tritone above 660
+      osc(audio, g2, 'sine', 928, t, pDur);
 
       // High-pass shape for clarity
       const hp = audio.createBiquadFilter();

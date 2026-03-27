@@ -1,0 +1,42 @@
+---
+id: "2026-03-25-llms-confidence-problem-gets-a-reality-check"
+db_id: 721
+title: "LLM-ovi i njihova sigurnosna iluzija: novi način mjeriti nesigurnost"
+lang: "hr"
+category: "ai"
+date: "2026-03-25T12:00:00Z"
+excerpt: "Kad veliki jezikovi modeli [pogreše s uvjerenjem](https://arxiv."
+exec_summary: "This arXiv paper introduces a practical uncertainty estimation method for LLMs that matches probing performance with a single forward pass—critical for production systems where confidence calibration matters more than benchmark hype. The real angle isn’t the math but the deployment gap: it works under quantization and cross-dataset transfer, yet lacks real-world stress-testing. Watch for industry adoption (or lack thereof) as the true signal."
+key_points:
+  - "Metoda pobjeđuje *probing* pri transferu podataka (+21 Brier bodova)"
+  - "Jednim prolazom kroz slojeve – bez visoke dimenzionalnosti"
+  - "4-bitna kvantizacija ne slabi performanse (testirano na 3 modela)"
+source:
+  name: ""
+  url: "https://arxiv.org/abs/2603.22299"
+image:
+  url: "/images/articles/llms-confidence-problem-gets-a-reality-check/main.jpg"
+  alt: "LLM-ovi i njihova sigurnosna iluzija: novi način mjeriti nesigurnost"
+subtitle: "Demo nasuprot deploymenta: tko će stvarno koristiti ovu matematičku eleganciju"
+subtitleImage:
+  url: "/images/articles/llms-confidence-problem-gets-a-reality-check/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: tko će stvarno koristiti ovu matematičku eleganciju"
+tags: ["LLM", "Deployment", "Security", "Mathematical Modeling"]
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+lead_sentence: "Novi matematički pristup premašuje sonde za +21.02 Brier bodova."
+approved: true
+---
+-
+
+Kad veliki jezikovi modeli [pogreše s uvjerenjem](https://arxiv.org/abs/2603.22299) – a čine to često – njihova *nesigurnost* postaje problem inženjeringa, ne filozofije. Najnoviji rad s arXiv-a (2603.22299v1) ne nudi još jedan 'revolucionarni' pristup, već nešto rijetko: **metodu koja radi s jednim forward passom**, bez potrage za skrivanim reprezentacijama u 1024-dimenzijskom kaosu. Autori ne idu u lov na *novu arhitekturu*, već pakiraju pametnu heuristiku: mjere **konsistenciju između slojeva** (intra-layer agreement) i pretvaraju je u *per-instance* ocjenu nesigurnosti. To nije samo teorija – testirano je na tri modela, gdje u *in-distribution* scenarijima gubi maksimalno **1.8 AUPRC postotnih bodova** u odnosu na *probing* (koji je, usput, skup i neprenosiv). Čak i pod **4-bitnom kvantizacijom** metoda drži korak, što je rijetka pojava u svijetu gdje se preciznost obično žrtvuje za brzinu. Ali pravi test dolazi pri **transferu između datasetova**. Tu nova metoda ne samo da ne zaostaje, nego i pobjeđuje *probing* za **+2.86 AUPRC** i čak **+21.02 Brier bodova** – brojke koje bi trebale uzburkati one koji grade production sustave, a ne samo benchmark tablice. Za razliku od *output-based* heuristika (koje autori finim ironijom nazivaju *'jeftinim ali krhkima'*), ovaj pristup ne gleda samo krajnji rezultat, već **kako se slojevi slažu pri donošenu odluke**. To je, drugim riječima, kao mjerenje koliko se 'glavni odbor' modela slaže prije nego što donese presudu.
+
+<ArticleBreak />
+
+Da je ovo samo još jedan akademski rad, priča bi završila ovdje. Ali **realnost deploymenta** uvijek postavlja pitanje: tko će ovo stvarno koristiti? Metoda je brza (jedan prolaz), kompaktna (bez visokodimenzionalnih tenzora) i **prenosiva** – tri svojstva koja nedostaju većini alternativnih pristupa. Za startupove koji grade LLM-as-a-service rješenja, ovo može biti **jeftiniji način filtriranja 'sigurnih' odgovora** prije nego što ih pošalju korisniku. Za velika cloud poduzeća, pak, prednost je u tome što metodu mogu [integrirati u postojeće pipelineove](https://huggingface.co/docs/transformers/main_classes/output) bez velike refaktorizacije. No, postoji i **sjena**: brojke dolaze iz kontroliranih eksperimenata, a ne iz production okruženja gdje se modeli suočavaju s *adversarial* upitima, *distribution shiftom* i – najgore od svega – **korisnicima koji traže 100% sigurnost**. Čak i ako metoda radi bolje od konkurencije, pitanje ostaje: **dovoljno li je bolje** da opravda implementaciju? Razvojna zajednica na [GitHubu](https://github.com/) još nije reagirala masovno (što je čudno za rad koji obećava praktičnu primjenu), ali rani signali sugeriraju da bi ovo moglo postati **standardni alat za debugging nesigurnosti** – barem dok ne izađe sljedeći 'revolucionarni' papir. Najzanimljivije je, možda, što autori **ne prodaju AGI san**, već rješenje za konkretan problem: kako smanjiti broj *'sigurnih' pogrešaka* koje košteju kompanije milijune. U svijetu gdje se LLM-ovi prodaju kao *'gotovo savršeni'*, ovo je rijetka dosada **realistična inovacija** – bez pretenzija, ali s brojevima koji se daju provjeriti.
+
+U svijetu gdje se LLM-ovi koriste u sve više primjena, ova metoda će biti od velikog značaja. Ona će omogućiti stvaranje sigurnijih i pouzdanih modela, što će na kraju dovesti do boljih rezultata i veće sigurnosti. Ovo istraživanje je samo početak, ali već sada se vidi da će imati veliki utjecaj na razvoj LLM-ova.

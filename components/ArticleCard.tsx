@@ -28,7 +28,7 @@ export default function ArticleCard({ article, onGeoClick, basePath = "" }: Arti
   const [isWarping, setIsWarping] = useState(false);
   const [loadingLine, setLoadingLine] = useState(0);
   const [ripplePos, setRipplePos] = useState({ x: 0, y: 0 });
-  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
+  const shimmerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
@@ -66,15 +66,18 @@ export default function ArticleCard({ article, onGeoClick, basePath = "" }: Arti
       }}
       onMouseLeave={() => {
         setIsHovered(false);
-        setMousePos(null);
+        if (shimmerRef.current) shimmerRef.current.style.display = "none";
       }}
       onMouseMove={(e) => {
         const rect = cardRef.current?.getBoundingClientRect();
-        if (rect) {
-          setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+        if (rect && shimmerRef.current) {
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          shimmerRef.current.style.display = "";
+          shimmerRef.current.style.background = `radial-gradient(circle 180px at ${x}px ${y}px, rgba(255,0,128,0.3), rgba(0,255,128,0.2) 30%, rgba(0,128,255,0.2) 60%, transparent 70%)`;
         }
       }}
-      className={`glass-card overflow-hidden flex flex-col group cursor-pointer relative ${
+      className={`glass-card overflow-hidden flex flex-col group cursor-pointer relative h-full ${
         isWarping ? "article-warp-out" : ""
       }`}
     >
@@ -159,9 +162,14 @@ export default function ArticleCard({ article, onGeoClick, basePath = "" }: Arti
 
       {/* Content */}
       <div className="p-4 flex-1 flex flex-col">
-        <h3 className="font-heading font-bold text-text-primary text-base sm:text-lg leading-snug mb-2 line-clamp-2 group-hover:text-accent-cyan transition-colors duration-300">
+        <h3 className="font-heading font-bold text-text-primary text-base sm:text-lg leading-snug mb-1 line-clamp-2 group-hover:text-accent-cyan transition-colors duration-300">
           {article.title}
         </h3>
+        {article.leadSentenceEn && (
+          <p className="text-xs text-text-secondary/70 line-clamp-1 mb-1">
+            {article.leadSentenceEn}
+          </p>
+        )}
         <p className="text-sm sm:text-[0.9rem] text-text-secondary line-clamp-3 mb-3 flex-1 leading-relaxed">
           {article.excerpt}
         </p>
@@ -190,15 +198,12 @@ export default function ArticleCard({ article, onGeoClick, basePath = "" }: Arti
         </div>
       </div>
 
-      {/* Holographic shimmer on hover */}
-      {isHovered && mousePos && (
-        <div
-          className="absolute inset-0 opacity-20 pointer-events-none z-10 transition-opacity duration-300"
-          style={{
-            background: `radial-gradient(circle 180px at ${mousePos.x}px ${mousePos.y}px, rgba(255,0,128,0.3), rgba(0,255,128,0.2) 30%, rgba(0,128,255,0.2) 60%, transparent 70%)`,
-          }}
-        />
-      )}
+      {/* Holographic shimmer on hover — updated via ref to avoid re-renders */}
+      <div
+        ref={shimmerRef}
+        className="absolute inset-0 opacity-20 pointer-events-none z-10"
+        style={{ display: isHovered ? "" : "none" }}
+      />
 
       {/* Bottom glow on hover */}
       <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-accent-cyan/0 to-transparent group-hover:via-accent-cyan/50 transition-all duration-500" />

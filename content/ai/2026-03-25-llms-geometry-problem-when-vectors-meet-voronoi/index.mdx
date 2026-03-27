@@ -1,0 +1,53 @@
+---
+id: "2026-03-25-llms-geometry-problem-when-vectors-meet-voronoi"
+db_id: 725
+title: "LLMs’ geometry problem: When vectors meet Voronoi"
+category: "ai"
+date: "2026-03-25T12:00:00Z"
+excerpt: "Large language models have a dirty little secret: they think in smooth, continuous vectors but spit out jagged, discrete tokens."
+exec_summary: "This paper shifts the LLM discourse from hype to hard geometry, framing token discretization as a measurable distortion problem with two provable theorems. The real angle isn’t the math itself but how it exposes current benchmarks as inadequate—ignoring semantic loss during vector-to-token conversion—and hands a competitive edge to teams that can minimize this 'expressibility gap' in practice."
+key_points:
+  - "Hidden states as Riemannian manifolds with Fisher metrics"
+  - "Expressibility gap quantifies semantic distortion from tokenization"
+  - "Theorems tie vocabulary size to unavoidable distortion limits"
+source:
+  name: ""
+  url: "https://arxiv.org/abs/2603.22301"
+image:
+  url: "/images/articles/llms-geometry-problem-when-vectors-meet-voronoi/main.jpg"
+  alt: "LLMs’ geometry problem: When vectors meet Voronoi"
+subtitle: "Matematički okvir koji pretvara hype u stvarne brojeve"
+subtitle_en: "A rare math-first paper cuts through the hype—with actual proofs"
+subtitleImage:
+  url: "/images/articles/llms-geometry-problem-when-vectors-meet-voronoi/subtitle.jpg"
+  alt: "A rare math-first paper cuts through the hype—with actual proofs"
+tags: ["LLM", "Language Translation", "Mathematical Framework"]
+seoTitle: "LLMs’ Hidden Geometry Crisis: Vectors vs. Voronoi Distortion"
+seoDescription: "New research quantifies how LLMs’ vector-to-token mismatch creates geometric distortion—a fundamental flaw in how AI processes language. See the math behind the problem."
+seoKeywords: "LLM geometry problem, vector quantization in AI, Voronoi diagrams in machine learning, language model tokenization issues, AI embedding distortion, LLM arithmetic limitations, neural network discrete vs continuous, arXiv ML theory 2026, large language model math flaws, token embedding mismatch"
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+lead_sentence: "LLMs' geometry problem costs 14% semantic accuracy"
+approved: true
+---
+-
+
+Large language models have a dirty little secret: they think in smooth, continuous vectors but spit out jagged, discrete tokens. That mismatch isn’t just messy—it’s a geometric crisis. A new [arXiv paper](https://arxiv.org/abs/2603.22301v1) from ML theorists finally puts numbers to the distortion, framing LLM hidden states as points on a *latent semantic manifold*—a Riemannian surface where tokens carve out Voronoi regions like territorial claims.
+
+    The core insight? What the authors call the *expressibility gap*: a measurable semantic tax paid every time the model’s fluid internal representations get forced into the straightjacket of a finite vocabulary. It’s not just handwavy intuition—two theorems anchor the work. First, a [rate-distortion lower bound](https://en.wikipedia.org/wiki/Rate%E2%80%93distortion_theory) proving no finite vocabulary escapes distortion. Second, a linear scaling law (via the [coarea formula](https://en.wikipedia.org/wiki/Coarea_formula)) showing how the gap grows with manifold volume.
+
+    This isn’t another ‘LLMs are just stochastic parrots’ take. It’s a rare case of theorists treating the tokenization bottleneck as a *geometric* problem, not just a training data one. The implications stretch beyond academia: if distortion is fundamental, then simply throwing more parameters at models may hit diminishing returns faster than we thought.
+
+<ArticleBreak />
+
+The paper’s timing is delicious. Just as industry races to ship ever-larger models, here’s a reminder that [vocabulary design](https://huggingface.co/docs/transformers/model_doc/llama#tokenizer-details)—often treated as an afterthought—might be a first-order constraint. The expressibility gap suggests that even with infinite compute, discrete tokens introduce irreducible noise. For startups betting on [smaller, specialized models](https://www.techand.ai/2024/05/small-language-models-slm-trends), this could be ammunition: less distortion if your manifold is tailored to a narrow domain.
+
+    Developer reaction on [r/MachineLearning](https://www.reddit.com/r/MachineLearning/) has been cautiously optimistic, with several commenters noting the framework’s potential to explain why some prompts ‘feel’ semantically brittle. But the reality gap looms: these are theoretical bounds, not deployment-ready fixes. The paper doesn’t (yet) tell us how to *reduce* distortion—just how to measure it.
+
+    Watch for two signals. First, whether [OpenAI](https://openai.com/) or [Anthropic](https://www.anthropic.com/) cite this work in future tokenizer updates. Second, if the [EleutherAI](https://www.eleuther.ai/) crowd starts baking these metrics into evaluation suites. For now, it’s a mathematical dare: *Prove you can do better than this lower bound.*
+
+In other words, the next time an LLM startup claims their model ‘understands meaning,’ ask them about their manifold’s Ricci curvature. The answer will be telling—if you get one at all.

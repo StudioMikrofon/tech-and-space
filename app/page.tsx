@@ -3,16 +3,36 @@ import {
   getFeaturedArticle,
   getLatestPerCategory,
 } from "@/lib/content";
+import dynamicImport from "next/dynamic";
 import HeroSection from "@/components/HeroSection";
 import ArticleGrid from "@/components/ArticleGrid";
 import SpaceBar from "@/components/SpaceBar";
-import SolarSystem from "@/components/SolarSystem";
-import LangSwitcher from "@/components/LangSwitcher";
+import GamingWidget from "@/components/GamingWidget";
+
+const SolarSystem = dynamicImport(() => import("@/components/SolarSystem"), { loading: () => null });
+
+export const dynamic = "force-dynamic";
 
 export default function HomePage() {
   const articles = getAllArticles();
   const featured = getFeaturedArticle();
   const latestPerCategory = getLatestPerCategory();
+  // Headlines: last 24h, fallback to latest 8 if none
+  const cutoff24h = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const headlines24h = articles.filter(a => new Date(a.date) > cutoff24h);
+  const headlines = headlines24h.length >= 3 ? headlines24h.slice(0, 12) : articles.slice(0, 8);
+
+  // Per-category: last 48h per category, up to 4 per cat
+  const cutoff48h = new Date(Date.now() - 48 * 60 * 60 * 1000);
+  const recent48h = articles.filter(a => new Date(a.date) > cutoff48h);
+  const latestPerCategoryMultiple = (recent48h.length >= 4
+    ? recent48h
+    : articles
+  ).reduce<Record<string, typeof articles>>((acc, a) => {
+    if (!acc[a.category]) acc[a.category] = [];
+    if (acc[a.category].length < 4) acc[a.category].push(a);
+    return acc;
+  }, {});
 
   if (!featured) {
     return (
@@ -34,13 +54,15 @@ export default function HomePage() {
 
   return (
     <>
-      <LangSwitcher lang="en" href="/hr" />
       {/* Subtle solar system ambient background behind starfield */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.15] z-0">
         <SolarSystem interactive />
       </div>
-      <HeroSection featured={featured} latestPerCategory={latestPerCategory} />
+      <HeroSection featured={featured} headlines={headlines} latestPerCategory={latestPerCategory} latestPerCategoryMultiple={latestPerCategoryMultiple} />
       <SpaceBar />
+      <section className="w-full max-w-7xl mx-auto px-0 sm:px-4 pb-6">
+        <GamingWidget />
+      </section>
       <section className="max-w-7xl mx-auto px-4 pb-16">
         <h2 className="section-header font-heading text-2xl font-bold text-text-primary mb-6">
           Latest News

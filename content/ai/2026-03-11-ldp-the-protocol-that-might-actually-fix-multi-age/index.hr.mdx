@@ -1,0 +1,46 @@
+---
+id: "2026-03-11-ldp-the-protocol-that-might-actually-fix-multi-age"
+title: "LDP: Više od protokola, ali manje od revolucije"
+lang: "hr"
+category: "ai"
+date: "2026-03-11T12:00:00Z"
+excerpt: "Kad se multi-agentni sustavi pretvore u korporativnu [buzzword bingo](https://hbr."
+source:
+  name: "Future Pulse"
+  url: "https://futurepulse.hr"
+image:
+  url: "/images/articles/ldp-the-protocol-that-might-actually-fix-multi-age/main.jpg"
+  alt: "LDP: Više od protokola, ali manje od revolucije"
+subtitle: "Zašto bi agentima trebali ‘ID kartoni’ – i tko od toga ima korist"
+subtitleImage:
+  url: "/images/articles/ldp-the-protocol-that-might-actually-fix-multi-age/subtitle.jpg"
+  alt: "Zašto bi agentima trebali ‘ID kartoni’ – i tko od toga ima korist"
+tags: ["future-pulse", "automated", "ai"]
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Kad se multi-agentni sustavi pretvore u korporativnu [buzzword bingo](https://hbr.org/2023/01/the-problem-with-business-buzzwords) tablu, uvijek je vrijedno pitati: *Što se ovdje zapravo mijenja?* Najnoviji doprinos arXiv-u – [LLM Delegate Protocol (LDP)](https://arxiv.org/abs/2603.08852) – donosi pet mehanizama koji *mogu* poboljšati komunikaciju između AI agenata. Ali koliko je toga stvarno novo, a koliko pakiranje postojećih problema u sjajnu ambalažu?
+
+Protokoli poput A2A i MCP već dugo ignoriraju osnovne stvari: identitet modela, profil razmišljanja, kalibraciju kvalitete i troškove. LDP to pretvara u ‘prvoklasne primitivne’ – što znači da su ta svojstva sada *eksplicitno* dio protokola, a ne nešto što programeri moraju ručno lijepljati u kod. Pet ključnih mehanizama – od [‘bogatih ID kartona’](https://ai.stanford.edu/blog/understanding-llm-agents/) s kvalitetnim oznakama do ‘progresivnih payload modova’ – zvuči impresivno. Ali je li to dovoljno da se riješimo kaosa u multi-agentnim sustavima, ili samo dodajemo još jedan sloj apstrakcije?
+
+Činjenica da LDP izlaže svojstva poput *‘razmišljačkog profila’* kao dio protokola je zanimljiva – ali i upitna. Da li će razvojnici zaista koristiti ove podatke za dinamičko delegiranje zadataka, ili će to ostati ‘feature’ koji izgleda dobro u [benchmark prezentacijama](https://www.theregister.com/2024/02/15/ai_benchmarking_flaws/), a u produkciji postane samo još jedan JSON polje koje nitko ne čita? Rani signali iz [technical foruma](https://news.ycombinator.com/item?id=40234567) sugeriraju skepsu: ‘Još jedan protokol koji rješava probleme koje nismo ni znali da imamo’.
+
+Jedna stvar je sigurna: LDP nije ‘revolucija’, već evolucijska iteracija. Ali evolucija s jasnim ciljem – učiniti multi-agentne sustave *manje nepredvidljivim*. To je korisno, ali i... dosadno praktično. Što je, ironično, upravo ono što industriji treba.
+
+<ArticleBreak />
+
+Tko od ovog ima korist? Najvjerojatnije oni koji već grade složene agentne mreže – startapi poput [Adept AI](https://www.adept.ai/) ili poduzeća koja eksperimentiraju s autonomnim workflowovima. Za njih, LDP može biti koristan *standardizacijski sloj* koji smanjuje troškove integracije. Ali za 90% kompanija koje još uvijek pokušavaju natjerati dva LLM-a da se slažu o formatu CSV-a, ovo je preuranjeno.
+
+Zanimljivije je pitanje **tko gubi**. Postojeći protokoli poput MCP-a [Meta](https://ai.meta.com/blog/mcp-multi-agent-communication-protocol/) ili A2A [Microsofta](https://azure.microsoft.com/en-us/blog/introducing-azure-ai-agent-autonomous-agents-architecture/) sada izgledaju kao ‘nepotpuni’ rješenja. Ako se LDP uhvati – a to je veliko *ako* – oni koji nisu uključeni u njegov razvoj mogu se naći u poziciji igranja uhvaćenih. Ali, kao i uvijek, ključno je tko će ga *de facto* implementirati. Bez podrške velikih igrača, ostaje još jedan [IEEE standard](https://www.ieee.org/standards/) koji svi citiraju, a nitko ne koristi.
+
+Developer signal je za sada tiha burza. Na GitHubu nema značajnijih [implementacija](https://github.com/search?q=LDP+protocol) (osim eksperimentalnih forkova), a u [Discord zajednicama](https://discord.gg/ai-agents) se više govori o tome *kako* bi ovo trebalo raditi nego o stvarnim use caseovima. To nije neočekivano – protokoli zahtijevaju vrijeme. Ali je zanimljivo da čak ni oni koji najglasnije zagovaraju ‘agentnu budućnost’ (poput [LangChain](https://www.langchain.com/)-a) još nisu javno komentirali LDP.
+
+Najveće pitanje ostaje: **Da li je ovo rješenje za stvarni problem, ili za problem koji će nastati tek kad svi počnemo koristiti agente?** Ako je ovo prvi korak prema ‘internetu agenata’ – dobro. Ako je samo još jedan način da se [VC novac](https://www.crunchbase.com/news/ai-agent-funding-2024) utroši na stvari koje niko neće koristiti – manje dobro.
+
+Realnost je, kao i uvijek, negdje između. LDP *može* biti koristan alat za one koji grade sljedeću generaciju AI oružja. Ali za sve ostale, ostaje pitanje: *Koliko vam je stvarno potrebno znati ‘razmišljački profil’ agenta koji vam generira Excel tablicu?*

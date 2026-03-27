@@ -1,0 +1,35 @@
+---
+id: "2026-03-16-physics-inspired-kernel-networks"
+title: "Yat-proizvod: Nov kernel ili samo pametno rebrandiranje?"
+lang: "hr"
+category: "ai"
+date: "2026-03-16T12:00:00Z"
+excerpt: "U svijetu strojnog učenja, gdje svaki tjedan dolazi novi 'revolucionarni' pristup, arXiv preprint arXiv:2603."
+exec_summary: "The paper introduces the 'yat-product', a kernel operator designed to replace conventional neural network blocks with a single geometrically-grounded operation. While mathematically elegant and showing promise in simplifying architectures, its real-world advantage remains unproven beyond controlled benchmarks. The key tension lies between theoretical innovation and practical adoption – will developers trade familiar pipelines for potentially more efficient but untested alternatives?"
+source:
+  name: ""
+  url: ""
+image:
+  url: "/images/articles/physics-inspired-kernel-networks/main.jpg"
+  alt: "Yat-proizvod: Nov kernel ili samo pametno rebrandiranje?"
+subtitle: "Što NMN donosi zaista novo – i tko će to koristiti?"
+subtitleImage:
+  url: "/images/articles/physics-inspired-kernel-networks/subtitle.jpg"
+  alt: "Što NMN donosi zaista novo – i tko će to koristiti?"
+tags: ["ai"]
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+U svijetu strojnog učenja, gdje svaki tjedan dolazi novi 'revolucionarni' pristup, arXiv preprint arXiv:2603.12276v1 donosi nešto što bi moglo biti – ili možda i nije – značajno pojednostavljenje neuronskih mreža. Autori predstavljaju 'yat-proizvod', kernel operator koji kombinira kvadratno poravnavanje s inverznom kvadratnom blizinom. Tvrdnja je jasna: zamijeniti konvencionalne linearno-aktivacijsko-normalizacijske blokove jednim geometrijski utemeljenim operatorom koji je sam po sebi regulariziran. Prema radu, yat-proizvod je Mercerov kernel, analitički, Lipschitzov na ograničenim domenama i pokazuje svojstva univerzalne aproksimacije kada se koristi u Neural Matter Networks (NMN). Ali što to zapravo znači za inženjere i istraživače? Prvo, eliminacija zasebnih normalizacijskih slojeva mogla bi smanjiti računsku složenost – što je uvijek dobrodošlo u eri gdje se transformer modeli mjere u gigavatima potrošene energije. Drugo, tvrdnja o 'geometrijskoj utemeljenosti' sugerira da NMN bolje održava strukturu ulaznih podataka, što bi moglo biti ključno za aplikacije poput obrade grafova ili 3D oblika. Rani rezultati na MNIST-u pokazuju da NMN postiže točnost usporedivu s linearnim bazama, ali bez dodatnih trikova poput skip-veza ili residualnih blokova. Ipak, postoji razlika između 'funkcionira u teoriji' i 'mjerljivo bolje u praksi'. Dok autori dokazuju matematičke svojstva yat-proizvoda, pitanje je koliko će ta svojstva prevladati u stvarnim scenarijima gdje podaci rijetko dolaze u idealnim distribucijama. Čak i na MNIST-u – datasetu koji je preživio svaku generaciju modela – razlike u performansama često su marginalne i osjetljive na hiperparametre. Štoviše, sam koncept 'jedinstvenog RKHS embeddinga' zvuči elegantno, ali koliko će developerima zapravo značiti u svakodnevnom razvoju?
+
+<ArticleBreak />
+
+Gledajući širu sliku, NMN arhitektura nije prva koja obećava pojednostavljenje neuronskih mreža. Od ekstremno učinkovitih TinyML modela do 'foundation modela' koji se hvale s nekoliko milijardi parametara, industrija stalno oscilira između složenosti i minimalizma. Yat-proizvod možda nije revolucionaran koncept, ali njegov pristup integriranju normalizacije u sam kernel mogao bi biti korak prema robusnijim modelima koji manje ovise o preciznom tuningu. Reakcije na GitHubu i tehničkim forumima su, međutim, još uvijek ograničene – što nije iznenađujuće s obzirom na rani stadij objave. Tko bi mogao imati koristi od ovog pristupa? Startupi i istraživačke grupe s ograničenim resursima mogli bi cijeniti pojednostavljenje arhitekture, pogotovo ako se pokaže da NMN učinkovitije koristi računalne resurse. S druge strane, veliki tech igrači vjerojatno će pričekati nezavisne validacije prije nego što usvoje nešto što se razlikuje od standardnog pipelinea koji je godinama optimiziran za skalabilnost. Još jedna ključna tvrdnja rada je 'superpozicijska robusnost' NMN-a – svojstvo koje bi moglo biti posebno vrijedno za multimodalne modele gdje se različiti tipovi podataka često jednostavno zbrajaju ili konkateniraju. Ako se ovo potvrdi u širim testovima, mogao bi to biti signal za promjenu u načinu kako se pristupa dizajnu višestrukih ulaza. Ali zasad, to je još uvijek 'ako'. Zanimljivo je primijetiti da autori ne tvrde da NMN nadmašuje postojeće arhitekture – samo da postiže slične rezultate s manje složenosti. U svijetu gdje se svaki postotak točnosti napuhuje kao pobjeda, to može biti osvježavajuća promjena. Ali i opasna: jer ako nema jasne prednosti u performansama, tko će imati motivaciju usvojiti nešto što zahtijeva preobuku tima i refaktoriranje postojećeg koda?
+
+S druge strane, veliki tech igrači vjerojatno će pričekati nezavisne validacije prije nego što usvoje nešto što se razlikuje od standardnog pipelinea koji je godinama optimiziran za skalabilnost. To je razumljivo, s obzirom na velike resurse koji su uloženi u razvoj postojećih arhitektura. Međutim, ako se potvrdi da NMN arhitektura zaista nudi bolje rezultate s manje složenosti, to bi moglo biti dovoljno da se promjeni način razmišljanja o dizajnu neuronskih mreža. Još uvijek je previše rano za definitivne zaključke, ali sigurno je da će ovo biti zanimljivo istraživanje.

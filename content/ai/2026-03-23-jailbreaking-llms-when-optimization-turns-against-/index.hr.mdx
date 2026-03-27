@@ -1,0 +1,39 @@
+---
+id: "2026-03-23-jailbreaking-llms-when-optimization-turns-against-"
+title: "Automatsko lomljenje LLM-ova: tko je sljedeći na meti?"
+lang: "hr"
+category: "ai"
+date: "2026-03-23T12:00:00Z"
+excerpt: "Kada se o sigurnosti velikih jezikovnih modela govori, većina proizvođača voli istaknuti brojeve poput 99% blokiranih štetnih upita ili nula uspješnih jailbreakova u testiranju."
+exec_summary: "New research exposes how adaptive, automated prompt optimization turns LLM safety benchmarks into a farce—demonstrating 40-60% jailbreak success rates where fixed tests show near-zero. The real story isn’t the vulnerability itself (which insiders already knew) but the **economic imbalance**: defense costs are spiraling while attack tools like DSPy democratize. Watch for silent shifts in enterprise security budgets and open-source red-teaming frameworks."
+key_points:
+  - "Adaptivni napad na LLM-ove preko optimizacije upita"
+  - "DSPy kao oruđe za automatizirano zaobilaženje sigurnosnih filtera"
+  - "Benchmarkovi ne drže korak s realnim prijetnjama"
+source:
+  name: "arXiv NLP"
+  url: "https://arxiv.org/abs/2603.19247"
+image:
+  url: "/images/articles/jailbreaking-llms-when-optimization-turns-against-/main.jpg"
+  alt: "Automatsko lomljenje LLM-ova: tko je sljedeći na meti?"
+subtitle: "Demo protiv deploymenta: zašto su fiksni testovi sigurnosti beskorisni"
+subtitleImage:
+  url: "/images/articles/jailbreaking-llms-when-optimization-turns-against-/subtitle.jpg"
+  alt: "Demo protiv deploymenta: zašto su fiksni testovi sigurnosti beskorisni"
+tags: ["LLM", "Deployment", "Security Testing"]
+geo:
+  name: "Stanford, United States"
+  lat: 37.4275
+  lon: -122.1697
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Kada se o sigurnosti velikih jezikovnih modela govori, većina proizvođača voli istaknuti brojeve poput 99% blokiranih štetnih upita ili nula uspješnih jailbreakova u testiranju. Problem je što te brojeve često generiraju statistički mrtvi skupovi fiksnih, unaprijed definiranih upita — kao da bi se sigurnost bankovnog trezora testirala tako što biste ga udarali samo jednim čekićem, uvijek istim kutem. Novija studija na <a href="https://arxiv.org/abs/2603.19247v1">arXiv-u</a> (2603.19247v1) pokazuje da je pravi napad dinamičan: napadači iterativno prerađuju upite koristeći tehnike crne kutije, poput one koje nudi <a href="https://github.com/stanfordnlp/dspy">DSPy</a> — alata koji je originalno namijenjen optimizaciji performansi, a sada služi kao poligon za automatizirano zaobilaženje sigurnosnih barijera. Autori su primijenili tri metode (gradijentno usmjerenu pretragu, genetske algoritme i reinforcement learning) i pokazali da čak i blago modificirani upiti mogu prevariti modele u 40-60% slučajeva — u usporedbi s gotovo nultom uspješnošću kod standardnih testova. Ovdje nije riječ o teorijskom scenariju. Riječ je o realnoj ranjivosti koja se već eksploatira: dio open-source zajednice primjećuje porast automatiziranih skripti za generiranje jailbreak-ova koje korisnici dijelje na forumima poput <a href="https://www.lesswrong.com/">LessWrong</a> ili specijaliziranih Discord servera. Čak i ako proizvođači poprave poznate rupe, adaptivni pristup znači da je trka mačke i miša beskonačna — a troškovi održavanja sigurnosti rastu eksponencijalno.
+
+<ArticleBreak />
+
+Pravi problem nije samo u tome što modele može preluditi, već u tome što tržište sigurnosnih rješenja za LLM-ove još uvijek funkcionira na principu checklista. Proizvođači poput Anthropica ili Mistrala prodaju sigurnosne slojeve kao dodatnu vrijednost, ali ti slojevi su često trenirani na istim starijim skupovima podataka koje napadači već znaju zaobići. Studija eksplicitno ističe da čak i najnoviji modeli (poput onih iz ožujskog <a href="https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard">LLM leaderboarda</a>) padaju na adaptivne napade — što znači da je marketing sigurnosti možda upitniji nego što se čini. Za razliku od uobičajenih red-team vježbi koje koriste ručno napisane upite, ovdje je ključna automatizacija: napadač ne mora biti stručnjak za NLP da bi generirao efektivne jailbreake. To mijenja dinamiku — pristupačnost alata znači da će broj napada rasti, a trošak obrane postati neodrživ za manja poduzeća. Dio razvojne zajednice već eksperimentira s integriranjem ovakvih metoda u postojeće prompt injection okvire, što sugerira da će se tržište alata za napad razvijati brže od tržišta obrane. Najironičnije je što se radi o istim tehnikama koje korporacije koriste za fine-tuning svojih modela — samo što ih ovdje primjenjuje druga strana. To možda zvuči kao tehnički detalj, ali u stvarnosti je fundamentalno pitanje ekonomike sigurnosti: tko će platiti cijenu stalne adaptacije?
+
+Jedno od mogućih rješenja je razvoj sigurnosnih protokola koji će se kontinuirano ažurirati i poboljšavati. To će omogućiti proizvođačima da ostanu korak ispred napadača i da zaštite svoje modele od eksploatacije. Međutim, to će zahtijevati značajna ulaganja u istraživanje i razvoj.

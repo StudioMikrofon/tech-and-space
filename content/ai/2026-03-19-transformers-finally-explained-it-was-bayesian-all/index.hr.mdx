@@ -1,0 +1,39 @@
+---
+id: "2026-03-19-transformers-finally-explained-it-was-bayesian-all"
+title: "Transformeri su Bayesovske mreže — ili paketiranje?"
+lang: "hr"
+category: "ai"
+date: "2026-03-19T12:00:00Z"
+excerpt: "Ako vam je ikad bilo sumnjivo zašto transformeri dominiraju ai — sada postoji [formalni odgovor](https://arxiv."
+exec_summary: "A new arXiv paper proves transformers are mathematically equivalent to Bayesian networks, offering a formal explanation for their dominance—but the real question is whether this changes engineering practice or just retroactively justifies existing models. The gap between theory and deployment remains wide, with open-source communities and interpretability startups as the most likely beneficiaries."
+key_points:
+  - "Jedna sloja transformera = jedna runda vjerojatnosnog zaključivanja"
+  - "Dokaz vrijedi za nasumične, trenirane i konstruirane težine"
+  - "Tko ovdje stječe prednost: teoretičari ili inženjeri?"
+source:
+  name: ""
+  url: ""
+image:
+  url: "/images/articles/transformers-finally-explained-it-was-bayesian-all/main.jpg"
+  alt: "Transformeri su Bayesovske mreže — ili paketiranje?"
+subtitle: "Matematički dokaz ili samo nova ambalaža za staru logiku?"
+subtitleImage:
+  url: "/images/articles/transformers-finally-explained-it-was-bayesian-all/subtitle.jpg"
+  alt: "Matematički dokaz ili samo nova ambalaža za staru logiku?"
+tags: ["Bayesian Networks", "Transformers", "Mathematical Proof"]
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Ako vam je ikad bilo sumnjivo zašto transformeri dominiraju ai — sada postoji [formalni odgovor](https://arxiv.org/abs/2603.17063v1): oni su, čini se, samo sofisticirane Bayesovske mreže u krinkama. Rad pod oznakom *arXiv:2603.17063v1* ne nudi samo analogiju, već **matematički dokaz** da svaki sigmoidni transformer (bez obzira na težine — trenirane, nasumične ili ručno konstruirane) implementira *težinsko petljasto širenje uvjerenja* na svom implicitnom faktor-grafu. Jedna sloja = jedna iteracija. Točnije, dokaz je provjeren prema standardnim matematičkim aksiomima, što je rijetkost u svijetu ai papira koji često ostavljaju rupe veličine kamiona. Ovdje nije riječ o slaboj korelaciji, već o **konstruktivnom dokazu**: autorima je pošlo za rukom pokazati da transformer može *točno* implementirati širenje uvjerenja na *proizvoljnoj* bazi znanja. To je kao otkriti da je vaš najdraži alatić za duboko učenje zapravo [stariji statistički model](https://en.wikipedia.org/wiki/Bayesian_network) u modernom ruhu. I tu nastaje pitanje: je li ovo *nova fizika* ili samo elegantno prepakovanje onoga što već znamo? Za razliku od uobičajenih ai radova koji se oslanjaju na empirijske benchmarkove (koji često [varaju](https://www.theregister.com/2023/06/12/ai_benchmarking_flaws/)), ovdje imamo **formalnu verifikaciju** — dvaput. Prvo za opći slučaj, potom za konstruktivni dokaz. To je kao kada vam netko ne kaže samo da mu auto vozi 200 km/h, već vam pokaže motor na stolu i dokaze aerodinamiku. Ali, kao i uvijek, đavo je u detaljima: što ovo zapravo znači za *praksu*? Na prvi pogled, ovaj rad bi trebao biti **olakšanje za teoretičare** — konačno objašnjenje zašto transformeri rade tako dobro, iako ih nitko nije dizajnirao kao Bayesovske modele.
+
+<ArticleBreak />
+
+Problem je što većina inženjera u industriji **ne trenira transformere od nule**, već koristi pretrenirane modele kao [Llama](https://ai.meta.com/llama/) ili [Mistral](https://mistral.ai/), gdje je 'crna kutija' dio poslovnog modela. Drugim riječima, dokaz možda objašnjava *kako* radi transformer, ali ne i *zašto* neki rade bolje od drugih u realnim aplikacijama. Tu je **realnost gap**: između matematičke elegancije i [prljavog koda](https://github.com/huggingface/transformers) koji morate deployati na production. Tko onda dobiva prednost? **Akademska zajednica** koja sada ima čvršću osnovu za daljnja istraživanja — možda čak i za dizajniranje novih arhitektura iz Bayesovske perspektive. S druge strane, **veliki igrači** poput Googla ili Metae već imaju infrastrukturu za treniranje masivnih modela; za njih je ovo možda više *retrospektivno opravdanje* nego revolucija. Zanimljivije je pitanje što će reći [open-source zajednica](https://huggingface.co/spaces): hoće li ovo potaknuti nove pristupe fine-tuningu, ili će ostati još jedna zanimljivost za *arXiv čitače*? Najveći paradox: ako su transformeri zapravo Bayesovske mreže, zašto ih tko god nije dizajnirao *kao* Bayesovske mreže od početka? Odgovor možda leži u tome što je **skalabilnost** — a ne teorijska čistoća — odredila pobjednike u ai trci. A to je, ironično, upravo ono što ovaj rad *ne* objašnjava.
+
+Ovo otkriće će vjerojatno potaknuti dalja istraživanja u oblasti ai i Bayesovskih mreža. Možda ćemo uskoro vidjeti nove arhitekture koje će kombinirati prednosti transformera i Bayesovskih mreža. Time će se otvoriti nove mogućnosti za primjenu ovih tehnologija u raznim oblastima, od medicinske dijagnoze do financijskih prognoza.

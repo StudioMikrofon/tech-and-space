@@ -1,0 +1,32 @@
+---
+id: "2026-03-16-your-fonts-are-secretly-running-code"
+title: "Fontovi koji programiraju: Tehnička kurioznost ili sigurnosni rizik"
+lang: "hr"
+category: "technology"
+date: "2026-03-16T12:00:00Z"
+excerpt: "Zamisao da običan font može izvršavati programske naredbe zvuči kao scenarij iz technothrillera, no tehnička stvarnost je jednako fascinantna."
+source:
+  name: ""
+  url: ""
+image:
+  url: "/images/articles/your-fonts-are-secretly-running-code/main.jpg"
+  alt: "Fontovi koji programiraju: Tehnička kurioznost ili sigurnosni rizik"
+subtitle: "Što se stvarno promijenilo u našem razumijevanju fontova"
+subtitleImage:
+  url: "/images/articles/your-fonts-are-secretly-running-code/subtitle.jpg"
+  alt: "Što se stvarno promijenilo u našem razumijevanju fontova"
+tags: ["future-pulse", "automated", "technology"]
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Zamisao da običan font može izvršavati programske naredbe zvuči kao scenarij iz technothrillera, no tehnička stvarnost je jednako fascinantna. Članak objavljen na [Hackadayu](https://hackaday.com) bavi se upravo tim pitanjem – kako font rendering, taj svakodnevni proces koji većina korisnika nikada ne razmatra, krije složenu arhitekturu sposobnu za mnogo više od pukog prikaza slova. LaTeX je potvrđeno Turing-potpun programski jezik, što znači da može izračunati bilo što što može i konvencionalni računalni sustav. Ta činjenica sama po sebi nije nova, ali njezine implikacije u kontekstu fontova rijetko dolaze do izražaja. Unicode standard s više od 143.000 potvrđenih znakova stvara ogroman prostor za manipulaciju i kreativno korištenje. Prema dostupnim informacijama, proces renderiranja fontova izuzetno je složen, a oni koji se njime bave brzo nailaze na arkanične prepreke. Pitanje koje se nameće jest: zašto bismo se uopće brinuli o tome? Odgovor leži u praktičnom utjecaju. Razvojnici koji rade na sustavima za obradu dokumenata, sigurnosni istraživači i inženjeri koji optimiziraju performanse sustava za prikaz teksta – svi oni moraju razumjeti te mehanizme. Fontovi nisu samo statičke datoteke; mogu sadržavati programske naredbe, tablice zamjene i logiku koja se izvršava tijekom renderiranja.
+
+<ArticleBreak />
+
+Sigurnosni aspekt ove priče zaslužuje posebnu pozornost. Ako font može sadržavati izvršni kod, tada svaka aplikacija koja učitava vanjske fontove potencijalno otvara vektore napada. Povijest ranjivosti povezanih s fontovima, od [Microsoftovih problema s FON datotekama](https://docs.microsoft.com/en-us/security) do raznih PDF eksploata, pokazuje da je ovo više od teoretske vježbe. Community razvojnika i sigurnosnih istraživača već godinama upozorava na te rizike, no šira javnost i mnoge tvrtke i dalje podcjenjuju opasnost. S druge strane, postoji i konstruktivna strana. Razumijevanje kako fontovi funkcioniraju na niskoj razini omogućuje optimizaciju web performansi, bolju tipografiju i naprednije mogućnosti dizajna. [Google Fonts](https://fonts.google.com) i slične platforme koriste te tehnike za smanjenje veličine datoteka i poboljšanje brzine učitavanja. Postoje nagađanja da bi budući razvoj mogao donijeti još sofisticiranije primjene, možda čak i legitimne programske okvire utemeljene na font tehnologiji.

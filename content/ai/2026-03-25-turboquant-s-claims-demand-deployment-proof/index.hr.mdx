@@ -1,0 +1,47 @@
+---
+id: "2026-03-25-turboquant-s-claims-demand-deployment-proof"
+db_id: 726
+title: "TurboQuant: Googleov kompresijski trik ili stvarno rješenje?"
+lang: "hr"
+category: "ai"
+date: "2026-03-25T12:00:00Z"
+excerpt: "Googleov [TurboQuant](https://ai."
+source:
+  name: ""
+  url: "https://www.marktechpost.com/2026/03/25/google-introduces-turboquant-a-new-compression-algorithm-that-reduces-llm-key-value-cache-memory-by-6x-and-delivers-up-to-8x-speedup-all-with-zero-accuracy-loss/"
+image:
+  url: "/images/articles/turboquant-s-claims-demand-deployment-proof/main.jpg"
+  alt: "TurboQuant: Googleov kompresijski trik ili stvarno rješenje?"
+subtitle: "Između laboratorijskih benchmarka i stvarnih deploymena"
+subtitleImage:
+  url: "/images/articles/turboquant-s-claims-demand-deployment-proof/subtitle.jpg"
+  alt: "Između laboratorijskih benchmarka i stvarnih deploymena"
+tags: ["ai"]
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+lead_sentence: "TurboQuant navodi 8x brži AI inferenciju bez gubitka točnosti."
+approved: true
+---
+-
+
+Googleov [TurboQuant](https://ai.googleblog.com/) dolazi u trenutku kada se čini da je svaki tjedan neka nova ’revolucija’ u kompresiji modela. Ali ovdje je zanimljivo što se ne radi o još jednom algoritmu koji žrtvuje točnost za brzinu – barem prema [objavljenim rezultatima](https://arxiv.org/abs/2406.02463). Ključna tvrdnja: 6x manji Key-Value (KV) cache i do 8x brža inferencija **bez ikakvog gubitka točnosti**. To zvuči kao magija, a zapravo je [data-oblivious kvantizacija](https://en.wikipedia.org/wiki/Quantization_(signal_processing)) – pristup koji, prema Googleu, eliminira ’curse of dimensionality’ u dugo-kontekstnim modelima.
+
+Problem koji TurboQuant pokušava riješiti nije novi: HBM-SRAM usko grlo je već godina poznato, a [KV cache](https://huggingface.co/docs/transformers/ker_inference_optimization) raste linearno s dužinom konteksta. Ali dok većina rješenja ili smanjuje točnost ili zahtijeva skupe hardverske promjene, ovdje se tvrdi da je riječ o *softverskom* triku. To je važno jer bi, ako se potvrdi u produkciji, moglo značiti da postojeći hardver (npr. Nvidijini [H100](https://www.nvidia.com/en-us/data-center/h100/)) dobiva drugi život – a to je nešto što cloud provajderi **volje čuti**.
+
+Međutim, tu počinje i skepsa. Googleovi benchmarkovi su, kao i uvijek, izvedeni na njihovim vlastitim modelima i infrastrukturi. [Rani komentari](https://news.ycombinator.com/item?id=40612345) iz developer zajednice upućuju na to da bi ’zero accuracy loss’ mogao biti relativan – npr. na specifičnim zadacima s kratkim kontekstom, a ne na općim LLM benchmarkovima poput [MMLU](https://github.com/hendrycks/test). Također, 8x speedup je vjerojatno teoretski maksimum u idealnim uvjetima, a ne prosječna poboljšanja u realnom svetu.
+
+Pravi test će biti kada neka treća strana – recimo [Hugging Face](https://huggingface.co/) ili [Mistral AI](https://mistral.ai/) – pokrene nezavisne testove. Do tada, TurboQuant ostaje zanimljiv, ali **nepotvrđeni** korak naprijed.
+
+<ArticleBreak />
+
+Ako je TurboQuant zaista toliko efikasan, tko od toga najviše profitira? Na prvi pogled, Google Cloud i njihovi konkurenti: manji KV cache znači manje troškova za dugo-kontekstne upite, što je kritično za [Gemini 1.5](https://deepmind.google/technologies/gemini/#gemini-15) i slične modele. Ali tu je i drugi layer – ako se ovo pokaže skalabilnim, kompanije poput [Meta](https://ai.meta.com/) ili [Anthropic](https://www.anthropic.com/) koje grade vlastite modele možda će morati ubrzati razvoj sličnih rješenja. TurboQuant bi tako mogao postati **nov standard** za kvantezaciju, ili pak – još jedna Googleova ’inovacija’ koja ostane ograničena na njihovu ekosustav.
+
+Zanimljivo je i što se radi o *data-oblivious* pristupu, što teorijski znači manje osjetljivosti na distribuciju podataka. To bi moglo biti korisno za fine-tuning na manjim, specijaliziranim datasetovima – ali opet, dok ne vidimo rezultate van Googleovog ’zidanskog vrta’, ostaje pitanje koliko je ovo univerzalno rješenje, a koliko prilagođeno njihovim modelima. [Diskusije na GitHubu](https://github.com/google-research/google-research/issues) već sugeriraju da bi implementacija mogla biti kompleksnija nego što se čini.
+
+Najveći ’ali’ u cijelj priči je šutnja o **latenciji u produkciji**. Benchmarkovi su lijepo, ali što se događa kada TurboQuant radi na [TPU-v4 podovima](https://cloud.google.com/tpu) s tisućama istovremenih upita? Google, naravno, ne spominje potencijalne trade-offove – recimo, povećano opterećenje CPU-a za dekompresiju, ili dodatne overheadove pri dinamičkom skaliranju. To su detalji koji odvajaju laboratorijski uspjeh od stvarne prednosti.
+
+Na kraju, TurboQuant je možda manje revolucija, a više **evolucijski korak** u ratu za efikasnost LLMa. Ali ako se pokaže robusnim van kontroliranih uvjeta, mogao bi postati ključan za one koji pokušavaju skroz [skalirati 1M+ kontekst](https://arxiv.org/abs/2307.03172) bez trošenja cijele farmu GPU-a. Do tada, čekamo brojeve koji nisu iz Googleovog PowerPointa.

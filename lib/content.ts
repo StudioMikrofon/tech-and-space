@@ -4,6 +4,51 @@ import matter from "gray-matter";
 import { Article, Category, CATEGORIES, CATEGORY_COLORS } from "./types";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
+const CONTENT_VERSION_FILE = path.join(process.cwd(), ".content-version");
+
+// In-memory cache — avoids re-reading 200+ MDX files on every SSR request
+const CACHE_TTL_MS = 30_000; // 30s — new articles appear within 30s of publish
+let _articlesCache: Article[] | null = null;
+let _articlesCacheTime = 0;
+let _articlesHrCache: Article[] | null = null;
+let _articlesHrCacheTime = 0;
+let _contentVersionMtime = 0;
+
+export function invalidateContentCache(): void {
+  _articlesCache = null;
+  _articlesCacheTime = 0;
+  _articlesHrCache = null;
+  _articlesHrCacheTime = 0;
+  _contentVersionMtime = 0;
+}
+
+function getContentVersionMtime(): number {
+  try {
+    if (!fs.existsSync(CONTENT_VERSION_FILE)) {
+      fs.writeFileSync(CONTENT_VERSION_FILE, String(Date.now()), "utf8");
+    }
+    return fs.statSync(CONTENT_VERSION_FILE).mtimeMs;
+  } catch {
+    return 0;
+  }
+}
+
+export function bumpContentVersion(): void {
+  try {
+    fs.writeFileSync(CONTENT_VERSION_FILE, String(Date.now()), "utf8");
+  } catch {
+    // Best-effort only; cache falls back to TTL.
+  }
+  invalidateContentCache();
+}
+
+function refreshCacheIfVersionChanged(): void {
+  const currentVersion = getContentVersionMtime();
+  if (_contentVersionMtime !== currentVersion) {
+    invalidateContentCache();
+    _contentVersionMtime = currentVersion;
+  }
+}
 
 function parseMdxFile(filePath: string): Article | null {
   try {
@@ -19,10 +64,14 @@ function parseMdxFile(filePath: string): Article | null {
       titleEn: data.title_en,
       category: data.category as Category,
       date: data.date,
-      scrapeDateDate: data.scrape_date || data.date, // Use scrape_date if available
+      scrapeDateDate: data.scrape_date || data.date, // Original scrape date, separate from edit date
       excerpt: data.excerpt,
       excerptEn: data.excerpt_en,
       execSummary: data.exec_summary,
+      summaryBlock: data.summary_block, // PREMIUM SPEC: 3-4 sentence summary (HR)
+      summaryBlockEn: data.summary_block_en, // PREMIUM SPEC: 3-4 sentence summary (EN)
+      keyPoints: Array.isArray(data.key_points) ? data.key_points : undefined,
+      keyPointsEn: Array.isArray(data.key_points_en) ? data.key_points_en : undefined,
       source: data.source,
       image: data.image,
       subtitle: data.subtitle,
@@ -35,6 +84,8 @@ function parseMdxFile(filePath: string): Article | null {
       content,
       part1En: data.part1_en,
       part2En: data.part2_en,
+      leadSentenceEn: data.lead_sentence,
+      videoUrl: data.videoUrl,
       lang: data.lang,
     };
   } catch {
@@ -42,7 +93,7 @@ function parseMdxFile(filePath: string): Article | null {
   }
 }
 
-export function getAllArticles(): Article[] {
+function _readAllArticles(): Article[] {
   const articles: Article[] = [];
 
   for (const category of CATEGORIES) {
@@ -68,19 +119,27 @@ export function getAllArticles(): Article[] {
     }
   }
 
-  // Sort by date descending, then by db_id descending as tiebreaker
   return articles.sort((a, b) => {
     const dateCompare = new Date(b.date).getTime() - new Date(a.date).getTime();
     if (dateCompare !== 0) return dateCompare;
-    // Same date: sort by db_id descending (newer IDs first)
     return (b.dbId ?? 0) - (a.dbId ?? 0);
   });
+}
+
+export function getAllArticles(): Article[] {
+  refreshCacheIfVersionChanged();
+  const now = Date.now();
+  if (_articlesCache && now - _articlesCacheTime < CACHE_TTL_MS) return _articlesCache;
+  _articlesCache = _readAllArticles();
+  _articlesCacheTime = now;
+  return _articlesCache;
 }
 
 export function getArticleBySlug(
   category: string,
   id: string
 ): Article | null {
+  refreshCacheIfVersionChanged();
   // Try new folder format first: content/{category}/{id}/index.mdx
   const folderPath = path.join(CONTENT_DIR, category, id, "index.mdx");
   if (fs.existsSync(folderPath)) return parseMdxFile(folderPath);
@@ -96,6 +155,7 @@ export function getArticleBySlugHr(
   category: string,
   id: string
 ): Article | null {
+  refreshCacheIfVersionChanged();
   // Try HR file: content/{category}/{id}/index.hr.mdx
   const hrPath = path.join(CONTENT_DIR, category, id, "index.hr.mdx");
   if (fs.existsSync(hrPath)) return parseMdxFile(hrPath);
@@ -103,7 +163,7 @@ export function getArticleBySlugHr(
   return getArticleBySlug(category, id);
 }
 
-export function getAllArticlesHr(): Article[] {
+function _readAllArticlesHr(): Article[] {
   const articles: Article[] = [];
 
   for (const category of CATEGORIES) {
@@ -115,7 +175,6 @@ export function getAllArticlesHr(): Article[] {
       if (!entry.isDirectory()) continue;
       const hrPath = path.join(categoryDir, entry.name, "index.hr.mdx");
       const enPath = path.join(categoryDir, entry.name, "index.mdx");
-      // Prefer HR file, fall back to EN
       const filePath = fs.existsSync(hrPath) ? hrPath : (fs.existsSync(enPath) ? enPath : null);
       if (!filePath) continue;
       const article = parseMdxFile(filePath);
@@ -123,12 +182,20 @@ export function getAllArticlesHr(): Article[] {
     }
   }
 
-  // Sort by date descending, then by db_id descending as tiebreaker
   return articles.sort((a, b) => {
     const dateCompare = new Date(b.date).getTime() - new Date(a.date).getTime();
     if (dateCompare !== 0) return dateCompare;
     return (b.dbId ?? 0) - (a.dbId ?? 0);
   });
+}
+
+export function getAllArticlesHr(): Article[] {
+  refreshCacheIfVersionChanged();
+  const now = Date.now();
+  if (_articlesHrCache && now - _articlesHrCacheTime < CACHE_TTL_MS) return _articlesHrCache;
+  _articlesHrCache = _readAllArticlesHr();
+  _articlesHrCacheTime = now;
+  return _articlesHrCache;
 }
 
 export function getArticlesByCategory(category: Category): Article[] {
@@ -191,17 +258,19 @@ export function getGlobePins(): Array<{
   const geoArticles = getGeoArticles();
   const twoDaysAgo = new Date(Date.now() - 48 * 60 * 60 * 1000);
 
-  return geoArticles.map((article) => {
-    const isRecent = new Date(article.date) > twoDaysAgo;
-    const color = CATEGORY_COLORS[article.category] || "#00cfff";
+  // Only show pins from last 48h; fallback to latest 5 if none recent
+  let recent = geoArticles.filter(a => new Date(a.date) > twoDaysAgo);
+  if (recent.length === 0) recent = geoArticles.slice(0, 5);
 
+  return recent.map((article) => {
+    const color = CATEGORY_COLORS[article.category] || "#00cfff";
     return {
       lat: article.geo.lat,
       lng: article.geo.lon,
       label: article.title.substring(0, 30),
       color,
       id: article.id,
-      size: isRecent ? 4 : 6, // Smaller pins for recent, tiny for older
+      size: 4,
     };
   });
 }
@@ -219,6 +288,24 @@ export function getLatestPerCategory(): Article[] {
     if (!seen.has(article.category)) {
       seen.add(article.category);
       result.push(article);
+    }
+  }
+  return result;
+}
+
+/**
+ * Returns the latest N articles per category, keyed by category name.
+ * Used by the HeroSection carousel to cycle through multiple articles per category.
+ */
+export function getLatestPerCategoryMultiple(perCat: number = 4): Record<string, Article[]> {
+  const articles = getAllArticles();
+  const result: Record<string, Article[]> = {};
+
+  for (const article of articles) {
+    const cat = article.category;
+    if (!result[cat]) result[cat] = [];
+    if (result[cat].length < perCat) {
+      result[cat].push(article);
     }
   }
   return result;

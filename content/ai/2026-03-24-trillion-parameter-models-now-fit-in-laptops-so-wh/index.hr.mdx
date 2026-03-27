@@ -1,0 +1,42 @@
+---
+id: "2026-03-24-trillion-parameter-models-now-fit-in-laptops-so-wh"
+db_id: 667
+title: "1TB model na MacBooku: streaming eksperti mijenjaju pravila"
+lang: "hr"
+category: "ai"
+date: "2026-03-24T12:00:00Z"
+excerpt: "Priča o tome kako pokrenuti modele veličine gradova na hardveru veličine knjige dobiva novi zavoj."
+exec_summary: "The article dissects the real-world implications of running trillion-parameter models on consumer hardware via 'streaming experts'—separating hype from deployable reality. It highlights the competitive shift from hardware access to optimization cleverness, while questioning whether this marks a sustainable trend or a temporary workaround in the AI scaling race."
+key_points:
+  - "Kimi K2.5 (1TB) radi na 96GB RAM-a – bez obzira na specifikacije"
+  - "Qwen3.5-397B na iPhonu: 0.6 tokena/s i pitanje praktične upotrebe"
+  - "Auto-optimizacijski loopovi traže sljedeću granicu efikasnosti"
+source:
+  name: ""
+  url: "https://simonwillison.net/2026/Mar/24/streaming-experts/#atom-everything"
+image:
+  url: "/images/articles/trillion-parameter-models-now-fit-in-laptops-so-wh/main.jpg"
+  alt: "1TB model na MacBooku: streaming eksperti mijenjaju pravila"
+subtitle: "Demo nasuprot deploymenta: tko zapravo može koristiti ove trikove"
+subtitleImage:
+  url: "/images/articles/trillion-parameter-models-now-fit-in-laptops-so-wh/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: tko zapravo može koristiti ove trikove"
+tags: ["MacBook", "Streaming", "Large Language Models"]
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+lead_sentence: "MoE-ov model s 1 bilijunom parametara sada radi na MacBook Pro-u s 96GB."
+approved: true
+---
+-
+
+Priča o tome kako pokrenuti modele veličine gradova na hardveru veličine knjige dobiva novi zavoj. Dan Woods je prije pet dana pokrenuo Qwen3.5-397B-A17B na 48GB RAM-a – što je već bilo dovoljno da se industrijski obrve podignu. Ali danas @seikixtc objavljuje da je Kimi K2.5, model s trilijun parametara, radio na M2 Max MacBook Pro-u s 96GB RAM-a, uz samo 32B aktivnih težina u svakom trenutku. To nije samo 'radi', nego 'radi dovoljno brzo da se može koristiti' – barem u demo uvjetima. I tu počinje stvarna priča. Tehnika streaming eksperta nije nova: radi se o dinamičkom učitavanju potrebnih 'eksperata' s SSD-a umjesto držanja cijele mreže u RAM-u. Ali skok od 397B parametara na 1TB u roku od tjedan dana sugerira da smo pred nečim više od samo optimizacijskog trika. @anemll je čak uspio pokrenuti Qwen3.5-397B na iPhonu – naravno, s performansama od 0,6 tokena u sekundi, što je otprilike brzina razmišljanja pod utjecajem jakog sedativa. Razlika između 'radi' i 'korisno radi' je ključna. Benchmarkovi koje vidimo su još uvijek daleko od realne upotrebe: 0,6 t/s na mobilnom znači da će generiranje jednog odgovora trajati minutama, a ne sekundama. Ali to nije ni čudo – Dan Woods i drugi već rade na auto-research loopovima koji automatiziraju traženje sljedećih optimizacija. Drugim riječima, ovo nije kraj, nego tek početak trke za efikasnošću koja bi mogla promijeniti tko uopće može igrati u ligi velikih modela.
+
+<ArticleBreak />
+
+Pravi signal ovdje nije u samim brojevima, nego u tome tko sada može igrati. Do sada su trilijunski modeli bili rezervirani za one s pristupom računalnim farmama – sada ih teorijski može pokrenuti i startup s dobrim MacBookom. To mijenja dinamiku: umjesto da se natječu za najveće klastere, kompanije se mogu natjecati u najpametnijim optimizacijama. I tu leži stvarna prijetnja za postojeće igrače: ako se ovo skalira, prednost više neće biti u hardveru, nego u softverskim trikovima. Developer community je već reagirao – GitHub repozitoriji za ove eksperimente dobivaju zvijezde u stotinama, a diskusije na Hacker Newsu pokazuju da ovo nije samo 'zanimljiv trik', nego potencijalno nova standardna praksa. Ali postoji i oprez: korisnici primjećuju da su performanse još uvijek daleko od praktične upotrebe, a stabilnost sistema pri dugoročnom korištenju nije testirana. To je klasičan jaz između demo verzije i stvarnog proizvoda – i ovdje je veći nego ikad. Najzanimljivije je pitanje tko će ovo prvi iskoristiti u proizvodnji. Startupi kao što je Modal već nude cloud infrastrukturu optimiziranu za ove tehnike, dok veliki igrači kao Meta ili Mistral još uvijek drže kartu blizu prsa.
+
+Konačno, razvoj streaming eksperta može dovesti do toga da će umjetna inteligencija biti dostupna širem krugu ljudi. Time bi se otvorile nove mogućnosti za razvoj novih aplikacija i servisa koji će koristiti umjetnu inteligenciju. Ovo bi moglo dovesti do velikih promjena u načinu na koji živimo i radimo.

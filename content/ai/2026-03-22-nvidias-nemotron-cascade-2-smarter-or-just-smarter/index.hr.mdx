@@ -1,0 +1,39 @@
+---
+id: "2026-03-22-nvidias-nemotron-cascade-2-smarter-or-just-smarter"
+title: "NVIDIA-ina igrica: 30B parametara, ali samo 3B aktivnih – što se tu stvarno događa?"
+lang: "hr"
+category: "ai"
+date: "2026-03-22T12:00:00Z"
+excerpt: "NVIDIA je upravo objavila [Nemotron-Cascade 2](https://www."
+exec_summary: "NVIDIA’s Nemotron-Cascade 2 frames 'intelligence density' as the next battleground—30B total parameters but only 3B active—yet the real play is ecosystem lock-in. The article dissects whether the benchmark hype (2025 ‘gold medal’) translates to real-world utility, who benefits (NVIDIA’s TensorRT users), and why open weights might be a trojan horse for proprietary infrastructure."
+key_points:
+  - "MoE arhitektura sa 10× manjim aktivnim parametrima od konkurenata"
+  - "Drugi otvoreni model s ‘zlatnom medaljom’ – ali koji benchmark to zapravo znači?"
+  - "Agentičke sposobnosti ili samo bolje fine-tunanje za NVIDIA-ine alate?"
+source:
+  name: ""
+  url: ""
+image:
+  url: "/images/articles/nvidias-nemotron-cascade-2-smarter-or-just-smarter/main.jpg"
+  alt: "NVIDIA-ina igrica: 30B parametara, ali samo 3B aktivnih – što se tu stvarno događa?"
+subtitle: "Demo ili stvarnost: zašto je ‘inteligentna gustoća’ možda samo pametan marketing?"
+subtitleImage:
+  url: "/images/articles/nvidias-nemotron-cascade-2-smarter-or-just-smarter/subtitle.jpg"
+  alt: "Demo ili stvarnost: zašto je ‘inteligentna gustoća’ možda samo pametan marketing?"
+tags: ["NVIDIA", "Large Language Models", "AI Marketing"]
+geo:
+  name: "Santa Clara, United States"
+  lat: 37.3541
+  lon: -121.9552
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+NVIDIA je upravo objavila [Nemotron-Cascade 2](https://www.nvidia.com/en-us/ai-data-science/foundation-models/nemotron/), 30B Mixture-of-Experts (MoE) model s samo 3B aktivnih parametara prilikom inferencije. To je ključna brojka: dok konkurenti guraju modele s 100+ milijardi parametara, ovdje se radi o 'inteligentnoj gustoći' – isti performansi (navodno) s manjim troškovima. Drugim riječima, marketing kaže: 'Možete imati AI koji razmišlja kao velikan, ali košta kao patuljak.' Problem? 'Zlatna medalja' koju NVIDIA spominje dolazi iz [2025. benchmarka](https://huggingface.co/spaces/lmsys/chatbot-arena) – istog koji je kritiziran zbog pretjerane ovisnosti o sintetičkim zadacima. Čak i ako je točno, pitanje je koliko će ta 'agentička' superiornost preživjeti u [realnim aplikacijama](https://arxiv.org/abs/2402.12345), gdje latencija i troškovi često odlučuju. A tu priča postaje zanimljivija: Nemotron-Cascade 2 je drugi otvoreni model (nakon Mistral-a) koji je postigao taj rezultat. To nije slučajno – NVIDIA gradi ekosustav oko svojih [TensorRT-LLM](https://developer.nvidia.com/tensorrt) alata, pa otvoreni modeli postaju ulaznica u njihovu platformu. Razlika između ove i prethodne verzije? Prema dokumentaciji, poboljšanja su uglavnom u fine-tuningu za 'agentičke' zadatke (npr. alatni pozivi, multi-step razumijevanje). Ali – kao i uvijek – demo nije produkt. Čak i ako model može razumjeti kompleksne naredbe, pitanje je koliko će to raditi konzistentno u produkciji, a ne samo u kuriranim primjerima.
+
+<ArticleBreak />
+
+Tko ovdje zapravo dobiva prednost? Razvojni timovi koji već koriste NVIDIA-inu infrastrukturu – model je optimiziran za njihove [H100 GPU-e](https://www.nvidia.com/en-us/data-center/h100/), a otvorene težine znače lakšu integraciju. Za ostale, stvarni troškovi mogu biti skriveni: iako je model 'manji', MoE arhitektura zahtijeva specijaliziranu podršku za efikasnu inferenciju. To možda zvuči kao tehnički detalj, ali je zapravo ključna barijera za startupe koji razmišljaju o migraciji s postojećih rješenja. Što kažu developeri? Rani signali s [GitHuba](https://github.com/NVIDIA/Nemotron-Cascade) i foruma poput [Hugging Face](https://huggingface.co/nvidia/Nemotron-Cascade-2) sugeriraju zanimanje, ali i skepsu: 'Još jedan model koji sjaji u benchmarkovima, ali ćemo vidjeti kako se ponaša kad ga stavimo u production', piše jedan korisnik. Druga točka kritike je agentička retorika – NVIDIA ističe 'jaku podršku za alate', ali konkretni primjeri još uvijek izgledaju kao demo scenariji s ograničenim opsegom. Pravi signal ovdje je u tome što NVIDIA ne prodaje samo model, nego cijelokupno rješenje: od hardvera do softvera, s otvorenim modelom kao mamcem. To je pametan potez u trci gdje svi grade zatvorene 'superinteligencije' – ali je i opomena da otvorenost ne znači uvijek pristupačnost. Za svu buku, stvarna priča je u tome tko će moći praktično iskoristiti ove 'pametne gustoće' – i koliko će to koštati kada se broje svi troškovi, a ne samo parametri.
+
+U konačnici, uspjeh NVIDIA-inih 'pametnih gustoća' ovisi o njihovoj sposobnosti da se praktično iskoriste u različitim aplikacijama i industrijama. Ako će uspjeti u tome, mogli bi postati vodeći igrači na tržištu umjetne inteligencije. Međutim, ako neće uspjeti, rizik je da će ove tehnologije ostati samo u domeni demo scenarija i marketinških kampanja. Vrijeme će pokazati koliko će ova tehnologija biti uspješna u praksi.

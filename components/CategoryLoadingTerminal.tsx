@@ -100,7 +100,7 @@ export default function CategoryLoadingTerminal({ category }: Props) {
         lineIdx++;
         charIdx = 0;
       }
-    }, 35);
+    }, 12);
 
     return () => clearInterval(typeInterval);
   }, [category]);

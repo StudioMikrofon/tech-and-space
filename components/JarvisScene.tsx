@@ -10,7 +10,7 @@ import {
   ISS_INCLINATION,
 } from "@/lib/space-tracker-data";
 
-import type { ISSData } from "@/lib/space-pro-data";
+import type { ISSData, NEOData } from "@/lib/space-pro-data";
 
 // ---------------------------------------------------------------------------
 // Scene layout constants (all in scene units)
@@ -315,6 +315,7 @@ interface JarvisSceneProps {
   width: number;
   height: number;
   issData: ISSData;
+  neoData?: NEOData[] | null;
   onSelectObject?: (obj: { type: string; name: string; data: Record<string, string> } | null) => void;
 }
 
@@ -523,13 +524,22 @@ function buildProbeModel(probeName: string): THREE.Group {
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
+/** Deterministic approachAngle from asteroid ID hash (0-360) */
+function hashToAngle(id: string): number {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (Math.imul(31, h) + id.charCodeAt(i)) | 0;
+  return ((h >>> 0) % 360);
+}
+
 const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
-  function JarvisScene({ width, height, issData, onSelectObject }, ref) {
+  function JarvisScene({ width, height, issData, neoData, onSelectObject }, ref) {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const pointerDownPos = useRef<{ x: number; y: number } | null>(null);
     const issDataRef = useRef(issData);
     issDataRef.current = issData;
+    const neoDataRef = useRef(neoData);
+    neoDataRef.current = neoData;
 
     const internals = useRef<{
       renderer: THREE.WebGLRenderer;
@@ -619,7 +629,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       if (!container) return;
 
       const isMobile = window.innerWidth < 768;
-      const dpr = Math.min(window.devicePixelRatio, isMobile ? 1.25 : 2);
+      const dpr = Math.min(window.devicePixelRatio, isMobile ? 1 : 1.75);
 
       // Renderer
       const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, alpha: true });
@@ -636,7 +646,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
 
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
-      controls.dampingFactor = 0.2;
+      controls.dampingFactor = 0.14;
       controls.minDistance = 0.5;
       controls.maxDistance = 150;
       controls.zoomSpeed = 1.0;
@@ -673,8 +683,9 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       scene.add(fillLight);
 
       // Starfield
-      const starPos = new Float32Array(3000 * 3);
-      for (let i = 0; i < 3000; i++) {
+      const starCount = isMobile ? 1800 : 3000;
+      const starPos = new Float32Array(starCount * 3);
+      for (let i = 0; i < starCount; i++) {
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos(2 * Math.random() - 1);
         const r = 150 + Math.random() * 80;
@@ -833,9 +844,22 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       moonLabel.position.y = MOON_RADIUS + 0.3;
       moonMesh.add(moonLabel);
 
-      // ===== ASTEROIDS — trajectories hidden by default, single cyan color =====
+      // ===== ASTEROIDS — use live neoData if available, fall back to static NEO_DATASET =====
       const asteroidAnims: NonNullable<typeof internals.current>["asteroidAnims"] = [];
-      NEO_DATASET.entries.forEach((asteroid) => {
+      const liveNeo = neoDataRef.current;
+      const asteroidEntries = liveNeo && liveNeo.length > 0
+        ? liveNeo.map((n) => ({
+            id: n.id,
+            name: n.name,
+            distanceLD: n.distance_ld,
+            speedKmH: n.speed_kmh,
+            diameterM: n.diameter_m,
+            hazardous: n.hazardous,
+            closestApproach: n.approach_time,
+            approachAngle: hashToAngle(n.id),
+          }))
+        : NEO_DATASET.entries;
+      asteroidEntries.forEach((asteroid) => {
         const scaledDist = asteroid.distanceLD * LD_SCALE;
         const angle = (asteroid.approachAngle * Math.PI) / 180;
         const size = Math.max(0.08, Math.min(asteroid.diameterM / 300, 0.35));
@@ -1281,10 +1305,17 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
       renderer.domElement.addEventListener("pointerup", onOrbitPointerUp);
       renderer.domElement.addEventListener("wheel", onOrbitWheel);
 
-      const trailHistory: THREE.Vector3[][] = asteroidAnims.map(() => []);
+      // Ring-buffer trail history: pre-allocated to avoid GC from unshift/splice
+      const TRAIL_LEN = 4;
+      const trailRing = asteroidAnims.map(() => ({
+        buf: new Float32Array(TRAIL_LEN * 3), // x,y,z per slot
+        head: 0,
+        count: 0,
+      }));
       let issAngle = 0;
       const issIncRad = (ISS_INCLINATION * Math.PI) / 180;
       const issOrbitR = EARTH_RADIUS + 0.5;
+      let frameCount = 0;
 
       function animate() {
         animId = requestAnimationFrame(animate);
@@ -1292,16 +1323,23 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
 
         const delta = Math.min(clock.getDelta(), 0.05);
         const elapsed = clock.getElapsedTime();
+        frameCount += 1;
+        const updateSecondaryVisuals = !isMobile || frameCount % 2 === 0;
 
-        // ISS — inclined orbit, speed scales with timeScale
-        issAngle += delta * 0.008 * Math.max(state.timeScale, 1);
-        const ix = Math.cos(issAngle) * issOrbitR;
-        const iz = Math.sin(issAngle) * issOrbitR;
-        issMesh.position.set(
-          EARTH_POS.x + ix,
-          EARTH_POS.y + iz * Math.sin(issIncRad),
-          EARTH_POS.z + iz * Math.cos(issIncRad),
-        );
+        // ISS — use live lat/lon at timeScale 0 or 1×; simulated orbit otherwise
+        issAngle += delta * 0.00113 * Math.max(state.timeScale, 1); // 2π / 5561s ≈ 0.00113 rad/s (92min orbit)
+        if (state.timeScale <= 1 && issDataRef.current && issDataRef.current.lat !== 0) {
+          const livePos = latLonToSphere(issDataRef.current.lat, issDataRef.current.lon, issOrbitR, EARTH_POS);
+          issMesh.position.copy(livePos);
+        } else {
+          const ix = Math.cos(issAngle) * issOrbitR;
+          const iz = Math.sin(issAngle) * issOrbitR;
+          issMesh.position.set(
+            EARTH_POS.x + ix,
+            EARTH_POS.y + iz * Math.sin(issIncRad),
+            EARTH_POS.z + iz * Math.cos(issIncRad),
+          );
+        }
 
         // Moon — static J2000 position, slow tidally-locked rotation
         moonMesh.rotation.y += delta * 0.02;
@@ -1311,18 +1349,21 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         scanBand.rotation.y += delta * 0.01;
 
         // Scan band texture
-        scanCtx.clearRect(0, 0, 512, 256);
-        const bandY = ((elapsed * 30) % 256);
-        const gradient = scanCtx.createLinearGradient(0, bandY - 20, 0, bandY + 20);
-        gradient.addColorStop(0, "rgba(0, 212, 255, 0)");
-        gradient.addColorStop(0.5, "rgba(0, 212, 255, 0.6)");
-        gradient.addColorStop(1, "rgba(0, 212, 255, 0)");
-        scanCtx.fillStyle = gradient;
-        scanCtx.fillRect(0, bandY - 20, 512, 40);
-        scanTex.needsUpdate = true;
+        if (updateSecondaryVisuals) {
+          scanCtx.clearRect(0, 0, 512, 256);
+          const bandY = ((elapsed * 30) % 256);
+          const gradient = scanCtx.createLinearGradient(0, bandY - 20, 0, bandY + 20);
+          gradient.addColorStop(0, "rgba(0, 212, 255, 0)");
+          gradient.addColorStop(0.5, "rgba(0, 212, 255, 0.6)");
+          gradient.addColorStop(1, "rgba(0, 212, 255, 0)");
+          scanCtx.fillStyle = gradient;
+          scanCtx.fillRect(0, bandY - 20, 512, 40);
+          scanTex.needsUpdate = true;
+        }
 
         // Asteroids — live position along trajectory based on time from closest approach
         const nowMs = Date.now();
+        const isPrimary = state.selectedId;
         for (let ai = 0; ai < asteroidAnims.length; ai++) {
           const aa = asteroidAnims[ai];
           // Trajectory spans ±48h from closest approach (matches ghost label offsets)
@@ -1334,30 +1375,46 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
           const newY = pt.y + Math.sin(elapsed * 0.4 + aa.approachAngle) * 0.05;
           const newZ = pt.z;
 
-          const hist = trailHistory[ai];
-          hist.unshift(new THREE.Vector3(newX, newY, newZ));
-          if (hist.length > 4) hist.length = 4;
+          // Throttle secondary visuals: selected asteroid every frame, others every 3rd
+          const isSelected = isPrimary === aa.id;
+          const updateThis = isSelected || updateSecondaryVisuals && (frameCount + ai) % 3 === 0;
 
-          const trailPos = aa.trail.geometry.attributes.position.array as Float32Array;
-          for (let t = 0; t < 3; t++) {
-            const src = hist[Math.min(t + 1, hist.length - 1)];
-            trailPos[t * 3] = src.x; trailPos[t * 3 + 1] = src.y; trailPos[t * 3 + 2] = src.z;
+          if (updateThis) {
+            // Ring-buffer trail: write new position into next slot
+            const ring = trailRing[ai];
+            const off = ring.head * 3;
+            ring.buf[off] = newX; ring.buf[off + 1] = newY; ring.buf[off + 2] = newZ;
+            ring.head = (ring.head + 1) % TRAIL_LEN;
+            if (ring.count < TRAIL_LEN) ring.count++;
+
+            // Copy ring buffer to trail geometry (newest-1 through oldest)
+            const trailPos = aa.trail.geometry.attributes.position.array as Float32Array;
+            for (let ti = 0; ti < 3; ti++) {
+              // Skip slot 0 (newest = current position); use slots 1..3 as trail
+              const age = ti + 1;
+              const ringIdx = age < ring.count
+                ? ((ring.head - 1 - age + TRAIL_LEN) % TRAIL_LEN) * 3
+                : ((ring.head - 1 - (ring.count - 1) + TRAIL_LEN) % TRAIL_LEN) * 3;
+              trailPos[ti * 3] = ring.buf[ringIdx];
+              trailPos[ti * 3 + 1] = ring.buf[ringIdx + 1];
+              trailPos[ti * 3 + 2] = ring.buf[ringIdx + 2];
+            }
+            aa.trail.geometry.attributes.position.needsUpdate = true;
           }
-          aa.trail.geometry.attributes.position.needsUpdate = true;
           aa.mesh.position.set(newX, newY, newZ);
           aa.mesh.rotation.x += delta * 0.5;
           aa.mesh.rotation.z += delta * 0.3;
 
-          // Ghost simulation — per asteroid
-          if (aa.simActive) {
+          // Ghost simulation — per asteroid (throttled for non-selected)
+          if (aa.simActive && (isSelected || updateThis)) {
             const ghostT = ((elapsed * 0.5) % 1);
             const ghostIdx = Math.floor(ghostT * (aa.trajPts.length - 1));
-            const pt = aa.trajPts[Math.min(ghostIdx, aa.trajPts.length - 1)];
-            aa.ghostMesh.position.copy(pt);
+            const gpt = aa.trajPts[Math.min(ghostIdx, aa.trajPts.length - 1)];
+            aa.ghostMesh.position.copy(gpt);
             aa.ghostMesh.visible = true;
             aa.ghostMesh.rotation.y += delta * 2;
             for (const gl of aa.ghostLabels) gl.visible = true;
-          } else {
+          } else if (!aa.simActive) {
             aa.ghostMesh.visible = false;
             for (const gl of aa.ghostLabels) gl.visible = false;
           }
@@ -1382,28 +1439,34 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
           (pa.trajLine.material as any).dashOffset -= delta * 0.3;
         }
 
-        // Asteroid trajectory flow effect
+        // Asteroid trajectory flow effect — only update visible trajectories
         for (const aa of asteroidAnims) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (aa.trajLine.material as any).dashOffset -= delta * 0.5;
+          if (aa.trajLine.visible && updateSecondaryVisuals) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (aa.trajLine.material as any).dashOffset -= delta * 0.5;
+          }
         }
 
         // Sun + solar flares
-        const coronaOpacity = 0.10 + Math.sin(elapsed * 1.5) * 0.04;
-        (sunCorona.material as THREE.MeshBasicMaterial).opacity = coronaOpacity;
-        sunCorona.scale.setScalar(1 + Math.sin(elapsed * 0.8) * 0.05);
-        sunCoronaOuter.scale.setScalar(1 + Math.sin(elapsed * 0.5) * 0.08);
-        (sunCoronaOuter.material as THREE.MeshBasicMaterial).opacity = 0.04 + Math.sin(elapsed * 1.2) * 0.02;
+        if (updateSecondaryVisuals) {
+          const coronaOpacity = 0.10 + Math.sin(elapsed * 1.5) * 0.04;
+          (sunCorona.material as THREE.MeshBasicMaterial).opacity = coronaOpacity;
+          sunCorona.scale.setScalar(1 + Math.sin(elapsed * 0.8) * 0.05);
+          sunCoronaOuter.scale.setScalar(1 + Math.sin(elapsed * 0.5) * 0.08);
+          (sunCoronaOuter.material as THREE.MeshBasicMaterial).opacity = 0.04 + Math.sin(elapsed * 1.2) * 0.02;
+        }
         sunMesh.rotation.y += delta * 0.01;
 
         // Animate solar flares
-        for (let fi = 0; fi < solarFlares.length; fi++) {
-          const flare = solarFlares[fi];
-          const phase = elapsed * (0.3 + fi * 0.1) + fi * 1.5;
-          const scaleF = 1 + Math.sin(phase) * 0.4;
-          flare.scale.x = (2 + fi * 0.3) * scaleF;
-          flare.scale.y = (1.5 + fi * 0.2) * scaleF;
-          (flare.material as THREE.SpriteMaterial).opacity = 0.2 + Math.sin(phase * 0.7) * 0.2;
+        if (updateSecondaryVisuals) {
+          for (let fi = 0; fi < solarFlares.length; fi++) {
+            const flare = solarFlares[fi];
+            const phase = elapsed * (0.3 + fi * 0.1) + fi * 1.5;
+            const scaleF = 1 + Math.sin(phase) * 0.4;
+            flare.scale.x = (2 + fi * 0.3) * scaleF;
+            flare.scale.y = (1.5 + fi * 0.2) * scaleF;
+            (flare.material as THREE.SpriteMaterial).opacity = 0.2 + Math.sin(phase * 0.7) * 0.2;
+          }
         }
 
         // Pulse selected (only asteroids/probes)
@@ -1435,7 +1498,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
 
         // ── Fly-in animation (lerp camera + look target toward object) ─────────
         if (state.flyLook && !interacting) {
-          controls.target.lerp(state.flyLook, 0.08);
+          controls.target.lerp(state.flyLook, 0.11);
           if (controls.target.distanceTo(state.flyLook) < 0.05) {
             controls.target.copy(state.flyLook);
             state.flyLook = null;
@@ -1454,7 +1517,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
           }
         }
         if (state.flyTarget && !interacting) {
-          camera.position.lerp(state.flyTarget, 0.06);
+          camera.position.lerp(state.flyTarget, 0.09);
           if (camera.position.distanceTo(state.flyTarget) < 0.05) state.flyTarget = null;
         }
 
@@ -1520,7 +1583,7 @@ const JarvisScene = forwardRef<JarvisSceneHandle, JarvisSceneProps>(
         if (container.contains(renderer.domElement)) container.removeChild(renderer.domElement);
         internals.current = null;
       };
-    }, [width, height, onSelectObject]); // issData excluded — read via issDataRef.current to prevent scene rebuild every 5s
+    }, [width, height, neoData, onSelectObject]); // issData excluded — read via issDataRef.current; neoData stabilized in parent via useMemo
 
     return <div ref={containerRef} className="w-full h-full cursor-grab active:cursor-grabbing" />;
   },

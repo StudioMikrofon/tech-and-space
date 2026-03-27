@@ -69,6 +69,7 @@ export interface DashboardData {
   next_launch: LaunchData | null;
   upcoming_launches: LaunchData[];
   neo_closest: NEOData | null;
+  neo_objects: NEOData[] | null;
   neo_count: number | null;
   neo_hazardous: number | null;
   dsn_active: number | null;
@@ -98,6 +99,7 @@ export const MOCK_DASHBOARD: DashboardData = {
   next_launch: null,
   upcoming_launches: [],
   neo_closest: null,
+  neo_objects: null,
   neo_count: 0,
   neo_hazardous: 0,
   dsn_active: 0,
@@ -109,12 +111,13 @@ export const MOCK_DASHBOARD: DashboardData = {
 // Live data hook — polling /api/space/dashboard
 // ---------------------------------------------------------------------------
 
-export function useSpaceProData(intervalMs = 10000) {
+export function useSpaceProData(intervalMs: number | null = 30000) {
   const [data, setData] = useState<DashboardData>(MOCK_DASHBOARD);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (intervalMs === null) return;
     let cancelled = false;
 
     const fetchData = async () => {
@@ -145,7 +148,7 @@ export function useSpaceProData(intervalMs = 10000) {
 // Specialized hooks za pojedine endpointe
 // ---------------------------------------------------------------------------
 
-export function useLiveISS(intervalMs = 5000) {
+export function useLiveISS(intervalMs = 15000) {
   const [data, setData] = useState<ISSData | null>(null);
   useEffect(() => {
     let cancelled = false;

@@ -64,7 +64,8 @@ export async function GET(req: NextRequest) {
              github_uploaded, chosen_ending, part1, part1_en,
              part2, part2_en, subtitle, subtitle_en,
              endings_json, endings_en, images_json,
-             source_url, source_name, created_at, published_at
+             source_url, source_name, created_at, published_at,
+             exec_summary
       FROM articles
     `;
     if (filter === "pending") {

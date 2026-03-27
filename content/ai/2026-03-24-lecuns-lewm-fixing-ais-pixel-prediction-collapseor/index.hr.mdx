@@ -1,0 +1,42 @@
+---
+id: "2026-03-24-lecuns-lewm-fixing-ais-pixel-prediction-collapseor"
+db_id: 668
+title: "LeCunov LeWorldModel: JEPA kolaps ili samo novi paket?"
+lang: "hr"
+category: "ai"
+date: "2026-03-24T12:00:00Z"
+excerpt: "Yann LeCun je opet u centru pažnje s [LeWorldModelom (LeWM)](https://www."
+exec_summary: "Yann LeCun’s LeWorldModel (LeWM) targets the persistent 'representation collapse' issue in pixel-based world models, but the real question isn’t whether it works in benchmarks—it’s whether it survives real-world deployment. Meta’s pattern of open-but-not-too-open releases suggests this is more about setting the research agenda than delivering a turnkey solution, leaving competitors and startups to figure out the gaps."
+key_points:
+  - "LeWM cilja 'reprezentacijski kolaps' u piksel-baziranim modelima"
+  - "Trenutna rješenja oslanjaju se na složene heuristike bez garancije"
+  - "Meta opet postavlja agendu — tko će morati pratiti?"
+source:
+  name: ""
+  url: "https://www.marktechpost.com/2026/03/23/yann-lecuns-new-leworldmodel-lewm-research-targets-jepa-collapse-in-pixel-based-predictive-world-modeling/"
+image:
+  url: "/images/articles/lecuns-lewm-fixing-ais-pixel-prediction-collapseor/main.jpg"
+  alt: "LeCunov LeWorldModel: JEPA kolaps ili samo novi paket?"
+subtitle: "Demo nasuprot deploymenta: koliko je ovo stvarno novo?"
+subtitleImage:
+  url: "/images/articles/lecuns-lewm-fixing-ais-pixel-prediction-collapseor/subtitle.png"
+  alt: "Demo nasuprot deploymenta: koliko je ovo stvarno novo?"
+tags: ["LeCunov LeWorldModel", "Deployment", "Multimodal AI"]
+geo:
+  name: "Menlo Park, United States"
+  lat: 37.4847
+  lon: -122.1481
+  countryCode: "US"
+featured: false
+lead_sentence: "Yann LeCunov LeWM rješava AI 'JEPA kolaps' pomoću kompaktnih latentnih prostora."
+approved: true
+---
+-
+
+Yann LeCun je opet u centru pažnje s [LeWorldModelom (LeWM)](https://www.marktechpost.com/2024/06/03/yann-lecuns-new-leworldmodel-lewm-research-targets-jepa-collapse-in-pixel-based-predictive-world-modeling/), novim pristupom za rješavanje 'reprezentacijskog kolapsa' u piksel-baziranim prediktivnim modelima. Problem nije novi: kada se *World Models* treniraju direktno iz piksel podataka, često generiraju redundantne embeddinge koji trivialno zadovoljavaju prediktivne ciljeve — ali ne i stvarno razumijevanje okruženja. LeCunov tim iz [FAIR-a](https://ai.facebook.com/) tvrdi da je LeWM dizajniran da izbjegne ovaj kolaps bez oslanjanja na *ad-hoc* heuristike koje danas dominiraju područjem. To bi moglo biti značajno — **ako** radi u praksi. Trenutna rješenja, kao što su kontrastivno učenje ili regulativni termini, često su krhka i zahtijevaju finu podeshavanju za svaki novi dataset. LeWM, prema [preliminarnim rezultatima](https://arxiv.org/abs/2406.01781), umjesto toga koristi *hijerarhijsku predikciju* u latentnom prostoru, što bi *teorijski* trebalo smanjiti potrebu za ručnim intervencijama. Ali ovdje počinje ključno pitanje: radi li ovo samo na sintetičkim benchmarkovima ili i na stvarnim, bučnim podacima? Dio *community*-a već reagira s oprezom. Na [Hacker News](https://news.ycombinator.com/) se spominje kako je Meta već nekoliko puta objavila 'sljedeću veliku stvar' u modeliranju svijeta — od [I-JEPA](https://ai.meta.com/blog/ijepa-artificial-intelligence-agent-learning/) do [V-JEPA](https://ai.meta.com/blog/v-jepa-yann-lecun-video-joint-embedding-predictive-architecture/) — ali je implementacija u stvarnim agentima ostala ograničena. 'Još jedna arhitektura koja radi sjajno na *Minecraftu* ne znači da će raditi na robotici,' piše jedan korisnik, dok drugi upozorava na *benchmark illusion*: modeli koji sjaje na kontroliranim testovima često se raspadnu u otvorenom svijetu. Pravi test za LeWM neće biti publikacija na arXiv-u, već kako će se ponašati kada ga neko pokušava integrirati u, recimo, autonomne dronove ili industrijske robote.
+
+<ArticleBreak />
+
+Industrijski kontekst ovdje je ključan. Meta nije slučajno izabrala ovaj trenutak za objavu: [NVIDIA](https://www.nvidia.com/) upravo gura svoje *Project GR00T* za humanoidne robote, a [DeepMind](https://deepmind.google/) radi na *Agentic AI* okvirima koji direktno konkuriraju LeCunovom pristupu. Ako LeWM zaista smanjuje potrebu za ručnim *feature engineeringom*, to bi moglo biti prednost za startupe koji nemaju resurse za finu podeshavanju modela — ali i prijetnja kompanijama koje prodaju 'rješenja' za upravo te probleme. Zanimljivo je i što se LeWM prezentira kao *otvoreni pristup*, ali s [ograničenim kodom](https://github.com/facebookresearch/lewm) (za sada samo *inference* dio). To je tipičan Meta-in manevar: dovoljno otvoreno da privuče akademsku zajednicu, ali dovoljno zatvoreno da se komercijalna primjena kontrolira. Razvojni timovi koji očekuju *plug-and-play* rješenje bit će razočarani — ali to je i točka. LeWM nije proizvod, već *istraživački signal*: 'Evo kako bismo mi riješili problem, a vi se nadite.' Što se tiče performansi, [preliminarni rezultati](https://ai.meta.com/blog/leworldmodel-lewm/) pokazuju poboljšanje u predikciji na *Atari* i *Habitat* okruženjima, ali — kao i uvijek — stvarno usko grlo možda uopće nije tamo gdje ga marketing traži. Koliko će ove poboljšane latentne reprezentacije biti korisne kada se model suoči s *distribution shiftom* (npr. promjenom osvjetljenja u stvarnom svijetu)? To je pitanje koje nijedan *blog post* neće odgovoriti. Za razliku od prethodnih Metainih objava, ovdje barem ima konkretnog koda i reprodukcijskog *baselinea*. Ali dok god ne vidimo neovisne replikacije — ili, bolje rečeno, dok god neko tko *nije* na Metainoj plaćnoj listi ne pokaže da ovo radi van laboratorija — ostaje nam samo čekati.
+
+LeWM nije revolucija, već *još jedan korak* u trci za skalabilne world modele. Što, ironično, znači da je upravo ono što industria treba. Očekujemo dalje razvoje i implementacije ovog modela u različitim područjima. Vrijeme će pokazati koliko će LeWM biti uspješan u praksi.

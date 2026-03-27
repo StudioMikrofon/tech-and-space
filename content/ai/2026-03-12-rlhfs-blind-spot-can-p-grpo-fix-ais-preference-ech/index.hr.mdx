@@ -1,0 +1,32 @@
+---
+id: "2026-03-12-rlhfs-blind-spot-can-p-grpo-fix-ais-preference-ech"
+title: "LLM-ovi i personalizacija: GRPO dobiva ‘privatan’ upgrade"
+lang: "hr"
+category: "ai"
+date: "2026-03-12T12:00:00Z"
+excerpt: "Kad su u pitanju veliki jezikovni modeli, problem nije više *mogu li* nego *za koga* dobro rade."
+source:
+  name: "Future Pulse"
+  url: "https://futurepulse.hr"
+image:
+  url: "/images/articles/rlhfs-blind-spot-can-p-grpo-fix-ais-preference-ech/main.jpg"
+  alt: "LLM-ovi i personalizacija: GRPO dobiva ‘privatan’ upgrade"
+subtitle: "Dali je ovo rješenje za problem dominantnih preferencija ili samo finije pakiranje?"
+subtitleImage:
+  url: "/images/articles/rlhfs-blind-spot-can-p-grpo-fix-ais-preference-ech/subtitle.jpg"
+  alt: "Dali je ovo rješenje za problem dominantnih preferencija ili samo finije pakiranje?"
+tags: ["future-pulse", "automated", "ai"]
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Kad su u pitanju veliki jezikovni modeli, problem nije više *mogu li* nego *za koga* dobro rade. Standardne metode poput [RLHF-a](https://arxiv.org/abs/2204.05862) optimiziraju za prosječnog korisnika – što znači da preferencije manjinskih skupina često bivaju pregazene kao statistički šum. Novi rad na [arXiv-u](https://arxiv.org/abs/2603.10009v1) (2603.10009v1) predlaže **Personalized GRPO (P-GRPO)**, modifikaciju [Group Relative Policy Optimization](https://arxiv.org/abs/2106.05961) frameworka koja tvrdi da rješava ovaj problem. Ali, koliko je ovo stvarno novo, a koliko samo pametno rebrandiranje? Problem je star: GRPO, iako široko korišten, pretpostavlja da su svi uzorci u grupi zamjenjivi – što u praksi znači da modeli nauče favorizirati dominantne obrasce, i marginaliziraju one manje zastupljene. Autori kažu da njihovo rješenje **dekomponira grupnu normalizaciju** na individualne preferencije, umjesto da sve gura kroz isti filter. Zvuči dobro, ali **benchmarks** (još uvijek većinom sintetički) pokazuju poboljšanja tek u kontroliranim uvjetima. Realni test će biti kada se ovo susretne s kaotičnim, nepredvidivim ljudskim preferencijama – tamo gdje većina RLHF varijanti i propada. Zanimljivo je što rad ne spominje **koji konkretni LLM-ovi** bi od ovog najviše profitirali. Da li je ovo rješenje za opće modele poput Llame ili specifičnije za uske domene? Ako je drugo, pitanje je koliko će developerima biti vrijedno implementirati još jedan sloj kompleksnosti u post-training pipeline. [Hugging Face forum](https://discuss.huggingface.co/) već ima nekoliko niti gdje igrači spekuliraju o praktičnoj primjenjivosti – ali bez konkretnih brojeva ili demo-a, ostaje sve na razini *moguće da*. Jedna stvar je sigurna: ako ovo *zaista* radi, kompanije poput Mistrala ili Anthropica koje se hvale 'alignmentom' dobivaju novi front za natjecanje. A ako ne radi? Još jedan papir koji će završiti u arXiv groblju 'objećanja za sljedeću godinu'.
+
+<ArticleBreak />
+
+Da razumijemo zašto bi P-GRPO *mogao* biti važan, treba pogledati tko najviše pati od trenutnih ograničenja. Platforme poput Reddita ili Discord-a, gdje zajednice imaju izrazito različite norme, trenutačno moraju birati između **globalnog modela koji nikoga ne zadovoljava** ili ručnog fine-tuninga za svaku podgrupu – što je skuplje od samog hostinga. P-GRPO nudi **automatiziranu segmentaciju**, ali pitanje je koliko će ta segmentacija biti granula: po demografiji, interesima, ili nečem trećem? Technical community reagira s umjerenim optimizmom. Na [GitHub-u](https://github.com/) je već nekoliko forkova originalnog GRPO koda s napomenom *WIP: P-GRPO integration*, ali bez većih pull requestova – znak da ljudi čekaju ili dokaze o skalabilnosti ili barem jasniji [README](https://github.com/facebookresearch/rlhf/blob/main/README.md) s uputama. Što se tiče industrijskog interesa, [Scale AI](https://scale.com/) i slični igrači koji prodaju 'alignment-as-a-service' sigurno prate razvoj. Za njih, svaki novi layer koji može poboljšati metrike bez dramatičnog povećanja troškova je potencijalni produkt. Ali tu je i **reality gap**: većina papira o personalizaciji zaboravlja da korisnici često *ne znaju* što žele, a kamoli da to mogu artikulirati u feedbacku. P-GRPO pretpostavlja da preferencije *postoje* i da su *stabilne* – što u dinamičnim okruženjima poput socijalnih mreža nije slučaj. Autori priznaju ovaj problem, ali ga 'riješavaju' pretpostavkom da će *dovoljno velik uzorak* sve izgladiti. To je isti trik koji RLHF koristi već godinama – i vidimo kako to funkcionira. Zanimljiv detalj: rad ne spominje **regulatorne implikacije**. Ako modeli počnu *previše dobro* prilažavati preferencije pojedinaca, tko garantira da neće naučiti i reproducirati štetne stereotipe pod krinkom 'personalizacije'? EU AI Act [članak 10](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai) o transparentnosti možda će zahtijevati dodatne safeguarde – što bi moglo usporiti adopciju u Europi. Na kraju, pitanje nije samo *radi li ovo* nego *tko će platiti troškove implementacije*. Za startupe koji već jedva drže korak s LLM troškovima, još jedan sloj RL-a može biti previše. Veliki igrači poput Googla ili Metae, međutim, imaju resurse da isprobaju – i ako uočite da njihovi modeli iznenada postanu 'osobniji' u sljedećih šest mjeseci, znate odakle vjetar puše.

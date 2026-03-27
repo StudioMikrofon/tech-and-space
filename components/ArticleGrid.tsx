@@ -25,7 +25,7 @@ export default function ArticleGrid({ articles, onGeoClick, basePath }: ArticleG
       {articles.map((article, index) => (
         <div
           key={article.id}
-          className="grid-card-animate"
+          className="grid-card-animate h-full"
           style={{ animationDelay: `${index * 0.08}s` }}
         >
           <ArticleCard

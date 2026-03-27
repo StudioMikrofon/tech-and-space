@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/milkyway-test/layout,_N_T_/milkyway-test/page,_N_T_/milkyway-test"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/milkyway-test/__PAGE__",
+    "/milkyway-test",
+    "/_index",
+    "/_head"
+  ]
+}

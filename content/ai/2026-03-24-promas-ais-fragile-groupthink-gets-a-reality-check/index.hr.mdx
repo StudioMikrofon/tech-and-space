@@ -1,0 +1,42 @@
+---
+id: "2026-03-24-promas-ais-fragile-groupthink-gets-a-reality-check"
+db_id: 684
+title: "ProMAS: Predviđanje grešaka prije nego se dogode"
+lang: "hr"
+category: "ai"
+date: "2026-03-24T12:00:00Z"
+excerpt: "Kad više agenata s [Large Language Modelima](https://arxiv."
+exec_summary: "ProMAS shifts MAS error handling from reactive to predictive using Markov transitions, but its real-world deployment viability remains unproven. The framework's 'proactive' claim hinges on untested scalability—critical for industries where agent failures carry high costs, yet current benchmarks offer no production-grade validation."
+key_points:
+  - "Markovljevi prijelazi za predviđanje logičkih propusta"
+  - "Post-hoc analiza više nije dovoljna za real-time intervencije"
+  - "Tko zapravo koristi prednost iz 'proaktivnog' pristupa"
+source:
+  name: ""
+  url: "https://arxiv.org/abs/2603.20260"
+image:
+  url: "/images/articles/promas-ais-fragile-groupthink-gets-a-reality-check/main.jpg"
+  alt: "ProMAS: Predviđanje grešaka prije nego se dogode"
+subtitle: "Demo nasuprot deploymenta: koliko je ovo stvarno spremno za produkciju?"
+subtitleImage:
+  url: "/images/articles/promas-ais-fragile-groupthink-gets-a-reality-check/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: koliko je ovo stvarno spremno za produkciju?"
+tags: ["ProMAS", "Error Prediction", "Deployment Readiness"]
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+lead_sentence: "ProMAS predviđa AI pogreške pomoću Markovljeve dinamike"
+approved: true
+---
+-
+
+Kad više agenata s [Large Language Modelima](https://arxiv.org/abs/2603.20260) (LLM) radi na dugoročnim zadacima, jedan logički propust može oboriti cijeli sustav kao domino efekt. Do sada je većina istraživanja bila usmjerena na post-hoc analizu – što je korisno kao obdukcija, ali ne i kao preventiva. **ProMAS**, novi framework iz [arXiv](https://arxiv.org/abs/2603.20260) rada, nudi rješenje: predviđanje grešaka prije nego se dogode, koristeći **Markovljeve prijelaze** i tzv. *Causal Delta Features* za mapiranje semantičkih pomaka. Problem je star, ali pristup nije: umjesto da se čeka da sustav padne, ProMAS pokušava identificirati 'slabe točke' u realnom vremenu. To zvuči kao logičan korak naprijed – ali koliko je ovo zapravo novo? Markovljevi modeli nisu nova ideja, a ni *error forecasting* u MAS-ovima. **Stvarno usko grlo možda uopće nije u algoritmu, već u tome tko ga može deployati bez da sustav postane previše kaotičan.** Čini se da je ključna inovacija u **Proactive Prediction Head with Jump** – mehanizmu koji ne samo da predviđa greške, nego i sugerira 'skokove' u stanju sustava kako bi se one izbjegle. Ali ovdje počinje *reality gap*: demo u kontroliranom okruženju i stvarna primjena u produkciji su dvije različite priče. [Developer community](https://news.ycombinator.com/) već primjećuje da bi takav pristup mogao povećati *overhead* sustava – što je ironično, jer je jedan od glavnih problema MAS-ova upravo njihova računarska zahtjevnost. Prema dostupnim informacijama, ProMAS još uvijek nije testiran na stvarnim, velikim sustavima – a to je kritično. Benchmarkovi su lijepo, ali **sintetički podaci često prikrivaju stvarne performanse**. Ako sustav zahtijeva previše resursa za predviđanje, njegova 'proaktivnost' može postati samo teoretska prednost. Pravi signal ovdje je u tome što se istraživanje pomiče od *reaktivnog* ka *prediktivnom* pristupu – ali je preuranjeno govoriti o 'revoluciji'. **Za svu buku, stvarna priča je u tome tko će moći koristiti ovaj framework bez da mu sustav postane previše nestabilan.**
+
+<ArticleBreak />
+
+Tko dobiva prednost? Prije svega, **kompanije koje rade s kritičnim MAS-ovima** – recimo, u logistici, financijama ili autonomnim sustavima – gdje je cijena greške visoka. Ali tu je i paradoks: upravo te kompanije najčešće imaju najstrože zahtjeve za stabilnošću, pa će ProMAS morati proći kroz duge *stress testove* prije nego što ga netko ozbiljno razmatra. Zanimljivo je i to što autorima rada **nije cilj samo akademska zajednica**. [GitHub](https://github.com/) reakcije već sugeriraju da bi ovo mogao biti koristan alat za *debugging* u razvoju – ali opet, sve ovisi o tome koliko je framework fleksibilan. Ako zahtijeva previše fine-tuninga za svaki pojedini slučaj, njegova praktična vrijednost opada. Još jedna stvar koja se ističe: ProMAS ne rješava problem **propagacije grešaka između heterogenih agenata** (npr. kada neki koriste LLM-e, a neki klasične algoritme). To je upravo scenarij u kojem bi ovaj framework trebao sjati – ali za sada nema dokaza da to može učiniti efikasno. I tu priča postaje zanimljivija od same objave. Jer ako ProMAS *zaista* može smanjiti rizik od kaskadnih kvara u MAS-ovima, to ne znači samo bolje performanse – znači i **manje potrebe za ljudskom intervencijom**. A to je nešto što bi moglo promijeniti ekonomiku razvoja takvih sustava. Ali, kao i uvijek, **demo nije produkt**. Dok ne vidimo stvarne brojeve iz produkcijskog okruženja – a ne samo iz simulacija – sve ostaje u sferi 'zanimljivog, ali neprovjerenog'.
+
+Na kraju, ProMAS otvara nove mogućnosti za istraživanje i razvoj u području MAS-ova. Njegova ideja o proaktivnom predviđanju grešaka može biti korisna u mnogim primjenama. Međutim, još uvijek je previše rana za konačne zaključke. Potrebno je još istraživanja i testiranja kako bi se potvrdila njegova učinkovitost i praktična vrijednost.

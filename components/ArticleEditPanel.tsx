@@ -36,6 +36,8 @@ export default function ArticleEditPanel({ dbId, articleSlug }: { dbId?: number;
   const [msg, setMsg]             = useState<{ text: string; ok: boolean } | null>(null);
   const [regenModel, setRegenModel] = useState<Record<string, ImageModel>>({ main: "qwen", subtitle: "qwen" });
   const [regenMenuOpen, setRegenMenuOpen] = useState<string | null>(null); // "main"|"subtitle"|null
+  const [uploadUrl, setUploadUrl] = useState<Record<string, string>>({ main: "", subtitle: "" });
+  const [uploadBusy, setUploadBusy] = useState<string | null>(null);
 
   const showMsg = (text: string, ok = true) => {
     setMsg({ text, ok });
@@ -95,6 +97,39 @@ export default function ArticleEditPanel({ dbId, articleSlug }: { dbId?: number;
     } finally {
       setBusy(null);
     }
+  };
+
+  const doUploadUrl = async (imageType: "main" | "subtitle") => {
+    const url = uploadUrl[imageType]?.trim();
+    if (!url) return;
+    setUploadBusy(imageType);
+    try {
+      const res = await fetch("/api/upload-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ articleId: data?.id, imageType, imageUrl: url, alt: data?.title_en || data?.title }),
+      });
+      const d = await res.json();
+      if (d.ok) { showMsg(`Slika spremljena: ${d.url}`); setUploadUrl((p) => ({ ...p, [imageType]: "" })); }
+      else showMsg(d.error || "Upload greška", false);
+    } catch { showMsg("Network error", false); }
+    finally { setUploadBusy(null); }
+  };
+
+  const doUploadFile = async (imageType: "main" | "subtitle", file: File) => {
+    setUploadBusy(imageType + "_file");
+    try {
+      const form = new FormData();
+      form.append("articleId", String(data?.id));
+      form.append("imageType", imageType);
+      form.append("file", file);
+      form.append("alt", data?.title_en || data?.title || "");
+      const res = await fetch("/api/upload-image", { method: "POST", body: form });
+      const d = await res.json();
+      if (d.ok) showMsg(`Slika uploadana: ${d.url}`);
+      else showMsg(d.error || "Upload greška", false);
+    } catch { showMsg("Network error", false); }
+    finally { setUploadBusy(null); }
   };
 
   if (loading) {
@@ -280,6 +315,41 @@ export default function ArticleEditPanel({ dbId, articleSlug }: { dbId?: number;
           </div>
         </div>
       )}
+
+      {/* Image upload */}
+      <div className="px-5 py-3 border-b border-white/8">
+        <p className="text-[9px] font-mono text-text-secondary/30 mb-3">// UPLOAD SLIKE — URL ili fajl</p>
+        {(["main", "subtitle"] as const).map((type) => (
+          <div key={type} className="mb-3 last:mb-0">
+            <p className="text-[9px] font-mono text-text-secondary/40 mb-1">{type === "main" ? "Hero" : "Podnaslov"}</p>
+            <div className="flex gap-1">
+              <input
+                type="text"
+                placeholder="https://..."
+                value={uploadUrl[type]}
+                onChange={(e) => setUploadUrl((p) => ({ ...p, [type]: e.target.value }))}
+                className="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1 text-[11px] font-mono text-text-primary placeholder-text-secondary/30 focus:outline-none focus:border-accent-cyan/40"
+              />
+              <button
+                onClick={() => doUploadUrl(type)}
+                disabled={!uploadUrl[type] || !!uploadBusy}
+                className="px-2 py-1 rounded border border-accent-cyan/25 text-accent-cyan/70 hover:border-accent-cyan/50 hover:text-accent-cyan text-[10px] font-mono transition-all disabled:opacity-30"
+              >
+                {uploadBusy === type ? "⟳" : "↑ URL"}
+              </button>
+              <label className="px-2 py-1 rounded border border-white/15 text-text-secondary/50 hover:border-white/30 hover:text-text-secondary text-[10px] font-mono transition-all cursor-pointer">
+                {uploadBusy === type + "_file" ? "⟳" : "↑ File"}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) doUploadFile(type, f); e.target.value = ""; }}
+                />
+              </label>
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* Status message */}
       {msg && (

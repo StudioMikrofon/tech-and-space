@@ -227,8 +227,13 @@ export default function SolarSystem({
     }
 
     let lastTimestamp = 0;
+    let lastDrawTimestamp = 0;
+    const FRAME_INTERVAL = interactive ? 0 : 100; // 10fps for background decoration
 
     function draw(timestamp: number) {
+      animationRef.current = requestAnimationFrame(draw);
+      if (FRAME_INTERVAL && timestamp - lastDrawTimestamp < FRAME_INTERVAL) return;
+      lastDrawTimestamp = timestamp;
       const dt = lastTimestamp ? timestamp - lastTimestamp : 16.67;
       lastTimestamp = timestamp;
       ctx!.clearRect(0, 0, width, height);
@@ -260,8 +265,6 @@ export default function SolarSystem({
         drawPlanet(px, py, planet, timestamp);
         if (planet.hasMoon) drawMoon(px, py, timestamp);
       }
-
-      animationRef.current = requestAnimationFrame(draw);
     }
 
     animationRef.current = requestAnimationFrame(draw);

@@ -1,0 +1,48 @@
+---
+id: "2026-03-11-metas-nllb-200-isnt-just-translatingits-mapping-ho"
+title: "Metaov NLLB-200 otkriva univerzalnu strukturu jezika – ali što to znači za vas?"
+lang: "hr"
+category: "ai"
+date: "2026-03-11T12:00:00Z"
+excerpt: "Kada je Meta [predstavio NLLB-200](https://ai."
+source:
+  name: "Future Pulse"
+  url: "https://futurepulse.hr"
+image:
+  url: "/images/articles/metas-nllb-200-isnt-just-translatingits-mapping-ho/main.jpg"
+  alt: "Metaov NLLB-200 otkriva univerzalnu strukturu jezika – ali što to znači za vas?"
+subtitle: "Nova analiza pokazuje da modeli za prijevod možda razumiju jezike dublje nego što mislimo. Ali hoće li to promijeniti vaš rad?"
+subtitleImage:
+  url: "/images/articles/metas-nllb-200-isnt-just-translatingits-mapping-ho/subtitle.jpg"
+  alt: "Nova analiza pokazuje da modeli za prijevod možda razumiju jezike dublje nego što mislimo. Ali hoće li to promijeniti vaš rad?"
+tags: ["future-pulse", "automated", "ai"]
+geo:
+  name: "Menlo Park, United States"
+  lat: 37.4847
+  lon: -122.1481
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Kada je Meta [predstavio NLLB-200](https://ai.meta.com/blog/nllb-200-high-quality-translation/) – model za prijevod koji podržava 200 jezika – većina je razmišljala o praktičnim posljedicama: brži prijevod za manje jezike, smanjenje troškova lokalizacije, možda čak i bolja dostupnost informacija za govornike manjih jezika. Ali novo istraživanje s [arXiv-a (2603.02258v1)](https://arxiv.org/abs/2603.02258) postavlja fundamentalnije pitanje: **da li ovaj model zapravo uči univerzalne konceptualne reprezentacije jezika, a ne samo površinske sličnosti?**
+
+    Tim istraživača analizirao je geometriju ugrađenih reprezentacija (embeddingova) u NLLB-200 koristeći [Swadeshovu listu osnovnog vokabulara](https://en.wikipedia.org/wiki/Swadesh_list) – skup od 200 riječi koje se smatraju stabilnima kroz vrijeme i kulturne promjene – za **135 jezika**. Rezultati pokazuju **statistički značajnu korelaciju** (ρ = 0,13, *p* = 0,020) između udaljenosti u modelovim ugrađenim prostorima i **filogenetske udaljenosti** između jezika (izračunate pomoću [Automated Similarity Judgment Programa](https://asjp.clld.org/)). Drugim riječima, model ne grupira jezike samo zato što imaju slične riječi ili gramatičke strukture – nego zato što **djelomično reflektira duboke lingvističke i povijesne veze** između njih.
+
+    To nije samo akademska zanimljivost. Ako se ovo potvrdi u širem kontekstu, značilo bi da su današnji modeli za prijevod **blizu razumijevanja jezika na način koji je bliži ljudskoj kogniciji** nego što smo pretpostavljali. Ali koliko je to korisno u praksi? Za razliku od prethodnih studija koje su se usredotočile na performanse (npr. BLEU score), ovo istraživanje **pokušava razumjeti *kako* model radi**, a ne samo *koliko dobro*. To je ključna razlika za razvojne timove koji žele poboljšati višejezične modele, ali i za korisnike koji očekuju precizniji prijevod u specifičnim domenama – recimo, medicini ili pravu, gdje površna sličnost riječi može biti opasna.
+
+    Međutim, korelacija od 0,13 nije jaka. **Čini se da model *djelomično* hvata univerzalne obrasce**, ali još uvijek je daleko od savršene reprezentacije. To postavlja pitanje: **je li ovo stvarni pomak u razumijevanju jezika, ili samo finiji način grupiranja podataka?** Odgovor na to ima direktne posljedice za one koji grade aplikacije na vrhu NLLB-200 – od startapa koji lokaliziraju sadržaj do velikih platformi poput Facebooka ili Wikipedije.
+
+<ArticleBreak />
+
+Za razliku od ranijih modela koji su jezike tretirali kao zasebne „kutije“ s površinskim pravilima, NLLB-200 **čini se da prepoznaje zajedničke konceptualne jezgre** – barem za osnovni vokabular. To bi moglo objasniti zašto model bolje radi s jezicima koji su povijesno povezani (npr. hrvatski i srpski) nego s onima koji imaju sličnu gramatiku ali različito podrijetlo (npr. mađarski i finski). Ali što to znači za **vaš rad**?
+
+    **1. Razvojni timovi** koji grade višejezične aplikacije mogli bi iskoristiti ove nalaze da **optimiziraju fine-tuning** za grupe srodnih jezika, umjesto da ih tretiraju izolirano. Na primjer, ako model „zna“ da su hrvatski, slovenski i češki bliži jedni drugima nego engleskom, možda nije potrebno trenirati zasebne modele za svaki od njih. To bi **smanjilo troškove obrade** i poboljšalo performanse za manje jezike.
+
+    **2. Korisnici koji oslanjaju na prijevod** (npr. u e-trgovini, obrazovanju ili medijima) mogli bi dobiti **konzistentnije rezultate** za jezike iz iste porodice. Međutim, oprez je potrebno čuvati: ako model *previše* oslanja na filogenetske sličnosti, može pogrešno pretpostaviti značenja za riječi koje su se razlikovale kroz vrijeme (npr. „laž“ u različitim slavenskim jezicima).
+
+    **3. Lingvisti i kognitivni znanstvenici** dobivaju novi alat za proučavanje kako se jezici razvijaju. Ako se pokazalo da NLLB-200 može predvidjeti lingvističke veze bolje od postojećih metoda, to bi moglo ubrzati istraživanja u [komparativnoj lingvistici](https://hr.wikipedia.org/wiki/Usporedna_jezikoslovlja). Međutim, za sada je ovo još uvijek **rani signal** – potrebna su dodatna istraživanja na većem skupu riječi i jezika.
+
+    Najveće pitanje ostaje: **hoće li ovo stvarno promijeniti način na koji gradimo višejezične sustave?** Trenutno, većina komercijalnih aplikacija i dalje se oslanja na performanse, a ne na dubinsko razumijevanje. Ali ako se pokaže da modele možemo „usmjeravati“ prema boljem hvatanju konceptualnih veza, to bi moglo dovesti do **manje grešaka u prijevodu složenijih tekstova** – recimo, pravnih ugовора ili stručne literature. Za sada, ipak, ovo je više **potencijal** nego gotovo rješenje.
+
+    Jedna od ključnih prepreka je i to što istraživanje koristi **samo osnovni vokabular**. Što se tiče složenijih koncepta – recimo, metafora, idioma ili kulturoloških razlika – još uvijek nema jasnih dokaza da model razumije njihovu univerzalnost. A upravo ti elementi često čine najveće probleme u profesionalnom prijevodu.

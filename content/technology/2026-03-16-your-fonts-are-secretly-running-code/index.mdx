@@ -1,0 +1,63 @@
+---
+id: "2026-03-16-your-fonts-are-secretly-running-code"
+db_id: 391
+title: "Your Fonts Are Secretly Running Code"
+category: "technology"
+date: "2026-03-16T12:00:00Z"
+excerpt: "Most users never consider what happens between pressing a key and seeing a character appear on screen."
+exec_summary: "The article analyzes how font rendering systems can execute code, exploring security implications for developers and organizations. It balances technical curiosity with practical concerns about attack vectors in document processing systems."
+source:
+  name: ""
+  url: ""
+image:
+  url: "/images/articles/your-fonts-are-secretly-running-code/main.jpg"
+  alt: "Your Fonts Are Secretly Running Code"
+subtitle: "Što se stvarno promijenilo u našem razumijevanju fontova"
+subtitleImage:
+  url: "/images/articles/your-fonts-are-secretly-running-code/subtitle.jpg"
+  alt: "The real cost of rendering text"
+tags: ["future-pulse", "automated", "technology"]
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+lead_sentence: "Fonts are Turing-complete code engines—LaTeX proves it, and Unicode’s 143k chars just made the attack surface explode."
+approved: true
+title_en: "Your Fonts Are Secretly Running Code"
+subtitle_en: "The real cost of rendering text"
+part1_en: "Most users never consider what happens between pressing a key and seeing a character appear on screen. But a recent deep-dive into font rendering reveals that typography operates more like interpreted code than simple display logic. A [Hackaday piece](https://hackaday.com) disassembles this hidden world, showing that font systems function as computational engines rather than mere pixel pushers.
+
+The practical implications hit developers immediately. LaTeX—a system many dismiss as mere typesetting—is fully Turing-complete. This isn't academic trivia. It means document rendering pipelines can theoretically execute arbitrary computation, creating both capability and risk. Combined with Unicode's expansion to over 143,000 characters, the surface area for complexity has grown substantially.
+
+According to available information, font rendering ranks among computing's more arcane disciplines. The process involves glyph substitution, positioning rules, and hinting instructions—all executing at scale. When your browser renders text, it runs thousands of these operations in milliseconds. The [FreeType library](https://freetype.org), which powers rendering across countless platforms, has evolved into a substantial codebase handling this hidden complexity.
+
+For engineering teams, this creates genuine tension. Modern typography demands sophisticated features: ligatures, kerning, variable fonts, emoji support. Each addition expands computational overhead. What appears as cosmetic enhancement carries real performance weight."
+part2_en: "The user reality is simpler but equally affected. When fonts render differently across devices, it stems from fragmented engines—CoreText on macOS, DirectWrite on Windows, Pango on Linux—each interpreting identical font data through distinct pipelines. Web developers wrestling with [typographic consistency](https://developer.mozilla.org/en-US/docs/Web/CSS/font-rendering) recognize this friction intimately.
+
+Security researchers have noted that font parsing represents an attractive attack surface. Complex parsing logic plus privileged execution context equals potential exploitation vectors. Microsoft's [OpenType vulnerability history](https://microsoft.com/security) demonstrates this pattern repeatedly. When font files effectively contain executable logic, the boundary between data and code blurs uncomfortably.
+
+From a market perspective, the ecosystem has bifurcated. Variable fonts promise efficiency through single-file formats adapting to multiple weights and styles. But adoption requires tooling updates, testing overhead, and fallback strategies. The operational cost isn't trivial.
+
+The industry trend toward platform-controlled typography—Apple's SF Pro, Google's Material fonts, Microsoft's Segoe UI—partly reflects this complexity burden. When rendering pipelines become computational heavyweights, vertical integration offers predictability. Independent foundries face steeper barriers to entry, and cross-platform consistency becomes someone else's problem."
+---
+-
+
+Most users never consider what happens between pressing a key and seeing a character appear on screen. But a recent deep-dive into font rendering reveals that typography operates more like interpreted code than simple display logic. A [Hackaday piece](https://hackaday.com) disassembles this hidden world, showing that font systems function as computational engines rather than mere pixel pushers.
+
+The practical implications hit developers immediately. LaTeX—a system many dismiss as mere typesetting—is fully Turing-complete. This isn't academic trivia. It means document rendering pipelines can theoretically execute arbitrary computation, creating both capability and risk. Combined with Unicode's expansion to over 143,000 characters, the surface area for complexity has grown substantially.
+
+According to available information, font rendering ranks among computing's more arcane disciplines. The process involves glyph substitution, positioning rules, and hinting instructions—all executing at scale. When your browser renders text, it runs thousands of these operations in milliseconds. The [FreeType library](https://freetype.org), which powers rendering across countless platforms, has evolved into a substantial codebase handling this hidden complexity.
+
+For engineering teams, this creates genuine tension. Modern typography demands sophisticated features: ligatures, kerning, variable fonts, emoji support. Each addition expands computational overhead. What appears as cosmetic enhancement carries real performance weight.
+
+<ArticleBreak />
+
+The user reality is simpler but equally affected. When fonts render differently across devices, it stems from fragmented engines—CoreText on macOS, DirectWrite on Windows, Pango on Linux—each interpreting identical font data through distinct pipelines. Web developers wrestling with [typographic consistency](https://developer.mozilla.org/en-US/docs/Web/CSS/font-rendering) recognize this friction intimately.
+
+Security researchers have noted that font parsing represents an attractive attack surface. Complex parsing logic plus privileged execution context equals potential exploitation vectors. Microsoft's [OpenType vulnerability history](https://microsoft.com/security) demonstrates this pattern repeatedly. When font files effectively contain executable logic, the boundary between data and code blurs uncomfortably.
+
+From a market perspective, the ecosystem has bifurcated. Variable fonts promise efficiency through single-file formats adapting to multiple weights and styles. But adoption requires tooling updates, testing overhead, and fallback strategies. The operational cost isn't trivial.
+
+The industry trend toward platform-controlled typography—Apple's SF Pro, Google's Material fonts, Microsoft's Segoe UI—partly reflects this complexity burden. When rendering pipelines become computational heavyweights, vertical integration offers predictability. Independent foundries face steeper barriers to entry, and cross-platform consistency becomes someone else's problem.

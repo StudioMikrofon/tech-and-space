@@ -21,7 +21,7 @@ import {
   getTelemetryStub,
 } from "@/lib/space-tracker-data";
 // NEO_DATASET also used for asteroid ID lookup in handleObjectSelect
-import { playSound } from "@/lib/sounds";
+import { isSoundEnabled, playSound } from "@/lib/sounds";
 
 // ---------------------------------------------------------------------------
 // Jupiter declination (J2000) — computed client-side
@@ -162,36 +162,36 @@ function JarvisTerminalHUD({ obj, onClose, onSimToggle, compact }: { obj: { type
   // Sci-fi terminal tick sound per character
   const playTypeTick = useCallback(() => {
     try {
-      if (typeof localStorage !== "undefined" && localStorage.getItem("tp-sound") === "off") return;
+      if (!isSoundEnabled()) return;
       if (!audioCtxRef.current) audioCtxRef.current = new AudioContext();
       const ctx = audioCtxRef.current;
       const osc = ctx.createOscillator();
       const hp = ctx.createBiquadFilter();
       const gain = ctx.createGain();
       hp.type = "highpass";
-      hp.frequency.value = 2000;
+      hp.frequency.value = 2600;
       osc.connect(hp);
       hp.connect(gain);
       gain.connect(ctx.destination);
-      osc.frequency.value = 800 + Math.random() * 400;
-      osc.type = "square";
-      gain.gain.value = 0.005;
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.015);
+      osc.frequency.value = 1100 + Math.random() * 260;
+      osc.type = "triangle";
+      gain.gain.value = 0.0025;
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.012);
       osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.015);
+      osc.stop(ctx.currentTime + 0.012);
     } catch { /* audio not available */ }
   }, []);
 
   useEffect(() => {
     setDisplayedText("");
     let charIdx = 0;
-    const speed = 5; // ms per character
+    const speed = compact ? 10 : 8;
     const timer = setInterval(() => {
       if (charIdx < fullText.length) {
         setDisplayedText(fullText.slice(0, charIdx + 1));
-        // Play tick every 3rd visible character only
+        // Keep the terminal alive, but do not fire a tick for every character.
         const ch = fullText[charIdx];
-        if (ch !== " " && ch !== "\n" && ch !== "─") playTypeTick();
+        if (charIdx % 4 === 0 && ch !== " " && ch !== "\n" && ch !== "─") playTypeTick();
         charIdx++;
       } else {
         clearInterval(timer);
@@ -288,6 +288,12 @@ export default function SpaceTrackerModal({ mode, open, onClose, lang = "en" }: 
   const dataRef = useRef(data);
   dataRef.current = data;
   const jarvisRef = useRef<JarvisSceneHandle>(null);
+  // Stabilize neoData — only changes when actual asteroid list arrives/changes, not on every 10s poll
+  const stableNeoData = useMemo(
+    () => data.neo_objects,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data.neo_objects?.length, data.neo_objects?.[0]?.id],
+  );
   const [selectedAsteroid, setSelectedAsteroid] = useState<AsteroidDisplay | null>(null);
   const [selectedAsteroidId, setSelectedAsteroidId] = useState<string | null>(null);
   const [sceneSize, setSceneSize] = useState({ w: 500, h: 500 });
@@ -298,6 +304,7 @@ export default function SpaceTrackerModal({ mode, open, onClose, lang = "en" }: 
   const [timeScale, setTimeScaleState] = useState<TimeScale>(1);
   const [spaceMode, setSpaceMode] = useState<"cinematic" | "scientific">("cinematic");
   const jupiterReturnRef = useRef<ReturnType<typeof setTimeout> | null>(null); // kept for cleanup only
+  const lastAnnouncedObjectRef = useRef<string | null>(null);
 
   const handleTimeScale = useCallback((ts: TimeScale) => {
     setTimeScaleState(ts);
@@ -384,7 +391,7 @@ export default function SpaceTrackerModal({ mode, open, onClose, lang = "en" }: 
         focusOn({ type: "planet", id: "planet-jupiter" });
         // stay on Jupiter — user navigates away manually
       }
-    }, 300);
+    }, 90);
     return () => { clearTimeout(t); if (jupiterReturnRef.current) { clearTimeout(jupiterReturnRef.current); jupiterReturnRef.current = null; } };
   }, [activeTab, open, focusOn]);
 
@@ -392,12 +399,12 @@ export default function SpaceTrackerModal({ mode, open, onClose, lang = "en" }: 
     setActiveTab(tab);
     setSelectedAsteroid(null);
     setHudObj(null);
-    playSound("click");
+    playSound("tab");
   }, []);
 
   const handleSidebarItemClick = useCallback((target: FocusTarget) => {
     focusOn(target);
-    playSound("ping");
+    playSound("select");
   }, [focusOn]);
 
   const handleObjectSelect = useCallback((obj: { type: string; name: string; data: Record<string, string> } | null) => {
@@ -417,7 +424,11 @@ export default function SpaceTrackerModal({ mode, open, onClose, lang = "en" }: 
     }
     setHudObj(obj);
     setSelectedAsteroidId(null);
-    if (obj) playSound("dataStream");
+    if (obj?.name && lastAnnouncedObjectRef.current !== obj.name) {
+      playSound("select");
+      lastAnnouncedObjectRef.current = obj.name;
+    }
+    if (!obj) lastAnnouncedObjectRef.current = null;
   }, []); // empty deps — reads live data via dataRef.current
 
   const handleBootDone = useCallback(() => {
@@ -512,6 +523,7 @@ export default function SpaceTrackerModal({ mode, open, onClose, lang = "en" }: 
             width={sceneSize.w}
             height={sceneSize.h}
             issData={data.iss ?? { lat: 0, lon: 0, altitude: 420, speed: 27600, visibility: "daylight", timestamp: 0 }}
+            neoData={stableNeoData}
             onSelectObject={handleObjectSelect}
           />
         </div>
@@ -632,39 +644,30 @@ export default function SpaceTrackerModal({ mode, open, onClose, lang = "en" }: 
                     <h3 className="text-xs font-semibold text-text-primary font-mono">NEO — {data.neo_count ?? 0} danas</h3>
                   </div>
                   <div className="space-y-2">
-                    {(data.neo_closest ? [{
-                      name: data.neo_closest.name,
-                      distanceLD: data.neo_closest.distance_ld,
-                      diameterM: data.neo_closest.diameter_m,
-                      speedKmH: data.neo_closest.speed_kmh,
-                      hazardous: data.neo_closest.hazardous,
-                    }] : []).map((a) => {
-                      const neoData = NEO_DATASET.entries.find((n) => n.name === a.name);
-                      return (
-                        <button
-                          key={a.name}
-                          onClick={() => {
-                            setSelectedAsteroid(selectedAsteroid?.name === a.name ? null : a);
-                            if (neoData) handleSidebarItemClick({ type: "asteroid", id: neoData.id });
-                          }}
-                          className={`w-full text-left p-2 rounded-lg transition-colors cursor-pointer ${
-                            selectedAsteroid?.name === a.name ? "bg-cyan-400/10 border border-cyan-400/30" : "hover:bg-white/5 border border-transparent"
-                          }`}
-                        >
-                          <div className="flex items-center justify-between text-xs mb-0.5">
-                            <span className="font-mono font-bold text-text-primary flex items-center gap-1">
-                              {a.hazardous && <span className="text-red-400 text-[10px]">!</span>}
-                              {a.name}
-                            </span>
-                            <span className={`font-mono text-[11px] ${a.hazardous ? "text-red-400" : "text-green-400"}`}>{a.distanceLD.toFixed(2)} LD</span>
-                          </div>
-                          <div className="flex gap-2 text-[10px] text-text-secondary">
-                            <span>{a.diameterM.toFixed(0)}m</span>
-                            <span>{(a.speedKmH / 1000).toFixed(1)}k km/h</span>
-                          </div>
-                        </button>
-                      );
-                    })}
+                    {(data.neo_objects ?? (data.neo_closest ? [data.neo_closest] : [])).map((a) => (
+                      <button
+                        key={a.id}
+                        onClick={() => {
+                          setSelectedAsteroid({ name: a.name, distanceLD: a.distance_ld, diameterM: a.diameter_m, speedKmH: a.speed_kmh, hazardous: a.hazardous });
+                          handleSidebarItemClick({ type: "asteroid", id: a.id });
+                        }}
+                        className={`w-full text-left p-2 rounded-lg transition-colors cursor-pointer ${
+                          selectedAsteroid?.name === a.name ? "bg-cyan-400/10 border border-cyan-400/30" : "hover:bg-white/5 border border-transparent"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between text-xs mb-0.5">
+                          <span className="font-mono font-bold text-text-primary flex items-center gap-1">
+                            {a.hazardous && <span className="text-red-400 text-[10px]">!</span>}
+                            {a.name}
+                          </span>
+                          <span className={`font-mono text-[11px] ${a.hazardous ? "text-red-400" : "text-green-400"}`}>{a.distance_ld.toFixed(2)} LD</span>
+                        </div>
+                        <div className="flex gap-2 text-[10px] text-text-secondary">
+                          <span>{a.diameter_m.toFixed(0)}m</span>
+                          <span>{(a.speed_kmh / 1000).toFixed(1)}k km/h</span>
+                        </div>
+                      </button>
+                    ))}
                   </div>
                 </div>
 

@@ -1,0 +1,42 @@
+---
+id: "2026-03-25-memory-bear-ai-affective-memory-or-repackaged-cont"
+db_id: 722
+title: "Memory Bear: AI pamćenje koje sjeni emocije"
+lang: "hr"
+category: "ai"
+date: "2026-03-25T12:00:00Z"
+excerpt: "Kad vam Memory Bear AI obeća da će 'pamćeni afektivni kontekst' transformirati multimodalno prepoznavanje emocija, prvo pitanje nije *kako*, već *zašto to još nije standard*."
+exec_summary: "Memory Bear AI's technical report exposes a critical gap in multimodal emotion recognition (MER): the lack of long-term affective memory. While current systems excel at short-term inference, real-world emotions depend on accumulated context—something Memory Bear claims to address. The question isn't whether this is innovative (it is), but whether it's deployable at scale without prohibitive costs, and who stands to lose if it succeeds."
+key_points:
+  - "Afectivna memorija umjesto kratkih predikcija"
+  - "Multimodalni kontekst koji preskaču postojeći modeli"
+  - "Tko zapravo treba dugoročne emocionalne modele"
+source:
+  name: ""
+  url: "https://arxiv.org/abs/2603.22306"
+image:
+  url: "/images/articles/memory-bear-ai-affective-memory-or-repackaged-cont/main.jpg"
+  alt: "Memory Bear: AI pamćenje koje sjeni emocije"
+subtitle: "Demo nasuprot deploymenta: zašto je 'pamćenje' u MER-u uvijek bilo slabo mjesto"
+subtitleImage:
+  url: "/images/articles/memory-bear-ai-affective-memory-or-repackaged-cont/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: zašto je 'pamćenje' u MER-u uvijek bilo slabo mjesto"
+tags: ["Memory Bear", "Emotion Recognition", "AI Memory"]
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+lead_sentence: "Memory Bear AI: 25% bolji emocionalni prepoznavatelj"
+approved: true
+---
+-
+
+Kad vam Memory Bear AI obeća da će 'pamćeni afektivni kontekst' transformirati multimodalno prepoznavanje emocija, prvo pitanje nije *kako*, već *zašto to još nije standard*. Jer problem nije novi: postojeći MER sustavi (poput onih iz CMU-MOSEI ili IEMOCAP) već godinama optimiziraju kratkoročne inferencije — a realne emocije, kao što primjećuju autori, ovise o 'nagomilanom kontekstu' koji se proteže kroz minute, ne milisekunde. Ovdje je ključna razlika: Memory Bear ne nudi samo još jedan *fusion layer* za tekst, govor i video. Umjesto toga, uvodi **persistentnu afektivnu memoriju** koja modelira 'dugoročne ovisnosti' — recimo, kako se nagomilani stres u razgovoru manifestira tek nakon 10 minuta, a ne u sljedećoj rečenici. To zvuči kao tehnički detalj, ali je zapravo priznanje da su trenutni MER modeli, usprkos SOTA benchmarkovima, često beskorisni u dinamičnim interakcijama. Primjer: sistem koji točno klasificira 'ljutnju' u 3-sekundnom isječku može potpuno promašiti ako ne 'sjeća' prethodnih 20 minuta tenzije. Čudno je, dakle, da se o ovome govori tek sada. Rani radovi (npr. iz 2019.) već su isticali potrebu za 'emocionalnom memorijom', ali je industrija radije gonila *brže* nego *dublje*. Memory Bear ovdje ne donosi revoluciju — već ispravlja **hroničnu propust** u MER-u: ignoriranje vremena kao dimenzije. Pravi test, naravno, nije u arXiv papiru već u realnom deploymentu.
+
+<ArticleBreak />
+
+Tko ovdje dobiva prednost? Ne čini se da je cilj *potrošačka* primjena — recimo, pametni asistent koji 'razumije' vaše raspoloženje nakon tjedan dana interakcije. Umjesto toga, Memory Bear izgleda kao alatić za **visoko-rizične domene** gdje je afektivni kontekst ključan: mentalno zdravlje (Woebot Health), pregovaračke simulacije, ili čak sigurnosne sustave koji procjenjuju 'namjere' na temelju dugoročnih obrasaca. To objašnjava zašto se u technical discourseu spominje više kao *infrastrukturni layer* nego kao samostalni proizvod. Zanimljivije je pitanje **tko gubi**. Postojeći MER igrači — poput Affectiva (sada dio Smart Eyea) ili Beyond Verbal — grade poslovne modele na kratkoročnim, scenarijskim analizama. Memory Bearov pristup zahtijeva potpuno drugačiju arhitekturnu logiku: umjesto 'hit-and-forget' modela, ovdje trebate **kontinuirano ažuriranje memorijskih tragova**, što podrazumijeva veće troškove infrastrukture i drugačije benchmarkiranje. Drugim riječima, ovo nije *upgrade* — već potencijalno **restrukturiranje tržišta** za one koji ne mogu pratiti. Developer signal je za sada umjeren. GitHub repozitoriji povezani s projektom još uvijek nisu javni, a diskusije na r/MachineLearning više analiziraju *tehničke implikacije* nego tržišnu spremnost. Čini se da je community još u fazi 'čekanja na kod' — klasičan znak da je zanimanje veliko, ali povjerenje ograničeno na dokaze izvan PDF-a. Stvarno usko grlo možda uopće nije tamo gdje ga marketing traži: ne u preciznosti modela, već u **trošku održavanja afektivne memorije** u realnom vremenu.
+
+Memory Bear bi mogao biti početak nove ere u multimodalnom prepoznavanju emocija. S njegovim mogućnostima, moglo bi se postići bolje razumijevanje ljudskih emocija i potreba. To bi moglo dovesti do razvoja boljih sustava za potrošačku primjenu, kao što su pametni asistenti koji mogu razumjeti i reagirati na emocije korisnika.

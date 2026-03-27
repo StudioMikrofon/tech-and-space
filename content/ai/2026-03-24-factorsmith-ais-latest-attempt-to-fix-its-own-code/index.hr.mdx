@@ -1,0 +1,42 @@
+---
+id: "2026-03-24-factorsmith-ais-latest-attempt-to-fix-its-own-code"
+db_id: 676
+title: "FactorSmith: Agentni kod koji *možda* rješava LLM-ove probleme"
+lang: "hr"
+category: "ai"
+date: "2026-03-24T12:00:00Z"
+excerpt: "Kad [arXiv](https://arxiv."
+exec_summary: "FactorSmith introduces a factored POMDP + agentic workflow to reduce LLM context overload in code generation, targeting text-to-simulation tasks. The real question isn’t whether it works in demos (it likely does) but whether it survives real-world edge cases—and who will package it for non-academic use. Watch for developer adoption patterns, not hype."
+key_points:
+  - "POMDP dekompozicija kao trik za smanjenje konteksta"
+  - "Planner-Designer-Critic hijerarhija umjesto linearne generacije"
+  - "Realna primjena: od teksta do igranih simulacija (ali koliko je stabilno?)"
+source:
+  name: ""
+  url: "https://arxiv.org/abs/2603.20270"
+image:
+  url: "/images/articles/factorsmith-ais-latest-attempt-to-fix-its-own-code/main.jpg"
+  alt: "FactorSmith: Agentni kod koji *možda* rješava LLM-ove probleme"
+subtitle: "Demo nasuprot deploymenta: tko zapravo može koristiti ovo danas"
+subtitleImage:
+  url: "/images/articles/factorsmith-ais-latest-attempt-to-fix-its-own-code/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: tko zapravo može koristiti ovo danas"
+tags: ["FactorSmith", "LLM", "Multimodal AI"]
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+lead_sentence: "FactorSmith obračunava se s kaosom koda pomoću faktorizacije POMDP."
+approved: true
+---
+-
+
+Kad [arXiv](https://arxiv.org/abs/2603.20270) objavi rad s naslovom koji zvuči kao ime *Dungeons & Dragons* klase, vrijedi pitati: je li riječ o stvarnom napretku ili pakiranju postojećih ideja u novu ambalažu? **FactorSmith**, framework za generiranje izvršivih simulacija iz prirodnog jezika, kombinira dvije stvari koje već znamo — **faktorsku POMDP dekompoziciju** (nadogradnja [FactorSim](https://arxiv.org/abs/23xx.xxxx) iz 2024.) i **hijerarhijski agentni tok** (planner-designer-critic) — ali ih spaja na način koji čini se rješava ključni problem: LLM-ovi se gube u velikim, povezanim kodnim bazama. Problem nije novi: pretvorba teksta u funkcionalni kod već godinama trpi zbog **kontekstualne preopterećenosti**. Međutim, ovdje je zanimljivo što FactorSmith ne pokušava proširiti kontekstni prozor (kao što rade drugi), već ga cijepa na manje, upravljive komade preko POMDP-a. To je pametan trik — ali je li dovoljan? Rani signali sugeriraju da framework može generirati **igrane simulacije** iz opisâ poput „napravi 2D platformer s tri razine i dinamičkim neprijateljima“. Međutim, razlika između **demo verzije** (koja radi na kontroliranim ulazima) i **realnog deploymenta** (gdje korisnici unose kaotične zahtjeve) ostaje nejasna. A to je upravo mjesto gdje većina AI-alata za generiranje koda pada na lice.
+
+<ArticleBreak />
+
+Tko ovdje dobiva prednost? Prije svega, **maleni timovi** koji žele brzo prototipirati mehaničke simulacije ili jednostavne igre — ali samo ako je output dovoljno stabilan za iteraciju. Ključna točka je u **planner-designer-critic petlji**: planner razlaže zadatak, designer generira kod, a critic provjerava kvalitetu. To zvuči kao razuman pristup, ali pitanje je koliko je **critic** zapravo strogi kada su u pitanju *edge case*-ovi. S druge strane, velika pitanja ostaju: Koliko je ovo skalabilno za kompleksne projekte? Kako se ponaša s **nepotpunim ili proturječnim ulazima**? I, najvažnije — **tko će održavati kod nakon što ga LLM generira**? Developer *community* na [GitHubu](https://github.com) još nije reagirao masovno (što nije neočekivano za arXiv objave), ali ako se pokaže da FactorSmith stvarno smanjuje broj *hallucination*-a u generiranom kodu, to bi moglo promijeniti dinamiku za alate poput [Replit](https://replit.com/) ili [Cursor](https://cursor.sh/). Za sada je najrealističniji scenarij da je riječ o **korisnom akademskom okviru** koji će, ako ga netko ozbiljno pakira, postati *feature* u nekom većem alatu.
+
+U svijetu AI-alata, inovacije su uvijek dobrodošle, ali njihova vrijednost ovisi o praktičnoj primjeni. FactorSmith bi mogao biti korak u pravom smjeru, ali njegova budućnost ovisi o daljnjim istraživanjima i razvoju. Možda će se pokazati kao revolucionarni alat, ili možda će ostati samo akademski okvir.

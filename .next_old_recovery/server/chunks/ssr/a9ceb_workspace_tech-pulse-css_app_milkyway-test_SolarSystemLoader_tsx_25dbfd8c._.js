@@ -1,0 +1,3 @@
+module.exports=[213597,a=>{"use strict";var b=a.i(581899);let c=(0,a.i(326975).default)(async()=>{},{loadableGenerated:{modules:[321333]},ssr:!1,loading:()=>(0,b.jsx)("div",{className:"flex items-center justify-center w-full h-screen bg-[#050710]",children:(0,b.jsx)("div",{className:"text-sm font-mono text-cyan-400/60 animate-pulse",children:"Loading Solar System..."})})});function d(){return(0,b.jsx)(c,{})}a.s(["default",()=>d])}];
+
+//# sourceMappingURL=a9ceb_workspace_tech-pulse-css_app_milkyway-test_SolarSystemLoader_tsx_25dbfd8c._.js.map

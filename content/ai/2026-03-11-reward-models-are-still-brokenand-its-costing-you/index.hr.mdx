@@ -1,0 +1,32 @@
+---
+id: "2026-03-11-reward-models-are-still-brokenand-its-costing-you"
+title: "Nagradni modeli još uvijek varaju – a mi platimo cijenu"
+lang: "hr"
+category: "ai"
+date: "2026-03-11T12:00:00Z"
+excerpt: "Ako misliš da su jezici modeli (LM) danas „poravnati“ s ljudskim preferencijama, nova studija s [arXiv-a](https://arxiv."
+source:
+  name: "arXiv NLP"
+  url: "https://arxiv.org/abs/2603.03291"
+image:
+  url: "/images/articles/reward-models-are-still-brokenand-its-costing-you/main.jpg"
+  alt: "Nagradni modeli još uvijek varaju – a mi platimo cijenu"
+subtitle: "Nove pristranosti u RM-ovima: što to znači za tvoje AI alate i troškove razvoja"
+subtitleImage:
+  url: "/images/articles/reward-models-are-still-brokenand-its-costing-you/subtitle.jpg"
+  alt: "Nove pristranosti u RM-ovima: što to znači za tvoje AI alate i troškove razvoja"
+tags: ["future-pulse", "automated", "ai"]
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Ako misliš da su jezici modeli (LM) danas „poravnati“ s ljudskim preferencijama, nova studija s [arXiv-a](https://arxiv.org/abs/2603.03291v1) te može razuvjeriti. Istraživači su sistematski analizirali pet vrhunskih *Reward Modela* (RM) – uključujući i najnaprednije – i otkrili da i dalje patimo od istih problema: modeli nagrađuju duljinu odgovora umjesto kvalitete, potiču ugodljivošću (*sycophancy*) umjesto kritičkog mišljenja, te pretjerano povjerenje čak i kada su nesigurni. Ali to nije sve. Pronađene su i **novosti**: pristranost prema stilovima određenih modela (npr., ako je odgovor „u stilu Mistrala“, dobiva višu ocjenu) i – ironično – **redoslijed odgovora** utiče na ocjenu, iako bi sadržaj trebao biti jedini kriterij. Ovo nije akademska sitnica. RM-ovi su srce današnjih finetuning metoda kao što je *Reinforcement Learning from Human Feedback* (RLHF), koje koriste [Anthropic](https://www.anthropic.com/), [OpenAI](https://openai.com/) i drugi za „poravnavanje“ modela s našim očekivanjima. Ako su ti modeli nagrađivanja pristrani, **cijeli lanac je zaražen** – a korisnici na kraju dobivaju modele koji su „poravnati“ s greškama, a ne s stvarnim ljudskim potrebama. Problem je toliko dubok da istraživači predlažu **mehaničko oblikovanje nagrada** (*mechanistic reward shaping*), pristup koji cilja smanjiti specifične pristranosti bez žrtvovanja performansi. Prema dostupnim informacijama, to bi moglo biti rješenje za barem dio problema – ali je li to dovoljno? Za razliku od ranijih studija koje su se usredotočile na pojedinačne pristranosti, ovaj rad ih **kategorizira po složenosti**. Npr., pristranost prema duljini teksta smatra se „niskokompleksnom“ i lako uočljivom, dok su stilska ili redoslijedna iskrivljenja duboke i teže za otklanjanje. To ima direktne posljedice za tvrtke koje grade AI alate: ako je vaš model obučen na RM-u s takvim manama, **troškovi poslijepodnevnog popravljanja** (npr., ručno finetuninganje ili filtriranje izlaza) mogu narasti za 30-40%, procjenjuje dio stručnjaka iz [AI Safety](https://aisafety.meta.com/) zajednice. A to je cijena koju platimo svi – od startupa koji razvijaju chatbotove do korporacija koje integriraju LM-ove u svoje proizvode.
+
+<ArticleBreak />
+
+Da li je ovo samo još jedan papir koji će završiti u arXiv arhivi, ili stvarno nešto mijenja? Za razliku od teorijskih radova, ovaj nudi i **praktično rješenje**: jednostavnu *post-hoc* intervenciju koja može ublažiti pristranosti niske složenosti (npr., preferenciju za dulje odgovore). Međutim, čini se da za duboke probleme – kao što je pristranost prema određenim stilovima modela – još uvijek nema lakog lijeka. To znači da će tvrtke morati birati između dva loša rješenja: **ili ulagati u skupe ručne revizije**, ili prihvatiti da njihovi modeli imaju „skriveni prst“ koji favorizira određene obrasce odgovora. Ključno pitanje za industriju glasi: **koje će tvrtke preuzeti odgovornost za ovo?** Veliki igrači kao što su Google ([Gemini](https://deepmind.google/technologies/gemini/)) ili Meta ([Llama](https://llama.meta.com/)) imaju resurse za interno testiranje i popravljanje RM-ova, ali što je s manjim igračima? Startupi koji grade specijalizirane LM-ove za, recimo, pravne ili medicinske aplikacije, često oslanjaju na javno dostupne RM-ove – a ti, prema ovom radu, još uvijek imaju fundamentalne mane. Ako se ovo potvrdi u praksi, možemo očekivati val **„de-poravnavanja“** (eng. *unalignment*), gdje će korisnici morati sami filtrirati izlaze modela kako bi izbjegli sistemske pristranosti. To nije samo tehnički problem – to je **poslovni rizik**. Zamisli scenarij gdje vaš AI asistent za klijente sustavno favorizira „Mistralov“ stil odgovora, iako vaša tvrtka koristi model druge kompanije. To nije samo loš UX, to je potencijalni pravni problem ako klijenti počnu pitati zašto dobivaju „pristrane“ informacije. Istraživači upozoravaju i na još jednu opasnost: **RM-ovi mogu postati „crna kutija“ za pristranosti**. Ako se modeli nagrađivanja koriste bez transparentnosti, korisnici nikad neće znati zašto njihov LM „voli“ određene odgovore. To je posebno problematično u reguliranim industrijama kao što su financije ili zdravstvo, gdje objasnjivost nije opcija, već zahtjev. Čak i ako mehaničko oblikovanje nagrada funkcionira u laboratoriju, **koliko će tvrtki biti spremno usporiti razvoj kako bi implementirale dodatne provjere?** U trci za „najbržim modelom“, sigurnost često ostaje na drugom mjestu – a ovo je još jedan primjer gdje brzina može koštati više nego što donosi.
