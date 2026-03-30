@@ -117,6 +117,9 @@ async def ensure_images(article):
     Ensure article has images.
     Skip entirely if source is YouTube — video embed replaces hero image.
     Priority: web pull (og:image / Wikimedia / Unsplash) → AI generation fallback.
+
+    CRITICAL: Don't overwrite user-selected images (public URLs starting with /).
+    If article already has main OR subtitle image with a valid file path, skip web pulling.
     """
     import re as _re
     src = (article.get('source_url') or '')
@@ -126,19 +129,24 @@ async def ensure_images(article):
     try:
         raw = article.get('images_json', '') or '{}'
         data = json.loads(raw) if isinstance(raw, str) else {}
-        main_url = (data.get('image_main') or {}).get('url', '')
-        if main_url:
-            # CRITICAL: Verify the image file actually exists on disk!
-            # Stale images_json URLs (deleted/moved files) are the #1 cause of imageless articles.
-            if main_url.startswith('/images/articles/'):
-                check_path = WORKSPACE / 'public' / main_url.lstrip('/')
-            else:
-                check_path = FP_IMAGES / Path(main_url).name
-            if check_path.exists():
-                return True  # Image file verified on disk
-            else:
-                print(f'WARN: images_json URL exists but file missing: {check_path}', file=sys.stderr)
-                # Fall through to re-generate images
+
+        # Check BOTH main and subtitle images — if either exists with valid file, skip web pull
+        for img_key in ['image_main', 'image_subtitle']:
+            img_url = (data.get(img_key) or {}).get('url', '')
+            if img_url:
+                # CRITICAL: Verify the image file actually exists on disk!
+                # Stale images_json URLs (deleted/moved files) are the #1 cause of imageless articles.
+                if img_url.startswith('/images/articles/'):
+                    check_path = WORKSPACE / 'public' / img_url.lstrip('/')
+                else:
+                    check_path = FP_IMAGES / Path(img_url).name
+                if check_path.exists():
+                    # Image file verified on disk — don't pull web images (preserves user selections)
+                    print(f'OK: {img_key} found at {check_path}', file=sys.stderr)
+                    return True
+                else:
+                    print(f'WARN: images_json URL exists but file missing: {check_path}', file=sys.stderr)
+        # Fall through to re-generate images if no valid images found
     except Exception:
         pass
 
@@ -494,7 +502,29 @@ print(json.dumps({
     const WORKSPACE = "/opt/openclaw/workspace/tech-pulse-css";
     const rebuild = spawn(
       "bash",
-      ["-c", `/opt/openclaw/futurepulse/venv/bin/python3 /opt/openclaw/futurepulse/sync_leads_to_mdx.py >> /tmp/publish-rebuild.log 2>&1; cd ${WORKSPACE} && npm run build >> /tmp/publish-rebuild.log 2>&1 && systemctl restart tech-pulse-test`],
+      ["-c", `
+        cd ${WORKSPACE}
+        # Stop old server to free memory before rebuild (prevents OOM during build)
+        systemctl stop tech-pulse-test 2>/dev/null
+        sleep 1
+
+        # Sync database changes to MDX files
+        /opt/openclaw/futurepulse/venv/bin/python3 /opt/openclaw/futurepulse/sync_leads_to_mdx.py >> /tmp/publish-rebuild.log 2>&1
+
+        # Rebuild with memory-constrained Node.js
+        npm run build >> /tmp/publish-rebuild.log 2>&1
+        BUILD_STATUS=$?
+
+        # Only restart if build succeeded AND manifest exists
+        if [ $BUILD_STATUS -eq 0 ] && [ -f .next/prerender-manifest.json ]; then
+          systemctl start tech-pulse-test
+          echo "Build succeeded, service restarted" >> /tmp/publish-rebuild.log
+        else
+          # Attempt restart anyway so service isn't down, but log the failure
+          systemctl start tech-pulse-test 2>/dev/null
+          echo "Build failed with status $BUILD_STATUS" >> /tmp/publish-rebuild.log
+        fi
+      `],
       { detached: true, stdio: "ignore" }
     );
     rebuild.unref();

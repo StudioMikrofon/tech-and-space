@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import Database from "better-sqlite3";
-import { readdirSync, existsSync, mkdirSync, copyFileSync, unlinkSync, readFileSync, writeFileSync } from "fs";
+import { readdirSync, existsSync, mkdirSync, copyFileSync, unlinkSync, readFileSync, writeFileSync, rmSync } from "fs";
 import { spawn } from "child_process";
 import path from "path";
 import { bumpContentVersion } from "@/lib/content";
 
 const DB_PATH = "/opt/openclaw/futurepulse/db/futurepulse.db";
+const STALE_REVIEW_DAYS = 7;
 // Legacy dirs — kept for backward-compat resolution only (no new files written here)
 const FP_IMAGES_LEGACY = "/opt/openclaw/futurepulse/images";
 const PUBLIC_ARTICLES_DIR = "/opt/openclaw/workspace/tech-pulse-css/public/images/articles";
@@ -148,6 +149,47 @@ interface ArticleImage {
   description?: string;
 }
 
+interface MemoryMatch {
+  id: number;
+  title: string;
+  status: string | null;
+  created_at: string | null;
+  score: number;
+  reason: string;
+  panelUrl: string;
+}
+
+function parseMemoryAlert(row: Record<string, unknown>) {
+  const memoryStatus = typeof row.memory_status === "string" ? row.memory_status : null;
+  if (!memoryStatus || memoryStatus === "clean") return null;
+
+  let matches: MemoryMatch[] = [];
+  try {
+    const raw = JSON.parse(String(row.memory_matches_json || "[]")) as Array<Record<string, unknown>>;
+    matches = raw
+      .filter((m) => typeof m.id === "number" && typeof m.title === "string")
+      .map((m) => ({
+        id: Number(m.id),
+        title: String(m.title),
+        status: m.status ? String(m.status) : null,
+        created_at: m.created_at ? String(m.created_at) : null,
+        score: Number(m.score || 0),
+        reason: String(m.reason || ""),
+        panelUrl: `/foto-review?id=${Number(m.id)}`,
+      }));
+  } catch {}
+
+  return {
+    status: memoryStatus,
+    topicKey: typeof row.memory_topic_key === "string" ? row.memory_topic_key : "",
+    reason: typeof row.memory_decision_reason === "string" ? row.memory_decision_reason : "",
+    checkedAt: typeof row.memory_checked_at === "string" ? row.memory_checked_at : null,
+    duplicateOf: typeof row.memory_duplicate_of === "number" ? row.memory_duplicate_of : null,
+    matches,
+    bestMatch: matches[0] || null,
+  };
+}
+
 // Build a filename→attribution map from images_json
 function buildAttributionMap(imagesJsonRaw: string | null): Map<string, { attribution: string; sourceUrl: string; provider: string; description: string }> {
   const map = new Map<string, { attribution: string; sourceUrl: string; provider: string; description: string }>();
@@ -249,6 +291,24 @@ function getArticleImages(
   return { images, folderName: folderName ?? null };
 }
 
+// Surgically remove subtitleImage block from MDX frontmatter without rewriting the whole file.
+// Safe even if frontmatter contains multi-line part1_en/part2_en fields.
+function removeSubtitleImageFromMdx(articleId: number): void {
+  const mdxInfo = findArticleMdxInfo(articleId);
+  if (!mdxInfo?.mdxPath) return;
+  const files = [mdxInfo.mdxPath];
+  const hrPath = path.join(path.dirname(mdxInfo.mdxPath), "index.hr.mdx");
+  if (existsSync(hrPath)) files.push(hrPath);
+  for (const filePath of files) {
+    try {
+      let content = readFileSync(filePath, "utf8");
+      // Remove subtitleImage block: "subtitleImage:\n  url: ...\n  alt: ...\n" (with optional extra fields)
+      content = content.replace(/^subtitleImage:\n(?:  [^\n]*\n)*/m, "");
+      writeFileSync(filePath, content, "utf8");
+    } catch {}
+  }
+}
+
 // Find MDX file for an article by db_id and update image frontmatter
 // Uses findArticleMdxInfo for accurate lookup instead of scanning all files.
 function updateMdxImages(articleId: number, mainUrl: string, subtitleUrl: string | null): boolean {
@@ -347,9 +407,100 @@ function rowToArticle(row: Record<string, unknown>) {
     github_uploaded: row.github_uploaded,
     created_at: row.created_at,
     source_url: row.source_url || null,
+    memoryAlert: parseMemoryAlert(row),
     images,
     folderName,
   };
+}
+
+function deleteArticleAssetsAndRecord(db: Database.Database, articleId: number): boolean {
+  const article = db
+    .prepare("SELECT id, title FROM articles WHERE id = ?")
+    .get(articleId) as Record<string, unknown> | undefined;
+  if (!article) return false;
+
+  const mdxInfo = findArticleMdxInfo(articleId);
+  const deletedFolders = new Set<string>();
+
+  try {
+    const cats = readdirSync(CONTENT_DIR_ROOT);
+    for (const cat of cats) {
+      const catDir = path.join(CONTENT_DIR_ROOT, cat);
+      let entries: string[];
+      try { entries = readdirSync(catDir); } catch { continue; }
+
+      for (const entry of entries) {
+        const entryPath = path.join(catDir, entry);
+        try { readdirSync(entryPath); } catch { continue; }
+
+        for (const mdxFile of ["index.mdx", "index.en.mdx", "index.hr.mdx"]) {
+          const mdxPath = path.join(entryPath, mdxFile);
+          if (!existsSync(mdxPath)) continue;
+
+          const head = readFileSync(mdxPath, "utf8").slice(0, 2000);
+          if (!head.includes(`db_id: ${articleId}`)) continue;
+          deletedFolders.add(entryPath);
+        }
+      }
+    }
+  } catch (e) {
+    console.error(`Error scanning for article ${articleId} MDX files: ${e}`);
+  }
+
+  for (const folder of deletedFolders) {
+    try {
+      rmSync(folder, { recursive: true, force: true });
+    } catch (e) {
+      console.error(`Failed to delete MDX folder ${folder}: ${e}`);
+    }
+  }
+
+  if (mdxInfo?.imageFolder) {
+    try {
+      rmSync(path.join(PUBLIC_ARTICLES_DIR, mdxInfo.imageFolder), { recursive: true, force: true });
+    } catch (e) {
+      console.error(`Failed to delete image folder for article ${articleId}: ${e}`);
+    }
+  }
+
+  try {
+    if (existsSync(FP_IMAGES_LEGACY)) {
+      const legacyPrefix = `art${articleId}_`;
+      for (const file of readdirSync(FP_IMAGES_LEGACY)) {
+        if (!file.startsWith(legacyPrefix)) continue;
+        try {
+          unlinkSync(path.join(FP_IMAGES_LEGACY, file));
+        } catch (e) {
+          console.error(`Failed to delete legacy image ${file} for article ${articleId}: ${e}`);
+        }
+      }
+    }
+  } catch (e) {
+    console.error(`Failed to scan legacy images for article ${articleId}: ${e}`);
+  }
+
+  db.prepare("DELETE FROM article_image_candidates WHERE article_id = ?").run(articleId);
+  db.prepare("DELETE FROM articles WHERE id = ?").run(articleId);
+  return true;
+}
+
+function cleanupStaleUnpublishedArticles(db: Database.Database): number {
+  const staleRows = db
+    .prepare(
+      `SELECT id
+       FROM articles
+       WHERE status != 'published'
+         AND COALESCE(github_uploaded, 0) = 0
+         AND datetime(created_at) < datetime('now', ?)
+       ORDER BY datetime(created_at) ASC`
+    )
+    .all(`-${STALE_REVIEW_DAYS} days`) as Array<{ id: number }>;
+
+  let deleted = 0;
+  for (const row of staleRows) {
+    if (deleteArticleAssetsAndRecord(db, row.id)) deleted += 1;
+  }
+  return deleted;
 }
 
 // ─── GET /api/foto-review ──────────────────────────────────────────────────────
@@ -364,6 +515,7 @@ export async function GET(req: NextRequest) {
   const singleId = url.searchParams.get("id");
   const showLog = url.searchParams.get("log");
   const showQueue = url.searchParams.get("queue");
+  const filter = url.searchParams.get("filter") || "approved";
 
   // Return queue status
   if (showQueue) {
@@ -402,31 +554,75 @@ export async function GET(req: NextRequest) {
 
   try {
     const db = getDb(true);
+    const purgeDb = getDb();
+    let purgedCount = 0;
+    try {
+      purgedCount = cleanupStaleUnpublishedArticles(purgeDb);
+    } finally {
+      purgeDb.close();
+    }
 
     if (singleId) {
       const row = db
         .prepare(
           `SELECT id, title, title_en, category, lead, pipeline_stage, status,
-                  images_json, github_uploaded, created_at, source_url
+                  images_json, github_uploaded, created_at, source_url,
+                  memory_status, memory_topic_key, memory_duplicate_of,
+                  memory_matches_json, memory_decision_reason, memory_checked_at
            FROM articles WHERE id = ?`
         )
         .get(Number(singleId)) as Record<string, unknown> | undefined;
       db.close();
       if (!row) return NextResponse.json({ error: "Not found" }, { status: 404 });
-      return NextResponse.json({ article: rowToArticle(row) });
+      return NextResponse.json({ article: rowToArticle(row), purgedCount });
     }
 
-    const rows = db
-      .prepare(
-        `SELECT id, title, title_en, category, lead, pipeline_stage, status,
-                images_json, github_uploaded, created_at, source_url
-         FROM articles
-         ORDER BY id ASC`
-      )
-      .all() as Record<string, unknown>[];
+    // Build query based on filter parameter
+    let whereClause = "";
+    let timeParam = `${-STALE_REVIEW_DAYS} days`;
+
+    if (filter === "published") {
+      whereClause = `WHERE status = 'published' ORDER BY datetime(created_at) DESC, id DESC LIMIT 100`;
+    } else if (filter === "approved") {
+      whereClause = `WHERE status = 'approved' AND COALESCE(github_uploaded, 0) = 0 AND datetime(created_at) >= datetime('now', ?) ORDER BY datetime(created_at) DESC, id DESC`;
+    } else if (filter === "pending") {
+      whereClause = `WHERE status NOT IN ('rejected', 'published') ORDER BY datetime(created_at) DESC, id DESC LIMIT 100`;
+    } else if (filter === "all") {
+      whereClause = `WHERE status NOT IN ('rejected') ORDER BY datetime(created_at) DESC, id DESC LIMIT 100`;
+    }
+
+    let rows: Record<string, unknown>[];
+    if (whereClause.includes("?")) {
+      rows = db
+        .prepare(
+          `SELECT id, title, title_en, category, lead, pipeline_stage, status,
+                  images_json, github_uploaded, created_at, source_url,
+                  memory_status, memory_topic_key, memory_duplicate_of,
+                  memory_matches_json, memory_decision_reason, memory_checked_at
+           FROM articles
+           ${whereClause}`
+        )
+        .all(timeParam) as Record<string, unknown>[];
+    } else {
+      rows = db
+        .prepare(
+          `SELECT id, title, title_en, category, lead, pipeline_stage, status,
+                  images_json, github_uploaded, created_at, source_url,
+                  memory_status, memory_topic_key, memory_duplicate_of,
+                  memory_matches_json, memory_decision_reason, memory_checked_at
+           FROM articles
+           ${whereClause}`
+        )
+        .all() as Record<string, unknown>[];
+    }
     db.close();
 
-    return NextResponse.json({ articles: rows.map(rowToArticle), total: rows.length });
+    return NextResponse.json({
+      articles: rows.map(rowToArticle),
+      total: rows.length,
+      purgedCount,
+      freshnessDays: STALE_REVIEW_DAYS,
+    });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : String(e);
     return NextResponse.json({ error: msg }, { status: 500 });
@@ -461,74 +657,12 @@ export async function POST(req: NextRequest) {
 
     // ── delete_article ──────────────────────────────────────────────────────────
     if (action === "delete_article") {
-      // Hard delete: MDX + images + DB entry
-      // Handles EN/HR bilingual deletion — deletes all MDX files with same db_id
       const article = db.prepare("SELECT id, title FROM articles WHERE id = ?").get(articleId);
       if (!article) {
         db.close();
         return NextResponse.json({ error: "Članak ne postoji", ok: false }, { status: 404 });
       }
-
-      const fs = require("fs");
-
-      // 1. Look up image folder info BEFORE deleting any MDX files
-      //    (findArticleMdxInfo scans MDX files, so must be called before they're removed)
-      const mdxInfo = findArticleMdxInfo(articleId);
-
-      // 2. Find and delete ALL MDX files with this db_id (EN + HR versions)
-      const deletedFolders = new Set<string>();
-
-      try {
-        const cats = readdirSync(CONTENT_DIR_ROOT);
-        for (const cat of cats) {
-          const catDir = path.join(CONTENT_DIR_ROOT, cat);
-          let entries: string[];
-          try { entries = readdirSync(catDir); } catch { continue; }
-
-          for (const entry of entries) {
-            const entryPath = path.join(catDir, entry);
-            try { readdirSync(entryPath); } catch { continue; }
-
-            // Check both index.mdx and index.hr.mdx (and index.en.mdx if present)
-            for (const mdxFile of ["index.mdx", "index.en.mdx", "index.hr.mdx"]) {
-              const mdxPath = path.join(entryPath, mdxFile);
-              if (!existsSync(mdxPath)) continue;
-
-              const head = readFileSync(mdxPath, "utf8").slice(0, 2000);
-              if (!head.includes(`db_id: ${articleId}`)) continue;
-
-              // Found a matching file — mark folder for deletion
-              deletedFolders.add(entryPath);
-            }
-          }
-        }
-
-        // Delete all matched folders
-        for (const folder of deletedFolders) {
-          try {
-            fs.rmSync(folder, { recursive: true, force: true });
-            console.log(`Deleted MDX folder: ${folder}`);
-          } catch (e) {
-            console.error(`Failed to delete MDX folder ${folder}: ${e}`);
-          }
-        }
-      } catch (e) {
-        console.error(`Error scanning for MDX files: ${e}`);
-      }
-
-      // 3. Delete image folder (using info gathered before MDX deletion)
-      if (mdxInfo?.imageFolder) {
-        try {
-          const imgFolder = path.join(PUBLIC_ARTICLES_DIR, mdxInfo.imageFolder);
-          fs.rmSync(imgFolder, { recursive: true, force: true });
-          console.log(`Deleted image folder: ${imgFolder}`);
-        } catch (e) {
-          console.error(`Failed to delete image folder: ${e}`);
-        }
-      }
-
-      // 4. Delete from DB
-      db.prepare("DELETE FROM articles WHERE id = ?").run(articleId);
+      deleteArticleAssetsAndRecord(db, articleId);
       db.close();
       bumpContentVersion();
 
@@ -573,6 +707,7 @@ export async function POST(req: NextRequest) {
           const imgs = JSON.parse(raw);
           const basename = path.basename(osPath);
           let changed = false;
+          let subtitleRemoved = false;
           if (imgs.image_main?.url?.includes(basename)) {
             delete imgs.image_main;
             changed = true;
@@ -580,12 +715,17 @@ export async function POST(req: NextRequest) {
           if (imgs.image_subtitle?.url?.includes(basename)) {
             delete imgs.image_subtitle;
             changed = true;
+            subtitleRemoved = true;
           }
           if (changed) {
             db.prepare("UPDATE articles SET images_json = ? WHERE id = ?").run(
               JSON.stringify(imgs),
               articleId
             );
+            // If subtitle was removed, surgically remove subtitleImage block from MDX
+            if (subtitleRemoved) {
+              removeSubtitleImageFromMdx(articleId);
+            }
           }
         } catch {}
       }
@@ -654,11 +794,28 @@ export async function POST(req: NextRequest) {
         if (subPath !== targetSubtitle) copyFileSync(subPath, targetSubtitle);
       }
 
+      // Clean up old generated/pulled images (art{id}_*) to avoid clutter
+      // Keep only active main/subtitle files
+      try {
+        const allFiles = readdirSync(targetDir);
+        const artPrefix = `art${articleId}_`;
+        for (const file of allFiles) {
+          if (file.startsWith(artPrefix)) {
+            // This is an old generated/pulled image — safe to delete
+            try {
+              unlinkSync(path.join(targetDir, file));
+            } catch {}
+          }
+        }
+      } catch {}
+
       // Preserve existing prompts when updating images_json (for style reference)
+      let existingData: Record<string, unknown> = {};
       let existingMain: Record<string, unknown> = {};
       let existingSub: Record<string, unknown> = {};
       try {
         const existing = JSON.parse((article.images_json as string) || "{}");
+        existingData = existing;
         existingMain = existing.image_main || {};
         existingSub = existing.image_subtitle || {};
       } catch {}
@@ -668,10 +825,13 @@ export async function POST(req: NextRequest) {
         ? `/images/articles/${folderName}/subtitle${path.extname(targetSubtitle).toLowerCase() || ".jpg"}`
         : null;
 
-      // Update images_json in DB — preserve prompts for style reference
+      // Update images_json in DB — preserve ALL existing data except image_main/image_subtitle URLs
       const newImgsJson: Record<string, unknown> = {
+        ...existingData,  // Keep all existing data (history, metadata, etc)
         image_main: { ...existingMain, url: mainPublicUrl },
         success: true,
+        user_selected: true,  // Mark that user explicitly selected these images (prevent auto-overwrite)
+        user_selected_at: Date.now(),
       };
       if (subPublicUrl) {
         newImgsJson.image_subtitle = { ...existingSub, url: subPublicUrl };
@@ -854,23 +1014,22 @@ Mora dodati specifičan podatak, broj ili ime koji NIJE u naslovu. Počni subjek
 Naslov: {row['title'] or title_en}
 Uvod: {part1_hr[:400]}
 Vrati SAMO rečenicu, ništa drugo."""
-    import asyncio as aio
     lead_en = ''
     lead_hr = ''
-    for model in ['mistral-large', 'nv-llama', 'nv-mistral']:
-        try:
-            result = await pool.chat(model=model, messages=[{'role':'user','content':prompt_en}], max_tokens=100)
-            lead_en = (result.get('content') or '').strip().strip('"').strip("'")
-            if lead_en: break
-        except Exception as e:
-            logging.warning(f'EN lead regen model {model} failed: {e}')
-    for model in ['mistral-large', 'nv-llama', 'nv-mistral']:
-        try:
-            result = await pool.chat(model=model, messages=[{'role':'user','content':prompt_hr}], max_tokens=100)
-            lead_hr = (result.get('content') or '').strip().strip('"').strip("'")
-            if lead_hr: break
-        except Exception as e:
-            logging.warning(f'HR lead regen model {model} failed: {e}')
+    result_en = await pool.call_model_with_fallback(
+        prompt=prompt_en,
+        models=['mistral-large', 'nv-llama', 'nv-mistral'],
+        max_tokens=100,
+        temperature=0.5,
+    )
+    lead_en = (result_en.get('content') or '').strip().strip('"').strip("'")
+    result_hr = await pool.call_model_with_fallback(
+        prompt=prompt_hr,
+        models=['mistral-large', 'nv-llama', 'nv-mistral'],
+        max_tokens=100,
+        temperature=0.5,
+    )
+    lead_hr = (result_hr.get('content') or '').strip().strip('"').strip("'")
     conn2 = sqlite3.connect('db/futurepulse.db', timeout=10)
     if lead_en:
         conn2.execute('UPDATE articles SET lead_sentence_en=? WHERE id=?', (lead_en, ${articleId}))
