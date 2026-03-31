@@ -328,14 +328,18 @@ function updateMdxImages(articleId: number, mainUrl: string, subtitleUrl: string
     let frontmatter = fmMatch[1];
     const body = content.slice(fmMatch[0].length);
 
-    // Update image.url — handles both YAML block styles:
-    //   image:\n  url: "..."
-    if (/^image:\n\s+url:\s*/m.test(frontmatter)) {
+    // Update image.url — handles complex YAML blocks with multiple fields
+    // Find and replace url value within image block (preserve all other fields like credit, creditUrl, etc.)
+    const hasImageBlock = /^image:\n/m.test(frontmatter);
+    if (hasImageBlock) {
+      // Image block exists — find the url: line and replace its value (works with multi-field YAML)
+      // Match: image: section with any indented fields, then url line, then the quoted value
       frontmatter = frontmatter.replace(
-        /^(image:\n\s+url:\s*)"[^"]*"/m,
+        /(image:\n(?:\s+\w+:.*\n)*\s+url:\s*)"[^"]*"/m,
         `$1"${mainUrl}"`
       );
     } else {
+      // No image block — add one
       frontmatter += `\nimage:\n  url: "${mainUrl}"\n  alt: ""`;
     }
 
