@@ -23,6 +23,26 @@ interface ArticleImage {
   description?: string;
 }
 
+interface MemoryMatch {
+  id: number;
+  title: string;
+  status: string | null;
+  created_at: string | null;
+  score: number;
+  reason: string;
+  panelUrl: string;
+}
+
+interface MemoryAlert {
+  status: "duplicate" | "warning";
+  topicKey: string;
+  reason: string;
+  checkedAt: string | null;
+  duplicateOf: number | null;
+  bestMatch: MemoryMatch | null;
+  matches: MemoryMatch[];
+}
+
 interface Article {
   id: number;
   title: string;
@@ -34,6 +54,7 @@ interface Article {
   github_uploaded: number;
   created_at: string;
   source_url: string | null;
+  memoryAlert: MemoryAlert | null;
   images: ArticleImage[];
   folderName: string | null;
 }
@@ -151,6 +172,16 @@ export default function FotoReviewPage() {
   const [manualResult, setManualResult] = useState<{ ok: boolean; msg: string; steps?: string[]; articleId?: number } | null>(null);
   const [manualStep, setManualStep] = useState("");
 
+  // Batch scrape
+  const [batchOpen, setBatchOpen] = useState(false);
+  const [batchUrls, setBatchUrls] = useState<string[]>([]);
+  const [batchInput, setBatchInput] = useState("");
+  const [batchRunning, setBatchRunning] = useState(false);
+  const [batchProgress, setBatchProgress] = useState(0);
+  const [batchResults, setBatchResults] = useState<Array<{
+    url: string; success: boolean; article_id: number | null; title: string; message: string;
+  }>>([]);
+
   const handleManualScrape = async () => {
     if (!manualUrl.trim() || !manualUrl.startsWith("http")) return;
     setManualScraping(true);
@@ -199,19 +230,70 @@ export default function FotoReviewPage() {
     }
   };
 
+  // Batch scrape handlers
+  const handleBatchAdd = () => {
+    const lines = batchInput
+      .split(/[\n,]/)
+      .map((l) => l.trim())
+      .filter((l) => l.startsWith("http") && !batchUrls.includes(l));
+    if (lines.length > 0) {
+      setBatchUrls((prev) => [...prev, ...lines]);
+      setBatchInput("");
+    }
+  };
+  const handleBatchRemove = (idx: number) => {
+    setBatchUrls((prev) => prev.filter((_, i) => i !== idx));
+  };
+  const handleBatchStart = async () => {
+    if (batchUrls.length === 0 || batchRunning) return;
+    setBatchRunning(true);
+    setBatchProgress(0);
+    setBatchResults([]);
+    try {
+      const r = await fetch("/api/manual-scrape", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ urls: batchUrls }),
+      });
+      const data = await r.json();
+      if (data.results) {
+        setBatchResults(data.results);
+        setBatchProgress(data.total || batchUrls.length);
+        // Refresh article list
+        const refreshed = await fetch("/api/foto-review").then((r) => r.json()).catch(() => null);
+        if (refreshed?.articles) setArticles(refreshed.articles);
+        // Clear URLs that succeeded
+        const failedUrls = data.results
+          .filter((r: { success: boolean; url: string }) => !r.success)
+          .map((r: { url: string }) => r.url);
+        setBatchUrls(failedUrls);
+      } else {
+        setBatchResults([{ url: "", success: false, article_id: null, title: "", message: data.error || "Batch failed" }]);
+      }
+    } catch {
+      setBatchResults([{ url: "", success: false, article_id: null, title: "", message: "Network error" }]);
+    } finally {
+      setBatchRunning(false);
+    }
+  };
+
   // Filters
   const [filterCat, setFilterCat] = useState("all");
   const [filterImg, setFilterImg] = useState("all");
   const [search, setSearch] = useState("");
-  const [filterStatus, setFilterStatus] = useState<"all"|"published"|"unpublished"|"pending"|"approved"|"rejected"|"rewrite">("unpublished");
+  const [filterStatus, setFilterStatus] = useState<"neobjavljeni"|"objavljeni">("neobjavljeni");
   const [filterUploaded, setFilterUploaded] = useState<"all"|"uploaded"|"not_uploaded">("all");
-  const [filterDate, setFilterDate] = useState<"all"|"today"|"yesterday"|"7d"|"30d">("today");
+  const [filterDate, setFilterDate] = useState<"all"|"today"|"yesterday"|"7d"|"30d">("all");
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
-  const [batchBusy, setBatchBusy] = useState<"save" | "publish" | null>(null);
+  const [batchBusy, setBatchBusy] = useState<"save" | "publish" | "press" | null>(null);
   const [batchResult, setBatchResult] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/foto-review")
+    setLoading(true);
+    // Simple mapping: neobjavljeni=pending, objavljeni=published
+    const apiFilter = filterStatus === "neobjavljeni" ? "pending" : "published";
+
+    fetch(`/api/foto-review?filter=${apiFilter}`)
       .then((r) => r.json())
       .then((data) => {
         if (data.articles) {
@@ -219,7 +301,7 @@ export default function FotoReviewPage() {
           // Auto-expand deep-link article
           if (deepLinkId) {
             setExpandedIds(prev => { const s = new Set(prev); s.add(deepLinkId); return s; });
-            setFilterStatus("all");
+            setFilterStatus("neobjavljeni");
             setFilterDate("all");
             setFilterCat("all");
           }
@@ -227,7 +309,7 @@ export default function FotoReviewPage() {
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [filterStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Scroll to deep-link article after render
   useEffect(() => {
@@ -485,6 +567,7 @@ export default function FotoReviewPage() {
   const handleRegenLead = async (articleId: number) => {
     setRegenningLead(p => ({ ...p, [articleId]: true }));
     setActionResult(p => ({ ...p, [articleId]: { ok: false, msg: "Regeneriram lead... (~15s)" } }));
+    const oldLead = fullData[articleId]?.lead_sentence_en || "";
     const res = await fetch("/api/foto-review", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -498,10 +581,12 @@ export default function FotoReviewPage() {
         attempts++;
         await refreshFullData(articleId);
         const latest = fullData[articleId];
-        if ((latest?.lead_sentence_en) || attempts >= 6) {
+        const newLead = latest?.lead_sentence_en || "";
+        const changed = newLead && newLead !== oldLead;
+        if (changed || attempts >= 8) {
           clearInterval(poll);
           setRegenningLead(p => ({ ...p, [articleId]: false }));
-          if (latest?.lead_sentence_en) {
+          if (changed) {
             setActionResult(p => ({ ...p, [articleId]: { ok: true, msg: "✓ Lead regeneriran" } }));
           }
         }
@@ -579,13 +664,9 @@ export default function FotoReviewPage() {
     if (filterCat !== "all" && a.category !== filterCat) return false;
     if (filterImg === "with" && a.images.length === 0) return false;
     if (filterImg === "without" && a.images.length > 0) return false;
-    // Status filters
-    if (filterStatus === "published" && a.status !== "published") return false;
-    if (filterStatus === "unpublished" && a.status === "published") return false;
-    if (filterStatus === "pending" && a.status !== "pending") return false;
-    if (filterStatus === "approved" && a.status !== "approved") return false;
-    if (filterStatus === "rejected" && a.status !== "rejected") return false;
-    if (filterStatus === "rewrite" && a.status !== "rewrite") return false;
+    // Status filters - Simple: neobjavljeni=pending, objavljeni=published
+    if (filterStatus === "neobjavljeni" && a.status !== "pending") return false;
+    if (filterStatus === "objavljeni" && a.status !== "published") return false;
     // Upload filter
     if (filterUploaded === "uploaded" && !a.github_uploaded) return false;
     if (filterUploaded === "not_uploaded" && a.github_uploaded) return false;
@@ -664,7 +745,10 @@ export default function FotoReviewPage() {
       const data = await res.json();
       setActionResult((p) => ({ ...p, [article.id]: { ok: !!data.ok, msg: data.message || data.error || "?" } }));
       if (data.ok) {
-        setSelections((p) => ({ ...p, [article.id]: { hero: null, subtitle: null } }));
+        // CRITICAL FIX: DON'T clear selections after save — keep them visible so UI shows what was just saved
+        // The images are now persisted in DB (images_json), and refreshArticle will load them from server.
+        // Keeping selections visible allows user to see confirmation + the saved image selection together.
+        // DO NOT call: setSelections((p) => ({ ...p, [article.id]: { hero: null, subtitle: null } }));
         await refreshArticle(article.id);
         // If article is already published/uploaded, trigger rebuild so images appear on site
         if (article.github_uploaded) {
@@ -781,8 +865,50 @@ export default function FotoReviewPage() {
     setBatchResult(`Objavljeno ${ok}/${selectedFiltered.length} oznacenih clanaka.`);
   };
 
+  const handleBatchPullPress = async () => {
+    if (selectedFiltered.length === 0) {
+      setBatchResult("Prvo oznaci clanke za batch press pull.");
+      return;
+    }
+    setBatchBusy("press");
+    setBatchResult(`Pronalazim press slike za ${selectedFiltered.length} oznacenih clanaka (~20-30s)...`);
+    try {
+      const ids = selectedFiltered.map(a => a.id);
+      const res = await fetch("/api/image-press", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setBatchResult(`Press pronalaženje pokrenuto za ${ids.length} clanaka. Osvježavam...`);
+        // Poll for updates
+        let attempts = 0;
+        const poll = setInterval(async () => {
+          attempts++;
+          for (const id of ids) {
+            await refreshArticle(id);
+          }
+          if (attempts >= 8) {
+            clearInterval(poll);
+            setBatchBusy(null);
+            setBatchResult(`✓ Batch press pronalaženje dovršeno.`);
+          }
+        }, 3000);
+      } else {
+        setBatchBusy(null);
+        setBatchResult(`⚠ Batch press pronalaženje nije uspjelo: ${data.error}`);
+      }
+    } catch (e) {
+      setBatchBusy(null);
+      const msg = e instanceof Error ? e.message : String(e);
+      setBatchResult(`⚠ Greška: ${msg}`);
+    }
+  };
+
   // ── Pull images from web ─────────────────────────────────────
   const [pulling, setPulling] = useState<Record<number, boolean>>({});
+  const [pullingPress, setPullingPress] = useState<Record<number, boolean>>({});
   const [previewImage, setPreviewImage] = useState<{ url: string; label: string } | null>(null);
 
   useEffect(() => {
@@ -835,6 +961,51 @@ export default function FotoReviewPage() {
       const msg = e instanceof Error ? e.message : String(e);
       setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg } }));
       setPulling((p) => ({ ...p, [article.id]: false }));
+    }
+  };
+
+  const handlePullPress = async (article: Article) => {
+    setPullingPress((p) => ({ ...p, [article.id]: true }));
+    const prevUrls = new Set(article.images.map(i => i.url));
+    setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: "📰 Pronalazim press slike... (~5s)" } }));
+    try {
+      const res = await fetch("/api/image-press", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: article.id }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setActionResult((p) => ({ ...p, [article.id]: { ok: true, msg: data.message || "Press pronalaženje pokrenuto..." } }));
+        let attempts = 0;
+        let found = false;
+        const poll = setInterval(async () => {
+          attempts++;
+          await refreshArticle(article.id);
+          setArticles((prev) => {
+            const cur = prev.find(a => a.id === article.id);
+            if (cur && cur.images.some(i => !prevUrls.has(i.url))) found = true;
+            return prev;
+          });
+          if (found || attempts >= 6) {
+            clearInterval(poll);
+            setPullingPress((p) => ({ ...p, [article.id]: false }));
+            setActionResult((p) => ({
+              ...p,
+              [article.id]: found
+                ? { ok: true, msg: "✓ Press slike pronađene" }
+                : { ok: false, msg: "⚠ Nema press slika — fallback na web pull ili AI" },
+            }));
+          }
+        }, 2000);
+      } else {
+        setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: data.error || "Press pronalaženje nije uspjelo" } }));
+        setPullingPress((p) => ({ ...p, [article.id]: false }));
+      }
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg } }));
+      setPullingPress((p) => ({ ...p, [article.id]: false }));
     }
   };
 
@@ -962,6 +1133,12 @@ export default function FotoReviewPage() {
             >
               {manualScraping ? <span className="animate-pulse">{manualStep || "..."}</span> : "SCRAPE"}
             </button>
+            <button
+              onClick={() => setBatchOpen(!batchOpen)}
+              className={`px-2 py-1 text-[10px] border rounded shrink-0 transition-colors ${batchOpen ? "bg-purple-900/50 border-purple-500/50 text-purple-300" : "bg-white/5 border-white/10 text-white/40 hover:border-purple-500/30 hover:text-purple-300"}`}
+            >
+              BATCH{batchUrls.length > 0 ? ` (${batchUrls.length})` : ""}
+            </button>
           </div>
           {manualResult && (
             <div className="flex flex-col gap-0.5 shrink-0 max-w-xs">
@@ -1019,16 +1196,12 @@ export default function FotoReviewPage() {
                 className={`px-2 py-0.5 text-[10px] rounded border transition-colors ${filterUploaded === v ? "bg-teal-900/40 border-teal-500/50 text-teal-300" : "border-white/10 text-white/35 hover:border-white/25 hover:text-white/60"}`}
               >{l}</button>
             ))}
-            {/* Status filter */}
-            {([ ["all","SVI STATUS"], ["unpublished","NEOBJAVLJENI"], ["published","OBJAVLJENI"], ["pending","PENDING"], ["approved","APPROVED"], ["rejected","ODBIJENI"], ["rewrite","REWRITE"] ] as const).map(([v, l]) => (
+            {/* Status filter - Only NEOBJAVLJENI vs OBJAVLJENI */}
+            {([ ["neobjavljeni","🔴 NEOBJAVLJENI"], ["objavljeni","🟢 OBJAVLJENI"] ] as const).map(([v, l]) => (
               <button key={v} onClick={() => setFilterStatus(v)}
                 className={`px-2 py-0.5 text-[10px] rounded border transition-colors ${filterStatus === v ? (
-                  v === "published" ? "bg-cyan-900/40 border-cyan-500/50 text-cyan-300" :
-                  v === "unpublished" ? "bg-orange-900/40 border-orange-500/50 text-orange-300" :
-                  v === "rejected" ? "bg-red-900/40 border-red-500/50 text-red-300" :
-                  v === "approved" ? "bg-green-900/40 border-green-500/50 text-green-300" :
-                  v === "rewrite" ? "bg-orange-900/40 border-orange-600/50 text-orange-300" :
-                  "bg-purple-900/40 border-purple-500/50 text-purple-300"
+                  v === "objavljeni" ? "bg-cyan-900/40 border-cyan-500/50 text-cyan-300" :
+                  "bg-orange-900/40 border-orange-500/50 text-orange-300"
                 ) : "border-white/10 text-white/35 hover:border-white/25 hover:text-white/60"}`}
               >{l}</button>
             ))}
@@ -1074,6 +1247,14 @@ export default function FotoReviewPage() {
             className="px-2.5 py-1 rounded border border-green-700/50 text-green-300 disabled:text-white/20 disabled:border-white/10 hover:bg-green-900/20 transition-colors"
           >
             {batchBusy === "save" ? "SPREMAM..." : "BATCH SAVE"}
+          </button>
+          <button
+            onClick={handleBatchPullPress}
+            disabled={batchBusy !== null || selectedFiltered.length === 0}
+            title="Pronađi press slike za sve označene članke"
+            className="px-2.5 py-1 rounded border border-amber-700/50 text-amber-300 disabled:text-white/20 disabled:border-white/10 hover:bg-amber-900/20 transition-colors"
+          >
+            {batchBusy === "press" ? "📰 PRONALAZIM..." : "📰 BATCH PRESS"}
           </button>
           <button
             onClick={handleBatchPublish}
@@ -1122,6 +1303,108 @@ export default function FotoReviewPage() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {/* Batch scrape panel */}
+        {batchOpen && (
+          <div className="border-t border-purple-500/20 bg-[#0c0812] px-4 py-4">
+            <div className="max-w-screen-2xl mx-auto">
+              {/* Input area — full width, then list below */}
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-[10px] text-purple-400/70 tracking-widest font-bold">BATCH SCRAPE - Zalijepi linkove (jedan po liniji ili comma-separated)</div>
+                  <div className="text-[9px] text-purple-400/50">{batchUrls.length} linkova u listi</div>
+                </div>
+                <div className="flex gap-3">
+                  <textarea
+                    value={batchInput}
+                    onChange={(e) => setBatchInput(e.target.value)}
+                    placeholder={"https://example.com/article1\nhttps://youtube.com/watch?v=xxx\nhttps://reddit.com/r/tech/...\nhttps://another-article.com"}
+                    rows={7}
+                    className="flex-1 bg-white/5 border border-white/10 rounded px-3 py-2 text-xs text-white placeholder-white/15 focus:outline-none focus:border-purple-500/50 resize-none font-mono"
+                  />
+                  <div className="flex flex-col gap-2 pt-0.5">
+                    <button
+                      onClick={handleBatchAdd}
+                      disabled={!batchInput.trim()}
+                      className="px-4 py-2 text-[11px] font-bold bg-purple-600/60 border border-purple-400/40 text-purple-100 rounded hover:bg-purple-500/70 disabled:opacity-30 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
+                    >
+                      ➕ ADD TO LIST
+                    </button>
+                    <button
+                      onClick={() => { setBatchUrls([]); setBatchResults([]); setBatchInput(""); }}
+                      disabled={batchUrls.length === 0}
+                      className="px-4 py-2 text-[11px] border border-red-500/20 text-red-400/70 rounded hover:text-red-300 hover:border-red-500/40 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    >
+                      🗑️ OCISTI
+                    </button>
+                    <button
+                      onClick={handleBatchStart}
+                      disabled={batchRunning || batchUrls.length === 0}
+                      className="px-4 py-2 text-[11px] font-bold bg-green-900/60 border border-green-500/40 text-green-300 rounded hover:bg-green-800/70 disabled:opacity-30 disabled:cursor-not-allowed transition-colors whitespace-nowrap mt-auto"
+                    >
+                      {batchRunning ? (
+                        <span className="animate-pulse">▶️ SKRAPAM...</span>
+                      ) : (
+                        `▶️ START (${batchUrls.length})`
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* URL list */}
+              {batchUrls.length > 0 && (
+                <div className="border-t border-purple-500/10 pt-3">
+                  <div className="text-[9px] text-purple-400/60 mb-2 font-mono tracking-widest">
+                    LISTA LINKOVA ({batchUrls.length}):
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-48 overflow-y-auto bg-white/2 rounded p-2">
+                    {batchUrls.map((u, i) => (
+                      <div key={i} className="flex items-start gap-1.5 bg-purple-900/20 rounded p-1.5 group border border-purple-500/10 hover:border-purple-500/30 transition-colors">
+                        <span className="text-[8px] text-purple-400/60 shrink-0 font-bold min-w-[16px]">#{i+1}</span>
+                        <span className="text-[9px] text-purple-200/70 truncate flex-1 min-w-0 font-mono" title={u}>
+                          {u.length > 50 ? u.slice(0, 50) + "…" : u}
+                        </span>
+                        <button
+                          onClick={() => handleBatchRemove(i)}
+                          className="text-red-400/40 hover:text-red-400 text-[10px] shrink-0 font-bold transition-colors"
+                        >✕</button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Batch results */}
+              {batchResults.length > 0 && (
+                <div className="mt-3 border-t border-purple-500/10 pt-2">
+                  <div className="text-[10px] text-purple-400/50 mb-1">
+                    REZULTATI: {batchResults.filter(r => r.success).length} uspjesnih / {batchResults.length} ukupno
+                  </div>
+                  <div className="space-y-0.5 max-h-40 overflow-y-auto">
+                    {batchResults.map((r, i) => (
+                      <div key={i} className={`flex items-center gap-2 text-[9px] ${r.success ? "text-green-400/70" : "text-red-400/70"}`}>
+                        <span className="shrink-0">{r.success ? "[OK]" : "[FAIL]"}</span>
+                        {r.article_id && <span className="text-white/40">#{r.article_id}</span>}
+                        <span className="truncate flex-1 min-w-0">{r.title || r.url || r.message}</span>
+                        {r.success && r.article_id && (
+                          <button
+                            onClick={() => {
+                              const el = articleRefs.current[r.article_id!];
+                              if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+                            }}
+                            className="text-cyan-400/60 hover:text-cyan-400 shrink-0"
+                          >skoci</button>
+                        )}
+                        {!r.success && <span className="text-red-400/50 truncate max-w-[200px]">{r.message}</span>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -1196,17 +1479,71 @@ export default function FotoReviewPage() {
                 </div>
               )}
 
-              {/* YouTube source notice */}
+              {article.memoryAlert && (
+                <div className={`mx-4 mt-3 rounded-lg border px-3 py-2.5 ${
+                  article.memoryAlert.status === "duplicate"
+                    ? "border-red-700/50 bg-red-950/25"
+                    : "border-amber-700/50 bg-amber-950/25"
+                }`}>
+                  <div className={`text-[11px] font-semibold ${
+                    article.memoryAlert.status === "duplicate" ? "text-red-300" : "text-amber-300"
+                  }`}>
+                    {article.memoryAlert.status === "duplicate"
+                      ? "Mogući duplikat iste priče"
+                      : "Slična tema je već obrađena"}
+                  </div>
+                  {article.memoryAlert.reason && (
+                    <div className="mt-1 text-[11px] text-white/70 leading-relaxed">
+                      {article.memoryAlert.reason}
+                    </div>
+                  )}
+                  {article.memoryAlert.matches.length > 0 && (
+                    <div className="mt-2 space-y-1.5">
+                      {article.memoryAlert.matches.slice(0, 3).map((match) => (
+                        <div key={match.id} className="rounded border border-white/8 bg-black/20 px-2 py-1.5">
+                          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px]">
+                            <span className="text-white/35">#{match.id}</span>
+                            <span className="text-white/85">{match.title}</span>
+                            {match.status && <span className="text-white/35 uppercase">{match.status}</span>}
+                            <span className="text-white/35">score {(match.score * 100).toFixed(0)}%</span>
+                            <a href={match.panelUrl} className="text-cyan-300 hover:text-cyan-200 underline ml-auto">
+                              otvori ↗
+                            </a>
+                          </div>
+                          {match.reason && (
+                            <div className="mt-1 text-[10px] text-white/45 leading-relaxed">
+                              {match.reason}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* YouTube preview (always visible when source is YouTube) */}
               {(() => {
                 const ytMatch = article.source_url?.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([a-zA-Z0-9_-]{11})/);
                 if (!ytMatch) return null;
+                const ytId = ytMatch[1];
                 return (
-                  <div className="mx-4 mb-2 flex items-center gap-2 px-3 py-2 rounded bg-red-950/40 border border-red-700/30 text-red-300/80 text-xs">
-                    <span>▶</span>
-                    <span>YouTube izvor — video se može koristiti umjesto slike</span>
-                    <a href={article.source_url!} target="_blank" rel="noopener noreferrer"
-                      className="ml-auto text-red-400/60 hover:text-red-300 underline text-[10px]"
-                    >otvori ↗</a>
+                  <div className="mx-4 mb-3">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="text-red-400 text-[10px] font-bold">▶ YouTube izvor</span>
+                      <a href={article.source_url!} target="_blank" rel="noopener noreferrer"
+                        className="text-red-400/50 hover:text-red-300 underline text-[10px]"
+                      >otvori ↗</a>
+                    </div>
+                    <div className="rounded-lg overflow-hidden aspect-video max-w-sm border border-red-900/40">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${ytId}`}
+                        className="w-full h-full"
+                        allowFullScreen
+                        title="YouTube preview"
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
                 );
               })()}
@@ -1317,15 +1654,28 @@ export default function FotoReviewPage() {
                   >📋 LOG</button>
                 )}
                 <div className="ml-auto flex items-center gap-2 flex-wrap justify-end">
+                  {/* Pull press images */}
+                  <button
+                    onClick={() => handlePullPress(article)}
+                    disabled={pullingPress[article.id] || pulling[article.id] || isGenerating}
+                    title="Pronađi službene press/newsroom slike (brže, prije web pull)"
+                    className={`text-xs px-2.5 py-1.5 rounded border transition-colors ${
+                      pullingPress[article.id]
+                        ? "border-amber-500/60 text-amber-300 animate-pulse"
+                        : (pullingPress[article.id] || pulling[article.id] || isGenerating)
+                          ? "border-white/8 text-white/20 cursor-not-allowed"
+                          : "border-amber-700/50 text-amber-400/80 hover:bg-amber-900/20 hover:text-amber-300"
+                    }`}
+                  >{pullingPress[article.id] ? "📰 Pronalazim..." : "📰 PULL PRESS"}</button>
                   {/* Pull web images */}
                   <button
                     onClick={() => handlePullWeb(article)}
-                    disabled={pulling[article.id] || isGenerating}
+                    disabled={pulling[article.id] || pullingPress[article.id] || isGenerating}
                     title="Povuci slike s weba (og:image → Wikimedia → Unsplash)"
                     className={`text-xs px-2.5 py-1.5 rounded border transition-colors ${
                       pulling[article.id]
                         ? "border-sky-500/60 text-sky-300 animate-pulse"
-                        : (pulling[article.id] || isGenerating)
+                        : (pulling[article.id] || pullingPress[article.id] || isGenerating)
                           ? "border-white/8 text-white/20 cursor-not-allowed"
                           : "border-sky-700/50 text-sky-400/80 hover:bg-sky-900/20 hover:text-sky-300"
                     }`}

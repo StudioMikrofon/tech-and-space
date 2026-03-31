@@ -15,7 +15,9 @@ const PUBLIC_ARTICLES_DIR = "/opt/openclaw/workspace/tech-pulse-css/public/image
 const ALL_IMAGE_DIRS = [FP_IMAGES_LEGACY];
 
 function getDb(readonly = false) {
-  return new Database(DB_PATH, { readonly });
+  // timeout: 10000ms handles concurrent access (pipeline cron may be reading/writing)
+  // fileMustExist: true prevents accidental DB creation in wrong location
+  return new Database(DB_PATH, { readonly, timeout: 10000, fileMustExist: true });
 }
 
 // Mirror of github_uploader._slugify
@@ -845,12 +847,16 @@ export async function POST(req: NextRequest) {
       db.close();
 
       // Update local MDX frontmatter so test site shows images
-      updateMdxImages(articleId, mainPublicUrl, subPublicUrl);
+      const mdxUpdated = updateMdxImages(articleId, mainPublicUrl, subPublicUrl);
+      if (!mdxUpdated) {
+        console.warn(`[foto-review] WARNING: MDX update failed for article ${articleId}, images may not be visible in published MDX`);
+      }
       bumpContentVersion();
 
       return NextResponse.json({
         ok: true,
-        message: `✓ Slike snimljene u ${folderName} — vidljive odmah bez rebuilda`,
+        mdxUpdated,  // Include in response so client knows if MDX was actually updated
+        message: `✓ Slike snimljene u ${folderName} — ${mdxUpdated ? 'vidljive odmah bez rebuilda' : 'DB update OK, ali MDX nije ažuriran'}`,
       });
     }
 

@@ -499,31 +499,46 @@ print(json.dumps({
 
     // Rebuild + restart in background so new public/ images are served
     // (Next.js production server needs restart when new directories are added to public/)
+    // CRITICAL: Use flock to prevent concurrent builds (multiple publishes cause .next/lock conflicts)
     const WORKSPACE = "/opt/openclaw/workspace/tech-pulse-css";
     const rebuild = spawn(
       "bash",
       ["-c", `
+        set -e
         cd ${WORKSPACE}
-        # Stop old server to free memory before rebuild (prevents OOM during build)
-        systemctl stop tech-pulse-test 2>/dev/null
-        sleep 1
+        LOCKFILE="/tmp/tech-pulse-rebuild.lock"
 
-        # Sync database changes to MDX files
+        # Acquire exclusive lock (waits if another build is running)
+        exec 9>"$LOCKFILE"
+        flock -x 9
+
+        echo "[$(date)] Build starting (lock acquired)" >> /tmp/publish-rebuild.log
+
+        # Sync database changes to MDX files (while service still running)
         /opt/openclaw/futurepulse/venv/bin/python3 /opt/openclaw/futurepulse/sync_leads_to_mdx.py >> /tmp/publish-rebuild.log 2>&1
+
+        # Clean old build artifacts to free disk space
+        rm -rf .next 2>/dev/null || true
 
         # Rebuild with memory-constrained Node.js
         npm run build >> /tmp/publish-rebuild.log 2>&1
         BUILD_STATUS=$?
 
-        # Only restart if build succeeded AND manifest exists
         if [ $BUILD_STATUS -eq 0 ] && [ -f .next/prerender-manifest.json ]; then
+          echo "[$(date)] Build succeeded, manifest present" >> /tmp/publish-rebuild.log
+          # ONLY NOW stop old service and start new one
+          systemctl stop tech-pulse-test 2>/dev/null || true
+          sleep 1
           systemctl start tech-pulse-test
-          echo "Build succeeded, service restarted" >> /tmp/publish-rebuild.log
+          echo "[$(date)] Service restarted successfully" >> /tmp/publish-rebuild.log
         else
-          # Attempt restart anyway so service isn't down, but log the failure
-          systemctl start tech-pulse-test 2>/dev/null
-          echo "Build failed with status $BUILD_STATUS" >> /tmp/publish-rebuild.log
+          echo "[$(date)] Build FAILED with status $BUILD_STATUS, no manifest" >> /tmp/publish-rebuild.log
+          # Try to ensure service is running (may be from a previous successful build)
+          systemctl start tech-pulse-test 2>/dev/null || true
         fi
+
+        # Release lock
+        flock -u 9
       `],
       { detached: true, stdio: "ignore" }
     );
