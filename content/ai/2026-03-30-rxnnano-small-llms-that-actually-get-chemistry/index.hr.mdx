@@ -1,0 +1,51 @@
+---
+id: "2026-03-30-rxnnano-small-llms-that-actually-get-chemistry"
+db_id: 1011
+title: "RxnNano: Kad AI uči kemiju umjesto da samo broji parametre"
+lang: "hr"
+category: "ai"
+date: "2026-03-30T12:28:53Z"
+excerpt: "RxnNano, okvir predstavljen u najnovijem arXiv radu (2603."
+exec_summary: "RxnNano introduces a hierarchical curriculum learning approach to train compact LLMs for chemical reaction prediction, aiming to embed deep chemical intuition rather than rely on brute-force scaling. While the framework shows promise in synthetic benchmarks, its real-world applicability and competitive advantage remain unproven, with industry implications hinging on whether it can deliver practical, resource-efficient alternatives to existing solutions."
+key_points:
+  - "Kompaktni LLM-ovi za predviđanje reakcija"
+  - "Hijerarhijsko kurikulum učenje umanjuje skaliranje"
+  - "Reakcije kao kontinuirano kretanje na latentnom prostoru"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.02215"
+image:
+  url: "/images/articles/rxnnano-small-llms-that-actually-get-chemistry/main.jpg"
+  alt: "RxnNano: Kad AI uči kemiju umjesto da samo broji parametre"
+subtitle: "Stvarno usko grlo možda uopće nije tamo gdje ga marketing traži"
+subtitleImage:
+  url: "/images/articles/rxnnano-small-llms-that-actually-get-chemistry/subtitle.jpg"
+  alt: "Stvarno usko grlo možda uopće nije tamo gdje ga marketing traži"
+tags: ["RxnNano", "Kad AI"]
+lead_sentence: "RxnNano tvrdi da trenira kompaktne LLM-ove za kemijske reakcije, ali ključno pitanje je hoće li modeli razumjeti kemiju ili samo bolje brojati atome i veze."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+RxnNano, okvir predstavljen u najnovijem arXiv radu (2603.02215v1), nastoji naučiti kompaktne jezične modele predviđati kemijske reakcije i retrosintezu bez masovnog skaliranja parametara. Umjesto da se oslanja na goleme skupove podataka, autori uvode hijerarhijsko kurikulum učenje koje model postupno izlaže složenijim kemijskim kontekstima. To je odgovor na kritiku da trenutačni pristupi zanemaruju duboku kemijsku intuiciju — poput logike mapiranja atoma ili razumijevanja osnovnih reakcijskih mehanizama.
+
+
+Centralna inovacija RxnNanoa je takozvani \{Latent Chemical Consistency\} cilj, koji tretira kemijske reakcije kao vektorske pomake u kontinuiranom latentnom prostoru. Umjesto da model samo pamti obrasce, nastoji ih razumjeti kao dinamične procese. Prema autorima, ovo bi trebalo učiniti RxnNano efikasnijim od konkurentskih rješenja koja se oslanjaju na brute-force skaliranje, ali i preciznijim jer ne zanemaruje fundamentalne kemijske principe.
+
+
+Iako su rezultati navedeni u radu obećavajući, ključno će biti vidjeti kako se okvir ponaša izvan sintetičkih benchmarka. Mnogi raniji pristupi pokazali su obećavajuće brojeve na papiru, ali su bili slabo primjenjivi u stvarnim laboratorijskim scenarijima. Ovdje je pravi test hoće li RxnNano uspjeti reproducirati ono što obećava — kemijsko razumijevanje, a ne samo statističku aproksimaciju.
+
+<ArticleBreak />
+
+Jedan od zanimljivijih aspekata RxnNanoa je naglasak na instiliranju 'reaction common sense' u model. Umjesto da se oslanja na površinske obrasce, pokušava učiti logiku koja stoji iza kemijskih promjena. To je značajan pomak u odnosu na pristupe koji tretiraju reakcije kao crnu kutiju — unose reaktante, traže produkte, a zanemaruju ono što se događa između. Ako se ovaj pristup pokaže skalabilnim, mogao bi ponuditi alternativu velikim jezičnim modelima koji troše ogromne resurse samo da bi naučili ponavljati obrasce.
+
+
+Ipak, postoji razlika između demonstracije i deploymana. Dok RxnNano nudi elegantno tehničko rješenje, ostaje otvoreno pitanje koliko je duboko kemijsko razumijevanje ugrađeno u model. Sintetički benchmarki često prikrivaju stvarne nedostatke, a pravi izazov za RxnNano bit će adaptacija na nepredvidive scenarije iz stvarnog svijeta. Ako uspije, mogao bi pritisnuti velike igrače kao što su AlphaChem ili MoleculeNet, koji se trenutno oslanjaju na skaliranje podataka kao glavnu strategiju.
+
+
+Razvojna zajednica do sada reagira oprezno, ali s interesom. Na GitHubu se već pojavljuju ranije implementacije sličnih pristupa, a neki istraživači ističu da RxnNano možda ne donosi revolucionarnu tehniku, već pametnu sintezu postojećih ideja. Pravi signal ovdje je hoće li se okvir pokazati korisnim izvan akademskih okvira — što je trenutno najveći izazov za sve AI alate u kemiji.

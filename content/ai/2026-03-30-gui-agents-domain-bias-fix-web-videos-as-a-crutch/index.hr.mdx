@@ -1,0 +1,51 @@
+---
+id: "2026-03-30-gui-agents-domain-bias-fix-web-videos-as-a-crutch"
+db_id: 973
+title: "GUIDE: Kako web tutorijali popravljaju AI agente"
+lang: "hr"
+category: "ai"
+date: "2026-03-30T07:11:42Z"
+excerpt: "Novi rad s [arXiv-a](https://arxiv."
+exec_summary: "GUIDE repurposes existing web tutorials to fix GUI agents' domain bias without retraining, offering a plug-and-play 5% performance boost. The real story isn't the tech but who controls the video knowledge base—and whether production systems can handle noisy, unstructured tutorial data at scale."
+key_points:
+  - "5% bolje performanse bez dodatnog treniranja"
+  - "YouTube videozapisi postaju baza znanja za AI"
+  - "Plug-and-play rješenje za specijalizirane GUI zadatke"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.26266"
+image:
+  url: "/images/articles/gui-agents-domain-bias-fix-web-videos-as-a-crutch/main.jpg"
+  alt: "GUIDE: Kako web tutorijali popravljaju AI agente"
+subtitle: "Demo nasuprot deploymenta: Zašto ovdje nije sve onako kako izgleda"
+subtitleImage:
+  url: "/images/articles/gui-agents-domain-bias-fix-web-videos-as-a-crutch/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: Zašto ovdje nije sve onako kako izgleda"
+tags: ["GUIDE", "Kako"]
+lead_sentence: "GUI agenti propadnu kod 70% specijaliziranih zadataka zbog 'domenne pristranosti' — a rješenje možda leži u YouTube tutorialima koje već godinama gledaju ljudi."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Novi rad s [arXiv-a](https://arxiv.org/abs/2603.26266) (ID: 2603.26266v1) ne nudi još jednu 'revolucionarnu' AI arhitekturu, nego nešto rijeđe: **realno rješenje za stvarni problem**. GUI agenti — oni isti koji bi trebali automatizirati kliktanje kroz korporativne ERP-ove ili grafičke alate — dosad su se mučili s **domenom pristranosti**: razumiju općenite principe sučelja, ali propadnu čim naiđu na specifičan workflow, recimo, Blenderov *sculpt mode* ili SAP-ov *financial closing*.
+
+
+Problem nije u modelima, nego u podacima. Veliki vizija-jezik modeli trenirani su na generičkim screenshotovima i općim uputama, a ne na **stotinama sati snimanih tutoriala** gdje korisnici *zaista* rade stvari. Evo gdje dolazi [GUIDE](https://arxiv.org/abs/2603.26266) (GUI Unbiasing via Instructional-Video Driven Expertise): framework koji **ne zahtijeva dodatno treniranje**, nego umjesto toga vuče ekspertizu iz postojećih web videozapisa — recimo, onih s YouTubea koje već godinaima gledaju ljudi.
+
+
+Ključna inovacija? **Tri koraka: pretraživanje, filtriranje, automatska anotacija**. Sistem prvo nađe relevante tutorijale (npr. za Figma pluginove), zatim izvuče ključne trenutke iz subtitla i naposljetku generira 'upute za AI' koje popunjavaju praznine u njegovom razumijevanju. Bez novih GPU sati, bez fine-tuninga. Zvuči kao čarolija — ali, naravno, **demo ≠ produkt**.
+
+<ArticleBreak />
+
+Brojevi koje autori navode — **5% poboljšanja u zadacima** — nisu spektakularni, ali su zanimljivi upravo zbog konteksta. To nije poboljšanje na nekom sintetičkom benchmarku, nego na **realnim GUI zadacima** gdje agenti moraju pratiti višekoračke procese. Druga važna točka: GUIDE radi kao **plug-and-play layer** iznad postojećih modela, što znači da ga teorijski može integrirati tko već koristi LLM-ove za automatizaciju — od startupa do enterprise rješenja.
+
+
+Ali tu počinje i **jaz između demo verzije i stvarne implementacije**. Videozapisi na webu nisu uvijek točni, a kamoli strukturirani za AI potrebe. Što ako tutorial koji sistem uhvati ima zastarjele informacije? Ili ako je korisnik u videu napravio grešku koju AI kasnije ponavlja? Autori kažu da imaju 'robustne filtre', ali **realni test će biti kada ovo krene raditi na stotinama različitih aplikacija**, a ne na kontroliranom skupu primjera.
+
+
+Zanimljivije od samog papira je **tko ovdje dobiva prednost**. Kompanije koje već imaju bazu video tutorijala (npr. Adobe, Autodesk) mogu brzo iskoristiti GUIDE za poboljšanje svojih AI alata. S druge strane, male tvrtke koje se oslanjaju na open-source modele možda neće imati pristup dovoljno kvalitetnim video podacima. I tu priča postaje zanimljivija od same objave: **ko će kontrolirati 'bazu znanja' za ove agente?**

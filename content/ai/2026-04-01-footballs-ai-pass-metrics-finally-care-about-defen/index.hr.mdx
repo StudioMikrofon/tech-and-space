@@ -1,0 +1,51 @@
+---
+id: "2026-04-01-footballs-ai-pass-metrics-finally-care-about-defen"
+db_id: 1090
+title: "Nogomet na autopsiji: Kako AI razbija obranu bez lopte"
+lang: "hr"
+category: "ai"
+date: "2026-04-01T04:51:29Z"
+excerpt: "Nogometni analitičari godinama žvake *expected goals* i *possession value* kao svete hostije, dok su obranbene linije ostajale crna kutija."
+exec_summary: "A MIT/Liverpool FC study introduces a framework that measures football passes by their *tactical disruption* of defensive structures, not just outcomes like xG. Using 2022 World Cup data, it identifies four pass archetypes that outperform traditional metrics—but the real barrier is cost: only elite clubs can afford the required tracking infrastructure. The gap between demo and deployment is wider than the pitch."
+key_points:
+  - "Tri metrike za dezintegraciju obrane"
+  - "Četiri archetipa dodavanja iz World Cupa 2022"
+  - "Taktički impact koji outperform-a xG i xP"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.28916"
+image:
+  url: "/images/articles/footballs-ai-pass-metrics-finally-care-about-defen/main.png"
+  alt: "Nogomet na autopsiji: Kako AI razbija obranu bez lopte"
+subtitle: "Demo nasuprot deploymenta: Zašto ovi algoritmi neće zamijeniti scoute — ali će ih učiniti skupe"
+subtitleImage:
+  url: "/images/articles/footballs-ai-pass-metrics-finally-care-about-defen/subtitle.png"
+  alt: "Demo nasuprot deploymenta: Zašto ovi algoritmi neće zamijeniti scoute — ali će ih učiniti skupe"
+tags: ["Soccer Analytics", "AI in Sports", "Scouting Algorithms"]
+lead_sentence: "Tri nove metrike — Line Bypass Score, Space Gain Metric i Structural Disruption Index — razotkrivaju kako dodavanja *razdiru obrane*, a ne samo povećavaju šansu za gol."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Nogometni analitičari godinama žvake *expected goals* i *possession value* kao svete hostije, dok su obranbene linije ostajale crna kutija. [Nova studija](https://arxiv.org/abs/2603.28916) s MIT-a i Liverpool FC-ovog research tima to mijenja: umjesto da mjeri *što* se dogodilo nakon dodavanja (gol, gubitak lopte), njihov framework analizira *kako* je dodavanje **preoblikovalo prostor** protivničke obrane. Tri ključne metrike — *Line Bypass Score*, *Space Gain Metric* i *Structural Disruption Index* — kvantiificiraju koliko je jedan pas razderao obranbeni blok, a ne koliko je poveća šansu za gol.
+
+
+Podaci s [World Cupa 2022](https://fifa.com/tournaments/mens/worldcup/qatar2022) otkrili su četiri jasna *archetipa* dodavanja: **cirkulacijska** (održavanje posjeda), **destabilizirajuća** (razbijanje formacije), **line-breaking** (probijanje obranbenih linija) i **space-expanding** (širenje igrališta). Zanimljivo, nijedan od njih nije korelirao 1:1 s tradicionalnim *xG* modelima — što znači da klubovi možda cijene pogrešne stvari. Na primjer, dodavanje koje *ne* rezultira šutom može imati viši *Tactical Impact Value* (TIV) ako je razbilo protivničku presu.
+
+
+Ali ovdje počinje problem: sve je ovo izvedeno iz **sinkroniziranih tracking podataka** — tehnologije koja u realnom vremenu košta toliko koliko i transfer srednjeg veznjaka. Klasični *event data* (koji većina klubova i koristi) ne može reproducirati ove metrike. Drugim riječima, framework je briljantan, ali za 90% europskih timova nedostupan bez sedmocifrenih investicija u infrastrukturu.
+
+<ArticleBreak />
+
+Pravi test za ovaj pristup nije akademska validnost, već **tržišna adopcija**. Liverpool i Manchester City već koriste slične modele (često razvio [Opta](https://www.optasports.com/) ili [Second Spectrum](https://www.secondspectrum.com/)), ali za ostale je pitanje troškova. Ključna razlika između *demo* verzije i stvarne implementacije? U laboratoriju radi s čistim podacima; u praksi, greške u tracking-u (npr. kada kamere izgube igrača iza leđa) narušavaju metrike. Autorima u pristupu nedostaje i **dinamička komponenta** — obrane se prilagođavaju, a trenutni model pretpostavlja statičke strukture.
+
+
+Zanimljivije od same studije je tko je **izostavljen**: ni jedna velika nogometna platforma (poput [Wyscouta](https://www.wyscout.com/) ili [Hudl-a](https://www.hudl.com/)) nije spomenuta kao partner. To sugerira da je rad više akademski eksperiment nego produkt spreman za masovno tržište. Međutim, ako se TIV metrike počnu koristiti u scouting-u, cijenje igrača koji „ne stvaraju golove, ali razbijaju obrane“ (npr. Rodri ili Bellingham) može skočiti — što bi dodatno infliralo transfer-tržište.
+
+
+Za razliku od većine AI-papera koji obećavaju „revoluciju“, ovdje je barem jasno **tko profitira**: klubovi s dubokim džepovima i postojećom tracking infrastrukturom. Ostali će morati birati između sljepog povjerenja u xG ili — ironično — *human scoutinga*, koji je upravo dobio novu dimenziju vrijednosti.

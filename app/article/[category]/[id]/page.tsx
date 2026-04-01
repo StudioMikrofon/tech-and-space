@@ -251,16 +251,17 @@ export default async function ArticlePage({ params }: PageProps) {
                   />
                 </div>
               )}
-              {/* Image source credit */}
-              <p className="text-[0.68rem] font-mono tracking-wider text-text-secondary/40 mt-2 mb-8 px-0.5">
+              {/* Image source credit and description */}
+              <p className="text-[0.65rem] font-mono tracking-wider text-text-secondary/40 mt-1.5 mb-8 px-0.5">
+                {article.image?.alt && <span className="block text-text-secondary/50 mb-0.5">{article.image.alt}</span>}
                 {article.image?.url
                   ? article.image.credit
                     ? article.image.creditUrl
                       ? <><span>📷 </span><a href={article.image.creditUrl} target="_blank" rel="noopener noreferrer" className="hover:text-text-secondary/70 underline underline-offset-2 transition-colors">{article.image.credit}</a></>
                       : <>📷 {article.image.credit}</>
                     : article.image.url.startsWith("http")
-                      ? `Image: ${article.source?.name || "External source"}`
-                      : "Illustration: AI Generated"
+                      ? `📷 Image: ${article.source?.name || "External source"}`
+                      : "📷 Illustration: AI Generated"
                   : null}
               </p>
             </div>
@@ -310,16 +311,21 @@ export default async function ArticlePage({ params }: PageProps) {
                             return videoId ? <YouTubeEmbed id={videoId} title={article.title} /> : null;
                           })()}
                           {article.subtitleImage?.url && (
-                            <div className="glass-card overflow-hidden mb-4 !hover:transform-none">
+                            <div className="glass-card overflow-hidden mb-2 !hover:transform-none">
                               <img
                                 src={article.subtitleImage.url}
                                 alt={article.subtitleImage?.alt}
                                 className="w-full h-auto max-h-[400px] object-cover"
                               />
+                              {/* Image credit and description */}
+                              <p className="text-[0.65rem] font-mono tracking-wider text-text-secondary/40 mt-1.5 px-2.5 pb-2">
+                                {article.subtitleImage?.alt && <span className="block text-text-secondary/50 mb-0.5">{article.subtitleImage.alt}</span>}
+                                <span>📷 {article.subtitleImage?.credit || "Illustration: AI Generated"}</span>
+                              </p>
                             </div>
                           )}
                           {displaySubtitle && (
-                            <p className="text-text-secondary italic text-lg leading-relaxed font-medium">
+                            <p className="text-text-secondary italic text-lg leading-relaxed font-medium mb-4">
                               {displaySubtitle}
                             </p>
                           )}

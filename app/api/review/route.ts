@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Database from "better-sqlite3";
 import { spawn } from "child_process";
+import { fotoReviewQueue } from "@/lib/foto-review-queue";
 
 const DB_PATH = "/opt/openclaw/futurepulse/db/futurepulse.db";
 
@@ -68,13 +69,10 @@ export async function GET(req: NextRequest) {
              exec_summary
       FROM articles
     `;
-    if (filter === "pending") {
-      query += ` WHERE status NOT IN ('rejected', 'published', 'approved') ORDER BY id DESC LIMIT 100`;
-    } else if (filter === "published") {
-      query += ` WHERE status='published' ORDER BY id DESC LIMIT 50`;
-    } else {
-      query += ` WHERE status NOT IN ('rejected', 'approved') ORDER BY id DESC LIMIT 100`;
-    }
+    // /api/review NOW ONLY shows approved articles waiting for images (images_pending stage)
+    // Regular pending articles go to /api/foto-review instead!
+    // This route is now for IMAGE GENERATION step only, not for initial approval
+    query += ` WHERE status='approved' AND pipeline_stage='images_pending' AND github_uploaded=0 ORDER BY created_at DESC LIMIT 100`;
     const rows = db.prepare(query).all();
     db.close();
     return NextResponse.json({ articles: rows });

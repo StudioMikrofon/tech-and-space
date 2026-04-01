@@ -1,0 +1,57 @@
+---
+id: "2026-03-30-data-gold"
+db_id: 940
+title: "Od smeća do zlata: Kako visoki šum pobjeđuje u strojnom učenju"
+lang: "hr"
+category: "ai"
+date: "2026-03-30T02:44:06Z"
+excerpt: "Istraživači s arXiva objavili su rad koji rješava jedan od najupornijih paradoksa u strojnom učenju: kako moderni modeli postižu vrhunske rezultate koristeći visokodimenzionalne, kolinearne i šumom zagađene tabularne podatke."
+exec_summary: "Researchers have developed a data-architectural theory that explains how modern ML models achieve state-of-the-art performance using noisy, high-dimensional tabular data. The theory challenges the 'Garbage In, Garbage Out' mantra and suggests a paradigm shift in AI development, where noise and collinearity are leveraged rather than avoided. If validated, this could reshape data preparation processes across industries, though real-world deployment remains uncertain."
+key_points:
+  - "Novi pristup u tabularnom ML-u pobija 'Garbage In, Garbage Out'"
+  - "Visokodimenzionalni podaci nadvladaju šum i kolinearnost"
+  - "Teorija mijenja paradigmu razvoja AI modela"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.12288"
+image:
+  url: "/images/articles/data-gold/main.jpg"
+  alt: "Od smeća do zlata: Kako visoki šum pobjeđuje u strojnom učenju"
+subtitle: "Sinergija arhitekture podataka i kapaciteta modela stvara robustnost tamo gdje bi trebalo pasti"
+subtitleImage:
+  url: "/images/articles/data-gold/subtitle.jpg"
+  alt: "Sinergija arhitekture podataka i kapaciteta modela stvara robustnost tamo gdje bi trebalo pasti"
+tags: ["Robustness", "Data Architecture", "Model Capacity", "Noise Resilience"]
+lead_sentence: "Novi arXiv rad dokazuje da tabularni ML modeli mogu postati robusniji upravo zahvaljujući visokodimenzionalnim, greškama zagađenim podacima – ne unatoč njima."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači s arXiva objavili su rad koji rješava jedan od najupornijih paradoksa u strojnom učenju: kako moderni modeli postižu vrhunske rezultate koristeći visokodimenzionalne, kolinearne i šumom zagađene tabularne podatke. Umjesto da se drže starog pravila 'Garbage In, Garbage Out', autori rada 'From Garbage to Gold' dokazuju da prediktivna robustnost ne ovisi isključivo o kvaliteti ulaznih podataka, već o sinergiji između arhitekture podataka i kapaciteta modela. 
+
+
+Razdvajanjem šuma u prediktorskom prostoru na 'Predictor Error' i 'Structural Uncertainty', rad nudi matematički okvir koji objašnjava zašto visoki skupovi grešaka-prone prediktora ne samo da ne degradiraju performanse, već ih mogu i poboljšati. Ovo nije tek teorijska igra – rezultati sugeriraju da moderna arhitektura modela može asimptotski nadvladati oba tipa šuma, pod uvjetom da postoji dovoljna dimenzionalnost i kolinearnost među ulazima. 
+
+
+Za razliku od klasičnih pristupa koji se fokusiraju na čišćenje podataka, ovaj rad predlaže proaktivni pristup gdje se 'neuredni' podaci ne izbjegavaju, već iskorištavaju kao izvor dodatne informacije. [arXiv:2603.12288v1](https://arxiv.org/abs/2603.12288v1) potvrđuje da je ova strategija posebno učinkovita u tabularnom ML-u, gdje tradicionalne metode često padaju zbog nedostatka prostorne strukture poput one u slikama ili tekstu. 
+
+
+Teorija također baca novo svjetlo na koncept 'informativne kolinearnosti', gdje korelacija među prediktorima ne samo da ne ometa učenje, već može ubrzati konvergenciju i poboljšati pouzdanost. Ovo otvara vrata novom pristupu u dizajnu modela, gdje se umjesto izbjegavanja kompleksnosti, ona aktivno iskorištava.
+
+<ArticleBreak />
+
+Industrijska implikacija ovog rada je dalekosežna. Ako se teorija pokaže točnom u širokoj primjeni, mnoge tvrtke koje danas troše ogromne resurse na čišćenje i pripremu podataka mogle bi preusmjeriti te napore na optimizaciju arhitekture modela. To bi moglo značiti smjenu paradigme u razvoju AI sustava, posebno u sektorima gdje su tabularni podaci dominantni – financijama, zdravstvu, logistici ili marketinškoj analitici. 
+
+
+Ipak, postoji jaz između teorije i prakse. Dok rad dokazuje matematičku valjanost koncepta, ostaje otvoreno pitanje koliko će ovaj pristup biti učinkovit u scenarijima s ekstremno visokim šumom ili gdje je raspoloživi skup podataka ograničen. [TechCrunch](https://techcrunch.com) ističe da su slične teorije u prošlosti nailazile na prepreke kad su se suočavale s realnim svjetom, gdje su faktori poput distribucijskih pomaka ili nepredviđenih varijabli često kvarile obećavajuće matematičke modele. 
+
+
+Što je još važnije, razvojni timovi će morati prilagoditi svoje alate i procese kako bi iskoristili ovaj pristup. Umjesto da se oslanjaju na standardne biblioteke poput scikit-learn ili TensorFlow koje često preferiraju 'čiste' podatke, inženjeri će morati razvijati nove tehnike za rad s visokodimenzionalnim, šumnim skupovima. Ovo bi moglo ubrzati razvoj onoga što autori rada nazivaju 'Proaktivnom Data-Centričnom AI', gdje se modeli ne prilagođavaju podacima, već podaci prilagođavaju modelima. 
+
+
+GitHub aktivnost oko srodnih projekata već pokazuje prve znakove promjene. Jedan od ranih repozitorija koji implementira slične principe, [noise-robust-ml](https://github.com/noise-robust-ml), bilježi porast interesa, iako je još uvijek prerano govoriti o širokoj adopciji. Ključno pitanje koje ostaje je hoće li ovaj pristup postati novo standardno oruđe u arsenalu strojnih učenja, ili će ostati akademska zanimljivost ograničena na specifične scenarije.

@@ -1,0 +1,51 @@
+---
+id: "2026-03-30-knowledge-graphs-get-realor-just-another-ai-hype-c"
+db_id: 980
+title: "Grafovi znanja iz teksta: tko stvara prednost?"
+lang: "hr"
+category: "ai"
+date: "2026-03-30T08:37:27Z"
+excerpt: "Novo istraživanje pod arXiv oznakom [2603."
+exec_summary: "The latest arXiv paper on knowledge graph construction from text highlights a familiar tension: while methods exist, real-world deployment lags due to rigid schemas and domain-specific quirks. The competitive edge won’t go to those who build models, but to those who standardize integration—leaving most ‘AI-first’ startups chasing benchmarks instead of customers."
+key_points:
+  - "Unstructured podaci eksplodiraju – od zdravstva do društvenih mreža"
+  - "Automatizacija zahtijeva fleksibilne modele, ne samo benchmarkove"
+  - "Stvarna prednost ide onima koji kontroliraju sheme i integraciju"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.25862"
+image:
+  url: "/images/articles/knowledge-graphs-get-realor-just-another-ai-hype-c/main.jpg"
+  alt: "Grafovi znanja iz teksta: tko stvara prednost?"
+subtitle: "Demo nasuprot deploymenta: zašto većina modela ne prelazi laboratorij"
+subtitleImage:
+  url: "/images/articles/knowledge-graphs-get-realor-just-another-ai-hype-c/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: zašto većina modela ne prelazi laboratorij"
+tags: ["Knowledge Graphs", "Text-Based Models", "Deployment Challenges"]
+lead_sentence: "Preko 80% nestruktuirane tekstualne građe u poduzećima ostaje neiskorišteno, iako alati za izgradnju grafova znanja postoje godinama – problem je u skalabilnosti preko domena."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Novo istraživanje pod arXiv oznakom [2603.25862v1](https://arxiv.org/abs/2603.25862) ne donosi revoluciju, već potvrđuje ono što inženjeri znaju godinama: **građevinski blokovi za grafove znanja već postoje**, ali ih nitko ne koristi u produkciji. Razlog? Većina modela radi sjajno na [standardiziranim benchmarkovima](https://paperswithcode.com/dataset/linknbio) poput LinkNBIA, no propada čim naiđu na pravu kaotičnu smjesu zdravstvenih zapisa, recenzija lijekova i društvenih komentara. Autorima u pristupu zaslužuje pohvala što ne skrivaju ovaj jaz – naprotiv, ističu kako **fleksibilnost shema** i adaptacija na različite žanrove teksta ostaju neriješeni problem.
+
+
+Zanimljivije od same metode je **tko će profitirati od nje**. Grafovi znanja nisu nova stvar: Google ih koristi za pretraživanje, [Amazon za preporuke](https://www.amazon.science/publications/knowledge-graphs-at-amazon-scale), a farmaceutske kompanije za analizu kliničkih podataka. No većina tih rješenja je **zatvorena, domensko specifična i teško skalabilna**. Novost ovdje nije algoritam, već prijedlog kako ujediniti sheme za različite domene – što otvara pitanje tko će kontrolirati te standardne. A to je, naravno, puno zanimljivija priča od još jednog papira o 'skalabilnim metodama'.
+
+
+Ono što dokument *ne* spominje – a što bi trebalo zabrinuti one koji se bave implementacijom – jest **trošak održavanja**. Graf znanja nije statičan: ako ga hranite podacima iz Twittera, zdravstvenih kartona *i* znanstvenih radova, svaka promjena u shemi zahtijeva ručno prilagođavanje. [Istraživanje iz 2023.](https://dl.acm.org/doi/10.1145/3589334.3645501) pokazalo je kako čak 40% troškova u takvim projektima ide na 'skriveni rad' – čišćenje podataka, popravljanje shema, ručno povezivanje entiteta. To je možda manje *sexy* od AI modela, ali puno važnije za one koji stvarno grade sisteme.
+
+<ArticleBreak />
+
+Developer community je na ovu objavu reagirao s **umjerenim entuzijazmom** – što je, uzgred, uvijek loš znak za one koji očekuju 'sljedeću veliku stvar'. Na [r/MachineLearning](https://www.reddit.com/r/MachineLearning/) su istaknuli kako metoda nije ništa revolucionarno, ali je korisna kao **'još jedan alat u kutiji'** za one koji već rade s grafovima znanja. Zanimljivije je što su neki komentatori – posebno oni iz zdravstvenog i financijskog sektora – upozorili na **regulatorne zamke**. Grafovi znanja koji povezuju pacijentove podatke s društvenim medijima? To nije samo tehnički, već i pravni problem.
+
+
+Industrijski signal je jasniji: **startupi koji prodaju 'AI platforme' za grafove znanja** (poput [Diffbot](https://www.diffbot.com/) ili [Stardog](https://www.stardog.com/)) neće od ovog papira imati nikakvu korist – osim ako ne promijene svoj pristup. Pravi dobici će ići onima koji nude **integracijske slojeve**, ne same modele. Primjerice, kompanije poput [Neo4j](https://neo4j.com/) već godinama grade poslovni model upravo na tom principu: ne prodaju algoritme, već alate koji omoguće poduzećima da povežu svoje postojeće podatke. To možda zvuči dosadno u usporedbi s 'generativnom AI', ali je puno profitabilnije.
+
+
+Najveće pitanje koje ovaj rad ostavlja nije tehničko, već **strategijsko**: tko će uspostaviti standardne sheme za kritične domene? Ako to urade velika tehnološka poduzeća (Google, Microsoft), ostali će biti prisiljeni koristiti njihove platforme. Ako to ostave po stranama, svaka industrija će razviti svoje zatvorene rješenje – što znači još jednu dekadu fragmentacije. A to je, ironično, upravo suprotno od ideje grafova znanja: umjesto povezanog znanja, dobivamo još više silosa.

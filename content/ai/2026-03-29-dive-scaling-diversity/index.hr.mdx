@@ -1,0 +1,53 @@
+---
+id: "2026-03-29-dive-scaling-diversity"
+db_id: 914
+title: "DIVE: Novi recept za LLM agente – ili samo još jedan benchmark?"
+lang: "hr"
+category: "ai"
+date: "2026-03-29T22:37:08Z"
+excerpt: "Istraživači sa arXiva objavili su novi pristup za treniranje LLM agenasa pod nazivom DIVE, koji obećava bolju generalizaciju na nove alate i zadatke."
+exec_summary: "A new arXiv paper introduces DIVE, a method for improving LLM agent generalization by inverting task synthesis order. While promising in controlled benchmarks, its real-world applicability remains uncertain, raising questions about whether this is a genuine breakthrough or just another optimization for synthetic tests."
+key_points:
+  - "DIVE mijenja redoslijed sinteze zadataka"
+  - "Demonstracija ≠ stvarna generalizacija"
+  - "Tko će zaista profitirati od ovoga?"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.11076"
+image:
+  url: "/images/articles/dive-scaling-diversity/main.jpg"
+  alt: "DIVE: Novi recept za LLM agente – ili samo još jedan benchmark?"
+subtitle: "Što se ovdje stvarno promijenilo osim metoda?"
+subtitleImage:
+  url: "/images/articles/dive-scaling-diversity/subtitle.jpg"
+  alt: "Što se ovdje stvarno promijenilo osim metoda?"
+tags: ["LLM", "Benchmarking", "Language Models"]
+lead_sentence: "ArXiv papir 2603.11076v1 predlaže DIVE, metodu koja prvo izvršava alate pa tek onda sintetizira zadatke – ali koliko je to zapravo korak naprijed?"
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači sa arXiva objavili su novi pristup za treniranje LLM agenasa pod nazivom DIVE, koji obećava bolju generalizaciju na nove alate i zadatke. Umjesto klasičnog pristupa gdje se zadaci sintetiziraju unaprijed, DIVE prvo izvršava stvarne alate, a tek onda iz traga izvlači zadatke koji su strogo podržani tim izvođenjem. [Prema papiru](https://arxiv.org/abs/2603.11076v1), ovaj inverzni redoslijed omogućuje veću raznolikost u strukturi zadataka, što bi trebalo smanjiti krhkost modela kada se suoče s novim alatima ili kontekstima.
+
+
+No koliko je ovo zapravo revolucija? Dosad, većina pristupa treniranju agenasa oslanjala se na unaprijed definirane zadatke, često ograničene na uske scenarije ili precizno kontrolirane okoline. DIVE tvrdi da rješava problem nedovoljne raznolikosti, ali ostaje pitanje koliko su ti sintetički zadaci relevantni za stvarne aplikacije. [Razvojna zajednica već primjećuje](https://github.com/stanfordnlp/dspy/discussions/428) da su benchmark rezultati često optimizirani za laboratorijske uvjete, a ne za produkcijske scenarije.
+
+
+Ono što je zanimljivo u ovom pristupu je naglasak na 'dokazivost' – zadaci se deriviraju iz stvarnih izvođenja alata, što teoretski smanjuje rizik od generiranja nemogućih ili besmislenih scenarija. Ipak, to još uvijek ne znači da će modeli automatski generalizirati na neviđene alate ili dinamičke okoline. U praksi, alatni LLM-i često se suočavaju s problemima kao što su neočekivani ulazi, promjene u API-ju ili nedostajuće funkcionalnosti, a DIVE ne nudi jasno rješenje za to.
+
+<ArticleBreak />
+
+Iako autori tvrde da DIVE 'skalira strukturalnu raznolikost duž dva kontrolirana osa', ostaje nejasno koliko je ta raznolikost zapravo upotrebljiva u stvarnom svijetu. Benchmark rezultati često izgledaju obećavajuće u izoliranim testovima, ali stvarna provjera dolazi tek kada se modeli integriraju u kompleksne sustave. [Primjerice](https://arxiv.org/abs/2410.13794), slični pristupi za poboljšanje generalizacije često se suočavaju s 'reality gapom' – razlikom između laboratorijskih rezultata i stvarne performanse.
+
+
+Tko onda zapravo ima koristi od ovakvog pristupa? U prvom redu, istraživačke grupe koje razvijaju vlastite frameworke za treniranje agenasa, kao što su timovi iza DSPy-a ili Hugging Face-ovog Transformers Agenta. Oni mogu integrirati DIVE u svoje alate kako bi poboljšali benchmark rezultate, ali to ne znači da će krajnji korisnici – entwickleri ili poduzeća – vidjeti značajnije poboljšanje u stvarnoj upotrebi.
+
+
+Za sve buku oko 'evidence-driven' pristupa, ključno pitanje ostaje: koliko je DIVE zapravo bolji od postojećih metoda u stvarnim scenarijima? Ako model i dalje propadne kada se suoči s neočekivanim alatima ili zadacima izvan sinsetiziranog skupa, onda se radi samo o još jednom koraku unaprijed u beskonačnoj utrci benchmarka. A benchmarki, kao što svi znamo, rijetko kada pokazuju stvarnu vrijednost izvan laboratorija.
+
+Drugim riječima, DIVE je možda koristan akademski eksperiment, ali koliko će zapravo promijeniti igru ostaje pod znakom pitanja. Hype oko novih metoda često zaboravlja da je krajnji cilj stvarna upotrebljivost, a ne samo bolji broj na papiru.

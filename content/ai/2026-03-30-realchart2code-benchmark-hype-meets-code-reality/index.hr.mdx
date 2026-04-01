@@ -1,0 +1,51 @@
+---
+id: "2026-03-30-realchart2code-benchmark-hype-meets-code-reality"
+db_id: 962
+title: "RealChart2Code: benchmark koji razotkriva slabosti VLMo­va u stvarnom svijetu"
+lang: "hr"
+category: "ai"
+date: "2026-03-30T06:15:46Z"
+excerpt: "RealChart2Code nije samo još jedan benchmark za vizualno-jezične modele (VLMo­ve)."
+exec_summary: "RealChart2Code introduces the first large-scale benchmark evaluating vision-language models' ability to generate complex chart code from real-world data. The study reveals significant performance gaps in leading VLMs, exposing a critical disconnect between synthetic benchmarks and practical deployment. This matters because it challenges the hype around AI-driven automation in data visualization and sets a new standard for evaluating real-world applicability."
+key_points:
+  - "14 VLMo­va pod lupom na realnim podacima"
+  - "Prvi benchmark za generiranje grafikona iz sirovih podataka"
+  - "Znatno lošiji rezultati nego u sintetičkim testovima"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.25804"
+image:
+  url: "/images/articles/realchart2code-benchmark-hype-meets-code-reality/main.jpg"
+  alt: "RealChart2Code: benchmark koji razotkriva slabosti VLMo­va u stvarnom svijetu"
+subtitle: "Što se dogodi kad AI mora replicirati stvarne, višestruke vizualizacije?"
+subtitleImage:
+  url: "/images/articles/realchart2code-benchmark-hype-meets-code-reality/subtitle.jpg"
+  alt: "Što se dogodi kad AI mora replicirati stvarne, višestruke vizualizacije?"
+tags: ["RealChart2Code", "VLMo"]
+lead_sentence: "Istraživači su testirali 14 vodećih VLMo­va na benchmarku koji replicira stvarne analitičke scenarije – s poraznim rezultatima."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+RealChart2Code nije samo još jedan benchmark za vizualno-jezične modele (VLMo­ve). To je prvi sustavni test koji provjerava kako ti modeli barataju s kompleksnim, višestrukim grafikonima iz stvarnih podataka – onakvima kakve koriste analitičari i znanstvenici. Prema studiji objavljenoj na arXiv-u pod brojem 2603.25804v1, benchmark sadrži preko 2.800 instanci temeljenih na autentičnim skupovima podataka, a svaka od njih zahtijeva ne samo prepoznavanje vizualnih elemenata, već i generiranje funkcionalnog koda koji će replicirati grafikon s jasnom analitičkom namjerom.
+
+
+Istraživači su testirali 14 vodećih VLMo­va, uključujući modele poput GPT-4V, LLaVA-Next i DeepSeek-VL. Rezultati su bili razočaravajući: čak i najbolji modeli postigli su točnost ispod 40% u prvom pokušaju, a performanse su se dodatno pogoršale u iterativnim scenarijima s više krugova dorade koda. To nije samo tehnički detalj – pokazuje kako su trenutačni VLMo­vi daleko od praktične primjene u stvarnim analitičkim okruženjima.
+
+
+Najzanimljiviji dio studije nije samo benchmark, već kontekst u kojem je kreiran. Za razliku od većine sintetičkih testova koji koriste idealizirane podatke, RealChart2Code zahtijeva od modela da razumiju i generiraju kod za grafikone koji često sadrže nepravilnosti, nedostajuće vrijednosti ili kompleksne hijerarhije elemenata. To je scenario koji daleko bolje odražava stvarne izazove s kojima se susreću programeri i analitičari.
+
+<ArticleBreak />
+
+Benchmark također otkriva kritičnu slabost trenutnih VLMo­va: sposobnost iterativnog poboljšanja koda. U stvarnom svijetu, rijetko koji programer generira savršeni kod u prvom pokušaju – obično slijedi nekoliko krugova dorade i testiranja. Međutim, RealChart2Code pokazuje da su modeli značajno lošiji u ovom višestrukom scenariju nego u jednom prolazu. To ukazuje na temeljni problem: VLMo­vi još uvijek ne razumiju dovoljno dobro kontekst i namjeru iza generiranog koda.
+
+
+Za industriju, ovi rezultati imaju nekoliko implikacija. Prvo, kompanije koje razvijaju VLMo­ve sada imaju jasnu metriku za mjerenje napretka – ne samo u generiranju koda, već u njegovoj praktičnoj primjenjivosti. Drugo, tvrtke koje se oslanjaju na automatsku generaciju grafikona (npr. alat za poslovnu inteligenciju ili znanstvene platforme) morat će ili smanjiti očekivanja ili investirati u dodatne slojeve ljudske verifikacije.
+
+
+Evo pravog ironičnog detalja: dok se u marketinškim materijalima često ističe sposobnost VLMo­va da generiraju kod 'kao programeri', RealChart2Code pokazuje da je jaz između benchmarka i proizvoda ogroman. Čak i ako model uspješno generira kod za jednostavan grafikon, vjerojatnost da će to raditi pouzdano na kompleksnim, realnim podacima je minimalna. Drugim riječima, demo još uvijek nije proizvod.

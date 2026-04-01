@@ -1,7 +1,0 @@
-User-Agent: *
-Allow: /
-Disallow: /api/
-Disallow: /_next/
-
-Host: https://techand.space
-Sitemap: https://techand.space/sitemap.xml

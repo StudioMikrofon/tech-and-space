@@ -1,0 +1,51 @@
+---
+id: "2026-04-01-claudes-source-code-leak-more-embarrassment-than-c"
+db_id: 1084
+title: "Anthropicov promašaj: izvorni kod Claude-a na ulici"
+lang: "hr"
+category: "ai"
+date: "2026-04-01T04:13:16Z"
+excerpt: "Anthropic je u srijedu [potvrdio](https://www."
+exec_summary: "Anthropic’s accidental exposure of Claude Code’s integration documentation reveals more about their technical priorities than any press release could. While the company downplays the leak as a minor incident, competitors and open-source developers are already dissecting the code for clues to Anthropic’s enterprise optimizations—particularly around the 200K-token context window, a feature critical for large-scale development but plagued by latency issues in real-world use."
+key_points:
+  - "Ljudska greška izlaže internu dokumentaciju Claude Code-a"
+  - "Tvrtka potvrđuje: bez kompromitiranih korisničkih podataka"
+  - "Konkurenti već analiziraju izvorni kod na GitHubu"
+source:
+  name: "cnet.com"
+  url: "https://www.cnet.com/tech/anthropic-accidentally-exposes-source-code-for-claude-code/"
+image:
+  url: "/images/articles/claudes-source-code-leak-more-embarrassment-than-c/main.png"
+  alt: "Anthropicov promašaj: izvorni kod Claude-a na ulici"
+subtitle: "Između incidenta i strateške prednosti"
+subtitleImage:
+  url: "/images/articles/claudes-source-code-leak-more-embarrassment-than-c/subtitle.png"
+  alt: "Između incidenta i strateške prednosti"
+tags: ["Anthropic", "Claude", "Source Code Leak"]
+lead_sentence: "Interni repozitoriji s kodom za Claude Code, Anthropicov alata za razvijače, na satima su bili dostupni javnosti zbog pogrešno postavljenih pristupnih prava."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Anthropic je u srijedu [potvrdio](https://www.cnet.com/tech/computing/anthropic-accidentally-exposed-source-code-for-claude-code/) da je zbog »ljudske greške« na kratko izložio dio izvornog koda i interne dokumentacije za svoj najnoviji proizvod, **Claude Code** — alate za razvoj softvera temeljene na njihovom modelu. Tvrtka ističe da nisu kompromitirani korisnički podaci, ali je pitanje koliko je ovaj incident zapravo *nespretnost*, a koliko neplanirani uvid u njihovu tehnologiju za konkurenciju.
+
+
+Detalji ukazuju da se radilo o internim repozitorijima koji sadrže kod za integriranje Claude-a s razvojnim okruženjima, a ne o samom jezgrenom modelu. To je ključna razlika: dok bi curenje cijelog modela bilo katastrofa, ovakav incident je više kao ostavljeni ključevi od laboratorija — neugodno, ali ne i egzystencijalno. Ipak, za razliku od uobičajenih *leakova* koji završavaju na 4chanu, ovaj materijal je brzo preuzeo dio [open-source zajednice](https://github.com/), gdje se već analizira što Anthropic *stvarno* radi drugačije od konkurencije.
+
+
+Zanimljivije od samog incidenta je što je Claude Code od početka prezentiran kao »sigurnija« alternativa GitHub Copilotu, s naglaskom na *kontrolirano* generiranje koda. Ironično, upravo je kontrola nad vlastitim kodom postala problem. Tvrtka je brzo reagirala, ali pitanje ostaje: ako se ovako nešto dogodi s dokumentacijom, što sprečava sličan scenario s modelom koji *zaista* vrijedi milijarde?
+
+<ArticleBreak />
+
+Za razliku od prethodnih curenja (npr. Metaov LLaMA 2), ovdje nije riječ o namjernom otvaranju koda radi marketinga ili zajednice. To čini situaciju zanimljivijom: Anthropic nije tvrtka koja se tradicionalno oslanja na open-source strategije, pa je ovaj nesluženi uvid u njihovu arhitekturu možda vrijedniji od bilo koje namjerne objave. Razvojni timovi već [komentiraju](https://news.ycombinator.com/) kako neke segmenti koda otkrivaju neočekivane pristupe optimizaciji za enterprise okruženja — što bi moglo objasniti zašto Claude Code u nekim benchmarkovima nadmašuje konkurenciju, ali i zašto je sporiji u realnom vremenu.
+
+
+Konkretno, dio koda koji je procurio sadrži detalje o tome kako Anthropic rukuje *context windowom* od 200K tokena — funkcija koja je ključna za rad s velikim kodnim bazama, ali koja u praksi često uzrokuje latencije. Ako konkurencija (npr. [Mistral](https://mistral.ai/) ili čak Amazon Q) sada može replicirati ove optimizacije, Anthropicov konkurentni prednost se sužava. S druge strane, ovaj incident može biti i *blessing in disguise*: ako zajednica pronađe ranjivosti u kodu prije nego što ih iskoriste zlonamjernici, Anthropic je možda upravo dobio besplatan security audit.
+
+
+Najveće pitanje ostaje: zašto je uopće došlo do ovog promašaja? Anthropic je tvrtka koja se hvali »defenzivnim« pristupom AI razvoju, pa je čudno da takva greška prođe kroz njihove procese. Čini se da je problem bio u pogrešnoj konfiguraciji pristupnih prava na internim alatima — što je, ironično, upravo vrsta greške koju Claude Code *treba* pomagati razvijačima izbjeći.

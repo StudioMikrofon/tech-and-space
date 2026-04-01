@@ -1,0 +1,51 @@
+---
+id: "2026-03-30-arc-agi-2-the-125-token-trick-behind-the-benchmark"
+db_id: 987
+title: "ARC-AGI-2: Što se krije iza novog benchmarka?"
+lang: "hr"
+category: "ai"
+date: "2026-03-30T09:24:34Z"
+excerpt: "Transformeri opet dobivaju novu ‘supermoć’ — ovaj put za [Abstraction and Reasoning Corpus (ARC)](https://arxiv."
+exec_summary: "The ARC-AGI-2 report claims progress in abstract reasoning via compact task encoding and structure-aware priors, but the gap between benchmark hype and real-world deployment remains wide. The key tension: is this a meaningful step for neuro-symbolic AI, or just another academic exercise with limited practical impact?"
+key_points:
+  - "125-token enkodiranje za efikasno rješavanje ARC zadataka"
+  - "Modificirani LongT5 za duge kontekste, ali bez real-world testova"
+  - "Augmentacija temeljena na grupnim simetriijama — teorija ili praksa?"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.06590"
+image:
+  url: "/images/articles/arc-agi-2-the-125-token-trick-behind-the-benchmark/main.jpg"
+  alt: "ARC-AGI-2: Što se krije iza novog benchmarka?"
+subtitle: "Demo nasuprot deploymenta: Tko zapravo koristi ove ‘napretke’?"
+subtitleImage:
+  url: "/images/articles/arc-agi-2-the-125-token-trick-behind-the-benchmark/subtitle.png"
+  alt: "Demo nasuprot deploymenta: Tko zapravo koristi ove ‘napretke’?"
+tags: ["ARC-AGI-2", "Benchmarking", "AI Deployment"]
+lead_sentence: "Modificirani LongT5 s 125-token enkodiranjem postavlja nova pravila za ARC benchmark — ali bez dokaza da radi izvan sintetičkih zadataka."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Transformeri opet dobivaju novu ‘supermoć’ — ovaj put za [Abstraction and Reasoning Corpus (ARC)](https://arxiv.org/abs/2603.06590v1), benchmark dizajniran da testira generalizaciju izvan običnog prepoznavanja uzoraka. Autori tvrde da su kombiniranjem neuronske inferencije, *structure-aware priors* i *online task adaptation* postigli ‘napredak’ — ali, kao i uvijek, pitanje je što to znači van laboratorija.
+
+
+Ključna inovacija? Reformulacija ARC-a kao *sequence modeling* problema s kompaktnim 125-token enkodiranjem. To omogućava modificiranom [LongT5](https://arxiv.org/abs/2102.08374) modelu da procesuira duge kontekste bez eksplozije računske kompleksnosti. Zvuči impresionantno — dok se ne sjetite da ARC i dalje ostaje *sintetički* benchmark, daleko od kaotičnih real-world podataka.
+
+
+Druga ‘velika stvar’ je *principled augmentation framework* temeljen na grupnim simetriijama, grid traversalima i perturbacijama automata. Cilj: osigurati invarijantnost na promjene reprezentacije. Ali, kao i kod većine augmentacijskih tehnika, pitanje ostaje: koliko ovo stvarno pomaže izvan kontroliranih uvjeta?
+
+<ArticleBreak />
+
+Hype filter: što je ovdje *stvarno* novo? Kombinacija neuronskih mreža i simboličkih *priors* nije nova — [DeepMind](https://deepmind.google) i [FAIR](https://ai.facebook.com) eksperimentiraju s tim godinama. Novina je, možda, efikasnost enkodiranja, ali bez usporedbe s postojećim rješenjima (npr. [Neuro-Symbolic AI](https://arxiv.org/abs/2012.05876)) teško je procijeniti stvarni skok.
+
+
+Industrijska mapa: tko ovdje dobiva prednost? Primarno akademska zajednica i startapi koji grade na ARC-u — ali za *production* sisteme (npr. u robotici ili financijama) ovo je još uvijek previše teorijsko. [GitHub](https://github.com) reakcije su umjerene: dio developera hvali kompaktnost rješenja, ali većina čeka na *real-world fine-tuning* rezultate.
+
+
+Developer signal: [Hugging Face](https://huggingface.co) i [EleutherAI](https://www.eleuther.ai/) još nisu pokrenuli replikacije, što govori više od bilo kojeg press releasea. A ako se ne replicira, je li to uopće napredak — ili samo još jedan *arXiv* papir koji će nestati u šumu?

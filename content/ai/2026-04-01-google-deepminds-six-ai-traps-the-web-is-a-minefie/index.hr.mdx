@@ -1,0 +1,59 @@
+---
+id: "2026-04-01-google-deepminds-six-ai-traps-the-web-is-a-minefie"
+db_id: 1125
+title: "DeepMind otkriva šest zamki za autonomne AI agente – i nisu teorija"
+lang: "hr"
+category: "ai"
+date: "2026-04-01T18:17:44Z"
+excerpt: "Google DeepMind objavio je studiju koja nije samo još jedan akademski rad o teorijskim ranjivostima, već prvi sustavni katalog šest tipova zamki koje mogu preuzeti kontrolu nad autonomnim AI agentima."
+exec_summary: "Google DeepMind’s study moves beyond theoretical risks by documenting six *proven* attack vectors against autonomous AI agents—from memory poisoning to sub-agent hijacking—with real-world success rates. The shift from static model vulnerabilities to dynamic environmental exploits forces developers to rethink security testing for deployed systems, not just benchmarks."
+key_points:
+  - "6 kategorija napada na AI agente – od ubrizgavanja sadržaja do kontroliranog ponašanja"
+  - "58-90% uspjeha u manipulaciji pod-agenta s otrovanim sistemskim upitom"
+  - "Realni dokazi napada, a ne samo teorija – kombinatorna površina za eksploataciju"
+source:
+  name: "the-decoder.com"
+  url: "https://the-decoder.com/google-deepmind-study-exposes-six-traps-that-can-easily-hijack-autonomous-ai-agents-in-the-wild/"
+image:
+  url: "/images/articles/google-deepminds-six-ai-traps-the-web-is-a-minefie/main.png"
+  alt: "DeepMind otkriva šest zamki za autonomne AI agente – i nisu teorija"
+subtitle: "Od teorije do realnosti: kako manipulacija okolinom ugrožava sigurnost AI sistema"
+subtitleImage:
+  url: "/images/articles/google-deepminds-six-ai-traps-the-web-is-a-minefie/subtitle.png"
+  alt: "Od teorije do realnosti: kako manipulacija okolinom ugrožava sigurnost AI sistema"
+tags: ["DeepMind", "Autonomous AI Agents", "AI Safety"]
+lead_sentence: "Manipulacija samo jednog emaila dovoljna je da autonomni AI agent izloži povjerljive podatke – a DeepMind je dokazao da takvi napadi uspijevaju u 58-90% slučajeva."
+geo:
+  name: "London, United Kingdom"
+  lat: 51.5074
+  lon: -0.1278
+  countryCode: "GB"
+featured: false
+approved: true
+---
+
+Google DeepMind objavio je studiju koja nije samo još jedan akademski rad o teorijskim ranjivostima, već prvi sustavni katalog šest tipova zamki koje mogu preuzeti kontrolu nad autonomnim AI agentima. Razlika je u detaljima: riječ je o dokumentiranim proof-of-concept napadima, a ne o apstraktnim scenarijima.
+
+
+Na primjer, manipulacija samo jednog e-pošte dovoljna je da agent izloži povjerljive podatke, dok ubacivanje skrivenih HTML komentara ili meta-podataka u slike može iskriviti percepciju cijelog sustava. Iza ovih brojeva – poput 58-90 % uspješnosti u stvaranju 'otrovanog' pod-agenta – krije se stvarni problem: autonomni agenti ne operiraju u sterilnim laboratorijskim uvjetima.
+
+
+Oni sami pretražuju web, upravljaju e-poštom i izvršavaju transakcije, što znači da je njihova 'površina napada' kombinatorna. Ako vam se čini da je ovo samo još jedan sigurnosni upozoraj, razmislite o ovome: studija ne govori o hipotezama, već o mehanizmima koji već funkcioniraju u divljini.
+
+
+Najzanimljivije je što ove zamke nisu samo tehnički detalji. One otkrivaju fundamentalnu slabost današnjih AI sustava – zavisnost od okoline koja ih može lako manipulirati. Ako agent može biti prevaren jednostavnim trikom s CSS-om ili lažnim API-jem, što onda znači 'autonomija' u praksi?
+
+<ArticleBreak />
+
+DeepMindova klasifikacija šest zamki – ubrizgavanje sadržaja, semantička manipulacija, kognitivno stanje, kontrola ponašanja, stvaranje pod-agenta i sustavne zamke – nije samo popis, već karta napada za buduće eksploatacije. Na primjer, 'kognitivne zamke' mogu otrovati dugoročnu memoriju agenta izmjenom samo nekoliko dokumenata u RAG bazi znanja.
+
+
+To nije futuristički scenarij: svaka kategorija ima dokazane primjere, a napadi se mogu lancati, slojevati ili distribuirati kroz višestruke agente. Pravi signal ovdje nije u samim napadima, već u promjeni paradigme sigurnosti. Dok se ranije fokusirao na statičke modele (npr. LLMs), sada je jasno da je dinamičko okruženje – web-stranice, dokumenti, API-jevi – postalo glavno bojno polje.
+
+
+To stavlja pritisak na razvijače da premisle kako testiraju svoje sustave: benchmarkovi u kontroliranim uvjetima više nisu dovoljni. Pitanje nije hoće li doći do eksploatacije, već kada i tko će prvi iskoristiti ove rupe.
+
+
+Za razliku od uobičajenih 'upozorenja o AI sigurnosti', ova studija nudi nešto rijetko: konkretne mehanizme koje možete testirati već danas. Odgovori na pitanja poput 'Ako vaš agent koristi RAG, koliko je dokumenata potrebno izmijeniti da bi se njegova memorija 'otrovana'?' ili 'Ako radi s e-poštom, može li ga jedan manipuliran sadržaj navesti na krivo djelovanje?' nisu teorijski – oni definiraju stvarnu granicu između demo verzije i deploymenta.
+
+DeepMindova studija služi kao podsjetnik da tehnologija nikada nije neutralna – ovisi o okolini u kojoj djeluje. Sigurnost AI-a sada više nije pitanje algoritama, već cjelokupnog ekosustava koji ih okružuje.

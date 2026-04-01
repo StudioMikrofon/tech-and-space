@@ -1,0 +1,55 @@
+---
+id: "2026-03-30-provably-accurate-or-just-provably-overpromised"
+db_id: 924
+title: "Novo učenje bez zaborava: koliko je 'provjereno' zapravo provjereno?"
+lang: "hr"
+category: "ai"
+date: "2026-03-30T00:32:11Z"
+excerpt: "Continual fine-tuning upravo je dobio novu varijantu koja obećava nešto što zvuči gotovo previše dobro: adaptaciju na nove zadatke bez zaboravljanja starih i bez dodatnih parametara za retrieval."
+exec_summary: "A new continual fine-tuning method promises 'provably accurate and parameter-free' task retrieval, avoiding the forgetting problem in sequential learning. While benchmarks show promise, real-world deployment and hidden computational costs remain unverified. The paper highlights industry tension between small players needing efficient adaptation and big AI labs relying on massive datasets."
+key_points:
+  - "Metoda izbjegava zaboravljanje bez retrievera"
+  - "Autori tvrde 'parametarski besplatno' preuzimanje zadataka"
+  - "Benchmark rezultati naspram stvarnog deployмента"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.13235"
+image:
+  url: "/images/articles/provably-accurate-or-just-provably-overpromised/main.jpg"
+  alt: "Novo učenje bez zaborava: koliko je 'provjereno' zapravo provjereno?"
+subtitle: "Što se ovdje zapravo mijenja – osim naslova?"
+subtitleImage:
+  url: "/images/articles/provably-accurate-or-just-provably-overpromised/subtitle.jpg"
+  alt: "Što se ovdje zapravo mijenja – osim naslova?"
+tags: ["Memory Retention", "Learning Algorithms", "Verification Methods"]
+lead_sentence: "Istraživači s arXiv:2603.13235v1 nude način kontinuiranog fine-tuninga koji izbjegava zaboravljanje bez dodatnih retrieval parametara – ali koliko je 'provjereno' zapravo provjereno?"
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Continual fine-tuning upravo je dobio novu varijantu koja obećava nešto što zvuči gotovo previše dobro: adaptaciju na nove zadatke bez zaboravljanja starih i bez dodatnih parametara za retrieval. Paper arXiv:2603.13235v1 predstavio je pristup koji kombinira prednosti postojećih kategorija – input-adaptacije i parameter-adaptacije – ali s ključnim tweakom: umjesto da uči retrieval funkciju koja će zaboraviti, koristi fiksnu embeddings funkciju koja se adaptivno preklapa tijekom testnog vremena.
+
+To možda zvuči kao tehnički detalj, ali implicira nešto mnogo veće: više nema potrebe za zasebnim memoriranjem prošlih podataka ili prilagođavanjem retrievera. Umjesto toga, metod jednostavno 'okrene' embeddings prostor na način da stari i novi zadaci dijele isti prostor bez konflikata.
+
+Autori tvrde da je ovo 'provably accurate' – ali što točno znači 'provably' u ovom kontekstu? Istraživanje je još uvijek u fazi arXiv preprinta, što znači da nema peer-review provjere.
+
+Ipak, rani signali sugeriraju da bi ovaj pristup mogao biti korak naprijed za scenarije gdje su podaci starih zadataka zaista nedostupni, ali gdje je adaptabilnost embeddingsa ključna – primjerice, u personaliziranim jezičnim modelima ili multimodalnim sustavima. [arXiv](https://arxiv.org/abs/2603.13235v1) sam po sebi nije revolucionaran, ali način na koji autori rješavaju problem zaboravljanja bez dodatnih parametara mogao bi biti zanimljiv za istraživače koji traže efikasnije načine kontinuiranog učenja.
+
+<ArticleBreak />
+
+No evo pravog pitanja: koliko je ovaj pristup stvarno parametarski besplatan? Autori koriste fiksnu embeddings funkciju, ali to ne znači da nema skrivenih troškova.
+
+Svako adaptivno preklapanje embeddingsa tijekom testnog vremena implicira određeno računanje, a time i potencijalno kašnjenje. Ako je to 'besplatno', gdje su onda ograničenja?
+
+Benchmark rezultati u paperu pokazuju poboljšanja u odnosu na klasične pristupe, ali ti testovi često koriste sintetske ili kontrolirane datasete. Stvarni svijet je pun šuma – distribucijski pomaci, rijetki uzorci, šumovi u podacima – i još nije jasno kako će se ovaj metod ponašati u takvim uvjetima.
+
+To je jaz između benchmarka i proizvoda koji se u AI često zanemaruje. Što se tiče industrije, ova metoda bi mogla smanjiti potrebu za složenim retrieval sustavima u scenarijima gdje je zaboravljanje veliki problem – primjerice, u chatbotovima koji se kontinuirano prilagođavaju novim korisnicima.
+
+Ali tko zapravo ima koristi? Ako je embeddings prostor stvarno tako fleksibilan, onda bi ovo mogao biti koristan alat za tvrtke koje razvijaju male, specijalizirane modele.
+
+Ova metoda još uvijek nije prošla peer-review provjeru, ali rani signali ukazuju na zanimanje istraživača. To je pitanje koje tek treba odgovoriti, ali jasno je da metoda izaziva raspravu već sad. [Hacker News diskusija](https://news.ycombinator.com) već ima nekoliko skeptičnih komentara.

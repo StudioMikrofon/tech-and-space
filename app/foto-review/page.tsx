@@ -298,18 +298,38 @@ export default function FotoReviewPage() {
       .then((data) => {
         if (data.articles) {
           setArticles(data.articles);
-          // Auto-expand deep-link article
-          if (deepLinkId) {
-            setExpandedIds(prev => { const s = new Set(prev); s.add(deepLinkId); return s; });
-            setFilterStatus("neobjavljeni");
-            setFilterDate("all");
-            setFilterCat("all");
-          }
         } else setError(data.error || "API error");
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   }, [filterStatus]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Deep-link handler: Load article directly by ID (independent of filter)
+  useEffect(() => {
+    if (!deepLinkId) return;
+
+    // Load the specific article by ID without filter
+    fetch(`/api/foto-review?id=${deepLinkId}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.article) {
+          // Add article to current list if not already present
+          setArticles((prev) => {
+            const exists = prev.some((a) => a.id === deepLinkId);
+            return exists ? prev : [...prev, data.article];
+          });
+          // Auto-expand the deep-linked article
+          setExpandedIds((prev) => {
+            const s = new Set(prev);
+            s.add(deepLinkId);
+            return s;
+          });
+        }
+      })
+      .catch(() => {
+        // Silently fail if article can't be loaded
+      });
+  }, [deepLinkId]);
 
   // Scroll to deep-link article after render
   useEffect(() => {
@@ -1805,12 +1825,22 @@ export default function FotoReviewPage() {
                       <div className="flex items-center gap-2">
                         <span className="text-[10px] text-white/30 tracking-widest uppercase shrink-0">Kategorija</span>
                         <select
-                          value={editCategory[article.id] ?? article.category}
+                          value={editCategory[article.id] ?? article.category ?? ""}
                           onChange={(ev) => setEditCategory(p => ({ ...p, [article.id]: ev.target.value }))}
                           className="text-xs px-2 py-1 rounded border border-white/15 bg-black/40 text-white/80 focus:outline-none focus:border-white/30"
                         >
-                          {["AI","Gaming","Technology","Robotics","Space","Medicine","Society","Energy"].map(cat => (
-                            <option key={cat} value={cat}>{cat}</option>
+                          <option value="">-- Odaberi kategoriju --</option>
+                          {[
+                            { value: "ai", label: "AI" },
+                            { value: "gaming", label: "Gaming" },
+                            { value: "tech", label: "Technology" },
+                            { value: "robotics", label: "Robotics" },
+                            { value: "space", label: "Space" },
+                            { value: "medicine", label: "Medicine" },
+                            { value: "society", label: "Society" },
+                            { value: "energy", label: "Energy" },
+                          ].map(({ value, label }) => (
+                            <option key={value} value={value}>{label}</option>
                           ))}
                         </select>
                         {(editCategory[article.id] && editCategory[article.id] !== article.category) && (

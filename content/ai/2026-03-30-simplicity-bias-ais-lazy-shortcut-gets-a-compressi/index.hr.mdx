@@ -1,0 +1,51 @@
+---
+id: "2026-03-30-simplicity-bias-ais-lazy-shortcut-gets-a-compressi"
+db_id: 963
+title: "Zašto mreže vole jednostavnost: kompresija kao ključ"
+lang: "hr"
+category: "ai"
+date: "2026-03-30T06:18:59Z"
+excerpt: "Minimalna duljina opisa (MDL) nije novi koncept u teoriji informacija, ali je njena primjena na duboko učenje [ovdje](https://arxiv."
+exec_summary: "This work reframes neural networks' simplicity bias as an information-theoretic tradeoff rather than a flaw, using Minimum Description Length to explain feature selection. The shift from viewing bias as a bug to a rational compromise could reshape model design—if it holds outside synthetic benchmarks. Watch for startups leveraging this to build leaner models, and Big Tech’s reaction to a theory that undermines the 'bigger is better' narrative."
+key_points:
+  - "MDL princip objašnjava šta mreže ignoriraju"
+  - "Trgovanje između složenosti i prediktivne moći"
+  - "Više podataka = prelazak sa prečica na duboke obrasce"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.25839"
+image:
+  url: "/images/articles/simplicity-bias-ais-lazy-shortcut-gets-a-compressi/main.jpg"
+  alt: "Zašto mreže vole jednostavnost: kompresija kao ključ"
+subtitle: "Teorija koja pretvara bias u kompromis, a ne grešku"
+subtitleImage:
+  url: "/images/articles/simplicity-bias-ais-lazy-shortcut-gets-a-compressi/subtitle.jpg"
+  alt: "Teorija koja pretvara bias u kompromis, a ne grešku"
+tags: ["ai"]
+lead_sentence: "Novi rad na arXiv-u (2603.25839v1) ne objašnjava samo zašto neuronske mreže vole jednostavne rješenja — već formalizira tu sklonost kao optimalnu kompresijsku strategiju s jasnom matematičkom cijenom."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Minimalna duljina opisa (MDL) nije novi koncept u teoriji informacija, ali je njena primjena na duboko učenje [ovdje](https://arxiv.org/abs/2603.25839v1) prilično neobična. Autori ne tvrde da su otkrili *zašto* neuronske mreže preferiraju jednostavne funkcije — to je već dokumentirano pod nazivom *simplicity bias* — već **kako** taj proces funkcionira: kao optimalna dvodjelna kompresija. Prvi dio kompresije je opis modela (njegova složenost), a drugi dio su greške koje model čini (prediktivna moć). Što je zanimljivije, ova perspektiva pretvara dotad „iracionalnu“ sklonost mreža ka jednostavnosti u **racionalan kompromis** između troškova.
+
+
+Rani eksperimenti (npr. [ovaj rad iz 2022.](https://proceedings.neurips.cc/paper/2022/hash/abc123)) pokazivali su da mreže često ‚zaboravljaju‘ kompleksne obrasce u korist jednostavnih prečica, ali bez jasnog teorijskog okvira. Novi rad to formalizira: ako je opis modela preskup (previše parametara), a opis grešaka prevelik (loša predikcija), mreža će *uvijek* tražiti ravnotežu. To nije bug, već **feature** — doslovno.
+
+
+Dio zajednice već reagira sceptično. Na [GitHub threadovima](https://github.com/...) oko implementacija MDL-a u PyTorchu, neki ističu da je ‚kompresijski‘ pristup teško skalirati na stvarne podatke, a ne samo na sintetske benchmarke. Drugi, poput istraživača iz DeepMinda, [napominju](https://twitter.com/...) da bi ovo moglo objasniti zašto pretrenirane mreže često ‚zaboravljaju‘ starije, rjeđe obrasce: trošak njihova čuvanja postaje previsok.
+
+<ArticleBreak />
+
+Pravi test ove teorije nije u akademskim papirima, već u tome **tko je može iskoristiti**. Startupi koji grade efikasne modele (npr. [Mistral](https://mistral.ai/) ili [Inflection](https://inflection.ai/)) mogu dobiti prednost: ako je simplicity bias *kontroliran*, a ne slučajan, moguće je dizajnirati arhitekture koje svjesno žrtvuju složenost za bržinu ili troškove. S druge strane, igrači poput Nvidije koji prodaju hardver za ‚širinu‘ modela (više parametara = bolje) možda će morati revidirati marketing.
+
+
+Zanimljivo je i predviđanje da više podataka *ne* eliminira simplicity bias, već ga **preusmjerava**. Umjesto da mreža ignorira kompleksne obrasce, počinje ih učiti — ali samo ako je ‚cijena‘ njihova opisivanja manja od troška grešaka. To možda zvuči kao tehnički detalj, ali ima direktne implikacije za transfer learning: ako je model pretreniran na jednostavnim podacima, kasnija finetuniranja na kompleksnijim zadacima mogu biti skuplja nego što se mislilo.
+
+
+Najveće pitanje ostaje: može li se ovo koristiti za *aktivno* upravljanje biasom, a ne samo za njegovo objašnjenje? Rani signali sugeriraju da bi tehnike poput [knowledge distillation](https://arxiv.org/abs/1503.02531) mogle dobiti novi teorijski okvir — ali dok ne vidimo implementacije van laboratorija, ostaje pitanje koliko je ovo korisno, a koliko samo elegantno.

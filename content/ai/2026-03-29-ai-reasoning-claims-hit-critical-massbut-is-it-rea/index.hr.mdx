@@ -1,0 +1,52 @@
+---
+id: "2026-03-29-ai-reasoning-claims-hit-critical-massbut-is-it-rea"
+db_id: 872
+title: "PLDR-LLMs: Razmišljaju li ili samo simuliraju kritičnost?"
+lang: "hr"
+category: "ai"
+date: "2026-03-29T08:05:59Z"
+excerpt: "Preprint s arXiva (2603."
+exec_summary: "A new arXiv paper claims PLDR-LLMs trained at self-organized criticality exhibit reasoning, attributing it to phase transitions and scaling functions. While theoretically intriguing, the work lacks robust benchmarks or real-world validation, leaving its practical impact uncertain. The key question is whether this represents a genuine shift in LLM training or just another theoretical curiosity."
+key_points:
+  - "Novi pristup faznim prijelazima u obuci LLMa"
+  - "Metastabilno stanje kao ključ za generalizaciju"
+  - "Benchmark ≠ realni performansi, jaz ostaje"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.23539"
+image:
+  url: "/images/articles/ai-reasoning-claims-hit-critical-massbut-is-it-rea/main.jpg"
+  alt: "PLDR-LLMs: Razmišljaju li ili samo simuliraju kritičnost?"
+subtitle: "Dokazi iz arXiva otkrivaju što se stvarno događa u 'kritičnom' LLM-u"
+subtitleImage:
+  url: "/images/articles/ai-reasoning-claims-hit-critical-massbut-is-it-rea/subtitle.jpg"
+  alt: "Dokazi iz arXiva otkrivaju što se stvarno događa u 'kritičnom' LLM-u"
+tags: ["LLM", "Criticism Simulation", "ArXiv"]
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Preprint s arXiva (2603.23539v1) tvrdi da PLDR-LLMs obučeni na samorganiziranoj kritičnosti pokazuju razmišljanje tijekom inferencije. Autori opisuju kako se deduktivni izlazi u kritičnom stanju ponašaju poput drugog reda faznih prijelaza – korelacijska duljina divergira, a sustav postiže metastabilno ravnotežno stanje.
+
+To zvuči impresivno, ali kako često biva s AI istraživanjima, ključno je razlikovati matematički aparat od praktične primjene. Problem koji ovaj rad ne adresira je kako se ta 'razmišljanja' manifestiraju izvan laboratorijskih uvjeta.
+
+Ako je korelacijska duljina zaista divergirala, to bi trebalo biti vidljivo u realnim scenarijima – no autori navode samo deduktivne izlaze kao dokaz. To podsjeća na stotine ranijih radova koji su obećavali 'univerzalne razrede' ili 'renormalizacijske grupe' u neuronskim mrežama, a završili kao zanimljive teorijske konstrukcije bez skalabilne primjene.
+
+Još jedan detalj koji nedostaje: kako se ovaj pristup nosi s šumom u podacima? Kritičnost je osjetljiva na perturbacije, a stvarni skupovi podataka rijetko su čisti kao teorijski modeli.
+
+<ArticleBreak />
+
+Ako se ova metoda pokaže robusnom, mogli bismo vidjeti pomak u načinu kako se obučavaju veliki modeli – s fiksnih arhitekturnih hiperparametara na dinamičke sustave koji se samoreguliraju. No, to je velika 'ako'.
+
+Trenutni open-source signali su mukli: nekoliko diskusija na Hugging Face forumima, ali bez jasnog konsenzusa ili replikacije rezultata. GitHub repozitorij povezan s radom ima samo nekoliko zvjezdica, što sugerira da zajednica još ne vidi dovoljnu praktičnu vrijednost.
+
+Za razvijatelje, prava vijest nije 'razmišljanje kritičnosti', već činjenica da su autori otvorili novi kanal za optimizaciju obuke. Umjesto da se fokusiraju na klasične gubitne funkcije, istraživači sada mogu eksperimentirati s kontrolom faznih prijelaza kao dodatnim alatom.
+
+No, bez čvršćih benchmark rezultata na standardnim zadacima (npr. GSM8K ili MMLU), teško je procijeniti koliko je ovaj pristup zaista bolji od postojećih.
+
+Dok autori traže univerzalne zakone u LLM-ovima, tržište i dalje traži pouzdane performanse. Ako će se PLDR-LLM-i uspješno implementirati, morat će se pokazati kao praktična rješenja koja donose konkretna poboljšanja. Sadašnji rad je samo početak, a dalje istraživanje je potrebno za potpunu ocjenu ove tehnologije.

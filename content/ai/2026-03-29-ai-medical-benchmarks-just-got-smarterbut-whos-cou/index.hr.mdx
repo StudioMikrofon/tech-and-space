@@ -1,0 +1,51 @@
+---
+id: "2026-03-29-ai-medical-benchmarks-just-got-smarterbut-whos-cou"
+db_id: 881
+title: "CAT testovi za LLM-ove: jeftinija medicina ili novi benchmarking cirkus?"
+lang: "hr"
+category: "ai"
+date: "2026-03-29T10:17:14Z"
+excerpt: "Novo istraživanje na [arXiv-u](https://arxiv."
+exec_summary: "The study validates Computerized Adaptive Testing (CAT) for LLM evaluation in medicine, claiming 40-60% cost savings over static benchmarks. But the real story isn’t efficiency—it’s whether regulators or startups will adopt it first, and if IRT’s assumptions even hold for generative models."
+key_points:
+  - "38 LLM-ova testirano adaptivnim medicinskim kvizovima"
+  - "Monte Carlo simulacije umjesto statičkih benchmarka"
+  - "Psihometrija protiv *data contamination* troškova"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.23506"
+image:
+  url: "/images/articles/ai-medical-benchmarks-just-got-smarterbut-whos-cou/main.jpg"
+  alt: "CAT testovi za LLM-ove: jeftinija medicina ili novi benchmarking cirkus?"
+subtitle: "Item Response Theory nasuprot marketing hypeu — tko zapravo štedi?"
+subtitleImage:
+  url: "/images/articles/ai-medical-benchmarks-just-got-smarterbut-whos-cou/subtitle.jpg"
+  alt: "Item Response Theory nasuprot marketing hypeu — tko zapravo štedi?"
+tags: ["LLM", "Item Response Theory", "Benchmarking"]
+lead_sentence: "Novo istraživanje na arXiv-u (2603.23506v1) koristi **Monte Carlo simulacije i 38 LLM-ova** da dokže kako psihometrijski pristupi mogu smanjiti troškove medicinskog benchmarkinga — ali samo ako zaboravimo na jedan detalj: modele ne možemo pitati 'što misle'."
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Novo istraživanje na [arXiv-u](https://arxiv.org/abs/2603.23506) (2603.23506v1) ne nudi još jedan 'revolucionarni' LLM benchmark, već pokušava riješiti dosadni problem: statičke medicinske teste za modele koštaju previše, brzo zastariju i lako ih kontaminiraju podaci. Umjesto toga, autori predlažu **Computerized Adaptive Testing (CAT)** — metodu koja već desetljećima radi u psihometriji, ali je sada prilagođena za evaluaciju 38 velikih jezikovnih modela.
+
+Riječ je o dvofaznom pristupu: prvo **Monte Carlo simulacije** koje kalibriraju težinu pitanja, potom empirijska validacija na human-calibrated medicinskom item banku. Ključna prednost?
+
+Test se dinamički prilagođava razini modela — što znači manje pitanja za iste rezultate, manju potrošnju resursa i (teorijski) kraći ciklus ažuriranja. Ali ovdje se pojavljuje prvi reality gap: dok je CAT u klasičnom testiranju dokazan, njegov prijelaz na LLM-e zahtijeva pretpostavku da modele možemo tretirati kao 'ispitanike' s konzistentnim znanjem.
+
+A to, kao što zna svaki inženjer koji je radio s few-shot prompting-om, nije uvijek slučaj.
+
+<ArticleBreak />
+
+Glavno pitanje nije da li ovo radi — autori tvrde da jesu potvrdili efikasnost — već **tko od ovoga ima korist**. Za startupe koji grade specijalizirane medicinske LLM-ove (poput [AbridgeAI](https://abridge.com/) ili [Hippocratic AI](https://www.hippocraticai.com/)), CAT bi mogao smanjiti troškove certifikacije za 40-60%, prema procjenama iz studije.
+
+Veliki igrači poput Google Health ili Microsoft Healthcare, međutim, vjerojatno neće žuriti — njihovi modeli već imaju pristup privatnim, kontroliranim datasetovima gdje data contamination nije problem. Zanimljivije je pitanje **community reakcije**: na [r/MachineLearning](https://www.reddit.com/r/MachineLearning/) se već pojavljuju komentari o 'još jednom sloju apstrakcije između benchmarka i stvarnog svijeta', dok dio istraživača na [GitHub-u](https://github.com/) ističe da IRT (Item Response Theory) zahtijeva **fine-tuned item banku** — što znači da će manji timovi morati ulagati u ručno kalibriranje pitanja, umjesto da samo skidaju gotove benchmarke.
+
+Pravi test za ovaj pristup neće biti akademska validacija, već **ko će ga prvotno usvojiti**. Ako ga prihvate regulatori (npr. [FDA za AI u medicini](https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-software-medical-device)), CAT bi mogao postati standard.
+
+Ako ostane samo u arXiv paperima, bit će još jedan alat koji 'radi u teoriji' — ali ne i u production-u.

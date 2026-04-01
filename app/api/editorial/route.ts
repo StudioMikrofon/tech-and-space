@@ -17,7 +17,7 @@ function getDb(readonly = false) {
   return db;
 }
 
-const FIELDS = `id, title, title_en, subtitle, subtitle_en, status, chosen_ending,
+const FIELDS = `id, title, title_en, subtitle, subtitle_en, category, status, chosen_ending,
                 endings_json, endings_en, part1, part1_en, part2, part2_en, images_json, body_md,
                 source_url, github_uploaded, lead_sentence, lead_sentence_en`;
 
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
       }
 
       // Whitelist allowed fields to prevent SQL injection
-      const allowedFields = ["title", "title_en", "subtitle", "subtitle_en", "part1", "part1_en", "part2", "part2_en"];
+      const allowedFields = ["title", "title_en", "subtitle", "subtitle_en", "part1", "part1_en", "part2", "part2_en", "category"];
       // Map base field to language-specific column: subtitle+lang=en → subtitle_en
       let dbField = field;
       if (lang === "en" && !field.endsWith("_en")) {

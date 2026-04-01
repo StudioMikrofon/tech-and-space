@@ -1,0 +1,51 @@
+---
+id: "2026-03-29-nanobots-4k-lines-of-python-hype-vs-agent-reality"
+db_id: 868
+title: "nanobot: 4000 redaka Python-a i agenti bez marketinške buke"
+lang: "hr"
+category: "ai"
+date: "2026-03-29T06:20:18Z"
+excerpt: "Iza još jednog ‘agent frameworka’ koji ne koristi riječ *revolucionaran* u opisu krije se [nanobot](https://github."
+exec_summary: "Nanobot, a 4k-line Python framework from HKUDS, offers a rare hands-on approach to AI agents—modular, transparent, and devoid of AGI hype. The real test isn’t its code size but whether developers will trade convenience for control in production environments."
+key_points:
+  - "Ultra-lakš framework s punim agent kapacitetima u 4k redaka"
+  - "Ručno rekonstruiranje jezgre umjesto ‘plug-and-play’ iluzije"
+  - "HKUDS-ov pristup: alati, memorija i podagenti bez AGI priče"
+source:
+  name: "marktechpost.com"
+  url: "https://www.marktechpost.com/2026/03/28/a-coding-guide-to-exploring-nanobots-full-agent-pipeline-from-wiring-up-tools-and-memory-to-skills-subagents-and-cron-scheduling/"
+image:
+  url: "/images/articles/nanobots-4k-lines-of-python-hype-vs-agent-reality/main.png"
+  alt: "nanobot: 4000 redaka Python-a i agenti bez marketinške buke"
+subtitle: "Demistificiranje agent pipeline-a koji ne obećava revoluciju, nego kod"
+subtitleImage:
+  url: "/images/articles/nanobots-4k-lines-of-python-hype-vs-agent-reality/subtitle.jpg"
+  alt: "Demistificiranje agent pipeline-a koji ne obećava revoluciju, nego kod"
+tags: ["Python", "Agent Pipeline", "Demystification"]
+lead_sentence: "HKUDS-ov nanobot dokazuje da puni agent pipeline može stati u 4000 redaka Python-a — ali i da većina timova neće imati strpljenja da ga ručno sastavi."
+geo:
+  name: "Hong Kong, China"
+  lat: 22.3193
+  lon: 114.1694
+  countryCode: "CN"
+featured: false
+approved: true
+---
+
+Iza još jednog ‘agent frameworka’ koji ne koristi riječ *revolucionaran* u opisu krije se [nanobot](https://github.com/HKUNLP/nanobot) — 4000 redaka Python-a iz laboratorija [HKUDS](https://hkuds.github.io/) koji čine ono što većina ne radi: umjesto da sakriju složenost iza API-ja, nude *razmontirani set za samostalno sastavljanje*. To nije još jedan LLM wrapper s pretencioznim imenom, nego stvarni pokušaj da se agenti svode na modularne komponente: alati koji *zapravo* komuniciraju s vanjskim sustavima, memorija koja nije samo cache već kontekstualni graf, i podagenti koji nisu marketing term nego konkretne Python klase.
+
+Tutorial na [MarkTechPost](https://www.marktechpost.com/) ide korak dalje od uobičajenog ‘instaliraj i pokreni’ — umjesto toga, korisnika vodi kroz ručno spajanje svake komponente, od cron schedulinga do dinamičkog dodjeljivanja zadataka između subagenta. To je rijetka transparentnost u svijetu gdje većina frameworka prodaje ‘magiju’ umjesto koda.
+
+Ali tu dolazimo do ključnog pitanja: ako je sve tako modularno i jednostavno, zašto onda većina timova i dalje koristi LangChain ili CrewAI? Odgovor nije u tehnologiji, nego u *trošku održavanja* — 4000 redaka može biti dovoljno za demo, ali koliko će ih biti potrebno kada agenti krenu raditi stvarne poslove?
+
+<ArticleBreak />
+
+Čini se da HKUDS ovdje cilja na specifičnu pukotinu na tržištu: razvojne timove koji ne žele black-box rješenja, ali im i nije do beskončnih YAML konfiguracija. Nanobotov pristup podsjeća na ranu fazu [FastAPI](https://fastapi.tiangolo.com/)-ja — minimalističan, ali s jasnom putanjom za proširenje. No, za razliku od web frameworka, ovdje ne postoji *killer feature* koji bi privukao mase.
+
+Umjesto toga, ponuđeno je nešto rijeđe: **kontrola**. Realnost je, naravno, da većina tvrtki neće imati resurse (ni volju) da ručno sastavlja agente kao Lego. Ali upravo tu leži strategijska prednost nanobot-a: on ne pokušava biti sve za svega, nego cilja na one koji *moraju* znati što se događa ispod haube.
+
+To uključuje startupe u reguliranim industriama (npr. fintech ili zdravstvo), gdje ‘crna kutija’ nije opcija, ili akademske timove koji trebaju reproducibilnost umjesto performansi. Zanimljivo je da [GitHub aktivnost](https://github.com/HKUNLP/nanobot) još uvijek nije eksplodirala — što ili znači da je community skeptičan, ili da je dokumentacija previše ‘za inženjere’. Rani signali sugeriraju da su upravo *iskusni* developeri oni koji se zanima: oni koji su već probali Autogen ili LlamaIndex i traže nešto s manjim overheadom.
+
+Ali tu je i opasnost: ako se framework ne usvoji dovoljno brzo, riskira da postane ‘zanimljiv eksperiment’ umjesto alata — sudbina mnogih dobrih, ali preuranjenih ideja u AI svijetu. Najveće pitanje ostaje **skalabilnost**. 4000 redaka je impresivno malo za puni agent pipeline, ali koliko će toga biti kada se dodaju stvarni integraciji — npr. s [Weaviate](https://weaviate.io/) za vektorsko pretraživanje ili [Apache Airflow](https://airflow.apache.org/) za orchestraciju? Tutorial to ne pokriva, a to je upravo granica između ‘zanimljivog’ i ‘korisnog’.
+
+Nanobotova budućnost je neizvjesna, ali njegova zamisao i pristup nude veliku nadu za razvojne timove koji traže kontrolu i fleksibilnost. Ako će uspjeti, nanobot bi mogao postati važan alat u svijetu umjetne inteligencije. Međutim, njegova skalabilnost i usvajanje će biti ključni faktori u njegovoj uspješnosti.

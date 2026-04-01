@@ -1,0 +1,51 @@
+---
+id: "2026-03-29-ai-depression-detectors-cheat-by-reading-the-inter"
+db_id: 850
+title: "Kako AI u dijagnostici depresije vara sam sebe"
+lang: "hr"
+category: "ai"
+date: "2026-03-29T02:04:56Z"
+excerpt: "Istraživanje objavljeno na arXivu pod brojem 2603."
+exec_summary: "A new study exposes a critical flaw in AI depression detection models: instead of analyzing patient responses, they rely on fixed interviewer prompts, making their high benchmark scores meaningless in real-world settings. This highlights systemic issues in AI evaluation culture and raises questions about other medical diagnostic tools trained on similarly biased datasets."
+key_points:
+  - "Modeli iskorištavaju fiksne intervjuerske fraze"
+  - "Tri javna skupa podataka s pogrešnim uzorkom"
+  - "Benchmark rezultati bez stvarne kliničke vrijednosti"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.24651"
+image:
+  url: "/images/articles/ai-depression-detectors-cheat-by-reading-the-inter/main.jpg"
+  alt: "Kako AI u dijagnostici depresije vara sam sebe"
+subtitle: "Što ako najbolji AI model za detekciju depresije ne razumije pacijenta?"
+subtitleImage:
+  url: "/images/articles/ai-depression-detectors-cheat-by-reading-the-inter/subtitle.jpg"
+  alt: "Što ako najbolji AI model za detekciju depresije ne razumije pacijenta?"
+tags: ["Depression Diagnosis", "AI Model Limitations", "Mental Health AI"]
+lead_sentence: "Istraživanje s arXiva otkriva da top AI modeli za detekciju depresije zapravo reagiraju na fiksne fraze intervjuera, a ne na pacijentove odgovore"
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Istraživanje objavljeno na arXivu pod brojem 2603.24651 otkriva neugodnu istinu: modeli za automatsku detekciju depresije iz razgovora liječnik-pacijent ne uče simptome, već memoriziraju šablone pitanja intervjuera. Analiza triju javnih skupova podataka — ANDROIDS, DAIC-WOZ i E-DAIC — pokazala je da sustavi postižu visoku točnost tako što prepoznaju fiksne fraze poput 'Kako se osjećate posljednjih tjedana?' umjesto da analiziraju stvarne emocionalne signale pacijenta.
+
+Problem nije tehnički, već metodološki. Polustrukturirani intervjui koji čine ove skupove podataka koriste gotovo identične skripte za kontrolne i depresivne grupe, pa modeli nauče razlikovati skupine na temelju pozicije pitanja u razgovoru, a ne sadržaja odgovora.
+
+To je kao da AI uči prepoznavati depresiju po broju redaka u transkriptu, a ne po tonu glasa ili izboru riječi. Autori ističu da se ovaj efekt pojavljuje čak i kod najnovijih jezičnih modela, koji su inače sposobni za kompleksnu analizu teksta.
+
+<ArticleBreak />
+
+Ironija je dvostruka: prvo, što je model 'pametniji', to je veća vjerojatnost da će otkriti i iskoristiti ovaj statistički artefakt. Drugo, sami istraživači koji su kreirali skupove podataka vjerojatno nisu bili svjesni da su ugradili ovaj bias — i to već godinama.
+
+Kako je moguće da su toliko različitih timova propustilo ovu grešku? Odgovor leži u kulturi AI benchmarkinga: nagrada ide onome tko postigne najviši rezultat na javnim skupovima podataka, a ne onome tko razumije što ti rezultati zapravo znače.
+
+DAIC-WOZ, na primjer, koristi se kao referentni skup za detekciju depresije već gotovo desetljeće, a istraživači nastavljaju graditi na tim podacima bez provjere njihove valjanosti. Ono što izgleda kao napredak — recimo, točnost od 90% — u stvarnosti je samo optička varka.
+
+Kad se uklone fiksni intervjuerski okviri, performanse padaju za preko 30 postotnih bodova, a modeli gube sposobnost generalizacije na nove, nestrukturirane razgovore. To je klasičan primjer kako AI industrija stvara vlastite lažne heroje: sustavi koji su 'pobjednici' na benchmarku u stvarnosti su beskorisni u kliničkoj praksi.
+
+Stoga je važno da se u budućim istraživanjima i razvoju AI sustava za dijagnostiku depresije uloži više pažnje na metodološku čvrstoću i valjanost podataka. To će omogućiti stvaranje sustava koji će biti korisni u kliničkoj praksi i koji će zaista moći pomoći pacijentima. Također, potrebno je promovirati kulturu transparentnosti i otvorenosti u AI zajednici, kako bi se mogli lakše prepoznavati i ispravljati greške.

@@ -1,0 +1,48 @@
+---
+id: "2026-03-29-gemini-3-1-flash-live-googles-low-latency-hype-che"
+db_id: 860
+title: "Gemini 3.1 Flash Live: Googleov real-time bluff ili stvarni napredak?"
+lang: "hr"
+category: "ai"
+date: "2026-03-29T04:16:52Z"
+excerpt: "Google je upravo u *preview* režimu otpustio [Gemini 3."
+exec_summary: "Google’s latest AI model promises ultra-low latency for real-time voice agents, but the *«preview»* label and missing stress-test benchmarks raise questions about production readiness. The real play here is locking developers into Google’s ecosystem before competitors like Meta or Nvidia refine their own stacks—while open-source tools already offer similar functionality without the hype."
+key_points:
+  - "Najniža latencija u Googleovoj povijesti — ali samo u demo uvjetima"
+  - "Multimodalni streamovi bez prethodnog bufferinga (bar u teoriji)"
+  - "Developeri već primjećuju ograničenja u API dokumentaciji"
+source:
+  name: "marktechpost.com"
+  url: "https://www.marktechpost.com/2026/03/26/google-releases-gemini-3-1-flash-live-a-real-time-multimodal-voice-model-for-low-latency-audio-video-and-tool-use-for-ai-agents/"
+image:
+  url: "/images/articles/gemini-3-1-flash-live-googles-low-latency-hype-che/main.jpg"
+  alt: "Gemini 3.1 Flash Live: Googleov real-time bluff ili stvarni napredak?"
+subtitle: "Između benchmarka i proizvoda: tko zapravo može koristiti ovu ‘revoluciju’?"
+subtitleImage:
+  url: "/images/articles/gemini-3-1-flash-live-googles-low-latency-hype-che/subtitle.png"
+  alt: "Između benchmarka i proizvoda: tko zapravo može koristiti ovu ‘revoluciju’?"
+tags: ["Gemini", "Google", "Real-time Inference"]
+lead_sentence: "Gemini 3.1 Flash Live procesuira audio, video i alate u real-timeu — ali samo u 5-minutnim *«preview»* sesijama s nepoznatim performansama pod opterećenjem."
+geo:
+  name: "Mountain View, United States"
+  lat: 37.386052
+  lon: -122.083851
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Google je upravo u *preview* režimu otpustio [Gemini 3.1 Flash Live](https://ai.google.dev/) — model koji, prema njihovim riječima, nudi *«najkvalitetniji audio i govor do sada»* s *«ultra-niskom latencijom»* za real-time interakcije. Problem? *«Preview»* znači da je to još uvijek igračka za odabrane developere u [Google AI Studiju](https://aistudio.google.com/), a ne gotov proizvod za masovnu upotrebu.
+
+Čak i tako, tvrtka ističe kako model *«nativno procesuira multimodalne streamove»* — audio, video i alate — bez potrebe za prethodnim spajanjem podataka. To mogli biti koraci prema agentima koji stvarno *«razumiju»* kontekst, ali je preuranjeno slaviti.
+
+Dok marketing govori o *«prirodnijim»* razgovorima, stvarni test će biti koliko će ova *«niža latencija»* funkcionirati van kontroliranih demo okruženja. Google navodi poboljšanja u *«real-time reakcijama»*, ali bez konkretnih brojeva o kašnjenju u stres-testovima (npr. s 10.000 istovremenih korisnika) — a to je upravo gdje se obično otkrivaju *«magične»* performanse.
+
+<ArticleBreak />
+
+Zanimljivije od samog modela je što Google ovdje *ne* govori o općoj dostupnosti, već cilja isključivo developere koji grade *«AI agente»*. To nije slučajno — tržište za real-time glasovne asistente (od call centara do igara) raste za [28% godišnje](https://www.gartner.com/), a tko god prvi stabilizira ovakav stack moći će diktirati standarde.
+
+Pravi signal ovdje nije u samom modelu, već u tome što Google *opet* gura granice API pristupa. 
+  [Gemini Live API](https://developers.google.com/gemini) nudi *«streaming»* podršku za audio i video, ali s ograničenjima: maksimalno 5 minuta neprekidnog streama po sesiji, a dokumentacija upozorava na *«moguće degradacije performansi»* pri kompleksnijim multimodalnim upitima.
+
+Developer community već reagira: na [GitHubu](https://github.com/google/generative-ai-docs) se pojavljuju pitanja o *«skalabilnosti»* i *«cijenama»* (jer *«preview»* obično znači *«besplatno dok ne postane plaćeno»*), dok neki ističu kako slične funkcije već nude [open-source alternativi](https://huggingface.co/spaces) — samo bez Googleovog *«polirane»* marketinške ambalaže. Zanimljivo je i što se [Nvidia](https://www.nvidia.com/en-us/ai/) još nije oglasila s vlastitim rješenjem za ovakve use case-ove, iako imaju hardver prednosti.

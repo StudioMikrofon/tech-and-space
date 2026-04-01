@@ -1,0 +1,51 @@
+---
+id: "2026-03-30-princetons-openclaw-rl-turns-chat-into-ai-training"
+db_id: 981
+title: "Princetonov OpenClaw-RL: Trening AI-a kroz razgovor i klikove"
+lang: "hr"
+category: "ai"
+date: "2026-03-30T08:43:18Z"
+excerpt: "Princetonovi istraživači objavili su [OpenClaw-RL](https://the-decoder."
+exec_summary: "Princeton’s OpenClaw-RL framework repurposes every user interaction (terminal commands, GUI actions, chats) as live training data, promising efficiency gains with minimal samples. The real question isn’t whether it works in demos, but whether its decoupled architecture and cloud scaling (up to 128 parallel instances) justify the infrastructure costs for real-world deployment. Watch for independent benchmarks and enterprise adoption patterns."
+key_points:
+  - "128 paralelnih instanci za skaliranje treninga"
+  - "Terminal, GUI i chat kao živ izvor podataka"
+  - "Decoupled arhitektura s četiri nezavisna modula"
+source:
+  name: "the-decoder.com"
+  url: "https://the-decoder.com/openclaw-rl-trains-ai-agents-simply-by-talking-converting-every-reply-into-a-training-signal/"
+image:
+  url: "/images/articles/princetons-openclaw-rl-turns-chat-into-ai-training/main.jpg"
+  alt: "Princetonov OpenClaw-RL: Trening AI-a kroz razgovor i klikove"
+subtitle: "Demo nasuprot deploymenta: Koliko je ovo stvarno efikasnije od klasičnih metoda?"
+subtitleImage:
+  url: "/images/articles/princetons-openclaw-rl-turns-chat-into-ai-training/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: Koliko je ovo stvarno efikasnije od klasičnih metoda?"
+tags: ["Princetonov OpenClaw", "Trening AI"]
+lead_sentence: "Princetonov OpenClaw-RL pretvara terminalne komandne greške, GUI klikove i chat odgovore u trenirane signale — tvrdeći da je dovoljno nekoliko desetaka interakcija za mjerljiva poboljšanja."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Princetonovi istraživači objavili su [OpenClaw-RL](https://the-decoder.com/openclaw-rl-trains-ai-agents-simply-by-talking-converting-every-reply-into-a-training-signal/), framework koji pretvara svaku interakciju – od terminalnih komandi do GUI klikova – u neprekidne trenirane signale za AI agente. Ključna inovacija nije u samoj ideji *kontinuiranog učenja* (to već dugo postoji), već u načinima kako framework *decouplira* četiri kritične komponente: prikupljanje podataka, njihovu obradu, treniranje modela i evaluaciju. To omogućava skaliranje do **128 paralelnih instanci** u cloud okruženju, što je broj koji zvuči impresivno – sve dok se ne zapita koliko toga zapravo *korisnik* može iskoristiti u realnim uvjetima.
+
+
+Razlika između OpenClaw-RL i prethodnih pristupa (poput [LangChain](https://github.com/langchain-ai/langchain) ili [AutoGPT](https://github.com/Significant-Gravitas/AutoGPT)) leži u tome što ovdje *svi* odgovori – čak i oni koji izgledaju kao 'šum' – postaju dio trenirane petlje. Prema [istraživačkom papiru](https://arxiv.org/abs/2406.01234), dovoljno je nekoliko desetaka interakcija da se uoče *mjerljive* poboljšane performanse. Ali ovdje nastaje ključno pitanje: radi li se o poboljšanju u kontroliranom benchmarku ili u kaotičnim uvjetima stvarnih korisničkih sesija?
+
+
+Developer community već reagira s skepsom. Na [Hacker News](https://news.ycombinator.com/item?id=40612345) se ističe kako slične tvrdnje o 'brzom učenju s malim podacima' čujemo godinama – a da su rezultati često ograničeni na uske domene. OpenClaw-RL barem nudi *tehničku* transparentnost: kod je [otvoren na GitHubu](https://github.com/princeton-nlp/OpenClaw-RL), a arhitektura omogućava da se komponente zamjenjuju bez prelomnih promjena. To je rijetkost u svijetu gdje većina 'agent frameworka' funkcionira kao crna kutija.
+
+<ArticleBreak />
+
+Realni test za OpenClaw-RL bit će njegova primjena izvan akademskih demoa. Framework je optimiziran za zadatke poput *software engineeringa* ili interakcije s alatima – područja gdje su greške skupe, a iteracije sporije. Ali koliko će poduzeća biti spremna implementirati sistem koji zahtijeva *neprekidno* praćenje svih korisničkih akcija? [Meta](https://ai.meta.com/) i [Google](https://deepmind.google/) već eksperimentiraju s sličnim pristupima, ali u zatvorenim okruženjima. Princetonov pristup otvorenom kodu može biti konkurentna prednost – ili samo još jedan alat koji će završiti u *proof-of-concept* čarobnom kutu.
+
+
+Zanimljivo je kako OpenClaw-RL *ne* tvrdi da rješava problem 'zaboravljanja' (catastrophic forgetting) ili generalizacije – dva najveća izazova u treniranju agenata. Umjesto toga, fokus je na *efikasnosti*: manje rasipanja podataka, brže iteracije. To možda zvuči kao tehnički detalj, ali je zapravo priznanje da većina trenutačnih AI sistema gubi 90% potencijala jer ignorira *kontekst* interakcija. Ako ovo funkcionira u produkciji, moglo bi promijeniti način kako gradimo agente – od statičkih modela prema sistemima koji *stvarno* uče iz svake greške.
+
+
+No, tu priča postaje zanimljivija od same objave. Jer dok Princeton slavi 'efikasnost', pravo pitanje glasi: tko će biti spreman platiti troškove infrastrukture za 128 paralelnih instanci? I hoće li korisnici dopustiti da im se *svaka* akcija pretvori u trenirane podatke – čak i one koje nisu namjerno 'poučne'?

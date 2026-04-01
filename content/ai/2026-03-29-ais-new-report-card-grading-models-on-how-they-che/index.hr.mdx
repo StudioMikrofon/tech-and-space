@@ -1,0 +1,53 @@
+---
+id: "2026-03-29-ais-new-report-card-grading-models-on-how-they-che"
+db_id: 879
+title: "Točnost nije dovoljna: simbolička mehanika protiv AI šorteva"
+lang: "hr"
+category: "ai"
+date: "2026-03-29T10:06:55Z"
+excerpt: "ArXivov rad 2603."
+exec_summary: "This isn’t about beating benchmarks but exposing their flaws: a symbolic-mechanistic evaluation framework reveals where models genuinely generalize versus exploit brittle patterns. The NL-to-SQL case study shows how high accuracy can mask critical failures—critical for enterprises but inconvenient for vendors selling black-box solutions. Watch for tooling vendors (W&B, Arize) to capitalize on this 'compliance gap' before regulators do."
+key_points:
+  - "Mehanizam-aware evaluacija umjesto pukog accuracyja"
+  - "NL-to-SQL test otkriva krhke heuristike modela"
+  - "Razlika između generalizacije i pamćenja schema"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.23517"
+image:
+  url: "/images/articles/ais-new-report-card-grading-models-on-how-they-che/main.jpg"
+  alt: "Točnost nije dovoljna: simbolička mehanika protiv AI šorteva"
+subtitle: "Demo nasuprot deploymenta: tko zapravo dobiva prednost"
+subtitleImage:
+  url: "/images/articles/ais-new-report-card-grading-models-on-how-they-che/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: tko zapravo dobiva prednost"
+tags: ["Symbolic Reasoning", "AI Deployment", "Machine Learning Models"]
+lead_sentence: "Novi arXiv rad ne nudi još jedan SOTA model, nego metodu koja razotkriva kako 80% 'točnih' AI rješenja zapravo radi na pamćenju umjesto razumijevanja."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+ArXivov rad 2603.23517 ne nudi novi model, nego novi način ocjenjivanja — što je, ironično, puno važnije od još jednog finetuneanog transformera. Autori ne osporavaju točnost kao metriku, nego njenu nedovoljnost: u režimima s malim podacima, visoka točnost skriva memorizaciju, data leakage ili krhke heuristike koje se lome pri prvom realnom testu.
+
+Ključna inovacija? Kombiniranje simboličkih pravila specifičnih za zadatak (npr.
+
+SQL sintaksa) s mehanističkom interpretabilnošću — što rezultira binarnim prolazi/pada rezultatima koji precizno pokazuju gdje model razumije, a gdje samo pretpostavlja. Demonstracija na NL-to-SQL zadatku je namjerno surova: isti arhitektonski model treniran je pod dva uvjeta — jedan bez informacija o shemi baze, drugi s njima.
+
+Rezultati pokazuju da 'pametniji' model (onaj s višom točnošću) zapravo eksploatira shematske obrasce umjesto da generira upite na temelju semantičkog razumijevanja. To nije samo akademska nitkohranica — upravo ovakvi shortcutovi su razlog zašto 80% 'uspješnih' chatbotova u productionu postane beskorisno čim korisnik skrene s učenog scenarija.
+
+Ovdje se krije pravi hype filter: autorima nije cilj pobijediti SOTA benchmarkove, nego pokazati kako ih dekonstruirati. To je rijetka vrsta rada koji ne prodaje 'bolje rezultate', nego 'bolje pitanja'.
+
+<ArticleBreak />
+
+Realnost je, naravno, složenija od demo primjera. Metoda zahtijeva ručno definirana simbolička pravila za svaki zadatak — što je u industriji gdje se 'skalabilnost' ponavlja kao mantra potencijalno neprohodan problem.
+
+Ali upravo ta neskalabilnost može biti prednost: ako se pokaže da samo 10% zadataka zahtijeva ovakav pristup da bi se otkrile kritične pukotine, to je i dalje bolje od slijepog vjerovanja u točnost metrike. Reakcije na r/ML sugeriraju da dio communityja već eksperimentira s sličnim pristupima, ali bez formaliziranog okvira — ovdje imamo prvi korak ka standardizaciji.
+
+Najzanimljivije je tko ovime gubi: startupima koji prodaju 'black-box' rješenja za enterprise postaje teže skrivati nedostatke iza 'visoke točnosti'. S druge strane, igračima poput Weights & Biases ili Arize AI — koji se specijaliziraju za observabilnost i debugging — ovo je besplatan marketing.
+
+Ako se pristup ukorijeni, možemo očekivati val 'mehanizam-aware' alata koji će biti prodavani kao compliance za kritične sustave, a ne kao 'nice-to-have' feature. Stvarno usko grlo možda uopće nije u modelima, nego u našoj volji da prihvatimo da su 'dobri rezultati' često samo iluzija — a to je poruka koju malo tko u AI marketingu želi čuti.

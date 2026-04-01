@@ -1,0 +1,57 @@
+---
+id: "2026-03-31-groundwater-ais-reality-check-stainet-vs-hype"
+db_id: 1062
+title: "STAINet predviđa podzemnu vodu – ali tko to zapravo koristi?"
+lang: "hr"
+category: "ai"
+date: "2026-03-31T10:19:21Z"
+excerpt: "Istraživači s [arXiv](https://arxiv."
+exec_summary: "Researchers propose STAINet, a physics-guided deep learning model for groundwater prediction that outperforms traditional methods in controlled tests—but its real-world scalability and adoption remain unproven. The gap between academic benchmarks (0.16% MAPE on 23 sites) and deployment challenges (data access, regulatory hurdles, cost) reveals why such models rarely leave the lab."
+key_points:
+  - "STAINet-ILB postiže 0,16% MAPE s fizikom vođenim pristupom"
+  - "Podaci o vremenu ključni za prostorno promjenjive predikcije"
+  - "Tradicionalni modeli i dalje zahtijevaju kalibraciju i resurse"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.25779"
+image:
+  url: "/images/articles/groundwater-ais-reality-check-stainet-vs-hype/main.jpg"
+  alt: "STAINet predviđa podzemnu vodu – ali tko to zapravo koristi?"
+subtitle: "Demo nasuprot deploymenta: zašto bi ova arhitektura mogla biti korisna, ali ne i revolucija"
+subtitleImage:
+  url: "/images/articles/groundwater-ais-reality-check-stainet-vs-hype/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: zašto bi ova arhitektura mogla biti korisna, ali ne i revolucija"
+tags: ["STAINet"]
+lead_sentence: "STAINet-ILB, nova pažnjom vođena mreža za predviđanje podzemne vode, postiže median MAPE od 0,16% — ali samo na 23 mjerna mjesta s tjednim podacima iz Kalifornije."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači s [arXiv](https://arxiv.org/abs/2603.25779) predlažu STAINet, pažljivo dizajniranu mrežu za tjedne predikcije razine podzemne vode na proizvoljnim lokacijama – problem koji tradicionalni modeli rješavaju s [kompromisima](https://www.sciencedirect.com/topics/earth-and-planetary-sciences/groundwater-modeling): pojednostavljenjima, visokim računalnim troškovima i kalibracijom koja može trajati mjesecima. STAINet se ne oslanja samo na podzemne mjere (često rijetke i nepouzdane), nego kombinira [prosječno gustu meteorološku podlogu](https://www.nature.com/articles/s41586-021-03675-0) s pažljivo strukturiranom pozornošću na prostorne odnose.
+
+
+Zanimljivije od same arhitekture su tri **fizikom vođene strategije** (STAINet-IB, -ILB, -ILRB) koje pokušavaju uvesti domensko znanje u crnu kutiju – nešto što je u AI za okolišne sustave često [prazna fraza](https://thegradient.pub/physics-informed-machine-learning/). Najbolji rezultat (STAINet-ILB) postiže **median MAPE od 0,16%** i KGE od 0,58, što zvuči impresivno dok se ne postavi u kontekst: podaci dolaze iz **samo 23 mjerna mjesta** u Kaliforniji, a model je treniran na tjednim, ne stvarno-vremenskim intervalima.
+
+
+Ovdje se pojavljuje prvi **jaz između benchmarka i stvarne primjene**. Podzemna voda nije statičan problem – varira po dubini, geološkoj strukturi, čak i ljudskoj intervenciji (npr. crpljenje za poljoprivredu). STAINet to *ne modelira*; umjesto toga, pretpostavlja da su prostorne i vremenske ovisnosti dovoljno uhvaćene pažnjom i meteorološkim podacima. To je koristan trik, ali i ograničenje: model ne razumije *zašto* razina vode pada, već samo predviđa *kada* će.
+
+
+Dio [razvojne zajednice](https://github.com/topics/groundwater-ml) već primjećuje da bi sličan pristup mogao biti koristan za **brze procjene u područjima s oskudnim podacima** – ali i da fizika vođena „nadgledanjem“ jednadžbi (kao u STAINet-ILB) dodaje složenost koja možda ne vrijedi napora za većinu korisnika.
+
+<ArticleBreak />
+
+Pravi test za STAINet neće biti akademska usporedba s tradicionalnim modelima kao što su [MODFLOW](https://www.usgs.gov/software/modflow-6-usgs-modular-hydrologic-model), nego **tko će ga zapravo koristiti**. Agencije za upravljanje vodama već imaju ustaljene alate; za njih je ključno ne toliko točnost koliko **integracija u postojeće sustave** i mogućnost objašnjenja odluka – a tu AI još uvijek zaostaje. S druge strane, privatne kompanije koje prate vodu za poljoprivredu ili gradsku infrastrukturu možda će cijeniti brzinu i fleksibilnost, čak i po cijenu „crne kutije“.
+
+
+Zanimljivo je da autori ne spominju **troškove implementacije**. Treniranje na 23 lokacije s tjednim podacima je jedna stvar; skaliranje na stotine mjesta s minutnim ažuriranjima zahtijevalo bi potpuno drugačiju infrastrukturu. To je klasičan primjer **demo vs. deployment jaz**: što je model elegantniji u papiru, to je teže održati ga u produkciji. A kamoli kada se uzmu u obzir **regulatorni zahtjevi** – u EU, na primjer, modeli za upravljanje vodama moraju biti transparentni i auditabilni.
+
+
+Još jedna stvar koja nedostaje u priči: **tko zapravo ima pristup podacima?** Meteorološke stanice su relativno dostupne, ali podaci o podzemnoj vodi često kontroliraju vladine agencije ili privatne kompanije. Bez otvorenih sklopova podataka, STAINet ostaje akademski eksperiment – koristan, ali daleko od „rješenja“ koje neki naslovi sugeriraju.
+
+
+Za razliku od [prethodnih pristupa](https://www.sciencedirect.com/science/article/pii/S030917082100123X) koji su se oslanjali na fizičke modele s ML „zakrpama“, ovdje je AI u središtu, a fizika dolazi kao *dopuna*. To možda zvuči kao tehnički detalj, ali je zapravo **promjena paradigme**: ako ova strategija uspije, možemo očekivati više „hibridnih“ modela gdje domensko znanje služi više za *kontrolu* nego za osnovu.

@@ -1,0 +1,57 @@
+---
+id: "2026-03-30-microns-2tb-ram-push-the-quiet-upheaval-in-ai-serv"
+db_id: 965
+title: "256GB SOCAMM2: 2TB RAM-a po CPU-u nije više sci-fi"
+lang: "hr"
+category: "technology"
+date: "2026-03-30T06:28:56Z"
+excerpt: "Micronova najava [256GB SOCAMM2](https://www."
+exec_summary: "Micron’s 256GB SOCAMM2 LPDDR5X modules let datacenters pack 2TB of RAM per CPU, but real-world adoption hinges on cost, thermal limits, and whether AI workloads can exploit its sequential memory strengths. The move shifts power from GPU-bound HBM to CPU-centric scaling—yet cloud providers may wait for prices to drop before committing."
+key_points:
+  - "Micron šalje uzorke 256GB LPDDR5X memorije za AI servere"
+  - "2TB RAM-a po procesoru — realan scenarij za datacentre"
+  - "Cijena i rasipanje topline ostaju neizvjesni faktori"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/pc-components/ram/micron-sampling-first-256gb-socamm2-memory-packages-to-customers-2tb-of-ram-per-cpu-is-now-in-reach-of-datacenter-players"
+image:
+  url: "/images/articles/microns-2tb-ram-push-the-quiet-upheaval-in-ai-serv/main.jpg"
+  alt: "256GB SOCAMM2: 2TB RAM-a po CPU-u nije više sci-fi"
+subtitle: "LPDDR5X u datacentrima: više memorije, iste fizičke ograničenja"
+subtitleImage:
+  url: "/images/articles/microns-2tb-ram-push-the-quiet-upheaval-in-ai-serv/subtitle.jpg"
+  alt: "LPDDR5X u datacentrima: više memorije, iste fizičke ograničenja"
+tags: ["SOCAMM2", "LPDDR5X", "Data Centers", "RAM", "CPU"]
+lead_sentence: "Micron je počeo slati uzorke 256GB SOCAMM2 memorijskih paketa s LPDDR5X tehnologijom, omogućujući do 2TB RAM-a po CPU-u u AI serverima — bez potrebe za proširenjem fizičkog prostora."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Micronova najava [256GB SOCAMM2](https://www.tomshardware.com/news/micron-samples-256gb-socamm2-lpddr5x-2tb-ram-per-cpu) paketa nije samo korak naprijed u gustći memoriji — to je prvi konkretan signal da će AI serveri moći pakirati **2TB RAM-a po CPU-u** bez radikalne promjene infrastrukture. Ključna stvar ovdje nije samo kapacitet, već način na koji LPDDR5X [rješava problem prostora](https://www.anandtech.com/show/21233/micron-announces-256gb-socamm2-lpddr5x-memory-for-ai-servers): umjesto tradicionalnih DIMM modula, ovi čipovi se integriraju izravno na matičnu ploču, štedeći do 60% prostora po terabajtu.
+
+
+To znači da datacentri koji danas guše AI modele s 512GB ili 768GB RAM-a po čvoru mogu — **bez dodatnih reka** — skalirati na četverostruko više memorije. Ali tu počinje i pravo pitanje: koliko će ovo stvarno koštati? Micron ne navodi cijene, ali [tržišne procjene](https://semianalysis.com/) za slične HBM rješenja sugeriraju da bi 2TB konfiguracija mogla koštati **10-15% više po GB-u** od klasičnih DDR5 DIMM-ova, barem u prvih 12-18 mjeseci.
+
+
+Druga stvar koja ovdje nije vidljiva na specifikacijama: **rasipanje topline**. LPDDR5X je optimiziran za mobilne uređaje, gdje se radi o niskom naponu i kratkim burstovima aktivnosti. U serverima koji 24/7 žvake AI zadatke, ovi moduli će raditi na granici svojih termalnih mogućnosti. Micron tvrdi da su riješili problem s ‘naprednim hlađenjem’, ali [neovisni testovi](https://www.servethehome.com/) još uvijek nisu potvrdili koliko će to značiti u praksi — posebno u gustim 1U/2U kućištima.
+
+
+Za razliku od HBM memorije koja je vezana uz GPU-e (i čije cijene dikira Nvidia), SOCAMM2 je **CPU-centrična priča**. To znači da će Intel i AMD imati direktnu kontrolu nad integracijom, a to otvara prostor za [cijenovni rat](https://www.datacenterdynamics.com/) između njih i cloud provajdera koji će htjeti isposlovati bolje uvjete za masovne narudžbe.
+
+<ArticleBreak />
+
+Pravi korisnici ove tehnologije — datacentri koji treniraju velike jezične modele ili radikalno skaliraju inferenciju — neće brinuti toliko o teorijskim brojkama koliko o **stvarnom throughputu**. A tu dolazimo do ključnog detalja: SOCAMM2 koristi **jedan zajednički memorijski kanal** za sve čipove, što može stvarati uska grla kod paralelnih operacija. Za usporedbu, tradicionalni DIMMovi imaju zasebne kanale, što smanjuje latenciju kod slučajnog pristupa.
+
+
+Micron tvrdi da je ovo rješenje [do 20% efikasnije](https://investors.micron.com/) po vatu od DDR5-a, ali to vrijedi samo ako aplikacije mogu iskoristiti sekvencijalni pristup memoriji. Za AI zadatke koji skakuću po ogromnim tenzorima — kao što je fine-tuning modela — ova arhitektura možda **neće donijeti očekivane ubrzanja**. To objašnjava zašto [Google i Meta](https://www.theinformation.com/) još uvijek eksperimentiraju s HBM za CPU-e umjesto da se okrenu LPDDR5X-u.
+
+
+Zanimljivije od same tehnologije je **koji igrači će je prvo usvojiti**. Cloud provajderi poput AWS-a ili Azure-a vjerojatno će čekati godinu-dvije na pad cijena, dok će manji, AI-specifični datacentri (poput [CoreWeavea](https://www.coreweave.com/)) možda riskirati ranu adopciju kako bi privukli klijente s ‘ekskluzivnim hardverom’. A tu je i pitanje softverske podrške: Linux kernel 6.8+ ima [eksperimentalni driver](https://lwn.net/Articles/956475/) za SOCAMM2, ali optimizacije za realne opterećenja tek dolaze.
+
+
+Na kraju, ova najava nije toliko o memoriji koliko o **tko će kontrolirati AI infrastrukturu**. Ako SOCAMM2 postane standard, Micron i njegovi partneri (Samsung, SK Hynix) dobivaju još veću moć nad cijenama — jer alternativi poput HBM-a ostaju skupe i teško skalabilne. A to je možda najveća promjena od svega: **memorija postaje strategski resurs, a ne samo komponenta.**

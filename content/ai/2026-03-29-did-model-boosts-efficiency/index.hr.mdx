@@ -1,0 +1,54 @@
+---
+id: "2026-03-29-did-model-boosts-efficiency"
+db_id: 885
+title: "DID model: Konačno rješenje za maskiranje ili samo novi pokušaj?"
+lang: "hr"
+category: "ai"
+date: "2026-03-29T10:21:49Z"
+excerpt: "Istraživači s arXiv-a upravo su predstavili Deletion-Insertion Diffusion (DID) modele, obećavajući \"efikasniju i fleksibilniju\" alternativu postojećim Masked Diffusion Language Modelima (MDLM-ima)."
+exec_summary: "Researchers introduce Deletion-Insertion Diffusion (DID) models as a more efficient alternative to Masked Diffusion Language Models, claiming computational and flexibility improvements. While the theoretical benefits are clear, the real test will be community adoption and real-world performance against established models like LLaMA. The paper highlights a common tension in AI: promising benchmarks vs. deployment reality."
+key_points:
+  - "DID zamjenjuje maskiranje brisanjem i umetanje tokena"
+  - "Uklanja suvišna računanja na neinformativnim tokenima"
+  - "ArXiv rad otvara pitanje praktične primjene"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.23507"
+image:
+  url: "/images/articles/did-model-boosts-efficiency/main.jpg"
+  alt: "DID model: Konačno rješenje za maskiranje ili samo novi pokušaj?"
+subtitle: "Što se ovdje stvarno promijenilo – osim naziva?"
+subtitleImage:
+  url: "/images/articles/did-model-boosts-efficiency/subtitle.png"
+  alt: "Što se ovdje stvarno promijenilo – osim naziva?"
+tags: ["DID model", "Masking", "Language Modeling"]
+lead_sentence: "Novi arXiv rad predlaže DID modele kao rješenje za efikasnije generiranje teksta, ali pravo pitanje je koliko će to zapravo promijeniti igru."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači s arXiv-a upravo su predstavili Deletion-Insertion Diffusion (DID) modele, obećavajući "efikasniju i fleksibilniju" alternativu postojećim Masked Diffusion Language Modelima (MDLM-ima). Prema radu [2603.23507v1](https://arxiv.org/abs/2603.23507), DID zamjenjuje tradicionalno maskiranje i odmaskiranje procesom brisanja i umetanja tokena kao diskretnim difuzijskim koracima. Teorija zvuči elegantno – umjesto da model troši računarske resurse na predviđanje neinformativnih [MASK] tokena, DID ih jednostavno briše i ponovno generira kad zatreba. 
+
+
+No kako to često biva u svijetu AI-ja, razlika između demoa i stvarne primjene često je veća nego što marketing sugerira. Iako autori tvrde da DID eliminira „dva glavna izvora računanja“ u MDLM-ima, ostaje pitanje koliko će ta optimizacija zapravo biti vidljiva u realnim scenarijima. Sintetički benchmarkovi lako mogu biti dizajnirani u korist novog pristupa, ali što se događa kada model susretne nepredvidive, varijabilne duljine sekvenci kakve nalazimo u stvarnom svijetu? 
+
+
+Zanimljivo je da rad ne nudi direktne usporedbe s najnovijim verzijama MDLM-a kao što su [LLaMA-3.1](https://ai.meta.com/blog/meta-llama-3-1/) ili [DeepSeek-V2](https://github.com/deepseek-ai/DeepSeek-V2), koji već optimiziraju računanje na sličan način. Umjesto toga, fokus je na teorijskoj superiornosti DID-a, što odmah budi skepticizam: ako je ideja toliko dobra, zašto je nitko dosad nije implementirao na širokoj razini?
+
+<ArticleBreak />
+
+Prvi praktični testovi bit će ključni. Ako DID zaista nudi bolju efikasnost, zašto se na GitHub-u ili Hugging Face-u još ne vide implementacije? [ArXiv komentar thread](https://arxiv.org/abs/2603.23507#comments) trenutno je tih, što nije dobar znak – obično aktivne diskusije prate obećavajuće radove. Umjesto toga, glavna priča ostaje prisutnost dvije velike istraživačke grupe iza projekta, što sugerira da ovo nije samo akademski eksperiment, već potencijalno oruđe za optimizaciju velikih modela. 
+
+
+Industrijska mapa ovdje je jasna: svaki tko koristi difuzijske modele za generiranje teksta (od startup-a do velikih tech divova) traži načine da smanji troškove treniranja i inferencije. Ako DID zaista radi kako tvrdi, mogli bismo vidjeti brzu adopciju u okviru otvorenog koda, slično kao što se dogodilo s [FlashAttention](https://github.com/Dao-AILab/flash-attention). No, za sada, to i dalje ostaje veliko ‚ako‘. 
+
+
+Pravi signal ovdje nije samo tehnička inovacija, već reakcija zajednice. Ako open-source programeri počnu eksperimentirati s DID-om u sljedećih mjesec dana, to će biti znak da je nešto stvarno novo. Ako ne, onda je ovo samo još jedan od onih radova koji izgledaju sjajno na papiru, ali nikada ne napuste laboratorij. 
+
+
+Za sve buku oko „fleksibilnijeg modeliranja“, ostaje činjenica da nikakav benchmark ne govori o stvarnim performansama u produkciji. Demonstracije su uvijek čiste i kontrolirane; stvarni svijet je kaotičan. Kako će DID reagirati na neočekivane duljine teksta, posebne znakove ili jezike s bogatom morfologijom? Na to pitanje zasad nitko nema odgovor.

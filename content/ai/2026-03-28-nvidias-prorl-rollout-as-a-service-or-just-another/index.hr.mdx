@@ -1,0 +1,41 @@
+---
+id: "2026-03-28-nvidias-prorl-rollout-as-a-service-or-just-another"
+db_id: 806
+title: "NVIDIA-ov ProRL: Revolucija ili optimizirani pipeline?"
+lang: "hr"
+category: "ai"
+date: "2026-03-28T06:15:08Z"
+excerpt: "NVIDIA je predstavio ProRL AGENT, infrastrukturu koja obećava skalabilno treniranje višefaznih LLM agenata koristeći koncept 'Rollout-as-a-Service'."
+exec_summary: "NVIDIA's ProRL AGENT introduces a 'Rollout-as-a-Service' infrastructure to decouple reinforcement learning rollouts from training loops, aiming to reduce bottlenecks. While technically sound, the announcement raises questions about genuine innovation versus repackaged solutions, particularly in comparison to existing open-source tools. The real impact may lie in NVIDIA's ability to further integrate its ecosystem rather than in breakthrough performance gains."
+key_points:
+  - "Razdvajanje rollouta od treniranja"
+  - "I/O-GPU konflikti kao ključno usko grlo"
+  - "Marketing demosa nasuprot stvarne implementacije"
+source:
+  name: "marktechpost.com"
+  url: "https://www.marktechpost.com/2026/03/27/nvidia-ai-unveils-prorl-agent-a-decoupled-rollout-as-a-service-infrastructure-for-reinforcement-learning-of-multi-turn-llm-agents-at-scale/"
+image:
+  url: "/images/articles/nvidias-prorl-rollout-as-a-service-or-just-another/main.jpg"
+  alt: "NVIDIA-ov ProRL: Revolucija ili optimizirani pipeline?"
+subtitle: "Što se zapravo skriva iza 'Rollout-as-a-Service' filozofije"
+subtitleImage:
+  url: "/images/articles/nvidias-prorl-rollout-as-a-service-or-just-another/subtitle.jpg"
+  alt: "Što se zapravo skriva iza 'Rollout-as-a-Service' filozofije"
+tags: ["NVIDIA", "ProRL", "Reinforcement Learning"]
+lead_sentence: "NVIDIA-ov novi ProRL AGENT obećava da će riješiti dugogodišnje konflikte između I/O i GPU operacija, ali detalji otkrivaju poznatu priču o optimizaciji umjesto inovacije."
+geo:
+  name: "Santa Clara, United States"
+  lat: 37.3541
+  lon: -121.9552
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+NVIDIA je predstavio ProRL AGENT, infrastrukturu koja obećava skalabilno treniranje višefaznih LLM agenata koristeći koncept 'Rollout-as-a-Service'. Tehnički, radi se o razdvajanju orkestracije rollouta (interakcija s okruženjem) od same petlje treniranja, čime se rješava dugogodišnji sukob između I/O-intenzivnih operacija i GPU-intenzivnih ažuriranja politika. Izvještaj s MarkTechPosta potvrđuje da je riječ o strukturiranom pristupu, ali realna pitanja ostaju: koliko je ovo zapravo nova ideja, a koliko samo bolje zapakirana postojeća tehnologija? Iako NVIDIA inzistira na 'revolucionarnom' arhitektonskom pomaku, detalji otkrivaju poznate obrasce. Slične decoupling strategije već godinama koriste klasteri za distribuirano treniranje, samo što ih ProRL formalizira pod jednim brandiranim okvirom. Ključna prednost je jasna — smanjenje latencije pri prijenosu podataka između faza, ali vrijedi pitanje koliko je to zapravo game-changer kad su slični pristupi već implementirani u alatima poput Ray RLlib ili Stable Baselines3. Razlika možda leži u optimizaciji za specifične scenarije višefaznih agenata, ali to još nije isto što i temeljni proboj. Najveći izazov ostaje nepromijenjen: kako prebaciti istraživačke demo scenarije u produkcijske sustave gdje stvarni workloadovi znatno odstupaju od kontroliranih benchmarka. NVIDIA-ovo rješenje možda ublažava tehnička uska grla, ali ne rješava fundamentalni jaz između laboratorijskih rezultata i realnog svijeta.
+
+<ArticleBreak />
+
+Industrijska implikacija ove objave je jasna: NVIDIA pozicionira sebe kao ključnog igrača u ekosustavu agenata, potencijalno ugrožavajući konkurenciju poput Meta-e ili startupe koji nude slične alate bez integriranog hardverskog sloja. Razdvajanjem rollouta od treniranja stvara se prilika za uske integracije s CUDA optimiziranim pipelineovima, što otvara vrata za ekskluzivne prednosti na NVIDIA-ovim GPU-ima — posebno u scenarijima gdje je brzina sinkronizacije kritična. Ipak, razvojna zajednica reagira suzdržano. Na GitHub forumima i Discordu već se postavljaju pitanja o stvarnoj efikasnosti ProRL-a u heterogenim okruženjima (miješani CPU/GPU klasteri) ili scenarijima s visokom razinom šuma u podacima. Rani korisnici ističu da se performansne prednosti primjećuju tek pri vrlo velikim razmjerima, dok u malim do srednjim eksperimentima razlike često nestaju u margini greške. To sugerira da ProRL možda nije univerzalno rješenje, već usko ciljani alat za specifične NVIDIA-ove klijente. Za sve buku oko scalabilityja i decouplinga, stvarna priča je o tržišnoj poziciji. NVIDIA ne prodaje samo softver — prodaje cjelovit paket koji uključuje i hardver, optimizirane biblioteke i sada, navodno superiornu infrastrukturu za agente. Pravi signal ovdje nije revolucija u RL-u, već još jedna potpora NVIDIA-ovom vertikalnom integracijskom modelu.
+
+Razvoju ProRL-a treba pristupiti sa zdravim skepticizmom, posebno kada se gleda njegova efikasnost u različitim okruženjima. Iako NVIDIA navodi brojne prednosti, važno je testirati i provjeriti njegove performanse u stvarnim scenarijima. Tek tada možemo zaključiti koliko je ProRL zaista revolucionaran ili samo još jedan marketinški trik.

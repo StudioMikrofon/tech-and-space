@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { spawn } from "child_process";
 import { bumpContentVersion } from "@/lib/content";
+import { fotoReviewQueue } from "@/lib/foto-review-queue";
 
 const FP_DIR = "/opt/openclaw/futurepulse";
 
@@ -478,7 +479,9 @@ print(json.dumps({
 }))
 `;
 
-  const result = await runPython(script);
+  // Enqueue in global foto-review queue for sequential processing
+  return fotoReviewQueue.enqueue(`publish:${articleId}`, async () => {
+    const result = await runPython(script);
 
   let pyData: Record<string, unknown> = {};
   try {
@@ -499,49 +502,141 @@ print(json.dumps({
 
     // Rebuild + restart in background so new public/ images are served
     // (Next.js production server needs restart when new directories are added to public/)
-    // CRITICAL: Use flock to prevent concurrent builds (multiple publishes cause .next/lock conflicts)
+    // CRITICAL: Use systemd-run --scope to run rebuild OUTSIDE Node.js process tree
+    // This ensures it survives even if the parent process is killed during shutdown
     const WORKSPACE = "/opt/openclaw/workspace/tech-pulse-css";
     const rebuild = spawn(
-      "bash",
-      ["-c", `
+      "systemd-run",
+      [
+        "--scope",
+        "--user",
+        "bash",
+        "-c",
+        `
         cd ${WORKSPACE}
         LOCKFILE="/tmp/tech-pulse-rebuild.lock"
 
         # Use flock to serialize builds (wait if another build is running)
         # This prevents .next/lock collisions from concurrent npm builds
+        (
         flock -x "$LOCKFILE" bash -c '
           echo "[$(date)] Build starting (lock acquired)" >> /tmp/publish-rebuild.log
 
           # Sync database changes to MDX files (while service still running)
           /opt/openclaw/futurepulse/venv/bin/python3 /opt/openclaw/futurepulse/sync_leads_to_mdx.py >> /tmp/publish-rebuild.log 2>&1 || true
 
-          # Clean old build artifacts to free disk space
-          rm -rf .next 2>/dev/null || true
+          # CRITICAL FIX 2: Build to .next with cache cleanup
+          # Next.js always builds to .next (no output dir override exists)
+          # We ensure old .next can be backed up if needed, then restart service
+          echo "[$(date)] Backing up old .next if needed..." >> /tmp/publish-rebuild.log
+          [ -d .next ] && mv .next .next_old 2>/dev/null || true
 
-          # Rebuild with memory-constrained Node.js
-          npm run build >> /tmp/publish-rebuild.log 2>&1
+          # Rebuild with increased Node.js heap (default 1.5GB is too low for 954 pages)
+          # Use 2.5GB for balance between build performance and system memory
+          echo "[$(date)] Starting build (heap=2560MB)..." >> /tmp/publish-rebuild.log
+          NODE_OPTIONS='"'"'--max-old-space-size=2560'"'"' npm run build >> /tmp/publish-rebuild.log 2>&1
           BUILD_STATUS=$?
+
+          echo "[$(date)] Build status: $BUILD_STATUS" >> /tmp/publish-rebuild.log
+          [ -f .next/prerender-manifest.json ] && echo "[$(date)] Manifest found in .next" >> /tmp/publish-rebuild.log || echo "[$(date)] Manifest MISSING in .next" >> /tmp/publish-rebuild.log
+          ls -la .next/ >> /tmp/publish-rebuild.log 2>&1
 
           if [ $BUILD_STATUS -eq 0 ] && [ -f .next/prerender-manifest.json ]; then
             echo "[$(date)] Build succeeded, manifest present" >> /tmp/publish-rebuild.log
-            # ONLY NOW stop old service and start new one
-            systemctl stop tech-pulse-test 2>/dev/null || true
-            sleep 1
-            systemctl start tech-pulse-test 2>/dev/null || true
-            echo "[$(date)] Service restarted" >> /tmp/publish-rebuild.log
+
+            # CRITICAL: Delete webpack cache AFTER build but BEFORE restart
+            # This prevents 13-minute startup delays from bloated cache
+            echo "[$(date)] Removing webpack cache..." >> /tmp/publish-rebuild.log
+            rm -rf .next/cache 2>&1 >> /tmp/publish-rebuild.log
+
+            # Clean up old backup
+            rm -rf .next_old 2>&1 >> /tmp/publish-rebuild.log
+            echo "[$(date)] Old build cleaned up" >> /tmp/publish-rebuild.log
+
+            # NOW stop old service and start new one (new .next is ready)
+            echo "[$(date)] Stopping service..." >> /tmp/publish-rebuild.log
+            timeout 30 systemctl stop tech-pulse-test >> /tmp/publish-rebuild.log 2>&1
+            STOP_STATUS=$?
+            echo "[$(date)] Stop status: $STOP_STATUS" >> /tmp/publish-rebuild.log
+            sleep 2
+
+            echo "[$(date)] Starting service..." >> /tmp/publish-rebuild.log
+            systemctl start tech-pulse-test >> /tmp/publish-rebuild.log 2>&1
+            START_STATUS=$?
+            echo "[$(date)] Start status: $START_STATUS" >> /tmp/publish-rebuild.log
+
+            echo "[$(date)] Service restarted (stop=$STOP_STATUS, start=$START_STATUS)" >> /tmp/publish-rebuild.log
+            touch /tmp/tech-pulse-build-success 2>&1 >> /tmp/publish-rebuild.log
+            echo "[$(date)] SUCCESS flag created" >> /tmp/publish-rebuild.log
           else
-            echo "[$(date)] Build FAILED with status $BUILD_STATUS" >> /tmp/publish-rebuild.log
-            # Ensure service is running (may be from previous good build)
+            echo "[$(date)] Build FAILED with status $BUILD_STATUS (manifest exists=$[ -f .next/prerender-manifest.json ])" >> /tmp/publish-rebuild.log
+            # Restore old build
+            rm -rf .next 2>/dev/null || true
+            [ -d .next_old ] && mv .next_old .next 2>/dev/null || true
+            rm -f /tmp/tech-pulse-build-success
+            # Ensure service is running with old build
             systemctl start tech-pulse-test 2>/dev/null || true
+            echo "[$(date)] Build failed, reverted to old .next" >> /tmp/publish-rebuild.log
           fi
         '
-      `],
-      { detached: true, stdio: "ignore" }
+        ) >> /tmp/publish-rebuild.log 2>&1
+        `
+      ],
+      { stdio: "ignore" }
     );
     rebuild.unref();
+
+    // Health check: ensure service comes up after build (every 10s for 90s)
+    // ONLY if build succeeded (indicated by /tmp/tech-pulse-build-success flag)
+    let healthCheckCount = 0;
+    let cacheCleared = false;
+    const healthCheckInterval = setInterval(() => {
+      healthCheckCount++;
+      const { execSync } = require('child_process');
+      const fs = require('fs');
+      try {
+        // Only check if build succeeded
+        if (!fs.existsSync('/tmp/tech-pulse-build-success')) {
+          if (healthCheckCount >= 3) {
+            console.log("[publish-local] Build failed — skipping health check");
+            clearInterval(healthCheckInterval);
+          }
+          return;
+        }
+
+        const status = execSync("systemctl is-active tech-pulse-test 2>&1", { encoding: 'utf8' }).trim();
+        if (status === "active") {
+          console.log("[publish-local] Service came up successfully after build");
+
+          // Once service is up, clear webpack cache to prevent bloat on next startup
+          if (!cacheCleared) {
+            cacheCleared = true;
+            try {
+              console.log("[publish-local] Cleaning webpack cache...");
+              execSync("rm -rf /opt/openclaw/workspace/tech-pulse-css/.next/cache", { stdio: "ignore" });
+            } catch (e) {
+              console.error("[publish-local] Cache clear error:", e instanceof Error ? e.message : String(e));
+            }
+          }
+
+          clearInterval(healthCheckInterval);
+          return;
+        }
+        if (healthCheckCount >= 9) {
+          // After 90 seconds, force start if build succeeded
+          console.log("[publish-local] Service still down after 90s, force starting...");
+          try { execSync("systemctl stop tech-pulse-test", { stdio: "ignore" }); } catch (e) {}
+          execSync("systemctl start tech-pulse-test", { stdio: "ignore" });
+          clearInterval(healthCheckInterval);
+        }
+      } catch (e) {
+        console.error("[publish-local] Health check error:", e instanceof Error ? e.message : String(e));
+      }
+    }, 10000);
 
     return NextResponse.json({ ...data, rebuilding: true, live: true });
   } catch {
     return NextResponse.json({ error: "Parse error", raw: result.stdout }, { status: 500 });
   }
+  });
 }
