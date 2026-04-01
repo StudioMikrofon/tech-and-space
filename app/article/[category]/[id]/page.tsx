@@ -261,7 +261,7 @@ export default async function ArticlePage({ params }: PageProps) {
                       : <>📷 {article.image.credit}</>
                     : article.image.url.startsWith("http")
                       ? `📷 Image: ${article.source?.name || "External source"}`
-                      : "📷 Illustration: AI Generated"
+                      : `📷 Published: ${new Date(article.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} at ${new Date(article.date).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })} UTC`
                   : null}
               </p>
             </div>
@@ -320,7 +320,7 @@ export default async function ArticlePage({ params }: PageProps) {
                               {/* Image credit and description */}
                               <p className="text-[0.65rem] font-mono tracking-wider text-text-secondary/40 mt-1.5 px-2.5 pb-2">
                                 {article.subtitleImage?.alt && <span className="block text-text-secondary/50 mb-0.5">{article.subtitleImage.alt}</span>}
-                                <span>📷 {article.subtitleImage?.credit || "Illustration: AI Generated"}</span>
+                                <span>📷 {article.subtitleImage?.credit || `Published: ${new Date(article.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} at ${new Date(article.date).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })} UTC`}</span>
                               </p>
                             </div>
                           )}
