@@ -152,7 +152,39 @@ export default function FotoReviewPage() {
   const [publishResult, setPublishResult] = useState<Record<number, { ok: boolean; msg: string }>>({});
   const loadedIds = useRef(new Set<number>());
   const articleRefs = useRef<Record<number, HTMLDivElement | null>>({});
-  const deepLinkId = typeof window !== "undefined" ? Number(new URLSearchParams(window.location.search).get("id")) || null : null;
+
+  // Deep-link article ID from URL query param — reactive on URL changes
+  const [deepLinkId, setDeepLinkId] = useState<number | null>(null);
+  const lastUrlRef = useRef<string>("");
+
+  // Update deepLinkId when URL changes (handles navigation from article pages)
+  useEffect(() => {
+    const updateDeepLink = () => {
+      if (typeof window !== "undefined") {
+        const currentUrl = window.location.search;
+        // Only update if URL actually changed
+        if (lastUrlRef.current !== currentUrl) {
+          lastUrlRef.current = currentUrl;
+          const id = Number(new URLSearchParams(currentUrl).get("id")) || null;
+          setDeepLinkId(id);
+        }
+      }
+    };
+
+    // Initial parse on mount
+    updateDeepLink();
+
+    // Listen for URL changes (popstate)
+    window.addEventListener("popstate", updateDeepLink);
+
+    // Also poll for URL changes (handles SPA navigation with links)
+    const pollInterval = setInterval(updateDeepLink, 500);
+
+    return () => {
+      window.removeEventListener("popstate", updateDeepLink);
+      clearInterval(pollInterval);
+    };
+  }, []);
 
   // Queue state
   const [queueOpen, setQueueOpen] = useState(false);
