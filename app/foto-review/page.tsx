@@ -54,6 +54,8 @@ interface Article {
   github_uploaded: number;
   created_at: string;
   source_url: string | null;
+  source_name: string | null;
+  source_published_at: string | null;
   memoryAlert: MemoryAlert | null;
   images: ArticleImage[];
   folderName: string | null;
@@ -75,6 +77,8 @@ interface FullArticle {
   status: string;
   body_md: string | null;
   source_url: string | null;
+  source_name: string | null;
+  source_published_at: string | null;
   github_uploaded: number;
   lead_sentence: string | null;
   lead_sentence_en: string | null;
@@ -1529,6 +1533,29 @@ export default function FotoReviewPage() {
                   {isExpanded ? "▲ SAŽMI" : "▼ PROŠIRI"}
                 </button>
               </div>
+
+              {/* Source Info */}
+              {(article.source_name || article.source_published_at) && (
+                <div className="px-4 py-2 text-white/40 text-[11px] flex flex-wrap gap-3 border-b border-white/5">
+                  {article.source_name && (
+                    <span>📰 <span className="text-white/60">{article.source_name}</span></span>
+                  )}
+                  {article.source_published_at && (
+                    <span>
+                      📅{" "}
+                      {new Date(article.source_published_at).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        timeZone: "UTC"
+                      })}
+                      {" UTC"}
+                    </span>
+                  )}
+                </div>
+              )}
 
               {/* Lead */}
               {article.lead && (
