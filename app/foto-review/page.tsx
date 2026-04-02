@@ -78,6 +78,8 @@ interface FullArticle {
   github_uploaded: number;
   lead_sentence: string | null;
   lead_sentence_en: string | null;
+  exec_summary: string | null;
+  exec_summary_en: string | null;
 }
 
 interface EditFields {
@@ -85,6 +87,8 @@ interface EditFields {
   title_en: string;
   lead_sentence: string;
   lead_sentence_en: string;
+  exec_summary: string;
+  exec_summary_en: string;
   part1: string;
   part1_en: string;
   subtitle: string;
@@ -397,6 +401,8 @@ export default function FotoReviewPage() {
       title_en: data.title_en || "",
       lead_sentence: data.lead_sentence || "",
       lead_sentence_en: data.lead_sentence_en || "",
+      exec_summary: data.exec_summary || "",
+      exec_summary_en: data.exec_summary_en || "",
       part1,
       part1_en: data.part1_en || "",
       subtitle: data.subtitle || "",
@@ -1911,6 +1917,23 @@ export default function FotoReviewPage() {
                             <span className="text-[9px] text-red-400/70">⚠ Previše znakova ({(lang === "hr" ? edits.lead_sentence : edits.lead_sentence_en).length}/130)</span>
                           )}
                         </div>
+
+                        {/* Exec Summary */}
+                        <div className="space-y-1">
+                          <label className="text-[9px] tracking-widest text-yellow-600/50 uppercase block">
+                            {lang === "hr" ? "SAŽETAK (2 REČENICE)" : "EXEC SUMMARY (2 SENTENCES)"}
+                          </label>
+                          <textarea
+                            value={lang === "hr" ? edits.exec_summary : edits.exec_summary_en}
+                            onChange={(e) => setEditField(article.id, lang === "hr" ? "exec_summary" : "exec_summary_en", e.target.value)}
+                            rows={3}
+                            placeholder={lang === "hr" ? "2-3 rečenice sa ključnim zaključcima članka za editory i čitatelje..." : "2-3 sentences with key findings from article for editors and readers..."}
+                            className="w-full bg-yellow-950/20 border border-yellow-800/30 rounded px-3 py-2 text-xs text-yellow-100/70 leading-relaxed resize-y focus:outline-none focus:border-yellow-500/40 focus:bg-yellow-950/30 transition-colors placeholder-yellow-900/60"
+                            spellCheck={false}
+                          />
+                          <span className="text-[9px] text-yellow-600/50">({(lang === "hr" ? edits.exec_summary : edits.exec_summary_en).length} znakova)</span>
+                        </div>
+
                         <EditField label={lang === "hr" ? "UVOD (part1)" : "LEAD (part1_en)"}
                           value={lang === "hr" ? edits.part1 : edits.part1_en}
                           onChange={(v) => setEditField(article.id, lang === "hr" ? "part1" : "part1_en", v)}

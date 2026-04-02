@@ -19,7 +19,7 @@ function getDb(readonly = false) {
 
 const FIELDS = `id, title, title_en, subtitle, subtitle_en, category, status, chosen_ending,
                 endings_json, endings_en, part1, part1_en, part2, part2_en, images_json, body_md,
-                source_url, github_uploaded, lead_sentence, lead_sentence_en`;
+                source_url, github_uploaded, lead_sentence, lead_sentence_en, exec_summary, exec_summary_en`;
 
 // GET /api/editorial?id=150  OR  /api/editorial?slug=2026-03-07-some-article-slug
 export async function GET(req: NextRequest) {
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
       }
 
       // Whitelist allowed fields to prevent SQL injection
-      const allowedFields = ["title", "title_en", "subtitle", "subtitle_en", "part1", "part1_en", "part2", "part2_en", "category"];
+      const allowedFields = ["title", "title_en", "subtitle", "subtitle_en", "part1", "part1_en", "part2", "part2_en", "category", "lead_sentence", "lead_sentence_en", "exec_summary", "exec_summary_en"];
       // Map base field to language-specific column: subtitle+lang=en → subtitle_en
       let dbField = field;
       if (lang === "en" && !field.endsWith("_en")) {
