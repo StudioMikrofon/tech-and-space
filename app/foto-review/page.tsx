@@ -325,7 +325,7 @@ export default function FotoReviewPage() {
   const [filterUploaded, setFilterUploaded] = useState<"all"|"uploaded"|"not_uploaded">("all");
   const [filterDate, setFilterDate] = useState<"all"|"today"|"yesterday"|"7d"|"30d">("all");
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
-  const [batchBusy, setBatchBusy] = useState<"save" | "publish" | "press" | null>(null);
+  const [batchBusy, setBatchBusy] = useState<"save" | "publish" | "press" | "pull" | null>(null);
   const [batchResult, setBatchResult] = useState<string | null>(null);
 
   useEffect(() => {
@@ -968,6 +968,47 @@ export default function FotoReviewPage() {
     }
   };
 
+  const handleBatchPullImages = async () => {
+    if (selectedFiltered.length === 0) {
+      setBatchResult("Prvo oznaci clanke za batch pull slike.");
+      return;
+    }
+    setBatchBusy("pull");
+    setBatchResult(`Povlačim slike za ${selectedFiltered.length} oznacenih clanaka (~20-30s)...`);
+    try {
+      const ids = selectedFiltered.map(a => a.id);
+      const res = await fetch("/api/image-pull", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setBatchResult(`Povlačenje web slika pokrenuto za ${ids.length} clanaka. Osvježavam...`);
+        // Poll for updates
+        let attempts = 0;
+        const poll = setInterval(async () => {
+          attempts++;
+          for (const id of ids) {
+            await refreshArticle(id);
+          }
+          if (attempts >= 8) {
+            clearInterval(poll);
+            setBatchBusy(null);
+            setBatchResult(`✓ Batch povlačenje slike dovršeno.`);
+          }
+        }, 3000);
+      } else {
+        setBatchBusy(null);
+        setBatchResult(`⚠ Batch povlačenje slike nije uspjelo: ${data.error}`);
+      }
+    } catch (e) {
+      setBatchBusy(null);
+      const msg = e instanceof Error ? e.message : String(e);
+      setBatchResult(`⚠ Greška: ${msg}`);
+    }
+  };
+
   // ── Pull images from web ─────────────────────────────────────
   const [pulling, setPulling] = useState<Record<number, boolean>>({});
   const [pullingPress, setPullingPress] = useState<Record<number, boolean>>({});
@@ -1317,6 +1358,14 @@ export default function FotoReviewPage() {
             className="px-2.5 py-1 rounded border border-amber-700/50 text-amber-300 disabled:text-white/20 disabled:border-white/10 hover:bg-amber-900/20 transition-colors"
           >
             {batchBusy === "press" ? "📰 PRONALAZIM..." : "📰 BATCH PRESS"}
+          </button>
+          <button
+            onClick={handleBatchPullImages}
+            disabled={batchBusy !== null || selectedFiltered.length === 0}
+            title="Povuci slobodne web slike za sve označene članke"
+            className="px-2.5 py-1 rounded border border-teal-700/50 text-teal-300 disabled:text-white/20 disabled:border-white/10 hover:bg-teal-900/20 transition-colors"
+          >
+            {batchBusy === "pull" ? "🖼️ POVLAČIM..." : "🖼️ BATCH PULL"}
           </button>
           <button
             onClick={handleBatchPublish}
