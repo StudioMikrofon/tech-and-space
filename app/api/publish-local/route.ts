@@ -192,7 +192,7 @@ async def auto_select_hero(article_id):
 
         # Try to find the article's image folder
         conn = db.get_conn()
-        row = conn.execute('SELECT title_en, title FROM articles WHERE id=?', (article_id,)).fetchone()
+        row = conn.execute('SELECT title_en, title, slug FROM articles WHERE id=?', (article_id,)).fetchone()
         images_row = conn.execute('SELECT images_json FROM articles WHERE id=?', (article_id,)).fetchone()
         conn.close()
 
@@ -207,20 +207,23 @@ async def auto_select_hero(article_id):
         except Exception:
             existing = {}
 
-        # Derive slug from title_en
-        def slugify(text, max_len=50):
-            char_map = {'č':'c','ć':'c','š':'s','ž':'z','đ':'dj'}
-            t = text.lower()
-            for src, dst in char_map.items():
-                t = t.replace(src, dst)
-            t = t.encode('ascii', 'ignore').decode()
-            t = _re.sub(r'[^a-z0-9]+', '-', t).strip('-')
-            return t[:max_len]
-
+        # Use slug from database (most accurate), fallback to derived slug
         title_en = (row[0] or row[1] or '').strip()
-        if not title_en:
+        slug = (row[2] or '').strip()  # Use DB slug if available
+        if not slug and title_en:
+            # Fallback: derive slug from title_en
+            def slugify(text, max_len=50):
+                char_map = {'č':'c','ć':'c','š':'s','ž':'z','đ':'dj'}
+                t = text.lower()
+                for src, dst in char_map.items():
+                    t = t.replace(src, dst)
+                t = t.encode('ascii', 'ignore').decode()
+                t = _re.sub(r'[^a-z0-9]+', '-', t).strip('-')
+                return t[:max_len]
+            slug = slugify(title_en)
+
+        if not slug:
             return
-        slug = slugify(title_en)
 
         # Find image folder
         folder = None
