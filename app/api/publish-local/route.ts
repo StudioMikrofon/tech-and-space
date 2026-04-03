@@ -186,7 +186,8 @@ async def auto_select_hero(article_id):
         import re as _re
         pub_dir = Path('/opt/openclaw/workspace/tech-pulse-css/public/images/articles')
         legacy_dir = Path('${FP_DIR}/images')
-        if not pub_dir.exists() and not legacy_dir.exists():
+        web_images_dir = Path('${FP_DIR}/data/web_images')  # New location for web-pulled images
+        if not pub_dir.exists() and not legacy_dir.exists() and not web_images_dir.exists():
             return
 
         # Try to find the article's image folder
@@ -242,6 +243,26 @@ async def auto_select_hero(article_id):
             if sub_file:
                 sub_url = f'/images/articles/{folder.name}/{sub_file.name}'
                 existing['image_subtitle'] = {'url': sub_url, 'alt': title_en}
+
+        # Web images fallback: check web_images_dir for recently pulled images (article_<id>_main/sub_pexels_*.jpg)
+        if 'image_main' not in existing and web_images_dir.exists():
+            web_files = sorted([f for f in web_images_dir.iterdir() if f.is_file() and f.suffix.lower() in exts and f.name.startswith(f'article_{article_id}_')])
+            web_main = next((f for f in web_files if '_main_' in f.name.lower()), None)
+            web_sub = next((f for f in web_files if '_sub' in f.name.lower()), None)
+
+            if web_main or web_sub:
+                target_folder = pub_dir / slug
+                target_folder.mkdir(parents=True, exist_ok=True)
+
+                if web_main:
+                    target_main = target_folder / f'main{web_main.suffix.lower()}'
+                    shutil.copy2(web_main, target_main)
+                    existing['image_main'] = {'url': f'/images/articles/{slug}/{target_main.name}', 'alt': title_en}
+
+                if web_sub:
+                    target_sub = target_folder / f'subtitle{web_sub.suffix.lower()}'
+                    shutil.copy2(web_sub, target_sub)
+                    existing['image_subtitle'] = {'url': f'/images/articles/{slug}/{target_sub.name}', 'alt': title_en}
 
         # Legacy fallback: generated files may still only exist as art{id}_main/_sub
         if 'image_main' not in existing and legacy_dir.exists():
