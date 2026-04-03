@@ -87,7 +87,7 @@ export async function PATCH(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { id, title, title_en, part1, part1_en, part2, part2_en, subtitle, subtitle_en, category, lead_sentence, lead_sentence_en } = body;
+    const { id, title, title_en, part1, part1_en, part2, part2_en, subtitle, subtitle_en, category, lead_sentence, lead_sentence_en, key_points_hr, key_points_en } = body;
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
 
     // Map from display names → DB constraint values (lowercase, 'tech' not 'technology')
@@ -114,7 +114,9 @@ export async function PATCH(req: NextRequest) {
         subtitle_en = COALESCE(?, subtitle_en),
         category = COALESCE(?, category),
         lead_sentence = COALESCE(?, lead_sentence),
-        lead_sentence_en = COALESCE(?, lead_sentence_en)
+        lead_sentence_en = COALESCE(?, lead_sentence_en),
+        key_points_hr = COALESCE(?, key_points_hr),
+        key_points_en = COALESCE(?, key_points_en)
       WHERE id = ?
     `).run(
       title ?? null, title_en ?? null,
@@ -123,6 +125,7 @@ export async function PATCH(req: NextRequest) {
       subtitle ?? null, subtitle_en ?? null,
       safeCategory,
       lead_sentence ?? null, lead_sentence_en ?? null,
+      key_points_hr ?? null, key_points_en ?? null,
       id
     );
     db.close();

@@ -84,6 +84,8 @@ interface FullArticle {
   lead_sentence_en: string | null;
   exec_summary: string | null;
   exec_summary_en: string | null;
+  key_points_hr: string | null;
+  key_points_en: string | null;
 }
 
 interface EditFields {
@@ -99,6 +101,8 @@ interface EditFields {
   subtitle_en: string;
   part2: string;
   part2_en: string;
+  key_points_hr: string;
+  key_points_en: string;
 }
 
 interface ArticleSelections {
@@ -413,6 +417,8 @@ export default function FotoReviewPage() {
       subtitle_en: data.subtitle_en || "",
       part2,
       part2_en: data.part2_en || "",
+      key_points_hr: data.key_points_hr || "",
+      key_points_en: data.key_points_en || "",
     };
   }
 
@@ -2024,6 +2030,11 @@ export default function FotoReviewPage() {
                           value={lang === "hr" ? edits.part2 : edits.part2_en}
                           onChange={(v) => setEditField(article.id, lang === "hr" ? "part2" : "part2_en", v)}
                           rows={5}
+                        />
+                        <EditField label={lang === "hr" ? "KLJUČNE TOČKE" : "KEY POINTS"}
+                          value={lang === "hr" ? edits.key_points_hr : edits.key_points_en}
+                          onChange={(v) => setEditField(article.id, lang === "hr" ? "key_points_hr" : "key_points_en", v)}
+                          rows={3}
                         />
                       </div>
 
