@@ -194,14 +194,20 @@ export default async function ArticlePageHr({ params }: PageProps) {
             </div>
 
             {article.image?.url && (
-              <div className="glass-card overflow-hidden mb-8 !hover:transform-none">
+              <div className="glass-card overflow-hidden !hover:transform-none mb-2">
                 <img
                   src={article.image.url}
                   alt={article.image.alt}
                   className="w-full h-auto max-h-[400px] object-cover"
                 />
+                {/* Image credit and description */}
+                <p className="text-[0.65rem] font-mono tracking-wider text-text-secondary/40 mt-1.5 px-2.5 pb-2">
+                  {article.image?.alt && <span className="block text-text-secondary/50 mb-0.5">{article.image.alt}</span>}
+                  <span>📷 {article.image?.credit || "© Tech&Space"}</span>
+                </p>
               </div>
             )}
+            {article.image?.url && <div className="mb-8" />}
 
             {/* Key Points — 3 kratke zvjezdice */}
             {article.keyPoints && (
@@ -234,12 +240,17 @@ export default async function ArticlePageHr({ params }: PageProps) {
                         return videoId ? <YouTubeEmbed id={videoId} title={article.title} /> : null;
                       })()}
                       {article.subtitleImage?.url && (
-                        <div className="glass-card overflow-hidden mb-4 !hover:transform-none">
+                        <div className="glass-card overflow-hidden mb-2 !hover:transform-none">
                           <img
                             src={article.subtitleImage.url}
                             alt={article.subtitleImage?.alt}
                             className="w-full h-auto max-h-[400px] object-cover"
                           />
+                          {/* Image credit and description */}
+                          <p className="text-[0.65rem] font-mono tracking-wider text-text-secondary/40 mt-1.5 px-2.5 pb-2">
+                            {article.subtitleImage?.alt && <span className="block text-text-secondary/50 mb-0.5">{article.subtitleImage.alt}</span>}
+                            <span>📷 {article.subtitleImage?.credit || "© Tech&Space"}</span>
+                          </p>
                         </div>
                       )}
                       {article.subtitle && (

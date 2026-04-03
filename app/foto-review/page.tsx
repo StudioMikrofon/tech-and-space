@@ -404,6 +404,16 @@ export default function FotoReviewPage() {
       part1 = paras.slice(0, half).join("\n\n");
       part2 = paras.slice(half).join("\n\n");
     }
+    // Parse key_points from JSON array to newline-separated string for editing
+    const parseKeyPoints = (val: string | null): string => {
+      if (!val) return "";
+      try {
+        const arr = JSON.parse(val);
+        return Array.isArray(arr) ? arr.join("\n") : val;
+      } catch {
+        return val;
+      }
+    };
     return {
       title: data.title || "",
       title_en: data.title_en || "",
@@ -417,8 +427,8 @@ export default function FotoReviewPage() {
       subtitle_en: data.subtitle_en || "",
       part2,
       part2_en: data.part2_en || "",
-      key_points_hr: data.key_points_hr || "",
-      key_points_en: data.key_points_en || "",
+      key_points_hr: parseKeyPoints(data.key_points_hr),
+      key_points_en: parseKeyPoints(data.key_points_en),
     };
   }
 
@@ -471,6 +481,12 @@ export default function FotoReviewPage() {
     setSavingEdit(p => ({ ...p, [articleId]: true }));
     try {
       const catEdit = editCategory[articleId];
+      // Convert newline-separated key_points back to JSON array
+      const stringifyKeyPoints = (val: string): string | null => {
+        if (!val || !val.trim()) return null;
+        const lines = val.split("\n").map((s) => s.trim()).filter(Boolean);
+        return lines.length > 0 ? JSON.stringify(lines) : null;
+      };
       const res = await fetch("/api/review", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -487,6 +503,8 @@ export default function FotoReviewPage() {
           part2: e.part2 || null,
           part2_en: e.part2_en || null,
           category: catEdit || null,
+          key_points_hr: stringifyKeyPoints(e.key_points_hr),
+          key_points_en: stringifyKeyPoints(e.key_points_en),
         }),
       });
       const data = await res.json();

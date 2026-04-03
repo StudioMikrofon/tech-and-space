@@ -32,7 +32,8 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s %(levelname)s %(message)s',
 )
-from core.web_image_puller import WebImagePuller
+from agents.web_image_puller import WebImagePuller
+from core.vps_publisher import refresh_article_images
 
 async def run():
     puller = WebImagePuller()
@@ -43,6 +44,12 @@ async def run():
         result = await puller.pull(article_ids[0], query_variation=${variation})
         status = "OK" if result.get("ok") else "FAIL"
         print(f"[pull #{article_ids[0]}] {status}: {result.get('message') or result.get('error')}")
+        # Refresh images in public folder
+        try:
+            refresh_result = refresh_article_images(article_ids[0])
+            print(f"[refresh #{article_ids[0]}] {refresh_result}")
+        except Exception as e:
+            print(f"[refresh #{article_ids[0]}] Error: {e}")
     else:
         # Batch
         stats = {'found': 0, 'partial': 0, 'none': 0, 'errors': 0}
@@ -57,6 +64,11 @@ async def run():
                     stats['none'] += 1
             else:
                 stats['errors'] += 1
+            # Refresh each article's images
+            try:
+                refresh_result = refresh_article_images(aid)
+            except Exception as e:
+                pass
         print(f"[pull batch] found={stats['found']}, partial={stats['partial']}, none={stats['none']}, errors={stats['errors']}")
 
 asyncio.run(run())
