@@ -1,0 +1,44 @@
+---
+id: "2026-04-02-ai-bots-broke-the-cachenow-cloudflares-rewriting-t"
+db_id: 1226
+title: "Cache za AI eru: tko će platiti račun za 10 milijardi zahtjeva"
+lang: "hr"
+category: "ai"
+date: "2026-04-02T14:05:18Z"
+excerpt: "Cloudflare je prvi put javno kvantificirao problem koji godinama tiho muči infrastrukturu: 32 % ukupnog prometa na njihovoj mreži dolazi od automatiziranih izvora, a čak 80 % tog botskog prometa pripisuje se AI crawlerima."
+exec_summary: "Cloudflare has quantified the growing impact of AI bot traffic on web infrastructure, revealing that 32% of its network traffic is automated, with 80% of that coming from AI crawlers. This shift challenges traditional cache designs, forcing operators to choose between optimizing for humans or AI. While Cloudflare is researching dynamic cache solutions, the real question is who will bear the cost of this infrastructure overhaul."
+key_points:
+  - "Cloudflare bilježi 32% automatiziranog prometa"
+  - "80% AI botova u ukupnom botskom prometu"
+  - "Novi cache modeli još u istraživačkoj fazi"
+source:
+  name: "blog.cloudflare.com"
+  url: "https://blog.cloudflare.com/rethinking-cache-ai-humans/"
+image:
+  url: "/images/articles/ai-bots-broke-the-cachenow-cloudflares-rewriting-t/main.jpg"
+  alt: "Cache za AI eru: tko će platiti račun za 10 milijardi zahtjeva"
+subtitle: "Stari cache ne može pratiti agresivnost AI crawlera"
+tags: ["AI Caching", "Cache Infrastructure", "AI Workload Management"]
+lead_sentence: "Cloudflareova mreža bilježi 10 milijardi AI zahtjeva tjedno, ali rješenje za cache problem još je u istraživačkoj fazi."
+geo:
+  name: "San Francisco, United States"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Cloudflare je prvi put javno kvantificirao problem koji godinama tiho muči infrastrukturu: 32 % ukupnog prometa na njihovoj mreži dolazi od automatiziranih izvora, a čak 80 % tog botskog prometa pripisuje se AI crawlerima. Brojke iz istraživačkog rada objavljenog na Symposium on Cloud Computing 2025. govore o skali koja ruši tradicionalne pretpostavke o cache dizajnu.
+
+Dok ljudski korisnici pristupaju sadržaju u predvidljivim obrascima, AI botovi bombardiraju servere s tisućama zahtjeva u sekundi, često za isti resurs. To stvara potpuno novu dinamiku opterećenja. Problem nije samo u količini, već i u kvaliteti prometa. AI crawleri ne poštuju robots.txt, ignoriraju rate limiting i često zahtijevaju isti sadržaj više puta u kratkom intervalu – ponašanje koje je Cloudflare opisao kao 'agresivno' u svom blogu.
+
+<ArticleBreak />
+
+To znači da tradicionalni cache modeli, optimizirani za ljudske obrasce ponašanja, postaju neučinkoviti. Svaki promašaj u cacheu znači dodatno opterećenje za podrijetlo, što posredno povećava troškove za operatere web stranica.
+
+Rješenje? Cloudflare još nema gotov proizvod, ali istraživački rad s ETH Zurich sugerira da će rješenje ležati u dinamičkom cacheu koji može razlikovati između ljudskih i AI zahtjeva. To otvara pitanje: hoće li operatori biti prisiljeni birati između optimizacije za ljude ili za AI, ili će novi cache modeli moći zadovoljiti oba segmenta bez kompromisa? Ono što je zanimljivo u ovom slučaju nije tehnologija sama po sebi, već tržišni signal koji šalje.
+
+Cloudflare, kao jedan od najvećih CDN pružatelja, jasno poručuje da se infrastruktura mora prilagoditi AI eri – ali to prilagođavanje dolazi s cijenom.
+
+Istraživački rad ne spominje konkretne troškove, ali jasno je da će operatori web stranica morati investirati u nove cache strategije ili riskirati degradaciju performansi. To je posebno relevantno za medijske kuće i e-commerce platforme, gdje svaka milisekunda kašnjenja može značiti gubitak prihoda. Još jedna zanimljiva implikacija jest kako će se ova promjena odraziti na SEO i pristup sadržaju.

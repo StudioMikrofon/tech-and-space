@@ -1,0 +1,52 @@
+---
+id: "2026-04-02-ai-bots-broke-the-cachenow-cloudflares-rewriting-t"
+db_id: 1226
+title: "AI bots broke the cache—now Cloudflare’s rewriting the rules"
+category: "ai"
+date: "2026-04-02T14:05:18Z"
+excerpt: "Cloudflare’s [blog post](https://blog."
+exec_summary: "Cloudflare has quantified the growing impact of AI bot traffic on web infrastructure, revealing that 32% of its network traffic is automated, with 80% of that coming from AI crawlers. This shift challenges traditional cache designs, forcing operators to choose between optimizing for humans or AI. While Cloudflare is researching dynamic cache solutions, the real question is who will bear the cost of this infrastructure overhaul."
+key_points:
+  - "10B weekly AI-bot requests expose cache design flaws"
+  - "Static CDN strategies fail under AI traffic patterns"
+  - "Cloudflare’s adaptive caching—marketing or real fix?"
+source:
+  name: "blog.cloudflare.com"
+  url: "https://blog.cloudflare.com/rethinking-cache-ai-humans/"
+image:
+  url: "/images/articles/ai-bots-broke-the-cachenow-cloudflares-rewriting-t/main.jpg"
+  alt: "AI bots broke the cache—now Cloudflare’s rewriting the rules"
+  credit: "Wikipedia / Wikimedia Commons"
+  creditUrl: "https://en.wikipedia.org/wiki/Cloudflare"
+subtitle: "Stari cache ne može pratiti agresivnost AI crawlera"
+subtitle_en: "The gap between human-friendly CDNs and AI’s relentless scraping"
+tags: ["AI Caching", "Cache Infrastructure", "AI Workload Management"]
+lead_sentence: "Cloudflare’s CDN cache—once a model of efficiency—now buckles under 10 billion weekly AI-bot requests that behave like nothing humans ever built for."
+geo:
+  name: "San Francisco, United States"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Cloudflare’s [blog post](https://blog.cloudflare.com/ai-cache-rethink) drops a quiet bombshell: **10 billion AI-bot requests per week** are warping traditional CDN cache logic. That’s not just *more* traffic—it’s traffic that behaves nothing like humans. Bots don’t linger on pages, don’t follow linear paths, and demand freshness over stale efficiency. The result? Cache hit rates plummet, latency spikes, and suddenly your CDN’s “optimized” static rules look like a [Model T on the Autobahn](https://en.wikipedia.org/wiki/Autobahn).
+
+
+The irony here is rich: CDNs were built to *reduce* origin load, but AI bots—with their rapid-fire, non-sequential scraping—turn caching into a liability. Cloudflare’s own data suggests traditional strategies now **degrade performance** for both humans *and* machines. Their proposed fix? **Dynamic, behavior-aware caching** that adapts in real time. It’s a tacit admission that the old playbook—treat all traffic as human-like—is dead.
+
+
+Early signals point to a shift toward **request-pattern profiling**, where the CDN guesses intent (scrape vs. browse) and adjusts TTLs or cache keys accordingly. But here’s the catch: this isn’t just a technical tweak. It’s a land grab. Whoever owns the AI-era CDN stack will dictate how the next wave of bots—and the apps relying on them—perform at scale.
+
+<ArticleBreak />
+
+Let’s talk hype vs. reality. Cloudflare’s post is heavy on *problems* and light on *solutions*—no algorithms named, no benchmarks shared, just a promise of “ongoing research.” That’s classic [demo-deployment gap](https://techand.ai/hype-filter): the blog implies a breakthrough, but the fine print reveals it’s still a work in progress. For developers, this means **no actionable tools yet**, just a heads-up that the ground is shifting.
+
+
+The competitive angle is sharper. Akamai, Fastly, and Cloudflare are now in a silent arms race to **redefine caching for AI workloads**. Whoever cracks this first gains leverage over LLMs, search crawlers, and even adversarial bots. Open-source chatter on [GitHub](https://github.com/cloudflare) and [Hacker News](https://news.ycombinator.com/) suggests skepticism—devs want proof, not promises. One recurring gripe: if caching becomes *too* dynamic, does it just turn into a glorified load balancer?
+
+
+The real bottleneck may not be the cache itself, but the **assumption that AI traffic should play by human rules**. Cloudflare’s pivot hints at a larger truth: infrastructure built for the web’s *reading* era won’t survive its *scraping* era. The question isn’t whether caching needs to evolve—it’s whether this evolution will be open or locked behind proprietary walls.
+
+For all the noise about AI ‘revolutionizing’ everything, the actual story is far more prosaic: the plumbing is clogged. Bots broke the cache, and now we’re scrambling to unbreak it. Call it progress, or call it the tech industry’s version of Whac-A-Mole.

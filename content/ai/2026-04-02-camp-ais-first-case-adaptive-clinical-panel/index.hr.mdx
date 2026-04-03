@@ -1,0 +1,49 @@
+---
+id: "2026-04-02-camp-ais-first-case-adaptive-clinical-panel"
+db_id: 1173
+title: "CAMP: Konačno pametniji AI za dijagnozu od prosječnog liječnika?"
+lang: "hr"
+category: "ai"
+date: "2026-04-02T04:39:21Z"
+excerpt: "Istraživači s arXiv-a objavili su CAMP, inovativni sustav koji umjesto fiksne ekipe specijalista za svaki slučaj odabire optimalnu kombinaciju agenata prema stupnju dijagnostičke neizvjesnosti."
+exec_summary: "CAMP introduces a case-adaptive multi-agent system for clinical prediction, dynamically assembling specialist panels to handle diagnostic uncertainty while reducing token usage. This represents a shift from monolithic models toward modular, explainable AI architectures—though deployment challenges and edge cases remain untested in real-world settings."
+key_points:
+  - "Dinamička panela prilagođena složenosti slučaja"
+  - "Tri vrijednosti glasanja umjesto glatke većine"
+  - "Ušteda tokena bez gubitka preciznosti"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.00085"
+image:
+  url: "/images/articles/camp-ais-first-case-adaptive-clinical-panel/main.jpg"
+  alt: "CAMP: Konačno pametniji AI za dijagnozu od prosječnog liječnika?"
+subtitle: "Revolucija u kliničkoj AI: Kako CAMP mijenja pravila igre s prilagodljivim multi-agent sustavom"
+subtitleImage:
+  url: "/images/articles/camp-ais-first-case-adaptive-clinical-panel/subtitle.jpg"
+  alt: "Revolucija u kliničkoj AI: Kako CAMP mijenja pravila igre s prilagodljivim multi-agent sustavom"
+tags: ["CAMP AI diagnostic model", "AI-assisted medical diagnosis accuracy", "Clinical decision support systems", "Medical AI benchmarking", "Healthcare AI deployment challenges"]
+lead_sentence: "Sustav CAMP prvi put omogućuje AI panelu da se dinamički reorganizira prema složenosti slučaja, umjesto da forsira fiksnu ekipu za svaki problem."
+geo:
+  name: "Santa Clara, CA"
+  lat: 37.3875
+  lon: -122.0575
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači s arXiv-a objavili su CAMP, inovativni sustav koji umjesto fiksne ekipe specijalista za svaki slučaj odabire optimalnu kombinaciju agenata prema stupnju dijagnostičke neizvjesnosti. Ključna razlika u odnosu na postojeće pristupe nije samo u korištenju većeg broja modela, već u sposobnosti prilagodbe panela specifičnim izazovima pojedinog pacijenta. Dok klasični multi-agent sustavi oslanjaju se na ravnu većinu glasova, CAMP uvodi tri vrijednosti: KEEP, REFUSE i NEUTRAL, omogućujući principijelno suzdržavanje kad slučaj prelazi granice stručnosti.
+
+Rezultati na MIMIC-IV skupu podataka pokazuju da sustav postiže bolju točnost od statičnih alternativa uz nižu potrošnju tokena. To nije samo tehnička optimizacija – radi se o promjeni paradigme gdje AI ima pravo priznati 'ne znam' umjesto da pogodi i potencijalno pogriješi. U kliničkom okruženju, gdje je svaka greška skupa, takva sposobnost može biti razlika između korisne alatke i opasnog crnog sanduka.
+
+Međutim, značenje CAMP-a ne leži samo u algoritamskim inovacijama. Sustav sugerira novi smjer razvoja kliničke AI: prilagodljivost kao prednost, a ne slabost. Dok većina istraživača nastoji smanjiti varijabilnost modela, autori ovdje tvrde da je upravo heterogenost različitih slučajeva ono što zahtijeva dinamički pristup.
+
+<ArticleBreak />
+
+Tehnički, sustav se temelji na hibridnom usmjerivaču koji odlučuje između tri scenarija: snažnog konsenzusa panela, direktne odluke liječnika-koordinatora ili arbitraže temeljene na evidenciji. Takva arhitektura zvuči elegantno, ali pravo pitanje je koliko će se učinkovito skalirati izvan kontroliranih uvjeta MIMIC-IV skupa. Iako su autori testirali četiri različite LLM baze, ostaje nejasno kako bi sustav reagirao na rijetke ili kontroverzne dijagnoze koje nisu pokrivene trening podacima.
+
+Još važnije, CAMP implicira potencijalni pomak u industriji: umjesto da se natječu u veličini modela, istraživači sada eksperimentiraju s inteligentnom orkestracijom manjih, specijaliziranih modela. Takav pristup mogao bi smanjiti troškove razvoja i korištenja, ali istovremeno uvodi nove izazove u usklađivanju višestrukih 'mišljenja' agenata. Razvojni forumi već pokazuju prve rasprave o implementaciji sličnih mehanizama u otvorenom kodu.
+
+Ipak, najveći izazov možda nije tehnički, već konceptualan. Ako AI sustavi postanu dovoljno transparentni da priznaju kad imaju praznine u znanju, kako će to utjecati na odnos između liječnika i strojeva? Hoće li postati alat za donošenje odluka ili još jedan sloj birokracije u zdravstvu?
+
+Iako tehnička inovacija CAMP-a zaslužuje pažnju, pravi test bit će u realnim kliničkim uvjetima. Samo praksa će pokazati može li ovaj sustav održati obećanja u svakodnevnoj upotrebi i prevladati skepticizam zdravstvenih profesionalaca.

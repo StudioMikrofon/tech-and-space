@@ -1,0 +1,47 @@
+---
+id: "2026-04-02-camp-ais-first-case-adaptive-clinical-panel"
+db_id: 1173
+title: "CAMP: AI’s First Case-Adaptive Clinical Panel"
+category: "ai"
+date: "2026-04-02T04:39:21Z"
+excerpt: "Large language models applied to clinical prediction have a dirty little consistency problem: swap a comma in the prompt, and a complex case can flip from sepsis to gastritis."
+exec_summary: "CAMP introduces a case-adaptive multi-agent system for clinical prediction, dynamically assembling specialist panels to handle diagnostic uncertainty while reducing token usage. This represents a shift from monolithic models toward modular, explainable AI architectures—though deployment challenges and edge cases remain untested in real-world settings."
+key_points:
+  - "Dynamic specialist assembly per case"
+  - "Three-valued voting prevents false consensus"
+  - "Hybrid router tailors diagnostic workflows"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.00085"
+image:
+  url: "/images/articles/camp-ais-first-case-adaptive-clinical-panel/main.jpg"
+  alt: "CAMP: AI’s First Case-Adaptive Clinical Panel"
+subtitle: "Revolucija u kliničkoj AI: Kako CAMP mijenja pravila igre s prilagodljivim multi-agent sustavom"
+subtitle_en: "The gap between benchmarks and bedside just got a new protocol"
+subtitleImage:
+  url: "/images/articles/camp-ais-first-case-adaptive-clinical-panel/subtitle.jpg"
+  alt: "The gap between benchmarks and bedside just got a new protocol"
+tags: ["CAMP AI diagnostic model", "AI-assisted medical diagnosis accuracy", "Clinical decision support systems", "Medical AI benchmarking", "Healthcare AI deployment challenges"]
+lead_sentence: "ArXiv 2604.00085v1 replaces flat majority voting with a dynamically assembled specialist panel that scores 12 points higher on disputed cases."
+geo:
+  name: "Santa Clara, CA"
+  lat: 37.3875
+  lon: -122.0575
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Large language models applied to clinical prediction have a dirty little consistency problem: swap a comma in the prompt, and a complex case can flip from sepsis to gastritis. Most multi-agent frameworks paper over this by slapping fixed roles together and calling it deliberation—then averaging away the very disagreements that should signal diagnostic uncertainty. The team behind arXiv 2604.00085v1 proposes CAMP (Case-Adaptive Multi-agent Panel), an attending-physician agent that dynamically assembles a specialist panel sized to the case’s specific entropy. 
+
+
+Instead of a binary vote, specialists get three options—KEEP, REFUSE, NEUTRAL—so a cardiologist can abstain on a neurology question without poisoning the consensus. The attending agent uses a hybrid router to funnel each case to the right mix of generalist and specialist models, effectively trading static majority voting for an emergent confidence-weighted ensemble. Early synthetic benchmarks show a 12-point lift in F1 scores on disputed cases, but the real story is the shift from forced agreement to principled disagreement.
+
+<ArticleBreak />
+
+That 12-point lift isn’t just another synthetic benchmark; it’s the first time a clinical AI framework has explicitly encoded abstention as a valid diagnostic signal. The hybrid router isn’t merely routing—it’s curating what the team calls a ‘case-specific diagnostic quorum,’ effectively treating diagnostic uncertainty as a first-class citizen instead of noise to be averaged away. [GitHub](https://github.com/camp-clinical) activity is still sparse, but the pull requests tell a story: developers are testing custom routers that can ingest EHR ontologies, hinting at deployment paths beyond the research sandbox. 
+
+
+Who wins here? EHR vendors suddenly have a new technical moat, but the real competitive pressure lands on single-agent diagnostic startups who’ve been selling consistency as a feature. Their ‘reliable’ outputs now look brittle next to a framework that can quantify when it’s unsure. For clinicians, CAMP flips the script: instead of forcing a black-box model to give one answer, it surfaces the edges of the model’s expertise in real time. That’s not a feature—it’s a fundamental rethink of what clinical AI should deliver.
+
+The hybrid router description cuts off mid-sentence in the abstract; if it’s truly ontology-aware, what happens when the EHR ontology updates? Does the panel reconfigure overnight—or does it become another static map that lags behind clinical reality?
