@@ -1,0 +1,59 @@
+---
+id: "2026-04-07-ic3-evolve-ai-tunes-hardware-checksbut-whos-buying"
+db_id: 1813
+title: "IC3-Evolve: Kada AI sam sebe popravlja bolje od programera"
+lang: "hr"
+category: "ai"
+date: "2026-04-07T06:05:37Z"
+excerpt: "IC3, algoritam za provjeru sigurnosti hardvera, godinama se muči s krhkim heuristikama koje ručno podešavaju programeri."
+exec_summary: "IC3-Evolve introduces an LLM-driven framework to automate heuristic improvements in hardware model checking, addressing long-standing issues with manual tuning. While the approach shows promise in benchmarks, its real test will be adoption in industrial settings where formal verification is critical."
+key_points:
+  - "IC3 algoritam provjerava sigurnost hardvera"
+  - "LLM-ovi automatski optimiziraju heuristike"
+  - "Patchovi moraju proći formalnu verifikaciju"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.03232"
+image:
+  url: "/images/articles/ic3-evolve-ai-tunes-hardware-checksbut-whos-buying/main.jpg"
+  alt: "IC3-Evolve: Kada AI sam sebe popravlja bolje od programera"
+subtitle: "Demo nasuprot deploymenta: što se stvarno optimizira u praksi"
+subtitleImage:
+  url: "/images/articles/ic3-evolve-ai-tunes-hardware-checksbut-whos-buying/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: što se stvarno optimizira u praksi"
+tags: ["Kada AI", "self-correcting code optimization", "AI-assisted software deployment", "automated code refinement", "IC3-Evolve benchmark"]
+lead_sentence: "IC3-Evolve automatski generira i verificira zakrpe za algoritam provjere hardvera, eliminirajući ručno podešavanje koje košta tisuće sati."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+IC3, algoritam za provjeru sigurnosti hardvera, godinama se muči s krhkim heuristikama koje ručno podešavaju programeri. Svaka promjena u ovom sustavu može pokvariti cijeli sustav, a najbolje postavke često vrijede samo za jedan benchmark.
+
+Novi okvir IC3-Evolve koristi LLM-ove kako bi automatski generirao i testirao male, kontrolirane zakrpe koje moraju proći strogu formalnu verifikaciju prije primjene. Ono što čini IC3-Evolve zanimljivim nije samo automatizacija, već način na koji to radi.
+
+Umjesto da LLM slobodno prepravlja kod, on mora raditi unutar unaprijed definiranih 'slotova' – točaka u kodu gdje su promjene dopuštene. Svaka zakrpa koja ne proizvede provjerljivi dokaz sigurnosti ili ponovljivi protuprimjer automatski se odbacuje.
+
+To je rijetka kombinacija: kreativnost strojnog učenja s disciplinom formalne metode. Rezultati na javnom benchmarku HWMCC pokazuju da evoluirani IC3 checker postiže bolje rezultate od ručno podešenih verzija.
+
+Zanimljivo je da radi i na industrijskim benchmarkima koji nisu bili dio treninga, što sugerira da sustav ne samo pamti uzorke, već razumije strukturu problema.
+
+<ArticleBreak />
+
+No ovdje počinje stvarni test. Benchmarkovi su korisni, ali pravo pitanje je kako će se IC3-Evolve ponašati u stvarnim, neidealnim uvjetima.
+
+Autori ističu da konačni proizvod nema nikakav runtime overhead od LLM-a – evoluirani checker je potpuno samostalan. To je pametno, jer industrija nema strpljenja za sustave koji usporavaju produkciju radi AI 'magije'.
+
+Tko zapravo dobiva prednost? Tvrtke koje razvijaju sigurnosno kritičan hardver – od automobilskih čipova do zrakoplovnih sustava – mogle bi uštedjeti tisuće sati ručnog podešavanja.
+
+Konkretno, alat kao što je ABC ili IIMC mogao bi postati znatno pouzdaniji s ovom tehnologijom. No, ostaje otvoreno pitanje: hoće li industrija prihvatiti zakrpe generirane od AI-a, čak i ako su formalno verificirane?
+
+Zanimljivo je i kako IC3-Evolve tretira LLM-ove. Umjesto da ih koristi kao sveznajuće oracle, tretira ih kao radnike koji moraju raditi unutar strogo definiranih ograničenja.
+
+To je možda najvažnija lekcija: AI u kritičnim sustavima mora biti kontroliran, a ne slavljen kao čarobni štapić.
+
+IC3-Evolve dokazuje da strojevi mogu biti kreativni unutar okvira, ali pravi izazov tek slijedi. Kako će se ova tehnologija integrirati u postojeće workflowove? Vrijeme će pokazati hoće li industrija prihvatiti promjenu paradigme.

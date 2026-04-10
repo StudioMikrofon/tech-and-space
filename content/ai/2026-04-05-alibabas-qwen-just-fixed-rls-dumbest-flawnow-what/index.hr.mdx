@@ -1,0 +1,55 @@
+---
+id: "2026-04-05-alibabas-qwen-just-fixed-rls-dumbest-flawnow-what"
+db_id: 1592
+title: "Alibabin Qwen razbio RL-zid: algoritam koji nagrađuje pametne korake"
+lang: "hr"
+category: "ai"
+date: "2026-04-05T08:17:01Z"
+excerpt: "Alibabin [Qwen tim](https://decoder."
+exec_summary: "Alibaba’s Qwen team introduced FIPO, an RL algorithm that dynamically weights tokens by their downstream impact, doubling reasoning chain length in math tasks without external value models. The real story isn’t the benchmark win but whether this open-source-friendly approach can generalize beyond controlled settings—and who stands to gain from its adoption.  The competitive angle? Alibaba is betting on developer uptake to shift the balance in the open-source AI infrastructure race, where transparency and cost efficiency matter more than headline-grabbing demos."
+key_points:
+  - "FIPO teži tokenima prema utjecaju na sljedeće korake"
+  - "Dvostruko duži lanci razmišljanja bez vanjskih modela"
+  - "Otvoreni kod bi mogao promijeniti open-source igru"
+source:
+  name: "the-decoder.com"
+  url: "https://the-decoder.com/alibabas-qwen-team-makes-ai-models-think-deeper-with-new-algorithm/"
+image:
+  url: "/images/articles/alibabas-qwen-just-fixed-rls-dumbest-flawnow-what/main.jpg"
+  alt: "Alibabin Qwen razbio RL-zid: algoritam koji nagrađuje pametne korake"
+subtitle: "Demo nasuprot deploymentu: tko zapravo koristi duža razmišljanja u praksi"
+subtitleImage:
+  url: "/images/articles/alibabas-qwen-just-fixed-rls-dumbest-flawnow-what/subtitle.jpg"
+  alt: "Demo nasuprot deploymentu: tko zapravo koristi duža razmišljanja u praksi"
+tags: ["Qwen (Alibaba AI model)", "Reinforcement Learning (RL) fine-tuning", "Long-context reasoning benchmarks", "AI deployment vs. research tradeoffs", "Chinese AI ecosystem"]
+lead_sentence: "Qwen2.5-32B-Base model uspio je udvostručiti dužinu lanaca razmišljanja bez ikakve prethodne obuke na sintetičkim podacima — i to zahvaljujući algoritmu koji nagrađuje tokene prema utjecaju na sljedeće korake, a ne jednako kao dosadašnji RL-pristupi."
+geo:
+  name: "Hangzhou, China"
+  lat: 30.2741
+  lon: 120.1552
+  countryCode: "CN"
+featured: false
+approved: true
+---
+
+Alibabin [Qwen tim](https://decoder.media/alibaba-qwen-team-new-algorithm/) nije samo dodao još jedan algoritam u hrpu RL-eksperimenata — napravio je nešto što većina konkurenata preskače: riješio je problem ravnomjerne nagrade. Dok standardni modeli kao [GRPO](https://arxiv.org/abs/2305.10345) svaki token nagrađuju jednako, bez obzira koliko je bitan, njihov **FIPO** (*Future-KL Influenced Policy Optimization*) dinamički proračunava utjecaj svakog koraka na one koji slijede. Rezultat?
+
+Na matematičkim zadacima, modeli sada grade dvostruko duže lance razmišljanja — i to bez prethodne obuke na sintetičkim podacima. To nije samo akademska igrica. Problem kojeg FIPO rješava — tzv. *credit assignment* — jedan je od glavnih razloga zašto RL-modeli zahtijevaju toliko ručnog podešavanja ili vanjskih *value modela* koji 'pomažu' procijeniti koji je korak zapravo vrijedan.
+
+Qwenov pristup eliminira tu ovisnost, što ne samo da smanjuje *leakage* informacija (problem kod metoda kao što je [PPO](https://arxiv.org/abs/1707.06347)), nego i čini cijeli proces transparentnijim. A kad tim kaže da će [otvoriti kod](https://github.com/QwenLM), to nije samo dobrotvorni gest — to je strategijski potez u trci za open-source dominacijom. I tu dolazimo do prvog velikog 'ali'.
+
+Benčmarkovi na matematičkim zadacima su lijepa stvar, ali realni svijet rijetko funkcionira kao čista logička sekvenca. Što se događa kada model mora razmišljati o nestrukturiranom tekstu, proturječnim podacima ili — još gore — ljudskim nagađanjima? Tamo gdje [Chain-of-Thought (CoT)](https://arxiv.org/abs/2201.11903) metoda već pokazuje granice, FIPO bi mogao biti koristan, ali dok ne vidimo rezultate izvan kontroliranih uvjeta, ostaje pitanje koliko je ovo rješenje za *sve* probleme razmišljanja, a koliko za one koje smo mi odabrali mjeriti.
+
+<ArticleBreak />
+
+Drugi ključni detalj: FIPO ne radi s *value modelom*, što je u svijetu RL-a gotovo hereza. Većina pristupa (poput onih koje koristi [DeepMind](https://deepmind.google/)) oslanja se na zasebne modele koji procjenjuju 'vrijednost' svakog koraka — što uvodi dodatnu složenost i potencijalne greške.
+
+Qwenov tim je umjesto toga ugradio *discount faktor* za bliže tokene i filter protiv *model drift*-a, što bi trebalo očuvati stabilnost tijekom treniranja. Ali ovdje leži i potencijalna slabost: ako algoritam previše 'kažnjava' određene tokene, riskira li da ugasi kreativnija, manje linearna rješenja?
+
+Na papiru, sve ovo zvuči kao logičan korak naprijed. Međutim, pravi test će biti generalizacija.
+
+Matematika je relativno čist prostor za testiranje — pravila su jasna, a koraci često deterministički. No, ako se FIPO pokaže korisnim i u zadacima kao što su [autonomno donošanje odluka](https://arxiv.org/abs/2302.08399) ili višestruko razmišljanje s proturječnim informacijama, tek tada možemo govoriti o stvarnom pomaku.
+
+Za sada, najjači signal dolazi od same činjenice da je Alibaba odlučila otvoriti kod — što znači da očekuju (ili barem žele) da developer community preuzme inicijativu.
+
+Pitanje je koliko će ovaj algoritam biti koristan izvan uskih matematičkih scenarija. Bez dokaza o superiornosti u realnim uvjetima, njegova revolucionarnost ostaje ograničena na akademsku debatu.

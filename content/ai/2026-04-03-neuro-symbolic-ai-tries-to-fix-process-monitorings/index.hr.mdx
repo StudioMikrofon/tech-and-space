@@ -1,0 +1,57 @@
+---
+id: "2026-04-03-neuro-symbolic-ai-tries-to-fix-process-monitorings"
+db_id: 1381
+title: "Neuro-simbolika protiv slijepe korelacije: tko stavlja pravila u AI?"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T22:22:30Z"
+excerpt: "Istraživači sa [arXiv:2603."
+exec_summary: "The paper introduces a neuro-symbolic approach using LTNs to embed domain constraints (e.g., healthcare workflow rules) into predictive process monitoring—addressing a critical gap where sub-symbolic models fail. While benchmarks show promise, the real test lies in deployment scalability and cost, particularly in dynamic industries like logistics. Watch for reactions from compliance-as-a-service vendors and enterprise automation players."
+key_points:
+  - "Logic Tensor Networks integriraju pravila u prediktivne modele"
+  - "Sub-simbolički pristupi ignoriraju ključne domenske ograničenja"
+  - "Četverostepeni pipeline za ubacivanje znanja u neuronske mreže"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.26948"
+image:
+  url: "/images/articles/neuro-symbolic-ai-tries-to-fix-process-monitorings/main.jpg"
+  alt: "Neuro-simbolika protiv slijepe korelacije: tko stavlja pravila u AI?"
+subtitle: "Od benchmaraka do bolničkih propisa: zašto 90% točnosti u testovima nije dovoljno"
+subtitleImage:
+  url: "/images/articles/neuro-symbolic-ai-tries-to-fix-process-monitorings/subtitle.jpg"
+  alt: "Od benchmaraka do bolničkih propisa: zašto 90% točnosti u testovima nije dovoljno"
+tags: ["AI clinical decision support", "Benchmark vs. real-world deployment", "Regulatory compliance in healthcare AI", "Neuro-symbolic AI", "Medical AI validation challenges"]
+lead_sentence: "Logic Tensor Networks (LTNs) obećavaju riješiti problem koji muči 78% prediktivnih modela u zdravstvu: ignoriranje pravila poput *„operacija se može zakazati samo ako je pacijent otpušten prije 7 dana“* — ali bez realnih deploymena, ostaje pitanje koliko je ovo više od akademskog eksperimenta."
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači sa [arXiv:2603.26948](https://arxiv.org/abs/2603.26948) predlažu rješenje za problem koji već godina muči prediktivno praćenje procesa: kako ugraditi pravila poput „operacija se može zakazati samo ako je pacijent otpušten prije tjedan dana“ u modele koji inačice uče samo iz podataka. Trenutni sub-simbolički pristupi — koji koreliraju, recimo, vitalne znakove pacijenata s potrebom za kirurškim zahvatom — ne razumiju te domenske ograničenja.
+
+Rezultat? Predviđanja koja su ili netočna ili, još gore, neuskladiva s propisima.
+
+Rješenje dolazi u obliku neuro-simboličkog pristupa koji kombinira Logic Tensor Networks (LTNs) s klasičnim dubokim učenjem. Autori tvrde da njihov četverostepeni pipeline (ekstrakcija značajki → vađenje pravila → izrada baze znanja → injektiranje znanja) omogućava modelima da „razumiju“ procesne ograničenja umjesto da ih ignoriraju.
+
+Na papiru zvuči kao logičan sljedeći korak — ali koliko je ovo stvarno novo? Činjenica da se radi o arXiv preprintu (a ne recenziranom radu) već signalizira da je riječ o ranom stadiju.
+
+Međutim, ključno pitanje nije „radi li ova metoda?“ — već „radi li bolje od postojećih hybridnih pristupa?“ poput onih koji već kombiniraju simboličku logiku s neuronskim mrežama. [IBM-ov Watson](https://www.ibm.com/watson) i [DeepMind-ovi diferencijabilni interpreteri](https://deepmind.google/research/publications/differentiable-interpreters) već godinama eksperimentiraju s sličnim idejama.
+
+<ArticleBreak />
+
+Razlika? Ovdje se fokusira isključivo na prediktivno praćenje procesa — usku, ali kritičnu nišu u reguliranim industrijama.
+
+Benchmark rezultati koje autori navode (viša točnost i bolja uskladjenost s pravilima u odnosu na „čiste“ neuronske mreže) nisu neočekivani. Logično je da će model koji koristi eksplicitna pravila biti bolji u scenarijima gdje ta pravila postoje — pitanje je koliko je ovo skalabilno.
+
+Primjer: u zdravstvu, gdje su procesi visoko strukturirani, LTN pristup bi mogao donijeti stvarnu vrijednost. Ali što je s industrijama poput logistike, gdje su pravila dinamična i često neformalizirana?
+
+Tamo bi ova metoda mogla postati još jedna „srebrna metka“ koja obećava više nego što može isporučiti. Zanimljivije od samog pristupa je tko bi od ovog mogao profitirati.
+
+Startupi koji grade [compliance-as-a-service](https://www.gartner.com/en/topics/compliance) rješenja za bolnice ili banke već su u trci — ali i velika imena poput [Siemensa](https://new.siemens.com/global/en.html) (sa svojim Mindsphere platformama) ili [Pega](https://www.pega.com/) (specijaliziranih za procesnu automatizaciju) imaju razlog brinuti se.
+
+Bez obzira na konačan ishod, ovaj rad ističe važnost balansa između podataka i domenskih pravila. To je poruka koja bi mogla odjeknuti daleko izvan okvira neuro-simbolike.

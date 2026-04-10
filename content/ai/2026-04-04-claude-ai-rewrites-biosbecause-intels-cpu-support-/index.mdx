@@ -1,0 +1,57 @@
+---
+id: "2026-04-04-claude-ai-rewrites-biosbecause-intels-cpu-support-"
+db_id: 1475
+title: "Claude AI rewrites BIOS—because Intel’s CPU support won’t"
+category: "ai"
+date: "2026-04-04T12:39:48Z"
+excerpt: "A single modder just did what Intel’s engineering teams won’t: make a [Bartlett Lake-S](https://en."
+exec_summary: "This isn’t just another ‘AI helped code’ story—it’s proof that large language models can co-author firmware mods with tangible hardware outcomes. By tricking an Asus Z790 board into recognizing an OEM-exclusive 12 P-core Bartlett Lake CPU as a Raptor Lake chip, the modder exposed a market gap: enthusiasts crave pure P-core architectures that Intel reserves for embedded systems. Watch whether this remains a niche hack or sparks a gray-market segment for high-core-count CPUs."
+key_points:
+  - "Claude AI automates BIOS modding for unsupported CPUs"
+  - "12 P-core Bartlett Lake boots on Z790—without Intel’s blessing"
+  - "DIY hack exposes chipmaker’s artificial segmentation strategy"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/pc-components/cpus/modder-uses-claude-ai-to-rewrite-bios-so-they-can-boot-unsupported-12-p-core-bartlett-lake-cpu-in-windows-on-a-z790-motherboard"
+image:
+  url: "/images/articles/claude-ai-rewrites-biosbecause-intels-cpu-support-/main.jpg"
+  alt: "Claude AI rewrites BIOS—because Intel’s CPU support won’t"
+  caption: "Claude AI rewrites BIOS—because Intel’s CPU support won’t"
+  credit: "Source: Web"
+subtitle: "Od hakerske inovacije do tržišnog jaza: tko stvarno dobiva na ovom eksperimentu"
+subtitle_en: "The real story isn’t the boot—it’s the BIOS as a battleground"
+subtitleImage:
+  url: "/images/articles/claude-ai-rewrites-biosbecause-intels-cpu-support-/subtitle.jpg"
+  alt: "The real story isn’t the boot—it’s the BIOS as a battleground"
+  caption: "The real story isn’t the boot—it’s the BIOS as a battleground"
+  credit: "Source: Web"
+tags: ["Claude AI", "BIOS hacking", "Z790 motherboard"]
+lead_sentence: "Intel’s Bartlett Lake-S CPU—12 P-cores, no official Z790 support—just booted Windows thanks to a Claude AI-scripted BIOS rewrite, not a single line of code from Intel."
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+A single modder just did what Intel’s engineering teams won’t: make a [Bartlett Lake-S](https://en.wikichip.org/wiki/intel/microarchitectures/raptor_lake) CPU—12 P-cores, zero official support—boot on an Asus Z790 motherboard. The tool? [Claude AI](https://www.anthropic.com/claude), repurposed to rewrite BIOS microcode where Intel’s own updates refuse to tread. This isn’t some synthetic benchmark victory; it’s a real-world end-run around [Intel’s deliberate CPU-motherboard segmentation](https://www.tomshardware.com/news/intel-13th-gen-raptor-lake-on-old-motherboards), where newer chips get locked out of older boards to force upgrades.
+
+
+The hack itself is surgically precise. The modder, posting under the handle *@platomav* on [GitHub](https://github.com/platomav/CRBEPatch), fed Claude the BIOS binary and a set of [Bartlett Lake’s unreleased microcode](https://www.techpowerup.com/forums/threads/leaked-intel-bartlett-lake-s-specs.312457/)—then let the AI handle the hex-editing. No soldering, no voltage tweaks, just a scripted rewrite that tricked the Z790 into recognizing a CPU it was never meant to support. The result? A stable Windows boot, complete with [all 12 P-cores active](https://browser.geekbench.com/v6/cpu/4389517), on a board Intel’s drivers explicitly reject.
+
+
+This isn’t about raw performance—it’s about exposure. The mod proves Bartlett Lake’s compatibility was always a software decision, not a hardware limitation. And when your $400 CPU gets bricked by a BIOS update because Intel says so, that’s less ‘innovation’ and more ‘planned obsolescence with extra steps.’
+
+<ArticleBreak />
+
+The [HWiNFO](https://www.hwinfo.com/) logs from the boot reveal the ugly truth: Bartlett Lake’s microcode was *already* compatible with Z790’s power delivery. Intel’s block was purely artificial, enforced through BIOS whitelists and microcode version checks. Claude didn’t ‘invent’ compatibility—it just removed the arbitrary roadblocks. For modders, this is a template; for Intel, it’s a PR nightmare waiting to scale.
+
+
+The developer community’s reaction has been predictably split. Over on [r/overclocking](https://www.reddit.com/r/overclocking/), the thread is half celebration, half warnings about stability risks—though no one’s reported a bricked board yet. Meanwhile, [Asus’s forums](https://rog.asus.com/forum/) are radio silent, because officially acknowledging this would mean admitting their BIOS updates are policy, not physics. The real signal isn’t the hack’s success; it’s the silence from Intel’s usual ‘unsupported config’ warnings. When even the chipmaker won’t deny it’s possible, the jig is up.
+
+
+For all the noise about AI ‘democratizing’ tech, this is what it actually looks like: a $20/month chatbot outmaneuvering a $200B company’s update strategy. The modder’s [GitHub repo](https://github.com/platomav/CRBEPatch) already has forks targeting other ‘unsupported’ CPUs—AMD’s [Ryzen 8000G on AM4](https://www.tomshardware.com/news/amd-ryzen-8000g-am4-support) might be next. Intel’s segmentation just became a [TODO list for LLMs](https://arstechnica.com/gadgets/2024/02/ai-is-now-writing-its-own-bios-firmware-and-that-should-scare-you/).
+
+In other words, the ‘AI revolution’ just got real—because nothing terrifies a hardware oligopoly like a script kiddie with a Claude subscription and a grudge. The hype cycle usually sells vaporware; this time, it’s selling *actual* vaporized roadblocks.

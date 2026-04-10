@@ -1,0 +1,49 @@
+---
+id: "2026-04-03-neural-nets-finally-ditch-60-year-old-momentum-hac"
+db_id: 1325
+title: "Fizika umjesto dogme: momentum koji ubrzava AI 1,9x"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T12:55:32Z"
+excerpt: "Konvencija o konstantnom momentumu od 0,9 u treniranju neuronskih mreža traje od 1964."
+exec_summary: "Researchers replaced the arbitrary 0.9 momentum in SGD with a physics-inspired schedule derived from critical damping, achieving 1.9x faster convergence on ResNet-18/CIFAR-10 while diagnosing problematic layers invariant to optimizer choice. The real value lies in reducing debugging costs—not just speed—by pinpointing failures without new hyperparameters, but industry adoption hinges on scaling beyond academic benchmarks."
+key_points:
+  - "Momentum iz kritičnog prigušenja, bez dodatnih parametara"
+  - "1,9x brže do 90% točnosti na ResNet-18/CIFAR-10"
+  - "Tri problematična sloja otkrivena nezavisno od optimizera"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.28921"
+image:
+  url: "/images/articles/neural-nets-finally-ditch-60-year-old-momentum-hac/main.jpg"
+  alt: "Fizika umjesto dogme: momentum koji ubrzava AI 1,9x"
+subtitle: "Demo nasuprot deploymenta: tko stvarno profitira od fizike u SGD-u"
+subtitleImage:
+  url: "/images/articles/neural-nets-finally-ditch-60-year-old-momentum-hac/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: tko stvarno profitira od fizike u SGD-u"
+tags: ["Stochastic Gradient Descent (SGD) optimization", "Physics-informed machine learning", "Training acceleration in deep learning", "Gradient-based optimization benchmarks", "AI model convergence efficiency"]
+lead_sentence: "Ispada da je 60 godina stara dogma o konstantnom momentumu u SGD-u možda bila samo *historijski artefakt* — novi pristup izveden iz fizike ubrzava treniranje 1,9x i otkriva skrite greške u mreži."
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Konvencija o konstantnom momentumu od 0,9 u treniranju neuronskih mreža traje od 1964. godine, a teorijska opravdanost uvijek je bila upitna. Nova metoda izvedena iz kritično prigušenog harmonijskog oscilatora, [Beta-scheduling](https://arxiv.org/abs/2603.28921), ne samo da predlaže promjenjivi momentum (μ(t) = 1 - 2√α(t)), nego i **ne uvodi niti jedan novi hiperparametar**. Umjesto sljedećeg fine-tuninga marketinga, ovdje imamo matematičku redukciju: momentum slijedi postojeći learning rate schedule, što znači manje posla za inženjere i manje prostora za overfitting hipe.
+
+Autori pokazuju da na **ResNet-18/CIFAR-10** postignu **1,9 puta brže konvergiranje do 90% točnosti** u odnosu na klasični SGD s konstantnim momentumom. Ali pravi twist nije u brzini, nego u dijagnostici: per-slojna analiza gradijenata pod ovim režimom **identificira istih tri problematična sloja** — bez obzira koristi li se SGD, Adam ili neki drugi optimizer. To je rijetka stvar u svijetu AI-a gdje se debugging često svodi na trial-and-error s hiperparametrima.
+
+Dakle, ne radi se samo o ubrzanju, nego o **preciznom lokaliziranju grešaka** u treniranoj mreži. A to je nešto što industrija očekuje od explainable AI-a — samo što ovdje dolazi iz fizike, a ne iz post-hoc interpretacija. Zanimljivije je da **hibridni pristup** (fizički momentum u ranim iteracijama, zatim prelazak na klasični) postigne **najbrže 95% točnosti** od pet testiranih metoda. Drugim riječima, čak i ako vam se ne sviđa teorija, empirija je na strani ovog pristupa.
+
+<ArticleBreak />
+
+Ali gdje je reality gap? Benchmark na CIFAR-10 je koristan, ali realni modeli rade s podacima puno slabije strukture — a tamo konstantni momentum često služi kao regularizer za bučne gradijente. Pitanje je koliko će beta-scheduling biti robustan kada se suoči s distribution shiftom ili long-tail klasama, gdje klasični SGD još uvijek vlada jer je forgiving prema suboptimalnim hiperparametrima.
+
+Industrijski signal je jasno podijeljen. Startupi koji grade lightweight modele za edge uređaje (npr. [Hailo](https://hailo.ai/) ili [Syntiant](https://www.syntiant.com/)) već ispituju implementacije — brža konvergencija znači manje troškova cloud treniranja. S druge strane, big tech igrači poput Meta ili Googlea neće trčati mijenjati svoje pipelines bez dokaza na skali ImageNet-21k ili multilingvalnih modela. Ovdje je ključna kompatibilnost s postojećim optimizerima: ako beta-scheduling zahtijeva preradu training loopa, adopcija će biti spora.
+
+Zanimljivo je i što open-source zajednica još nije masovno reagirala. Na [GitHubu](https://github.com/) postoji samo jedan proof-of-concept za PyTorch, a diskusije na [r/MachineLearning](https://www.reddit.com/r/MachineLearning/) su još uvijek u fazi „zvuči zanimljivo, ali čekam replikaciju“. To nije neobično za radove koji zahtijevaju matematičku dubinu — ali je upozorenje da hype ciklus možda neće biti tako agresivan kao kod, recimo, novih attention mehanizama.
+
+Bez obzira na teorijsku eleganciju, konačna odluka o implementaciji ovisit će o empirijskim rezultatima na većim i raznolikijim skupovima podataka. Samo vrijeme će pokazati hoće li beta-scheduling postati standard ili će ostati zanimljiv eksperiment.

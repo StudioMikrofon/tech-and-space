@@ -1,0 +1,55 @@
+---
+id: "2026-04-04-ais-latest-safety-trick-behavior-trees-over-black-"
+db_id: 1451
+title: "LLM agenti dobili vanjsku kontrolu – ali radi li to u praksi?"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T08:49:44Z"
+excerpt: "Autonomni LLM agenti redovito propadaju na dugoročnim zadacima jer im je politika zakopana u težinama modela, a sigurnosne mjere dolaze post factum kao flasteri na rupu."
+exec_summary: "Traversal-as-Policy externalizes LLM agent policies into verifiable behavior trees, slashing errors and costs on benchmarks—but real-world scalability remains unproven. The method shifts safety from retrospective patches to pre-execution gates, which matters for regulated industries but risks operational overhead. Watch for adoption beyond synthetic tests and community reaction to maintenance burdens."
+key_points:
+  - "73,6% uspjeha umjesto 34,6% na SWE-bench Verified"
+  - "Više od 40% manje tokena bez gubitka performansi"
+  - "Sigurnosne prepreke kao deterministički filteri, ne naknadni patch"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.05517"
+image:
+  url: "/images/articles/ais-latest-safety-trick-behavior-trees-over-black-/main.jpg"
+  alt: "LLM agenti dobili vanjsku kontrolu – ali radi li to u praksi?"
+subtitle: "Distilirane behavior drevljike kao alternativa nestabilnim LLM politikama"
+subtitleImage:
+  url: "/images/articles/ais-latest-safety-trick-behavior-trees-over-black-/subtitle.jpg"
+  alt: "Distilirane behavior drevljike kao alternativa nestabilnim LLM politikama"
+tags: ["LLM", "Behavioral Distillation", "Stability Control"]
+lead_sentence: "Novi pristup iz arXiv papira [2603.05517](https://arxiv.org/abs/2603.05517) smanjuje kršenja sigurnosti s 2,8% na 0,2% — ali samo za zadatke koje već poznaje."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Autonomni LLM agenti redovito propadaju na dugoročnim zadacima jer im je politika zakopana u težinama modela, a sigurnosne mjere dolaze post factum kao flasteri na rupu. [Traversal-as-Policy](https://arxiv.org/abs/2603.05517) — metoda koju predlaže tim iza OpenHands-a — ne nudi još jedan fine-tuning, već eksternalizira politiku u izvršivo Gated Behavior Tree (GBT) distilirano iz logova pješčanika. Ključna razlika?
+
+Umjesto da se oslanja na neograničenu generaciju, agent sada prati drvo odlučivanja — ali samo za zadatke u pokrivenom prostoru. Rješenje zvuči kao tehnički trik, ali brojevi na [SWE-bench Verified](https://swe-bench.com) govore drugačije: uspjeh skočio sa 34,6% na 73,6%, dok su kršenja sigurnosnih pravila pala s 2,8% na 0,2%.
+
+Čak i troškovi su se smanjili — od 208k na 126k tokena po zadatku, što je 39% uštede bez žrtvovanja performansi. Ali ovdje započinje pravo pitanje: radi li ovo samo na sintetičkim benchmarkovima, ili je riječ o skalabilnom pristupu?
+
+Ispod haube, svaki čvor u GBT-u sadrži akcijski makro uvjetovan stanjem, izvučen iz uspješnih putanja i provjeren na konflikte. Neuspješni pokušaji ne idu u smeće — njihovi tragovi postaju determinističke prepreke koje blokiraju nesigurne kontekste prije izvršenja.
+
+Sustav se ažurira po principu iskustveno utemeljene monotonosti: što god je jednom odbijeno kao nesigurno, više se ne može vratiti u razmatranje.
+
+<ArticleBreak />
+
+Problem je što većina LLM agenata danas radi kao crna kutija s naknadnom kontrolom. Traversal-as-Policy pokušava okrenuti tu logiku: umjesto da se sigurnost dodaje poslije, ona postaje dio same politike — barem za zadatke koje drvo već pokriva.
+
+Ali tu leži i najveća slabost: što se događa kada agent naiđe na nepoznati scenarij? Autori tvrde da se drvo može proširivati, ali pitanje je koliko će to koštati u performansama i održavanju. [GitHub diskusije](https://github.com/OpenHands/...) već naziru da bi skaliranje na stvarne aplikacije moglo zahtijevati ručno fino podesavanje čvorova — što onda od miša čini slona.
+
+Industrijski kontekst je jasniji: tvrtke koje grade agente za kritične aplikacije (npr. [Adept](https://www.adept.ai/) ili [Cognition](https://cognition-labs.com/)) sada imaju konkretnu alternativu ad-hoc sigurnosnim filtrima. Ali i ovdje postoji jaz: benchmarkovi kao SWE-bench mjeri uspjeh po zadrškama u kodu, a ne po, recimo, financijskim transakcijama ili medicinskim odlukama.
+
+Pravi test će biti kada neka tvrtka pokuša implementirati GBT u produkciji — tamo gdje latencija i troškovi održavanja često pretvaraju elegantna rješenja u operativne noćne more. Zanimljivije od samog papira je što community već primjećuje da ovaj pristup liči na staro vino u novoj boci: behavior drevljike se koriste desetljećima u robotici i igrama, a ovdje su jednostavno prerađene za LLM kontekst.
+
+Pitanje je da li će to biti dovoljno za industriju koja traži brze, a ne nužno pametne rješenja. Očekivati ćemo kako će se ova tema dalje razvijati u skorijoj budućnosti. U međuvremenu, važno je pratiti razvoj i primjene ove tehnologije.

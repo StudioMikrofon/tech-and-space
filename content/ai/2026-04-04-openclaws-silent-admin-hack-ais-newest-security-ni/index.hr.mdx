@@ -1,0 +1,53 @@
+---
+id: "2026-04-04-openclaws-silent-admin-hack-ais-newest-security-ni"
+db_id: 1410
+title: "OpenClaw: Admin pristup bez lozinke nije bug, nego feature"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T02:14:25Z"
+excerpt: "OpenClaw, AI alat s 347."
+exec_summary: "OpenClaw’s patched CVE-2026-33579 exposes the gap between AI demo hype and deployment risks—where broad-access agentic tools become prime targets. The real story isn’t the bug, but the architectural trade-offs companies ignore when chasing automation at any cost."
+key_points:
+  - "347.000 zvjezdica na GitHubu – i kritična rupa za admin pristup"
+  - "CVE-2026-33579: od minimalnih ovlasti do potpune kontrole"
+  - "Agentic alati postaju sigurnosni košmar za tvrtke"
+source:
+  name: "arstechnica.com"
+  url: "https://arstechnica.com/security/2026/04/heres-why-its-prudent-for-openclaw-users-to-assume-compromise/"
+image:
+  url: "/images/articles/openclaws-silent-admin-hack-ais-newest-security-ni/main.jpg"
+  alt: "OpenClaw: Admin pristup bez lozinke nije bug, nego feature"
+subtitle: "Demo nasuprot deploymenta: što se događa kad AI dobije ključeve od kraljevstva"
+subtitleImage:
+  url: "/images/articles/openclaws-silent-admin-hack-ais-newest-security-ni/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: što se događa kad AI dobije ključeve od kraljevstva"
+tags: ["OpenClaw", "Passwordless Access", "AI Deployment"]
+lead_sentence: "Alat s 347.000 GitHub zvjezdica i ocjenom ranjivosti 9.8/10 otkrio je kako 'agentička autonomija' u praksi izgleda: tiho preuzimanje admin kontrole bez lozinke."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+OpenClaw, AI alat s 347.000 zvjezdica na GitHubu, koji je u listopadu osvojio pažnju automatiziranjem zadataka preko više platformi, upravo je dobio zakrpu za tri kritične ranjivosti. Među njima je i CVE-2026-33579 — bug koji omogućava eskalaciju privilegija od osnovnog operator pairing prava do potpune admin kontrole.
+
+Drugim riječima, napadač s minimalnim pristupom mogao je tiho odobriti zahtjeve za puno upravljanje sustavom, bez ikakve dodatne autentikacije. Problem nije samo u samoj rupi, već u arhitekturi alata.
+
+OpenClaw zahtijeva broad access — povezuje se s Telegramom, Discordom, Slackom, datotekama i računima — što ga čini idealnom metom za lateralno kretanje napadača. Prema izjavama sigurnosnih istraživača, kompromitirani admin uređaj može 'pročitat sve povezane izvore podataka, eksfiltrirajući vjerodajnice, izvršavati proizvoljne naredbe i preskočiti na druge usluge'.
+
+To nije teorija: ocjena ozbiljnosti buga kreće se od 8,1 do 9,8 na CVSS skali.
+
+<ArticleBreak />
+
+Dok marketing agentičkih alata slavi 'autonomiju', sigurnosna zajednica već godinama upozorava na rizike takvih širokih ovlasti. OpenClaw nije iznimka — njegov uspon (i sadašnji pad) samo potvrđuje pravilo: što je alat moćniji, to je veća površina napada.
+
+Praktični učinci su brutalni. Za tvrtke koje koriste OpenClaw kao centralni AI agent, kompromitirani admin račun znači gubitak kontrole nad svim povezanim servisima.
+
+To uključuje krađu podataka, zlouporabu vjerodajnica i potencijalno širenje napada na druge interne sustave. Analiza Ars Technice ističe da je rijetko vidjeti takav 'tihi' mehanizam eskalacije — napadač ne mora ni kršiti lozinku, ni eksploatirati phishing.
+
+Dovoljno je iskoristiti postojeća, namjerno dodijeljena prava.
+
+Pravi signal ovdje je u tome što čak i alat s otvorenim kodom i aktivnom zajednicom može postati sigurnosna mina — ako mu se daje previše povjerenja. Stoga, važno je za tvrtke koje koriste OpenClaw i slične alate da preispitaju svoje sigurnosne protokole i ograniče pristup osjetljivim podacima.

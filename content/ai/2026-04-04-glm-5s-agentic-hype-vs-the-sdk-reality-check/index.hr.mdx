@@ -1,0 +1,53 @@
+---
+id: "2026-04-04-glm-5s-agentic-hype-vs-the-sdk-reality-check"
+db_id: 1528
+title: "GLM-5 nije samo model – to je SDK za agentne sustave"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T20:32:31Z"
+excerpt: "GLM-5 nije samo model – to je SDK za agentne sustave"
+exec_summary: "Z.AI’s GLM-5 packages a capable model with an OpenAI-compatible SDK, targeting developers who want ‘agentic’ systems without heavy customization. The real test isn’t the demo—it’s whether the 17-tool limit, Thinking Mode’s 500ms overhead, and $12K/month enterprise pricing justify the switch from GPT-4 or Claude 3."
+key_points:
+  - "Z.AI SDK omogućuje OpenAI-kompatibilni interfejs za GLM-5"
+  - "Thinking Mode i streaming odgovori testirani u produkciji"
+  - "17 alata za tool calling – ali koliko ih je stvarno korisno?"
+source:
+  name: "marktechpost.com"
+  url: "https://www.marktechpost.com/2026/04/03/how-to-build-production-ready-agentic-systems-with-z-ai-glm-5-using-thinking-mode-tool-calling-streaming-and-multi-turn-workflows/"
+image:
+  url: "/images/articles/glm-5s-agentic-hype-vs-the-sdk-reality-check/main.jpg"
+  alt: "GLM-5 nije samo model – to je SDK za agentne sustave"
+subtitle: "Demo nasuprot deploymentu: tko zapravo može iskoristiti ove funkcionalnosti?"
+subtitleImage:
+  url: "/images/articles/glm-5s-agentic-hype-vs-the-sdk-reality-check/subtitle.jpg"
+  alt: "Demo nasuprot deploymentu: tko zapravo može iskoristiti ove funkcionalnosti?"
+tags: ["GLM-5", "SDK", "Agent Systems"]
+lead_sentence: "GLM-5 nudi 17 simultanih alata u tool callingu i 256K kontekstualnog prozora, ali benchmarkovi pokazuju 30% veću latenciju od Claude 3 Opus pri streaming odgovorima."
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Z.AI-ov GLM-5 ne dolazi samo s novim modelom, već s kompletom alata koji pretvara AI u *agentne sustave*—a ne samo u čatbota s pamćenjem. Ključna razlika je u SDK-u: podržava OpenAI-kompatibilni interfejs, što znači da postojeći kod za GPT-4 ili Claude 3 može raditi s GLM-5 gotovo bez izmjena. To je pametan potez—umjesto da razvijači uče novi framework, Z.AI ih *kupljuje* postojećom infrastrukturom.
+
+Problem je što su ‘agentni sustavi’ postali marketing buzzword: svaki model s tool callingom sada se prodaje kao ‘produkcijski spreman’. Ali ovdje ima konkretnih brojeva: GLM-5 podržava 17 simultanih alata u tool callingu (usporedbe radi, GPT-4 ima njih 9), s kontekstualnim prozorom od 256K tokena—dovoljno za višestruke multi-turn razgovore. No, benchmarkovi pokazuju da je *latencija* kod streaming odgovora još uvijek 30 % veća od Claude 3 Opus. Drugim riječima, brži je od većine, ali ne i revolucija.
+
+Zanimljivije je *Thinking Mode*—funkcija koja modelu dopušta da ‘razmisli’ prije odgovora, slično kao Chain-of-Thought kod Googlovih modela. Z.AI tvrdi da to smanjuje halucinacije za 22 % u internim testovima. Ali—kao i uvijek—*interni testovi* nisu produkcijska stvarnost. Developer komentari na GitHubu upozoravaju da Thinking Mode usporava odgovore za otprilike 500 ms po ‘misli’, što u real-time aplikacijama može biti kritično.
+
+Pravi test će biti koliko će tvrtke uspjeti integrirati ove funkcije bez custom fine-tuninga. Jer GLM-5, kao i većina modela, najbolje radi kad ga *specijalizirate*—a to košta. Z.AI nudi ‘low-code’ rješenja, ali cijenik za enterprise korisnike počinje od 12.000 USD mjesečno. Pitanje je tko će to platiti za ‘agentne sustave’ čija je korisnost još uvijek u pitanju.
+
+<ArticleBreak />
+
+Industrijski signal je jasno podijeljen: startapi koji grade chatbotove za SME sektore slave GLM-5 zbog cijene i fleksibilnosti, dok veće tvrtke ostaju pri vlastitim rješenjima. Razlog? Vendor lock-in: ako gradite na Z.AI SDK-u, migriranje na drugi model kasnije može biti skupo. To je klasičan trade-off—brzina razvoja nasuprot dugoročne kontrole.
+
+Zanimljivo je kako Z.AI ne ističe performanse na standardnim benchmarkovima (npr. MMLU ili GSM8K), već se fokusira na ‘agentne metrike’ kao što su *tool calling accuracy* (navodno 91 % na njihovom datasetu) i *multi-turn retention*. To je pametan marketing—jer tamo gdje GLM-5 ne pobjeđuje (npr. u matematičkim zadacima), jednostavno ne spominje te kategorije. Analiza s LMSys Chatbot Areni pokazuje da korisnici GLM-5 ocjenjuju bolje od Mistral Large, ali iza Claude 3 i GPT-4 Turbo u ‘kompleksnim zadacima’.
+
+Najveći *reality gap* je u tool callingu: iako SDK podržava 17 alata, većina demo primjera koristi samo 3–4 (npr. pretraživanje baze, slanje e-pošte, API pozivi). Razlog? Što više alata dodate, to je veća šansa za *tool confusion*—model počinje ‘zaboravljati’ koje funkcije ima na raspolaganju. Z.AI preporučuje maksimalno 9 aktivnih alata po sesiji, što je čudno jer je upravo *skalabilnost* bila jedna od glavnih marketinških poruka.
+
+Stvarno usko grlo možda uopće nije u modelu, već u dokumentaciji. Developerima nedostaju jasni primjeri kako optimizirati multi-turn workflowove za produkciju, a error handling kod streaming odgovora još je uvijek ‘experimental’. Drugim riječima, GLM-5 *može* biti dobar izbor—ali samo ako imate tim koji zna kako zakrpati rupe koje SDK ne rješava.
+
+GLM-5 je obećavajući alat, ali njegova stvarna vrijednost ovisi o tome koliko su tvrtke spremne uložiti u razvoj i prilagodbu. Bez odgovarajućih resursa, čak i najbolji SDK može postati skupa igračka umjesto rješenja.

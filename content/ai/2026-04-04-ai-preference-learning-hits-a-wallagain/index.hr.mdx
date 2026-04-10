@@ -1,0 +1,55 @@
+---
+id: "2026-04-04-ai-preference-learning-hits-a-wallagain"
+db_id: 1438
+title: "Sive nijanse ljudskih preferencija: Koji LLM-i stvarno napreduju?"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T06:28:09Z"
+excerpt: "Studija [arXiv:2604."
+exec_summary: "A feature-augmented reward modeling framework lifts LLM preference-learning benchmarks (top model: 0.84 ROC AUC), but the real insight is how it exposes hidden biases—like penalizing longer answers—while adding complexity that may not scale. The gap between controlled evaluations and real-world deployment remains the critical unanswered question."
+key_points:
+  - "DeBERTa v3 Large lider s 0.84 ROC AUC"
+  - "Dodatni signali otkrivaju pristranosti u modelima"
+  - "Anthropic-ov HHRLHF dataset kao testni poligon"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.01312"
+image:
+  url: "/images/articles/ai-preference-learning-hits-a-wallagain/main.jpg"
+  alt: "Sive nijanse ljudskih preferencija: Koji LLM-i stvarno napreduju?"
+subtitle: "Od benchmarka do stvarnosti: Gdje modeli promašuju ljudske preferencije?"
+subtitleImage:
+  url: "/images/articles/ai-preference-learning-hits-a-wallagain/subtitle.jpg"
+  alt: "Od benchmarka do stvarnosti: Gdje modeli promašuju ljudske preferencije?"
+tags: ["LLM benchmark evaluation", "Human preference alignment in AI", "Generative AI model performance gaps", "AI benchmark vs. real-world usability", "Large language model progress metrics"]
+lead_sentence: "DeBERTa v3 Large postigao 0.84 ROC AUC na Anthropic-ovom datasetu — ali pravo otkriće je što su dodatni signali poput toksičnosti i semantičke udaljenosti otkrili o pristranostima trenutnih modela."
+geo:
+  name: "San Francisco, United States"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Studija [arXiv:2604.01312v1](https://arxiv.org/abs/2604.01312) ne donosi revoluciju, već nešto mnogo rijetkije: interpretabilna poboljšanja. Autori su na [Anthropic-ovom HHRLHF datasetu](https://www.anthropic.com/index/hhrlhf) testirali deset različitih LLM-ova, pri čemu nijedan bazni model nije premašio 0,74 ROC AUC — granicu koja u industriji već dugo signalizira da nešto fali u razumijevanju ljudskih preferencija.
+
+Ključna inovacija nije novi algoritam, već dodatni interpretabilni signali: duljina odgovora, indikatori odbijanja, toksičnost i semantička sličnost između upita i odgovora. Razlika između 0,74 i 0,84 (najbolji rezultat DeBERTa v3 Large) nije samo statistički skok — to je dokaz da trenutni modeli propuštaju dimenzije ljudskog suđenja koje nisu eksplicitno kodirane u tekstu.
+
+Problem nije u podacima, već u pretpostavci da preferencije možemo svesti na binarne usporedbe. Čak i najsnažniji modeli, suočeni s nijansama poput 'djelomično točno' ili 'prihvatljivo ali ne idealno', pokazuju da im nedostaje kontekstualna dubina.
+
+Ovo otvara pitanje: koliko su ova poboljšanja upotrebljiva izvan kontroliranog benchmarka? Razvojni timovi [na GitHubu](https://github.com/) već primjećuju da integracija dodatnih signala zahtijeva ručno podešavanje — što u produkcijskom okruženju može postati brzo nepraktično.
+
+Drugim riječima, rješenje je elegantno, ali skalabilnost ostaje upitna.
+
+<ArticleBreak />
+
+Najzanimljiviji dio studije nije sam učinak, već što otkriva o trenutnim limitima modela. Kada modeli dobiju dodatne signale poput toksičnosti ili semantičke udaljenosti, njihova performansa raste — ali i pristranosti postaju vidljivije.
+
+Na primjer, modeli češće kažnjavaju duže odgovore, čak i kada su informativniji, što ukazuje na sklonost prema 'konciznosti po svaku cijenu'. To nije bug, već feature trenutne paradigme: preferencije se učvršćuju na temelju implicitnih pretpostavki koje nisu uvijek transparentne.
+
+Industrijski implikacije su jasne: tvrtke poput [Anthropica](https://www.anthropic.com/) i [Hugging Facea](https://huggingface.co/) dobivaju novi alat za finije podešavanje modela, ali i novi teret — morat će objasniti zašto neki odgovori dobivaju višu ocjenu. Za open-source zajednicu ovo je dvosjekli mač: s jedne strane, interpretabilnost je korak naprijed; s druge, dodatni slojevi znače više posla na održavanju. [Diskusije na Redditu](https://www.reddit.com/r/MachineLearning/) već pokazuju podjelu: dio razvijača hvali preciznost, dok drugi upozoravaju na 'feature creep' u reward modelingu.
+
+Pravi test tek dolazi kada se ovi modeli suoče s realnim korisnicima — tamo gdje preferencije nisu čiste etikete, već dinamični, kulturološki obojeni sudovi. Upravo tamo priča postaje zanimljivija od same objave.
+
+Ova studija otkriva da su ljudske preferencije kompleksnije od binarnih ocjena. Tek kada modeli izađu iz laboratorija, njihove praznine će postati neupitne. Sve dok to ne dogodimo, interpretabilnost će biti tek polovičan uspjeh.

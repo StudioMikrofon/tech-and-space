@@ -1,0 +1,55 @@
+---
+id: "2026-04-03-autob2g-promises-automated-energy-sims-but-can-it-"
+db_id: 1360
+title: "AutoB2G: LLM-ovi sada pišu simulacije, ali tko to stvarno koristi?"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T18:54:49Z"
+excerpt: "AutoB2G, novi agentic framework pokrenut LLM-om, obećava automatizaciju Building-to-Grid (B2G) simulacija — ali s ključnom razlikom od prethodnih alata poput CityLearn V2."
+exec_summary: "AutoB2G uses LLMs to automate building-grid co-simulations, addressing a real gap in tools like CityLearn V2 that ignore grid-level impacts. But its reliance on DAG-based code generation and lack of industry adoption signals raise questions about whether this is a research prototype or a deployable tool. The key tension isn’t technical—it’s who actually benefits from ‘automation’ that still demands expert oversight."
+key_points:
+  - "LLM automatizira simulacije zgrada-mreža bez ručnog kodiranja"
+  - "CityLearn V2 dobiva grid-level metrike, ali ostaje pitanje skaliranja"
+  - "DAG-arhitektura vođena jezičnim zadacima — demo ili produkt?"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.26005"
+image:
+  url: "/images/articles/autob2g-promises-automated-energy-sims-but-can-it-/main.jpg"
+  alt: "AutoB2G: LLM-ovi sada pišu simulacije, ali tko to stvarno koristi?"
+subtitle: "Između akademskog eksperimenta i industrijske revolucije: što AutoB2G zapravo nudi?"
+subtitleImage:
+  url: "/images/articles/autob2g-promises-automated-energy-sims-but-can-it-/subtitle.jpg"
+  alt: "Između akademskog eksperimenta i industrijske revolucije: što AutoB2G zapravo nudi?"
+tags: ["LLM", "Automatization", "Simulation", "Marketing Automation"]
+lead_sentence: "Novi LLM-driven framework AutoB2G obećava automatizirati Building-to-Grid simulacije bez pisanja koda — ali njegov prvi stvarni test bit će reakcija [CityLearn zajednice](https://github.com/CityLearn/citylearn), koja već godinama radi s ručnim konfiguracijama."
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+AutoB2G, novi agentic framework pokrenut LLM-om, obećava automatizaciju Building-to-Grid (B2G) simulacija — ali s ključnom razlikom od prethodnih alata poput CityLearn V2. Umjesto ručnog postavljanja parametara i pisanja koda, framework pretvara jezične zadatke (npr. „optimiziraj potrošnju klastera od 50 zgrada za 30% manji vršni opterećenje“) u izvršne simulacije, koristeći SOCIA okvir za generiranje koda.
+
+To zvuči kao rješenje za dva glavna problema: nedostatak grid-level metrika u postojećim alatima i ovisnost o programerskom znanju za postavljanje eksperimenata. Iako je reinforcement learning (RL) već duže u igri za optimizaciju energetske efikasnosti, većina postojećih rješenja (poput CityLearn-a) fokusira se isključivo na building-side performanse — ignorirajući kako te odluke utječu na mrežu.
+
+AutoB2G tvrdi da popunjava taj jaz, ali s DAG-arhitekturom koja vođena LLM-om generira simulacijski tok. Pitanje je: radi li se o stvarnoj automatizaciji ili samo o pametnijem načinima pakiranja postojećih alata?
+
+Za razliku od tipičnih AI-objava, ovdje je zanimljivo tko ne spominje ovu novost. Ni OpenADR ni veliki igrači poput Siemensa ili Schneider Electric nisu reagirali — što sugerira da je AutoB2G (bar za sada) više akademski eksperiment nego industrijsko rješenje.
+
+<ArticleBreak />
+
+Realni test za AutoB2G bit će njegov odnos prema postojećim standardima — jer automatizacija simulacija ne znači automatsku kompatibilnost s regulatornim okvirima. Framework se oslanja na CityLearn V2 kao osnovu, ali dodaje grid-level interakcije, što bi moglo biti korisno za operatere pametnih mreža.
+
+Međutim, koliko je to korisno ako zahtijeva dodatno obučavanje modela za svaki novi scenarij? Rani korisnici na GitHubu već postavljaju pitanja o podršci za realne podatke — a odgovori (ili njihova odsutnost) govore više od bilo kojeg whitepaper-a.
+
+Još zanimljivije je što AutoB2G ne nudi jasnu putanju za integraciju s postojećim BMS ili SCADA sustavima. To znači da, iako framework može automatizirati simulacije, premostiti jaz između simulacije i stvarne implementacije i dalje zahtijeva ručni rad — što poništava dio njegove glavne prednosti.
+
+A ako je cilj smanjiti ovisnost o programerskom znanju, zašto onda dokumentacija pretpostavlja upoznatost s RL okvirima poput Stable Baselines3? Najveći paradox ovdje je što AutoB2G možda i riješava problem automatizacije — ali samo za one koji već imaju stručno znanje da razumiju njegove ograničenja.
+
+Drugim riječima, alat koji bi trebao biti pristupačan i ne-ekspertima i dalje pretpostavlja da korisnik zna što radi. To možda nije bug, već feature: akademski projekti često ciljaju na demonstraciju mogućnosti, a ne na produktivnu upotrebu.
+
+AutoB2G otkriva napetost između akademskog istraživanja i praktične primjene, gdje inovacije često zaobilaze one koji bi ih najviše trebali koristiti. Njegova vrijednost leži u demonstraciji mogućnosti, ali pravi izazov tek slijedi: kako prevesti eksperimentalne modele u skalabilna rješenja koja će zaista promijeniti industriju.

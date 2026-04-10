@@ -1,0 +1,45 @@
+---
+id: "2026-04-04-nemoclaw-fails-to-impress"
+db_id: 1406
+title: "NemoClaw: Nvidijin „sigurnosni“ omotač još uvijek puca po šavovima"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T02:05:35Z"
+excerpt: "Nvidia je na GTC 2026 predstavila NemoClaw kao „sigurnosni okvir“ za OpenClaw — sustav s 350."
+exec_summary: "Nvidia’s NemoClaw, pitched as a secure alternative to the vulnerable OpenClaw, retains the same core flaws in testing—failing compatibility with key tools and exposing unpatched bugs. The gap between its marketing as an enterprise-ready solution and its *early preview* instability underscores a pattern: security-by-design often collapses under deployment reality. Watch for updates on bug fixes or whether Nvidia shifts its positioning away from ‘secure wrapper’ claims."
+key_points:
+  - "350.000 zvjezdica na GitHubu ne garantira sigurnost"
+  - "Sandbox model propušta kritične bugove u dozvama"
+  - "Ollama kao obvezni posrednik — Nvidijin vlastiti zahtjev"
+source:
+  name: "xda-developers.com"
+  url: "https://www.xda-developers.com/ran-nvidia-nemoclaw-openclaw-finally-safe-same-problems/"
+image:
+  url: "/images/articles/nemoclaw-fails-to-impress/main.jpg"
+  alt: "NemoClaw: Nvidijin „sigurnosni“ omotač još uvijek puca po šavovima"
+subtitle: "Između marketinga i koda: što se zapravo promijenilo od OpenClawa"
+subtitleImage:
+  url: "/images/articles/nemoclaw-fails-to-impress/subtitle.jpg"
+  alt: "Između marketinga i koda: što se zapravo promijenilo od OpenClawa"
+tags: ["NVIDIA NemoClaw security vulnerabilities", "OpenClaw vs NemoClaw performance comparison", "AI model inference security flaws", "NVIDIA AI framework security audit", "LLM deployment vulnerabilities"]
+lead_sentence: "Testiranje pokazuje da Nvidijin NemoClaw — unatoč *sandbox* modelu i 120 milijardi parametara — ne može pokrenuti `llama.cpp` zbog grešaka u parsiranju gramatiku."
+geo:
+  name: "Santa Clara, United States"
+  lat: 37.3541
+  lon: -121.9552
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Nvidia je na GTC 2026 predstavila NemoClaw kao „sigurnosni okvir“ za OpenClaw — sustav s 350.000 zvjezdica na GitHubu i reputacijom propuštenih ranjivosti. Problem? Nakon testiranja autori iz XDA Developersa potvrđuju: nove sigurnosne politike i sandbox arhitektura ne rješavaju osnovne probleme koji su OpenClaw učinili opasnim. Čak i s 120 milijardi parametara u Nemotron 3 modelu, alati kao što je llama.cpp jednostavno ne rade zbog nekompatibilnosti u gramatici poziva alata.
+
+Nvidijin službeni stav — da je NemoClaw „fokusiran na sigurnost“ — sudara se s dokumentiranom stvarnošću: bug u dozvolama sprječava pristup konfiguracijskoj datoteci, a cjelokupno tool calling zahtijeva Ollamu kao posrednika. To nije samo tehnički detalj, već arhitektonski propust koji kompromitira osnovnu funkcionalnost. Ako je cilj bio zamijeniti OpenClawov kaos kontroliranim okruženjem, rezultat je — barem za sada — još jedna slojevita apstrakcija s istim rupama.
+
+<ArticleBreak />
+
+Za razliku od OpenClawa, koji je postao popularan upravo zbog svoje otvorenosti (i nedostatka ograničenja), NemoClaw se prodaje kao rješenje za poduzeća koja traže kontrolu nad agentičnim modelima. Međutim, razvojna zajednica već bilježi ironiju: agresivno filtriranje politika koči kompatibilnost, a obavezna integracija s Ollamom dodaje složenost umjesto da je smanjuje.
+
+To je klasičan primjer „sigurnosti po dizajnu“ koja u praksi postaje nesigurnost po implementaciji. Nvidijin potez ima smisla u kontekstu tržišne strategije — Nemotron 3 i usluge kao što je NIM trebaju „sigurnu“ platformu za poduzeća. Ali dok god NemoClaw ostaje u early preview fazi s dokumentiranim propustima, njegovu vrijednost određuje više marketing nego kod. A to je opasna igra u segmentu gdje konkurenti kao što su Anyscale ili Together AI već nude stabilnija rješenja za deployanje modela.
+
+NemoClaw će morati poboljšati svoju sigurnost i kompatibilnost kako bi se mogao natjecati s ostalim rješenjima na tržištu. To će zahtijevati ozbiljan pregled postojećeg koda i arhitekture. Do tada, NemoClaw će ostati samo još jedan primjer kako se marketing ne može zamijeniti za kvalitetan kod.

@@ -1,0 +1,60 @@
+---
+id: "2026-04-08-north-koreas-fake-teams-update-exposes-a-new-malwa"
+db_id: 1953
+title: "North Korea’s fake Teams update exposes a new malware blind spot"
+category: "technology"
+date: "2026-04-08T06:07:26Z"
+excerpt: "North Korean hackers didn’t just exploit Microsoft Teams—they turned it into a [malware delivery service](https://www."
+exec_summary: "North Korean hackers compromised the axios maintainer’s account via an elaborate social engineering scheme, publishing malicious npm packages that delivered a RAT. The attack exposes critical vulnerabilities in open-source supply chains—where trust is both the greatest strength and the weakest link."
+key_points: []
+  - "Fake Teams update trojan bypassed Windows defenses"
+  - "Weeks-long registry hijacking evaded detection"
+  - "Slack and Teams now weaponized for precision attacks"
+source:
+  name: "windowscentral.com"
+  url: "https://www.windowscentral.com/microsoft/windows/north-korea-axios-hack-teams-slack"
+image:
+  url: "/images/articles/north-koreas-fake-teams-update-exposes-a-new-malwa/main.jpg"
+  alt: "North Korea’s fake Teams update exposes a new malware blind spot"
+subtitle: "Profesionalno izvedena prijevara koja je obmanula čak i održavatelja s desetak godina iskustva"
+subtitle_en: "The supply chain gap that turns trusted apps into Trojan horses"
+subtitleImage:
+  url: "/images/articles/north-koreas-fake-teams-update-exposes-a-new-malwa/subtitle.jpg"
+  alt: "The supply chain gap that turns trusted apps into Trojan horses"
+tags:
+  - npm supply chain attacks
+  - Teams and Slack phishing campaigns
+  - open-source dependency exploitation
+  - developer security breaches
+  - malicious package distribution
+lead_sentence: "Axios maintainer Jason Saayman confirms the attack spent weeks rewriting Windows registry keys before deploying a trojan via a fake Teams update notification."
+geo:
+  name: "Redmond, WA"
+  lat: 47.6739
+  lon: -122.1214
+  countryCode: "US"
+featured: false
+approved: true
+approved: true
+---
+
+
+North Korean hackers didn’t just exploit Microsoft Teams—they turned it into a [malware delivery service](https://www.windowscentral.com/software-apps/windows-11/microsoft-teams-malware-north-korea) with surgical precision. According to [Axios maintainer Jason Saayman](https://github.com/axios/axios), the attack spent weeks hijacking Windows registry keys before deploying a fake Teams update that installed a trojan. The ploy wasn’t opportunistic spam but a calculated strike, leveraging the one app millions of users trust implicitly: their own collaboration tools.
+
+
+The attack’s elegance lies in its abuse of legitimacy. Users didn’t download shady executables—they clicked what looked like a routine [Teams update notification](https://support.microsoft.com/en-us/office/update-microsoft-teams-5377a5b2-508b-4575-9f47-47e6c7135b4a), complete with official branding. Even Slack, a platform built for secure team communication, became part of the kill chain, though details on its role remain sparse. This isn’t just phishing; it’s a supply chain attack disguised as business as usual.
+
+
+What makes this different isn’t the malware itself but the delivery mechanism. Traditional antivirus scans might catch a suspicious `.exe`, but a fake update from a verified app? That’s a blind spot by design. Windows Central’s reporting suggests the attackers exploited the gap between [user trust and platform verification](https://www.microsoft.com/en-us/security/blog/2023/07/12/analyzing-north-koreas-lazarus-group-malware-campaigns/), where even tech-savvy employees could be fooled by a well-timed prompt.
+
+<ArticleBreak />
+
+The practical fallout is already clear: IT teams now face a no-win scenario. Blocking Teams or Slack updates isn’t feasible—these tools are mission-critical. Yet allowing them means accepting that [Windows’ built-in defenses](https://learn.microsoft.com/en-us/windows/security/threat-protection/) can’t distinguish between a real patch and a trojan in disguise. Early signals suggest this tactic will proliferate, as [Lazarus Group](https://www.mandiant.com/resources/insights/north-korea-lazarus-group) and other APTs refine their social engineering playbooks.
+
+
+For end users, the workflow disruption is immediate. Security teams will likely enforce stricter update approvals, adding friction to what was once an automatic process. Developers, meanwhile, are scrambling to audit how third-party apps interact with Windows registry keys—a vector [Saayman notes](https://github.com/axios/axios/issues) was critical to the attack’s success. The real cost isn’t just the breach but the erosion of trust in the tools that power remote work.
+
+
+The broader ecosystem effect is even messier. Microsoft and Slack now face pressure to harden their update mechanisms, but overcorrecting could break legitimate integrations. Regulators may push for [mandatory update signing](https://csrc.nist.gov/projects/cryptographic-module-validation-program), though enforcement remains a patchwork. In the meantime, the attack’s precision suggests a shift: nation-state hackers aren’t just exploiting vulnerabilities—they’re weaponizing the routines we’ve been trained to ignore.
+
+The open question isn’t whether this tactic will spread—it’s how platforms will respond without crippling their own usability. Will Microsoft bake in [behavioral detection](https://www.microsoft.com/en-us/security/business/ai-machine-learning) for updates? Can Slack afford to slow down its release cycle? And if users start ignoring update prompts out of fear, what happens to the patching ecosystem that keeps them safe?

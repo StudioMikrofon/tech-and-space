@@ -413,6 +413,7 @@ function rowToArticle(row: Record<string, unknown>) {
     github_uploaded: row.github_uploaded,
     created_at: row.created_at,
     source_url: row.source_url || null,
+    source_name: row.source_name || null,
     memoryAlert: parseMemoryAlert(row),
     images,
     folderName,
@@ -485,7 +486,10 @@ function deleteArticleAssetsAndRecord(db: Database.Database, articleId: number):
     console.error(`Failed to scan legacy images for article ${articleId}: ${e}`);
   }
 
+  // Delete all related records before deleting article
+  db.prepare("DELETE FROM image_operations WHERE article_id = ?").run(articleId);
   db.prepare("DELETE FROM article_image_candidates WHERE article_id = ?").run(articleId);
+  db.prepare("DELETE FROM social_metrics WHERE article_id = ?").run(articleId);
   db.prepare("DELETE FROM articles WHERE id = ?").run(articleId);
   return true;
 }
@@ -602,7 +606,7 @@ export async function GET(req: NextRequest) {
       rows = db
         .prepare(
           `SELECT id, title, title_en, category, lead, pipeline_stage, status,
-                  images_json, github_uploaded, created_at, source_url,
+                  images_json, github_uploaded, created_at, source_url, source_name,
                   memory_status, memory_topic_key, memory_duplicate_of,
                   memory_matches_json, memory_decision_reason, memory_checked_at
            FROM articles
@@ -613,7 +617,7 @@ export async function GET(req: NextRequest) {
       rows = db
         .prepare(
           `SELECT id, title, title_en, category, lead, pipeline_stage, status,
-                  images_json, github_uploaded, created_at, source_url,
+                  images_json, github_uploaded, created_at, source_url, source_name,
                   memory_status, memory_topic_key, memory_duplicate_of,
                   memory_matches_json, memory_decision_reason, memory_checked_at
            FROM articles
@@ -851,9 +855,17 @@ export async function POST(req: NextRequest) {
       db.close();
 
       // Update local MDX frontmatter so test site shows images
-      const mdxUpdated = updateMdxImages(articleId, mainPublicUrl, subPublicUrl);
+      // Retry with delay in case MDX file is still being written
+      let mdxUpdated = false;
+      for (let attempt = 0; attempt < 3; attempt++) {
+        if (attempt > 0) {
+          await new Promise(r => setTimeout(r, 500)); // Wait 500ms before retry
+        }
+        mdxUpdated = updateMdxImages(articleId, mainPublicUrl, subPublicUrl);
+        if (mdxUpdated) break;
+      }
       if (!mdxUpdated) {
-        console.warn(`[foto-review] WARNING: MDX update failed for article ${articleId}, images may not be visible in published MDX`);
+        console.warn(`[foto-review] WARNING: MDX update failed for article ${articleId} after 3 attempts, images may not be visible in published MDX`);
       }
       bumpContentVersion();
 

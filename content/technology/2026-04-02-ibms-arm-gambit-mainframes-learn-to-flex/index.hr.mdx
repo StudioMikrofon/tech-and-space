@@ -1,0 +1,55 @@
+---
+id: "2026-04-02-ibms-arm-gambit-mainframes-learn-to-flex"
+db_id: 1249
+title: "IBM i Arm donose AI na mainframe – što to znači za korisnike?"
+lang: "hr"
+category: "technology"
+date: "2026-04-02T18:16:13Z"
+excerpt: "IBM i Arm objavili su strateško partnerstvo koje omogućava pokretanje Arm-based workloadova na IBM Z mainframeovima i LinuxONE sustavima — preko emulacije, a ne nativne podrške."
+exec_summary: "IBM and Arm’s collaboration enables Arm-based AI and cloud-native workloads to run on IBM Z mainframes via emulation, targeting enterprises struggling with infrastructure fragmentation. The move reduces operational overhead but introduces performance trade-offs—critical for industries like finance and healthcare that rely on both legacy systems and modern AI."
+key_points:
+  - "Arm workloadovi sada rade na IBM Z preko emulacije"
+  - "Cilj: smanjiti troškove migracije i složenost infrastrukture"
+  - "Telum II i Spyre AI ubrzavači ključni za ovu integraciju"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/desktops/servers/ibm-spruces-up-its-mainframes-with-new-support-for-modern-arm-workloads-firm-teams-up-with-arm-to-run-arm-workloads-on-ibm-z-mainframes"
+image:
+  url: "/images/articles/ibms-arm-gambit-mainframes-learn-to-flex/main.jpg"
+  alt: "IBM i Arm donose AI na mainframe – što to znači za korisnike?"
+subtitle: "Konsolidacija bez migracija: kako emulacija Arm-a mijenja mainframe ekosustav"
+subtitleImage:
+  url: "/images/articles/ibms-arm-gambit-mainframes-learn-to-flex/subtitle.jpg"
+  alt: "Konsolidacija bez migracija: kako emulacija Arm-a mijenja mainframe ekosustav"
+tags: ["IBM Z mainframe AI acceleration", "ARM-based mainframe processors", "Enterprise data center consolidation", "IBM Power10 vs. ARM performance tradeoffs", "Mainframe workload optimization"]
+lead_sentence: "Emulacija Arm workloadova na IBM Z mainframeovima sada je moguća zahvaljujući suradnji s Arm-om, ali ključno pitanje ostaje: koliko će to koštati u performansama i troškovima?"
+geo:
+  name: "Armonk, New York, United States"
+  lat: 41.147325
+  lon: -73.714567
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+IBM i Arm objavili su strateško partnerstvo koje omogućava pokretanje Arm-based workloadova na IBM Z mainframeovima i LinuxONE sustavima — preko emulacije, a ne nativne podrške. To znači da poduzeća sada mogu konsolidirati moderne AI i cloud-native aplikacije (razvijene za Arm arhitekturu) uz postojeće legacy transakcijske sustave na istom hardveru, bez potrebe za skupim migracijama ili dodatnim poslužiteljima.
+
+Rješenje cilja na smanjenje operativnih troškova i arhitektonske složenosti, jer mnoga poduzeća danas održavaju odvojena okruženja za AI/mikroservise (često na x86 ili Arm) i kritične poslovne aplikacije (na mainframeovima). IBM Z platforme, poznate po sigurnosti i pouzdanosti, sada dobivaju Telum II procesore i Spyre AI akceleratore koji omogućavaju ovu funkcionalnost — ali s emulacijskim overheadom koji će biti ključan za performanse.
+
+Prema dostupnim informacijama, rješenje je namijenjeno prije svega financijskim institucijama, zdravstvu i velikim korporacijama koje moraju udovoljiti striktnim propisima o podacima (npr. GDPR, PCI-DSS).
+
+IBM ističe da će konsolidacija smanjiti attack surface i poboljšati data locality, ali ostaje pitanje koliko će emulacija Arm-a na Z/Architecture ISA-u utjecati na latenciju osjetljivih AI modela.
+
+<ArticleBreak />
+
+Praktički gledano, ovo rješenje najviše pogađa timove koji upravljaju hibridnim okruženjima. Umjesto da migriraju legacy kod na moderne platforme (što može trajati godine i koštati milijune), ili održavaju odvojene klastere za AI, sada mogu pokrenuti, recimo, PyTorch modele ili Kubernetes kontejnere direktno na mainframeu.
+
+Međutim, performanse će ovisiti o tome koliko je IBM optimizirao emulacijski sloj — a to je detalj koji još nije javno dokumentiran. Tržišni kontekst je jasno definiran: IBM se bori za relevantnost u eri cloud-a i AI-ja, gdje su mainframeovi često percipirani kao dinosaurusi.
+
+Analitičari bilježe da sve više poduzeća traži načine da integrira AI u postojeće poslovne procese bez radikalnih promjena infrastrukture. Ovakva suradnja s Arm-om (koji dominira mobilnim i edge uređajima) može privući pažnju onih koji žele unificiranu platformu, ali i oni koji sumnjaju u emulacijske performanse će čekati benchmarkove.
+
+Zanimljivo je i što IBM ne spominje mogućnost nativnih Arm čipova u budućim Z sistemima — što bi bilo logično sljedeći korak. Umjesto toga, naglasak je na end-to-end dizajnu i sigurnosnim prednostima.
+
+Drugim riječima, pitanje nije samo može li ovo raditi, već koliko će koštati u odnosu na alternativne rješenje kao što su AWS Graviton ili on-premise x86 klasteri.
+
+Ova inovacija otvara vrata za nove arhitektonske pristupe, ali njezina održivost ovisit će o stvarnim performansama u produkciji. Ako emulacijski sloj pruži prihvatljive brzine, mainframe bi mogao postati još atraktivniji za AI workloadove. Međutim, ako se pokaže da je overhead prevelik, poduzeća će i dalje preferirati hibridna rješenja s odvojenim sustavima.

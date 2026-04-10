@@ -1,0 +1,55 @@
+---
+id: "2026-04-04-svens-pseudoinverse-trick-a-natural-gradient-with-"
+db_id: 1435
+title: "Sven: novi optimizacijski algoritam koji obećava više od Adama"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T06:19:15Z"
+excerpt: "Novi optimizacijski algoritam Sven ne nalazi se na naslovnicama kao generativni modeli, ali donosi nešto što bi moglo biti važnije: učinkovitiji način ažuriranja parametara neuronskih mreža."
+exec_summary: "Sven introduces a novel optimization approach using truncated SVD of the loss Jacobian, promising better performance than Adam with minimal overhead. However, the real-world impact hinges on the trade-off between precision and computational cost (factor k), with early developer reactions mixed but cautiously optimistic."
+key_points:
+  - "Truncirana SVD umjesto skalarnog gubitka"
+  - "Faktor k kao jedini kompromis brzine"
+  - "Benchmark protiv LBFGS-a i Adama"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.01279"
+image:
+  url: "/images/articles/svens-pseudoinverse-trick-a-natural-gradient-with-/main.jpg"
+  alt: "Sven: novi optimizacijski algoritam koji obećava više od Adama"
+subtitle: "Demo nasuprot deploymenta: koliko stvarno vrijedi minimalna promjena norme?"
+subtitleImage:
+  url: "/images/articles/svens-pseudoinverse-trick-a-natural-gradient-with-/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: koliko stvarno vrijedi minimalna promjena norme?"
+tags: ["Sven optimization algorithm", "Adam optimizer alternatives", "gradient norm optimization", "AI training efficiency benchmarks", "deep learning optimization research"]
+lead_sentence: "Sven, novi optimizacijski algoritam za neuronske mreže, koristi Moore-Penroseov pseudoinverz da bi minimizirao normu ažuriranja parametara, ali donosi samo faktor k učinkovitosti u odnosu na Adam."
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Novi optimizacijski algoritam Sven ne nalazi se na naslovnicama kao generativni modeli, ali donosi nešto što bi moglo biti važnije: učinkovitiji način ažuriranja parametara neuronskih mreža. Umjesto da gubitak svodi na jedan skalar prije izračuna ažuriranja, Sven tretira reziduale pojedinih podataka kao zasebne uvjete koje treba zadovoljiti istovremeno.
+
+Ključni potez? Moore-Penroseov pseudoinverz Jacobijana gubitka, aproksimiran preko truncirane singularne dekompozicije vrijednosti (SVD).
+
+Autori arXiv rada 2604.01279v1 tvrde da zadržavanjem samo k najznačajnijih smjerova postižu ažuriranje parametara minimalne norme koje najbolje zadovoljava sve uvjete odjednom. To zvuči tehnički impresivno, ali pravo pitanje je: koliko se to razlikuje od standardnih metoda poput Adama?
+
+Prema dostupnim informacijama, Sven nadmašuje prvoklasne metode i ostaje konkurentan s LBFGS-om uz samo frakciju troška po iteraciji. Iako algoritam zvuči elegantno, njegov stvarni teret leži u faktor k.
+
+Čini se da će svaki dodatni smjer povećati računsku složenost za isti faktor, što sugerira da se praktična primjena može sresti s ograničenjima na velikim skalama.
+
+<ArticleBreak />
+
+Rani signali iz zajednice strojnog učenja govore kako je Sven primamljiv za istraživače koji traže balans između brzine i preciznosti, ali još je prerano za prognoze o širokom usvajanju. Za razliku od brojnih AI objava koje obećavaju revolucionarne promjene, Sven ne donosi nove arhitekture ili spektakularne demoe. Umjesto toga, fokusira se na optimizacijsku matematiku iza kulisa — područje koje obično privlači manje pozornosti, ali često određuje stvarne performanse.
+
+Pravi signal ovdje nije algoritam sam po sebi, već način na koji koristi pseudoinverz za simultano zadovoljenje višestrukih uvjeta, umjesto tradicionalnog skalarnog pristupa. I tu priča postaje zanimljivija od same objave. Ako se Sven pokaže stabilnim i skalabilnim, mogao bi osigurati prednost istraživačima u znanstvenom računarstvu i benchmark okruženjima gdje je preciznost važnija od brzine.
+
+No, za komercijalne primjene gdje dominiraju SGD i Adam, računska cijena dodatnih smjerova (k) mogla bi biti previsoka. Stvarno usko grlo možda uopće nije tamo gdje ga marketing traži. Zajednica developera zasad reagira s opreznim optimizmom.
+
+GitHub repozitoriji povezani s radom pokazuju aktivnost, ali još nema masovnog usvajanja. Dio korisnika na tehnološkim forumima primjećuje kako Sven podsjeća na prirodne gradijentne metode, ali s drugačijim pristupom regularizaciji. Ako se pokaže da je ovo samo još jedna varijacija poznatih principa, hype oko Svena brzo će splasnuti.
+
+U svijetu umjetne inteligencije, Sven predstavlja novi pristup optimizaciji neuronskih mreža. Njegova jedinstvena karakteristika je u korištenju pseudoinverza za zadovoljenje višestrukih uvjeta, što ga čini zanimljivim za istraživače. Međutim, njegova praktična primjena i dalje će ovisiti o njegovoj sposobnosti da se skalira i adaptira u različitim okruženjima.

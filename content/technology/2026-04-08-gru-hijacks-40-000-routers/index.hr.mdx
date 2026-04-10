@@ -1,0 +1,53 @@
+---
+id: "2026-04-08-gru-hijacks-40-000-routers"
+db_id: 1999
+title: "Ruski GRU preuzeo 40.000 usmjerivača za špijunažu"
+lang: "hr"
+category: "technology"
+date: "2026-04-08T16:14:34Z"
+excerpt: "Ruska vojna obavještajna agencija GRU, preko svoje hackerske grupe [APT28](https://arstechnica."
+exec_summary: "Russia’s GRU-linked APT28 hijacked 18,000–40,000 MikroTik/TP-Link routers across 120 countries, repurposing them as proxies to spy on governments. The attack exposes how end-of-life devices become strategic liabilities—and why users and enterprises must treat consumer hardware as a security risk, not just a cost center."
+key_points:
+  - "APT28 iskorištava MikroTik i TP-Link usmjerivače"
+  - "120 zemalja zahvaćeno, ciljani vladini domeni"
+  - "Stari ranjivosti pretvorene u oružje za krađu podataka"
+source:
+  name: "arstechnica.com"
+  url: "https://arstechnica.com/security/2026/04/russias-military-hacks-thousands-of-consumer-routers-to-steal-credentials/"
+image:
+  url: "/images/articles/gru-hijacks-40-000-routers/main.jpg"
+  alt: "Ruski GRU preuzeo 40.000 usmjerivača za špijunažu"
+subtitle: "Stari uređaji postaju oružje: što znače 40.000 hakiranih usmjerivača za obične korisnike i tvrtke"
+subtitleImage:
+  url: "/images/articles/gru-hijacks-40-000-routers/subtitle.jpg"
+  alt: "Stari uređaji postaju oružje: što znače 40.000 hakiranih usmjerivača za obične korisnike i tvrtke"
+tags: ["Technology", "Ruski GRU"]
+lead_sentence: "Ruska hackerska grupa APT28 preusmjerila je promet tisuća usmjerivača na lažne Microsoft 365 stranice, koristeći DHCP manipulaciju za krađu vladinih pristupnih podataka."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Ruska vojna obavještajna agencija GRU, preko svoje hackerske grupe [APT28](https://arstechnica.com/security/2024/05/russias-gru-hijacked-40000-routers-to-spy-on-governments-worldwide/) (poznate i kao Forest Blizzard), preuzela je kontrolu nad **18.000 do 40.000 usmjerivača** u **120 zemalja**, koristeći ih kao proxy za krađu podataka vladinih institucija, ministarstava i pravosudnih tijela. Cilj nisu bili samo masovni korisnici, već precizno odabrani domeni — uključujući Microsoft 365 servise — gdje su promijenjene DNS postavke preusmjeravale promet na zlonamjerne poslužitelje.
+
+
+Najzanimljivije je što su napadači iskorištavali **stare, nezakrpane ranjivosti** u MikroTik i TP-Link modelima, čije je održavanje proizvođači već odavno prestali podržavati. To nije samo pitanje zaboravljenog ažuriranja: prema [analizama](https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-125a), APT28 kombinira klasične tehnike (poput DHCP manipulacije) s naprednim alatom kao što je **LAMEHUG** — LLM model prilagođen za automatizirano generiranje phishing sadržaja. Drugim riječima, riječ je o hibridnom pristupu koji pretvara zastarjele uređaje u sofisticirano oružje.
+
+
+Problem leži u tome što većina korisnika **ne zna ni da je njihova mreža kompromitirana**. Simptomi poput usporenog interneta ili čudnih preusmjeravanja lako se pripišu 'lošoj vezi' — dok u pozadini teče krađa pristupnih podataka. Prema podacima [CIS-e](https://www.cisa.gov/), samo manji postotak hakiranih usmjerivača služio je kao 'most' za napade na vladine ciljeve, ali svaki od njih predstavljao je potencijalnu prijetnju.
+
+<ArticleBreak />
+
+Za razliku od tipičnih botnet napada, ovdje nije riječ o masovnom DDoS-u ili kriptovalutnom rudarenju, već o **ciljanoj špijunaži**. APT28 je već dvije desetljeća specijaliziran za infiltraciju vladinih mreža — od [njemačkog Bundestaga 2015.](https://www.theguardian.com/world/2015/may/14/german-parliament-hacked-by-russian-group) do [francuskih predsjedničkih izbora 2017.](https://www.reuters.com/article/us-france-election-cyber-idUSKBN17H1ZJ) Ovo je samo novi korak: umjesto da napadaju izravno, sada koriste **infrastrukturu običnih korisnika** kao prikrivene kanale.
+
+
+Praktična posljedica za tvrtke i ustanove? **Troškovi sigurnosnih revizija će rasti**, a provjere zakrpa postati obavezne čak i za 'nebitne' uređaje. Proizvođači poput MikroTika već su [objavili upute](https://mikrotik.com/security) za ručno uklanjanje zlonamjernog koda, ali pitanje je koliko će korisnika to uopće provjeriti. Za razliku od enterprise rješenja, potrošački usmjerivači rijetko imaju automatizirane sigurnosne mehanizme — a upravo to čini ih savršenim ciljem.
+
+
+I tu priča postaje zanimljivija od same objave: ako je APT28 uspio iskoristiti **20 godina stare ranjivosti**, što sprečava druge grupe da učine isto? Prema [izvješćima](https://www.mandiant.com/resources/insights/apt28-forest-blizzard) Mandianta, grupiranje napada sugerira da se radi o dugoročnoj strategiji, a ne jednoraznom incidentu. Drugim riječima, ovo nije bug — to je **feature ruske cyberstrategije**.
+
+Hoće li ovo dovesti do regulative koja će proizvođače obvezivati na minimalnu podršku za hardver? Ili će korisnici jednostavno prihvatiti da je **svaki uređaj stariji od 36 mjeseci potencijalna prijetnja**? Ako se ništa ne promijeni, sljedeći val napada možda neće ciljati usmjerivače — već pametne TV-e, termostate ili čak automobile.

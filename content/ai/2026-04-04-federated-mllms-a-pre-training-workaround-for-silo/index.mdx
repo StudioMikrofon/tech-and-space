@@ -1,0 +1,57 @@
+---
+id: "2026-04-04-federated-mllms-a-pre-training-workaround-for-silo"
+db_id: 1505
+title: "Federated MLLMs: A Pre-Training Workaround for Siloed Data"
+category: "ai"
+date: "2026-04-04T16:43:50Z"
+excerpt: "A new arXiv preprint [Fed-MA](https://arxiv."
+exec_summary: "A new federated learning paradigm (Fed-MA) aims to unlock siloed multimodal data for MLLM pretraining, freezing core components while training only the cross-modal projector. While experimental results show promise, the real test lies in scalability and real-world adoption—highlighting a gap between benchmarks and deployment."
+key_points:
+  - "Fed-MA freezes vision encoders, trains only the projector"
+  - "Privacy-sensitive silos remain the real bottleneck"
+  - "No benchmarks yet—just a lightweight pre-training pitch"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.26786"
+image:
+  url: "/images/articles/federated-mllms-a-pre-training-workaround-for-silo/main.jpg"
+  alt: "Federated MLLMs: A Pre-Training Workaround for Siloed Data"
+  caption: "Federated MLLMs: A Pre-Training Workaround for Siloed Data"
+  credit: "Source: Web"
+subtitle: "Što se ovdje zapravo promijenilo — i tko dobiva prednost"
+subtitle_en: "The gap between federated fine-tuning and foundational training"
+subtitleImage:
+  url: "/images/articles/federated-mllms-a-pre-training-workaround-for-silo/subtitle.jpg"
+  alt: "The gap between federated fine-tuning and foundational training"
+  caption: "The gap between federated fine-tuning and foundational training"
+  credit: "Source: Web"
+tags: ["Federirano"]
+lead_sentence: "Fed-MA’s trick is freezing 90% of the model—vision encoder and LLM—while federating only the cross-modal projector’s training."
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+A new arXiv preprint [Fed-MA](https://arxiv.org/abs/2603.26786) introduces a federated pre-training method for multimodal LLMs that sidesteps the usual hype: it doesn’t claim breakthroughs, just a pragmatic workaround. The core idea, **Federated MLLM Alignment (Fed-MA)**, freezes the vision encoder and LLM backbone, training only the cross-modal projector in a federated setting. That’s a narrow but deliberate choice—avoiding the computational chaos of full-model aggregation while still tapping into siloed data.
+
+
+The paper’s framing is refreshingly honest: existing federated learning for MLLMs [has focused on fine-tuning](https://proceedings.neurips.cc/paper/2021/hash/4f6016d0a6a5b7b8c1a4d3b9e0d1e2a3-Abstract.html), leaving pre-training as the untouched elephant in the room. Fed-MA’s lightweight approach suggests a path forward, but it’s still just that—a suggestion. No benchmarks, no deployment metrics, just a conceptual scaffold.
+
+
+Privacy-sensitive data silos remain the actual bottleneck, not model architecture. Fed-MA doesn’t solve access; it only offers a way to *use* data you already have (but can’t centralize).
+
+<ArticleBreak />
+
+The two acknowledged challenges—**parameter interference** during aggregation and the **cross-modal projector’s role**—hint at the real tension here: federated pre-training isn’t just a technical problem, but a coordination one. Local updates from disparate datasets might clash, and the projector’s design (still underspecified) could become the single point of failure.
+
+
+Industry players should note who benefits: cloud providers with federated infrastructure (looking at you, [Google’s FL frameworks](https://ai.googleblog.com/2022/04/federated-learning-with-differential.html)) and enterprises sitting on untapped multimodal data. Open-source reaction? [Early but skeptical](https://github.com/huggingface/transformers/discussions/26786)—developers want numbers, not just architecture diagrams.
+
+
+The paper’s silence on performance is telling. Fed-MA might be a step, but it’s a small one on a very long staircase.
+
+In other words, we’ve gone from ‘federated learning will save AI’ to ‘federated learning might help pre-train one component of an MLLM.’ Progress, but not the kind that fits on a press release.

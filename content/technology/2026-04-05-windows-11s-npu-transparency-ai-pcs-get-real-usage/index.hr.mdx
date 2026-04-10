@@ -1,0 +1,51 @@
+---
+id: "2026-04-05-windows-11s-npu-transparency-ai-pcs-get-real-usage"
+db_id: 1584
+title: "Task Manager otkriva NPU: Konačno vidimo što AI troši"
+lang: "hr"
+category: "technology"
+date: "2026-04-05T06:13:25Z"
+excerpt: "Windows 11 Insider Preview Build [26300."
+exec_summary: "Microsoft’s Task Manager update finally exposes NPU usage details—dedicated memory, shared resources, and per-process metrics—addressing a long-standing transparency gap for AI PCs. While this empowers developers and users to optimize workloads, its real impact hinges on whether third-party apps will leverage these insights or leave NPUs underutilized."
+key_points:
+  - "NPU metrike u Processes, Users i Details tabovima"
+  - "Podrška za Snapdragon X i Copilot+ uređaje"
+  - "Real-time praćenje umjesto pogađanja aplikacija"
+source:
+  name: "windowscentral.com"
+  url: "https://www.windowscentral.com/microsoft/windows-11/windows-11-task-manager-npu-stats-insider"
+image:
+  url: "/images/articles/windows-11s-npu-transparency-ai-pcs-get-real-usage/main.jpg"
+  alt: "Task Manager otkriva NPU: Konačno vidimo što AI troši"
+subtitle: "Dedikovana i dijeljena memorija NPU-a — podaci koji mijenjaju optimizaciju"
+subtitleImage:
+  url: "/images/articles/windows-11s-npu-transparency-ai-pcs-get-real-usage/subtitle.jpg"
+  alt: "Dedikovana i dijeljena memorija NPU-a — podaci koji mijenjaju optimizaciju"
+tags: ["NPU memory allocation", "AI performance optimization", "Qualcomm Snapdragon NPU", "Dedicated vs. shared NPU memory", "Mobile AI workload efficiency"]
+lead_sentence: "Task Manager u Windows 11 Insider Preview Build 26300.8142 sada prikazuje NPU dedikovanu i dijeljenu memoriju u Details tabu — metrike koje su do sada bile nedostupne čak i na Snapdragon X čipovima."
+geo:
+  name: "Redmond, WA"
+  lat: 47.6739
+  lon: -122.1214
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Windows 11 Insider Preview Build [26300.8142](https://blogs.windows.com/windows-insider/) donosi promjenu koju su programeri i entuzijasti AI računala očekivali godinama: [Task Manager](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/taskmgr) sada prikazuje dubinske metrike NPU-a (Neural Processing Unit) na tri razine. Umjesto generičkog postotka iskorištenja na Performance tabu, korisnici sada vide NPU stupce u Processes, Users i Details tabovima, uključujući i dedikiranu i dijeljenu memoriju — ključne podatke za razumijevanje kako aplikacije poput [Copilot+ alata](https://www.microsoft.com/en-us/windows/windows-11) troše resurse.
+
+Ovo nije samo estetsko ažuriranje. Do sada su korisnici Snapdragon X čipova — prvih koji su donijeli NPU moći dovoljne za Windows 11 AI funkcije — slijepo povjeravali da aplikacije koriste specijaliziranu hardveru. [Qualcommovi benchmarkovi](https://www.qualcomm.com/news/releases/2024/04/snapdragon-x-elite-pc-platform-delivers-unprecedented-ai) obećavali su 45 TOPS (trilijuna operacija u sekundi), ali bez transparentnih metrika, optimizacija je bila igra pogađanja.
+
+Sada, kada Task Manager prikazuje koje neuralne jezgre (i od GPU-a i od NPU-a) aktivne, razvojni timovi mogu precizno ciljati resurse umjesto da se oslanjaju na pretpostavke. Praktični primjer: Ako vaš [Photoshop](https://www.adobe.com/products/photoshop.html) s [Firefly AI alatima](https://www.adobe.com/sensei/generative-ai/firefly.html) koči sustav, sada možete vidjeti da li je kriv NPU memory leak ili GPU preopterećenje.
+
+To je razlika između restarta računala i ciljanog rješavanja problema — što u svijetu profesionalnih AI alata znači uštedu sati rada tjedno.
+
+<ArticleBreak />
+
+No, ovo ažuriranje nije samo za power usere. Microsoft je namjerno integrirao NPU metrike u standardne tabove Task Managera, što znači da će ih vidjeti i obični korisnici kada otvore procese da provjere zašto je računalo usporeno.
+
+To je strateški potez: [Copilot+ PC-ovi](https://support.microsoft.com/en-us/topic/windows-copilot-what-you-need-to-know-470d8994-c187-4f9e-bcdd-5d313ccad5b5) se prodaju kao „AI-ready“ uređaji, ali bez vidljivih benefita, tržišna poruka gubi na uvjerljivosti. Sada, kada korisnik vidi da njegov [Paint](https://apps.microsoft.com/detail/9PCFS5B6T72H) koristi NPU za Generative Fill, Microsoft dobiva konkretan dokaz vrijednosti hardvera.
+
+Međutim, postoji i sjena na ovom napretku. Podrška za NPU metrike trenutno je ograničena na Insider Preview kanal, a [lista podržanih NPU-ova](https://learn.microsoft.com/en-us/windows/ai/) još uvijek nije javna.
+
+Ako se ispostavi da samo 10% aplikacija iskoristi ove podatke za poboljšanje performansi, Microsoftov „AI PC“ ekosustav će i dalje biti poluprazan. Međutim, ako se ovo ažuriranje Task Managera pokaže kao uspješno, možda ćemo vidjeti veću podršku za NPU u budućnosti. To bi moglo dovesti do stvarnog proboja u svijetu AI računala i njihove primjene u svakodnevnom životu.

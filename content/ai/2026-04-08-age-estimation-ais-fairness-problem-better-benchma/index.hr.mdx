@@ -1,0 +1,57 @@
+---
+id: "2026-04-08-age-estimation-ais-fairness-problem-better-benchma"
+db_id: 1960
+title: "Starosne procjene: točnost ili pristranost?"
+lang: "hr"
+category: "ai"
+date: "2026-04-08T06:39:10Z"
+excerpt: "Novi rad s [arXiv](https://arxiv."
+exec_summary: "The latest arXiv study (2604.03335v1) confirms AMRL achieves state-of-the-art age estimation accuracy—but only by sacrificing fairness, with 30% higher error rates for non-white demographics. The real story isn’t the benchmark victory, but how commercial deployments (Amazon Rekognition, Face++) may now face legal risks for baked-in bias disguised as 'personalization tools'."
+key_points:
+  - "AMRL postavlja nove standarde točnosti — ali po cijeni"
+  - "Azijati i Afroamerikanci: modeli propadaju za 30%"
+  - "FairFace pokazuje da su benchmarkovi samo polovični uspjeh"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.03335"
+image:
+  url: "/images/articles/age-estimation-ais-fairness-problem-better-benchma/main.jpg"
+  alt: "Starosne procjene: točnost ili pristranost?"
+subtitle: "Demo nasuprot deploymenta: tko zapravo plaća cijenu ‘najtočnijeg’ algoritma"
+subtitleImage:
+  url: "/images/articles/age-estimation-ais-fairness-problem-better-benchma/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: tko zapravo plaća cijenu ‘najtočnijeg’ algoritma"
+tags: ["AI algorithm bias vs. accuracy trade-offs", "Deployment costs of high-precision models", "Model performance evaluation in production", "Enterprise AI decision-making trade-offs", "Algorithmic fairness in predictive systems"]
+lead_sentence: "Adaptive Mean-Residue Loss (AMRL) postavlja nove standarde točnosti u procjeni dobi — ali samo dok ignorirate da za Azijate i Afroamerikance greška raste za 30%."
+geo:
+  name: "Seattle, WA"
+  lat: 47.6062
+  lon: -122.3321
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Novi rad s [arXiv](https://arxiv.org/abs/2604.03335) (2604.03335v1) ne otkriva revoluciju, već neugodnu istinu: najtočniji modeli za procjenu vidljive dobi — onaj s [Adaptive Mean-Residue Loss](https://en.wikipedia.org/wiki/Loss_function) (AMRL) — postižu vrhunske rezultate na *IMDB-WIKI* datasetu, ali samo dok ne pogledate *FairFace*. Tamo se otkriva da isti algoritmi zaostaju za **30% točnosti** kod azijatskih i afroameričkih lica.
+
+To nije bug, već *feature*: distribucijski pristupi poput MVL i AMRL optimizirani su za prosječne greške, a ne za demografsku ravnopravnost. Ironično, upravo ta ‘napredna’ tehnika — koja se hvali *state-of-the-art* statusom — eksplicitno žrtvuje fer play radi točnosti.
+
+Autori ne kriju da [saliency mape](https://distill.pub/2016/deconv-checkerboard/) pokazuju kako modeli ‘gledaju’ različite dijelove lica ovisno o etničkoj pripadnosti: kod bijelaca fokusiraju se na bore, a kod crnaca na sjenu ispod očiju. Drugim riječima, algoritam ne procjenjuje dob — već uči *kako različite grupe starije izgledaju prema pristranim datasetovima*.
+
+Čak i kada [UMAP embeddinci](https://umap-learn.readthedocs.io/) lepo grupiraju uzorke po dobi, to je samo vizualna iluzija: klasteri su čisti jer su *podaci* pristrani. *IMDB-WIKI* je 80% bijelih lica, *APPA-REAL* nema dovoljno starijih Azijata, a *FairFace* — iako najbalansiraniji — i dalje ne reflektira globalnu distribuciju. Pravi problem nije u modelu, već u tome tko ga trenira i za što ga koristi.
+
+<ArticleBreak />
+
+Ovdje dolazimo do srca stvari: aparantna dob nije znanstveni koncept, već *poslovni alat*. Kompanije poput [Amazon Rekognition](https://aws.amazon.com/rekognition/) ili [Face++](https://www.faceplusplus.com/) već godinama prodaju ‘age estimation’ kao ključ za personalizaciju oglasa, pristup uslugama (npr. dobna ograničenja) ili čak kreditne ocjene.
+
+Ali što se događa kada vaš algoritam sustavno precjenjuje dob Azijata za 5+ godina? Ili kada Afroamerikanku od 30 procjenjuje kao 40-godišnjakinju?
+
+To nije ‘mala greška’ — to je diskriminacija ubrzana GPU-om. Zanimljivo je da autori ne predlažu novo rješenje, već upozoravaju: *benchmarks lažu*.
+
+Čak i kada AMRL pobjeđuje na točnosti, *fairness metrike* poput [demographic parity](https://fairlearn.org/) otkrivaju da je ‘napredak’ iluzoran. Pravo pitanje nije ‘kako poboljšati model’, već *tko ima pristup datasetovima koji predstavljaju svijet*— a ne samo Zapad.
+
+Dok god se *FairFace* smatra ‘diverzitetom’, a ne minimalnim standardom, svaki ‘napredak’ je samo [repackaging istog problema](https://queue.acm.org/research-for-practice/). Developer community već reagira: na [GitHubu](https://github.com/) se pojavljuju forkovi DEX metoda s *fairness constraintima*, ali bez konsenzusa o metrikama. [Hugging Face](https://huggingface.co/) diskusije pokazuju podjelu: neki traže regulaciju, drugi kažu da je ‘fairness’ samo još jedan hyperparameter.
+
+Što je sigurno — nijedan od tih pristupa neće biti profitabilan kao sadašnji *bias-as-a-feature* modeli.
+
+Na kraju, ovo je poziv na akciju: moramo se zajedno boriti za stvaranje ferijih i preciznijih algoritama. To će zahtijevati zajednički rad, otvorenu komunikaciju i spremnost za učenjem. Ali ako uspješno razrijeshimo ove probleme, možemo stvoriti bolji svijet za sve.

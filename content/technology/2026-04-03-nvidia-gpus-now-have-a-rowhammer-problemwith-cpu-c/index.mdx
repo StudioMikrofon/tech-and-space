@@ -1,0 +1,56 @@
+---
+id: "2026-04-03-nvidia-gpus-now-have-a-rowhammer-problemwith-cpu-c"
+db_id: 1279
+title: "Nvidia GPUs now have a Rowhammer problem—with CPU consequences"
+category: "technology"
+date: "2026-04-03T04:24:16Z"
+excerpt: "Researchers have uncovered two new [Rowhammer](https://en."
+key_points:
+  - "GDDRHammer and GeForge exploit GPU memory flaws"
+  - "Attacks bypass CPU protections via GPU side channels"
+  - "Full machine control possible on vulnerable systems"
+source:
+  name: "arstechnica.com"
+  url: "https://arstechnica.com/security/2026/04/new-rowhammer-attacks-give-complete-control-of-machines-running-nvidia-gpus/"
+image:
+  url: "/images/articles/nvidia-gpus-now-have-a-rowhammer-problemwith-cpu-c/main.jpg"
+  alt: "Nvidia GPUs now have a Rowhammer problem—with CPU consequences"
+  caption: "A single Nvidia GPU circuit board mounted on a neutral grey workbench, shot straight-on in symmetrical centered composition, with several specific"
+  credit: "Photo by Tech&Space"
+subtitle: "Stvarna cijena visokih performansi: sigurnosni propusti koji pretvaraju GPU u ulaznu točku"
+subtitle_en: "The GPU security gap that turns memory flaws into system takeovers"
+subtitleImage:
+  url: "/images/articles/nvidia-gpus-now-have-a-rowhammer-problemwith-cpu-c/subtitle.jpg"
+  alt: "The GPU security gap that turns memory flaws into system takeovers"
+  caption: "Nvidia GPUs now have a Rowhammer problem—with CPU consequences"
+  credit: "Photo by Tech&Space"
+tags: ["Nvidia", "GPU Security", "Rowhammer Attack"]
+lead_sentence: "GDDRHammer and GeForge exploits let attackers flip CPU memory bits by abusing Nvidia GPUs’ own high-speed GDDR memory controllers."
+geo:
+  name: "Santa Clara, United States"
+  lat: 37.3541
+  lon: -121.9552
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Researchers have uncovered two new [Rowhammer](https://en.wikipedia.org/wiki/Row_hammer) variants—[GDDRHammer](https://arstechnica.com/gadgets/2024/06/new-rowhammer-attacks-give-complete-control-of-machines-running-nvidia-gpus/) and GeForge—that repurpose a decade-old DRAM vulnerability to target Nvidia GPUs. Unlike traditional Rowhammer attacks that flip bits in system RAM, these exploits hammer GPU memory (GDDR) to corrupt adjacent CPU memory regions, effectively turning the GPU into an attack vector against the host system. The result isn’t just data corruption: successful execution grants attackers [full administrative control](https://www.tomshardware.com/news/gddrhammer-geforge-rowhammer-gpu-attacks) of the machine, bypassing CPU-side mitigations like ECC memory or kernel protections.
+
+
+This isn’t an academic curiosity. The attacks work on real hardware, including Nvidia’s [A100 and H100 GPUs](https://developer.nvidia.com/blog/nvidia-h100-gpu-architecture-in-depth/)—flagship chips powering data centers, AI workloads, and high-performance workstations. Worse, the exploits don’t require physical access; they can be triggered remotely if an attacker gains code execution on the target system (e.g., via a compromised app or VM). The researchers demonstrated attacks on Linux systems, but the underlying mechanism—memory interference via GPU operations—could theoretically extend to Windows or macOS environments where Nvidia GPUs are present.
+
+
+The practical irony? These attacks thrive on the same architectural choices that make GPUs powerful: high memory bandwidth and aggressive caching. Nvidia’s GPUs, optimized for parallel workloads, inadvertently create side channels that let attackers [hammer memory rows](https://www.usenix.org/conference/usenixsecurity23/presentation/jang) at speeds CPU-based Rowhammer can’t match. For users, this means a new class of threats that traditional security tools—designed for CPU-bound exploits—won’t catch.
+
+<ArticleBreak />
+
+The immediate fallout splits into two camps: enterprise and consumer. Data centers using Nvidia GPUs for AI/ML or virtualization face the most acute risk, as these attacks could let an attacker escape VM isolation or tamper with training datasets. [Cloud providers](https://www.nextplatform.com/2024/06/05/how-rowhammer-attacks-could-compromise-gpu-clouds/) like AWS, Google Cloud, and Azure—all of which offer Nvidia GPU instances—will need to scrutinize their memory isolation strategies. For consumers, the risk is lower but not zero: gaming PCs or workstations with high-end Nvidia cards (RTX 4090, etc.) could be targeted if paired with vulnerable software.
+
+
+Mitigations exist, but they’re clumsy. Disabling GPU acceleration for untrusted workloads defeats the purpose of owning a GPU. Nvidia could patch firmware to limit memory access patterns, but that might cripple performance in legitimate apps. The researchers suggest [memory refresh rate tweaks](https://arxiv.org/abs/2402.02024), though these could increase power draw or reduce lifespan. Long-term, this exposes a blind spot in GPU security: while CPUs have spent years hardening against Rowhammer, GPUs—assumed to be memory-safe—lag behind.
+
+
+The bigger question is whether this forces a reckoning for GPU security. Unlike CPUs, GPUs lack fine-grained memory protections; their design prioritizes throughput over isolation. As GPUs take on more general-purpose computing (via CUDA, DirectStorage, etc.), that tradeoff becomes a liability. If attackers start weaponizing these techniques, we could see a wave of GPU-specific exploits—with no easy fixes.
+
+For enterprises, this means adding GPU memory to the threat model, alongside Spectre and Meltdown. Expect cloud providers to start offering ‘secure GPU’ tiers with performance penalties. Consumers? Hope your next GPU driver update doesn’t break your games.

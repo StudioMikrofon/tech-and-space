@@ -1,0 +1,47 @@
+---
+id: "2026-04-05-netflix-void-pipeline-unveiled"
+db_id: 1668
+title: "Netflixov VOID u praksi: CogVideoX, 40GB VRAM i realni troškovi inpaintinga"
+lang: "hr"
+category: "ai"
+date: "2026-04-05T22:44:27Z"
+excerpt: "Netflixov VOID (Video Object Inpainting and Removal) model već godinu dana cirkulira kao demo koji obećava čarobno brisanje objekata iz videa—ali tek sad imamo prvi javni vodič koji otkriva koliko to zapravo košta."
+exec_summary: "Netflix’s VOID model for video object removal is now documented in a public tutorial—but the hardware requirements (40GB+ VRAM) and manual setup expose the gap between demo hype and real-world deployment. The pipeline’s reliance on CogVideoX (a third-party tool) and Hugging Face APIs raises questions about who actually benefits: indie creators or deep-pocketed studios?"
+key_points:
+  - "40GB+ VRAM minimalni zahtjev za Netflixov VOID pipeline"
+  - "CogVideoX i Hugging Face ključevi — sigurnosni rizik ili developer olakšica?"
+  - "Demo vs. deployment: tko zapravo može koristiti ovu tehnologiju?"
+source:
+  name: "marktechpost.com"
+  url: "https://www.marktechpost.com/2026/04/05/how-to-build-a-netflix-void-video-object-removal-and-inpainting-pipeline-with-cogvideox-custom-prompting-and-end-to-end-sample-inference/"
+image:
+  url: "/images/articles/netflix-void-pipeline-unveiled/main.jpg"
+  alt: "Netflixov VOID u praksi: CogVideoX, 40GB VRAM i realni troškovi inpaintinga"
+subtitle: "Između Colab notebooka i proizvodne implementacije: koliko zapravo košta brisanje objekata iz videa?"
+subtitleImage:
+  url: "/images/articles/netflix-void-pipeline-unveiled/subtitle.jpg"
+  alt: "Između Colab notebooka i proizvodne implementacije: koliko zapravo košta brisanje objekata iz videa?"
+tags: ["CogVideoX", "Inpainting", "GPU Costs", "Deep Learning", "Computer Vision"]
+lead_sentence: "Tutorial za Netflixov VOID pipeline otkriva da 10-sekundni video inpainting zahtijeva A100 GPU s 40GB VRAM-a—i to je *optimističan scenarij*."
+geo:
+  name: "Los Gatos, United States"
+  lat: 37.2297
+  lon: -121.9725
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Netflixov VOID (Video Object Inpainting and Removal) model već godinu dana cirkulira kao demo koji obećava čarobno brisanje objekata iz videa—ali tek sad imamo prvi javni vodič koji otkriva koliko to zapravo košta. Tutorial na *MarkTechPost*-u ne krije da je A100 GPU s 40 GB+ VRAM-om minimalni uvjet za rad, dok T4 ili L4 kartice jednostavno padaju u zadatak ili ga izvode po satima. To nije samo pitanje hardvera: pipeline zahtijeva Hugging Face API ključeve, OpenAI integraciju za custom prompting te ručno pripremljene ulazne datoteke—svaki korak koji pretvara „jednostavan tutorial“ u logističku noćnu moru.
+
+Čudno je da Netflix, kompanija koja redovno baca milijarde u originalne sadržaje, ovdje nudi alate koji su de facto dostupni samo akademskim timovima ili startupima s dubokim džepovima. CogVideoX, framework ključan za ovaj pipeline, nije Netflixov proizvod već open-source eksperiment Kineskog sveučilišta Tsinghua—što postavlja pitanje tko zapravo kontrolira razvoj ove tehnologije. Dok demo videi pokazuju besprijekorno brisanje objekata iz scene, realnost je da čak i jednostavan 10-sekundni klip zahtijeva satima renderiranja, čak i na preporučenoj konfiguraciji.
+
+<ArticleBreak />
+
+Pravi hype filter ovdje nije tehnologija sama—koja jesu impresivna—već koju publiku Netflix cilja. Za content creatore koji rade s Adobe Premiereom, ovo je još uvijek science project: nema plugina, nema stabilne verzije, nema podrške za batch processing. Međutim, za studije koje već koriste AI-assisted VFX (poput DeepMindovog Phenaki ili Runway ML), VOID predstavlja potencijalnu prijetnju—jer nudi slične rezultate bez potrebe za skupe licenciranje alata.
+
+Zanimljivije od samog pipelinea jest što tutorial uopće postoji. Netflix obično drži svoje interne alate pod zatvorenim kodu (vidi: Dynamic Optimizer), ali VOID je iznimka—otvoren za istraživanje, ali praktično nedostupan za masovnu upotrebu. To možda znači da kompanija testira vodeće developer mindshare prije nego što pokrene komercijalnu verziju, ili pak da je riječ o strategijskom distrakciji od pravih VFX inovacija koje razvijaju internim timovima.
+
+Dodatni sloj ironije: dok se tutorial hvali end-to-end sample inferenceom, niti jedan korak nije zapravo „end-to-end“—od manualnog postavljanja Colab okruženja do ručnog fine-tuninga promptova. Što je, naravno, tipično za AI demoe: sve funkcioniše dok ne pokušate koristiti u produkciji.
+
+Netflixovo objavljivanje ovog tutoriala moglo bi biti pažljivo isplanirani potez koji otvara vrata suradnji s vanjskim developerima. Umjesto zatvorenog pristupa, kompanija bi mogla graditi zajednicu oko svojih alata prije nego što ih komercijalizira—ili pak odustane od daljnjeg razvoja.

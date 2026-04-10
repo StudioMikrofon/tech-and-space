@@ -1,0 +1,59 @@
+---
+id: "2026-04-07-chatgpt-writes-lab-scriptsso-whats-the-catch"
+db_id: 1829
+title: "ChatGPT writes lab scripts—so what’s the catch?"
+category: "ai"
+date: "2026-04-07T08:41:34Z"
+excerpt: "Researchers at [arXiv](https://arxiv."
+exec_summary: "Researchers demonstrated LLM-based automation of lab equipment, reducing the programming barrier for non-coders—but the gap between demo and deployment remains wide. While small labs gain a tool, industry players already have closed systems, making this more of an incremental upgrade than a disruption."
+key_points:
+  - "LLMs cut lab coding barriers—no PhD in Python required"
+  - "Single-pixel camera demo hides real deployment gaps"
+  - "Automation vendors should start sweating"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.03286"
+image:
+  url: "/images/articles/chatgpt-programira-laboratorije-ali-tko-to-zapravo-koristi/main.png"
+  alt: "ChatGPT writes lab scripts—so what’s the catch?"
+subtitle: "Između akademskog eksperimenta i industrijskog alata"
+subtitle_en: "The gap between ‘works in a paper’ and ‘works on Tuesday’"
+subtitleImage:
+  url: "/images/articles/chatgpt-writes-lab-scriptsso-whats-the-catch/subtitle.jpg"
+  alt: "The gap between ‘works in a paper’ and ‘works on Tuesday’"
+tags: ["ChatGPT academic research adoption", "AI lab automation tools", "Industrial vs. academic AI tool usage", "Generative AI in scientific workflows", "OpenAI API enterprise integration"]
+lead_sentence: "A new arXiv study shows ChatGPT writing functional lab scripts for a $20K microscope setup—but the fine print reveals it’s still a glorified autocomplete."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Researchers at [arXiv](https://arxiv.org/abs/2604.03286) just demonstrated what happens when you let ChatGPT loose on lab equipment: it writes functional scripts for a single-pixel camera and a scanning photocurrent microscope. No small feat—except the real test isn’t whether it *can* generate code, but whether that code survives contact with a grad student at 3 a.m. when the laser alignment drifts.
+
+
+The paper’s core insight—that [LLMs can lower the barrier](https://www.nature.com/articles/d41586-023-02360-9) for non-coders—is valid, but let’s not confuse a demo with a deployment. The setup required human oversight to validate outputs, debug edge cases, and handle hardware quirks. In other words, ChatGPT didn’t *autonomously* control the lab; it just wrote the first draft of the script.
+
+
+This isn’t automation. It’s *semi*-automation with a fancy PR gloss. The hype machine will call it ‘AI-driven labs,’ but the reality is closer to a very smart intern who still needs supervision.
+
+
+The competitive threat here isn’t to researchers—it’s to the [lab automation software vendors](https://www.labmanager.com/business-management/how-laboratory-automation-is-changing-21903) charging six figures for proprietary scripting tools. If an LLM can generate 80% of the boilerplate, their value proposition just got a lot shakier.
+
+<ArticleBreak />
+
+Early signals suggest the developer community is treating this as a curiosity, not a revolution. GitHub repos for lab automation tools like [PyMeasure](https://github.com/pymeasure/pymeasure) and [QCoDeS](https://github.com/QCoDeS/Qcodes) aren’t exactly flooding with LLM-generated pull requests. The reason? Real labs need reproducibility, error handling, and documentation—things ChatGPT still [hallucinates](https://www.science.org/doi/10.1126/science.adh3369) about when pressed.
+
+
+The paper’s case study also reveals a telling detail: the LLM was used for *customization*, not core control. That’s a niche use case. Most labs don’t need bespoke scripts; they need reliable, validated workflows. Until LLMs can guarantee the latter, they’re a power user’s toy, not a standard tool.
+
+
+Industry incumbents like [Agilent](https://www.agilent.com/) and [Thermo Fisher](https://www.thermofisher.com/) won’t lose sleep yet. Their lock-in comes from hardware integration and regulatory compliance—areas where LLMs have zero footprint. But for startups selling ‘no-code lab automation,’ the clock just started ticking.
+
+
+The real bottleneck isn’t the AI’s ability to write code. It’s the lab’s ability to trust it.
+
+The paper cuts off mid-sentence discussing ‘LLM-as’—as in, LLM-as-*what*, exactly? A copilot? A full agent? Without that clarity, we’re left guessing whether this is a feature or a [vaporware pattern](https://en.wikipedia.org/wiki/Vaporware) in the making.

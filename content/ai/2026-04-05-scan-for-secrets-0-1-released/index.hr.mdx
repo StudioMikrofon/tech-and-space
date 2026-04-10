@@ -1,0 +1,57 @@
+---
+id: "2026-04-05-scan-for-secrets-0-1-released"
+db_id: 1586
+title: "scan-for-secrets 0.1: Alat koji traži API ključeve gdje ih ne biste očekivali"
+lang: "hr"
+category: "ai"
+date: "2026-04-05T06:23:41Z"
+excerpt: "Simon Willison je objavio **scan-for-secrets 0."
+exec_summary: "Simon Willison’s scan-for-secrets 0.1 is a minimalist Python tool for detecting API keys and encoded secrets in logs, targeting developers who manually review sensitive data before publication. While useful for niche cases like preparing Claude Code transcripts, its lack of CI/CD integration and unclear support for advanced secret formats raises questions about scalability compared to enterprise solutions like GitGuardian or Gitleaks."
+key_points:
+  - "Python alat skenira logove za ključeve i njihove kodirane verzije"
+  - "Konfiguracijska datoteka čuva često korištene tajne za brže pretrage"
+  - "README-driven razvoj s Claude Code – koliko je ovo stvarno novo?"
+source:
+  name: "simonwillison.net"
+  url: "https://simonwillison.net/2026/Apr/5/scan-for-secrets-3/#atom-everything"
+image:
+  url: "/images/articles/scan-for-secrets-0-1-released/main.jpg"
+  alt: "scan-for-secrets 0.1: Alat koji traži API ključeve gdje ih ne biste očekivali"
+subtitle: "Između paranoje i preventivne mjere: tko zapravo treba ovaj alat?"
+subtitleImage:
+  url: "/images/articles/scan-for-secrets-0-1-released/subtitle.jpg"
+  alt: "Između paranoje i preventivne mjere: tko zapravo treba ovaj alat?"
+tags: ["API Key Detection", "Security Tool", "Secret Scanning"]
+lead_sentence: "Python alat **scan-for-secrets 0.1** traži ne samo API ključeve u logovima, nego i njihove base64, JSON-escape ili backslash varijante — ali za razliku od konkurencije, ne nudi automatsko skeniranje repozitorija."
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Simon Willison je objavio **scan-for-secrets 0.1**, python alat koji pretražuje direktorije u potrazi za izloženim API ključevima ili drugim osjetljivim podacima – ali ne samo u njihovom izvornom obliku. Alat prepoznaje i uobičajene kodirane verzije (npr.
+
+JSON escape sekvence ili backslash varijante), što ga čini korisnim za one koji objavljuju logove ili transkripte sesija, poput Willisonovih [Claude Code transkripta](https://github.com/simonw/claude-code-transcripts). Komanda `uvx scan-for-secrets $OPENAI_API_KEY -d logs-to-publish/` skenira određeni direktorij, a ako se `-d` izostavi, pretraga ide na trenutni folder.
+
+Dok većina alata za detekciju tajni radi na principu *što više pravila, to bolje*, Willisonov pristup je minimalistički: korisnik eksplicitno navodi koje tajne treba tražiti. To znači manje lažnih pozitiva, ali i veću odgovornost na korisnikovoj strani – ako zaboravite navesti ključ, alat ga neće naći. [README](https://github.com/simonw/scan-for-secrets) ističe da je riječ o *reassurance toolu*, a ne o sveobuhvatnom security scanneru.
+
+Zanimljivo je kako je alat nastao kroz **README-driven razvoj** – pristup gdje se dokumentacija piše prije koda, a implementacija prati opisane funkcionalnosti. Willison je to učinio uz pomoć [Claude Code](https://www.anthropic.com/claude), što otvara pitanje: koliko je ovdje *AI-pomagalo* stvarno ubrzalo proces, a koliko je riječ o uobičajenom prototipiranju s dodatnim layerom marketinga?
+
+<ArticleBreak />
+
+Pravi test za **scan-for-secrets** bit će reakcija developer zajednice. Alat je namijenjen onima koji redovito rade s osjetljivim podacima (npr.
+
+AI inženjerima ili open-source održavateljima), ali njegov minimalizam može biti i slabost. Naime, dok konkurenti poput [GitGuardian](https://www.gitguardian.com/) ili [Gitleaks](https://github.com/gitleaks/gitleaks) nude integracije s CI/CD pipelineovima i automatsko skeniranje repozitorija, Willisonov alat za sada ostaje *ad-hoc* rješenje.
+
+To ga čini korisnim za njegove potrebe (npr. priprema transkripta za objavu), ali manje skalabilnim za timove. Još jedna nejasnoća je podrška za dodatne formate tajni. [Dokumentacija](https://github.com/simonw/scan-for-secrets) spominje *common encodings*, ali ne navodi konkretne primjere – radi li se samo o escape sekvencama ili alat prepoznaje i base64, hex ili čak fragmentirane ključeve?
+
+Bez jasnih specifikacija, korisnici koji očekuju *sve-u-jedom* rješenje mogu ostati razočarani. Najzanimljivije je pitanje što ovaj alat govori o trendovima u AI security ekosustavu.
+
+Kako se sve više kompanija oslanja na API-je (npr. OpenAI, Anthropic), potražnja za alatima koji sprečavaju *accidental leaks* raste.
+
+No, dok korporacije ulažu u enterprise rješenja, Willisonov pristup – *napravi si sam za svoje potrebe* – podsjeća na rane dane open-sourcea.
+
+Ako se pokazao korisnim, možda ćemo vidjeti forkove s proširenim funkcionalnostima. Ili pak, ostati će nišni alat za entuzijaste koji vole imati stvar pod kontrolom. U svakom slučaju, **scan-for-secrets** je zanimljiv primjer kako se može kombinirati jednostavnost i sigurnost. Kao takav, zaslužuje pažnju svih koji se bave razvojem softvera i sigurnošću podataka.

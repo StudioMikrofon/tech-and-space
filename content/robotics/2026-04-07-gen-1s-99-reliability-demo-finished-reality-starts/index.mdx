@@ -1,0 +1,45 @@
+---
+id: 2026-04-07-gen-1s-99-reliability-demo-finished-reality-starts
+db_id: 1797
+title: "GEN-1’s 99% reliability: Demo finished. Reality starts now"
+category: robotics
+date: "2026-04-07T00:13:26Z"
+excerpt: "Google’s [GEN-1](https://arstechnica."
+exec_summary: "The GEN-1 robot has achieved 99% reliability in physical tasks such as folding boxes and fixing vacuums, opening new possibilities for industrial and consumer applications. However, its real-world deployment faces challenges such as scalability and safety."
+key_points: 
+source: 
+name: Global
+url: /images/articles/robot-gen-1-postize-99-pouzdanocu/main.png
+image: 
+alt: 
+subtitle: Od laboratorijskog prostora do stvarnog svijeta
+subtitle_en: The gap between lab choreography and warehouse chaos
+subtitleImage: 
+tags: "["Autonomy", "Industrial Automation"]"
+lead_sentence: Google DeepMind’s GEN-1 recalculates a box-folding sequence mid-disruption—then completes the task with what engineers call ‘emergent’ precision.
+geo: 
+lat: 0.0
+lon: 0.0
+countryCode: XX
+featured: false
+approved: true
+title_en: "GEN-1’s 99% reliability: Demo finished. Reality starts now"
+---
+
+Google’s [GEN-1](https://arstechnica.com/science/2024/03/google-deepmind-robots-can-now-learn-new-tasks-by-watching-a-few-videos/) doesn’t just fold boxes—it folds them *after* you shove the box mid-motion, then recalculates the crease. That’s the headline act: a robotics model that responds to disruptions with what Google DeepMind calls "emergent skills," moves it wasn’t explicitly trained for. Early signals suggest [99% reliability](https://arstechnica.com/science/2024/03/google-deepmind-robots-can-now-learn-new-tasks-by-watching-a-few-videos/) in controlled tests, a stat that demands scrutiny when the controlled part ends.
+
+
+The demo repertoire is deliberately mundane—folding laundry, [fixing a vacuum](https://blog.google/technology/ai/google-deepmind-robotics-gen-1/), arranging objects—because the real test isn’t the task, but the *interruption*. A human tugging a cable mid-repair, a box slipping from its grip: these are the moments where most robotic systems either freeze or fail. GEN-1’s party trick is recovering from such disruptions without a pre-programmed script, using what DeepMind frames as "large multimodal models" trained on diverse data.
+
+
+That’s where the marketing filter kicks in. The [paper](https://arxiv.org/abs/2403.03186) (and the polished videos) show a system that adapts to *expected* disruptions—predefined variability within a lab’s safety margins. The unanswered question: How does it handle the unpredictable chaos of, say, a fulfillment center where boxes arrive crushed, sensors get occluded, and humans don’t follow the script?
+
+<ArticleBreak />
+
+The hardware tells the real story. GEN-1 runs on Google’s [RT-2](https://deepmind.google/discover/blog/rt-2-new-model-transfers-robotics-learning-to-new-tasks/) robotics platform, a system with precise actuators and high-end sensors—hardly the off-the-shelf arms you’d find in a small warehouse. Payload limits, battery constraints, and the need for high-fidelity cameras create a deployment ceiling. Scale-up friction isn’t just about cost; it’s about certification. A 99% success rate in a lab drops when the environment introduces dust, poor lighting, or Wi-Fi dead zones—variables the [ISO 10218](https://www.iso.org/standard/74030.html) safety standards for industrial robots don’t even fully address for AI-driven systems.
+
+
+Use-case reality splits into two lanes. For structured environments—think pharmaceutical packaging or electronics assembly—GEN-1’s adaptability could trim downtime when parts arrive slightly out of spec. But for dynamic spaces like retail backrooms or home repair, the model’s reliance on high-quality visual input becomes a liability. [Toyota’s Punyo](https://global.toyota/en/newsroom/corporate/39741437.html) project faced similar limits a decade ago: impressive demos, limited real-world adoption.
+
+
+The community is responding with cautious optimism. Researchers at [CMU’s Robotics Institute](https://www.ri.cmu.edu/) note that while the disruption recovery is a leap, the system’s generalizability remains unproven outside Google’s testbeds. As one engineer put it: *‘It’s not about whether it works—it’s about where it works, and for how long.’*

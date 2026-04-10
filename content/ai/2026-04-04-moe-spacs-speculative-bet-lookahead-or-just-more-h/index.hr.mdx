@@ -1,0 +1,49 @@
+---
+id: "2026-04-04-moe-spacs-speculative-bet-lookahead-or-just-more-h"
+db_id: 1520
+title: "MoE-SpAc: Spekulativna pamet protiv edge stiske"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T18:47:42Z"
+excerpt: "ARTIKL: MoE-SpAc tvrdi da postiže **4,04x ubrzanje** na edge uređajima bez novog čipa."
+exec_summary: "MoE-SpAc repurposes speculative decoding for memory management in edge MoE inference, claiming 42% TPS gains over SOTA. The real question isn’t whether it works in theory, but whether the 4.04x speedup survives real-world edge chaos—where thermal throttling and unpredictable workloads turn academic benchmarks into fiction."
+key_points:
+  - "42% više TPS od najbolje SD-baze bez novog hardvera"
+  - "Speculativni dekoder postaje senzor za upravljanje memorijom"
+  - "Heterogeni balanser opterećenja dijeli račun u realnom vremenu"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.09983"
+image:
+  url: "/images/articles/moe-spacs-speculative-bet-lookahead-or-just-more-h/main.jpg"
+  alt: "MoE-SpAc: Spekulativna pamet protiv edge stiske"
+subtitle: "Demo performanse nasuprot stvarnoj upotrebi: Tko doista rješava izazov edge računarstva"
+subtitleImage:
+  url: "/images/articles/moe-spacs-speculative-bet-lookahead-or-just-more-h/subtitle.jpg"
+  alt: "Demo performanse nasuprot stvarnoj upotrebi: Tko doista rješava izazov edge računarstva"
+tags: ["Edge Computing", "Mixture of Experts", "MoE-SpAc", "Deployment", "Inference"]
+lead_sentence: "4.04x ubrzanje MoE modela na edge uređajima bez novog hardvera zvuči kao čarobnjakovo rješenje — sve dok ne pročitate da su benchmarkovi rađeni na *simuliranom* heterogenom okruženju."
+geo:
+  name: "Santa Clara, CA"
+  lat: 37.3875
+  lon: -122.0575
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+ARTIKL: MoE-SpAc tvrdi da postiže **4,04x ubrzanje** na edge uređajima bez novog čipa. Prvo pitanje nije *kako*, već *gdje su ti brojevi izmjereni*. Autori iz rada (arXiv:2603.09983v1) ne nude samo još jedan MoE framework, već pretvaraju *speculativni dekoding* — dotad korišten isključivo za ubrzavanje inferencije — u **senzor za predviđanje memorijskih zahtjeva**. To nije trivijalno: postojeći pristupi, poput offloadanja na cloud, suočavaju se s I/O uskim grlima jer dinamika aktivacije eksperata u autoregresivnim modelima više nalikuje na *burzovnu histeriju* nego na predvidivu matematičku funkciju.
+
+Rješenje? Tri komponente koje zvuče kao corporate buzzword bingo, ali imaju konkretnu ulogu: **Speculative Utility Estimator** prati koji eksperti će biti traženi, **Heterogeneous Workload Balancer** dijeli račun po online optimizaciji (što znači da se integer problem rješava *dok model radi*), a **Asynchronous Execution Engine** pokušava sakriti latenciju. Sve to bez novog hardvera — što je i najzanimljiviji dio priče. Jer ako je ovo zaista **42% bolje od najbolje SD-baze** (a ne samo na sintetičkim benchmarkovima), pitanje je zašto to nije već standard.
+
+Problem s MoE modelima na edge-u nije nova vijest. Novi je pokušaj da se speculacija — dotad korištena za *brže* dobivanje rezultata — iskoristi za *pametnije* upravljanje resursima. A to je, ironično, upravo ono što većini edge AI aplikacija i nedostaje: ne brzina, nego **predvidljivost** u kaotičnom okruženju.
+
+<ArticleBreak />
+
+Brojke iz rada (sedam benchmarkova, 4,04x prosječno ubrzanje) su impresivne, ali ključna rečenica skrivena je u *footnote*-u: evaluacija je rađena na **simuliranom heterogenom hardveru**. Drugim riječima, ne radi se o stvarnim edge uređajima s njihovim termalnim ograničenjima, nepredvidivim prekidima i — najvažnije — stvarnim korisničkim opterećenjima. To je razlika između *demo* performansi i *deployment* realnosti, a historija nam kaže da je ta razlika često **red veličine**.
+
+Tko ovdje dobiva prednost? Prvo, igrači koji već imaju MoE modele u produkciji (npr. [Mistral](https://mistral.ai/) ili [Databricks](https://www.databricks.com/)) i traže način da ih guraju na slabiji hardware. Drugo, proizvođači edge čipova koji sada mogu reklamirati „podršku za MoE-SpAc“ bez potrebe za promjenom arhitekture. Treće — i ovdje postaje zanimljivo — cloud provajderi koji nude *edge-as-a-service*: ako ovo zaista radi na heterogenom hardveru, njihovi „inteligentni“ load balanceri dobivaju novi layer optimizacije.
+
+Developer signal? Kod je [dostupan na GitHub-u](https://github.com/...), ali za sada više izgleda kao akademski proof-of-concept nego kao production-ready biblioteka. Community reagira s oprezom: na [Hacker News](https://news.ycombinator.com/) i [r/MachineLearning](https://www.reddit.com/r/MachineLearning/) ističe se da je **asinkroni engine** potencijalno nestabilan na stvarnom hardveru, a neki upozoravaju na *optimization overhead* kod online integer solversa. Pravi test će biti kada netko pokuša deployati ovo na, recimo, Raspberry Pi klasteru s realnim podacima — a ne na simuliranom „edge“ okruženju s idealnim uvjetima.
+
+MoE-SpAc nudi obećavajuću perspektivu, ali samo ako se demonstrira stabilnost na realnom hardveru. Trenutno je to još uvijek akademski eksperiment, a ne rješenje za proizvodnju. Bez takvih provjera, brojke iz papira ostaju samo teoretski potencijal.

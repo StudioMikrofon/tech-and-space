@@ -1,0 +1,57 @@
+---
+id: "2026-04-04-ais-competitive-coding-edge-rl-tricks-vs-real-worl"
+db_id: 1426
+title: "RL i paralelno mišljenje: Kako AI rješava programerske zadatke"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T04:26:38Z"
+excerpt: "Novo istraživanje s [arXiv-a](https://arxiv."
+exec_summary: "New research scales AI reasoning for competitive programming using RL and parallel thinking, hitting GPT-5-level benchmarks at a steep compute cost (7.6M tokens/problem). The real story isn’t the performance—it’s the economics: only deep-pocketed players can deploy this, exposing the gap between demo hype and production reality."
+key_points:
+  - "7,6 milijuna tokena po zadatku — cijena preciznog razmišljanja"
+  - "Verifikacijski RL podiže početnu točku, ali skaliranje košta"
+  - "16 niti i 16 rundi: paralelizam kao rješenje za troškove pažnje"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.01302"
+image:
+  url: "/images/articles/ais-competitive-coding-edge-rl-tricks-vs-real-worl/main.jpg"
+  alt: "RL i paralelno mišljenje: Kako AI rješava programerske zadatke"
+subtitle: "Demo nasuprot deploymenta: Tko zapravo može priuštiti ovakve modele"
+subtitleImage:
+  url: "/images/articles/ais-competitive-coding-edge-rl-tricks-vs-real-worl/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: Tko zapravo može priuštiti ovakve modele"
+tags: ["Kako AI"]
+lead_sentence: "Model obučen na prosječnih **7,6 milijuna tokena po programerskom zadatku** postigao je rezultate usporedive s GPT-5-high benchmarkom — ali samo uz 16 paralelnih niti i troškove koje većina ne može priuštiti."
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Novo istraživanje s [arXiv-a](https://arxiv.org/abs/2604.01302) (2604.01302v1) ne govori samo o poboljšanju AI-rješenja za natjecateljsko programiranje — otkriva koliko to zapravo košta. Modeli obučeni na 7,6 milijuna tokena po problemu (prosječno) postigli su rezultate usporedive s hipotetičkim „oracle“ prolazom od 16 pokušaja, ali samo uz 16 paralelnih niti i 16 rundi razmišljanja po niti.
+
+To nije samo tehnički podvig, već i financijska barijera: puna mehanika pažnje (*full attention*) čini skaliranje jednokratne generacije toliko skupim da je paralelizam postao nužan, a ne opcija. Istraživači su primijetili log-linearnu vezu između točnosti validacije i broja generiranih „razmišljačkih“ tokena — ali tu dolazi do zanimljivog detalja.
+
+Verifikacijski RL „warmup“ podiže početnu točku učenja, dok randomizirano „klipiranje“ strmije usmjerava trend. Drugim riječima, ne radi se samo o više tokena, već o pametnijoj distribuciji troškova.
+
+Problem? Sve to funkcionira u kontroliranim uvjetima, a ne u produkciji gdje latencija i cijena računanja odlučuju.
+
+Ovdje se pojavljuje ključno pitanje: tko može priuštiti ovakve modele u stvarnom svijetu? [DeepMind](https://deepmind.google) i slični igrači možda, ali za većinu timova — čak i onih koji rade na AI za programiranje — ova skala ostaje nedostupna. Pravi signal ovdje nije u benchmarkovima, već u troškovima.
+
+<ArticleBreak />
+
+Multi-round paralelni pipeline, kako ga istraživači nazivaju, distribuira budžet tokena kroz niti i runde, smanjujući pritisak na pojedinačne generacije. Međutim, 456 teških natjecateljskih problema na kojima je testiran model nisu realni korisnički scenariji — to su laboratorijski uvjeti.
+
+Što se događa kada isti pristup primijenimo na dinamične, nejasno definirane probleme iz stvarnog svijeta? Odgovor još uvijek nedostaje, ali je jasno da će troškovi računanja biti prvi filter.
+
+Zanimljivo je kako [developer zajednica](https://news.ycombinator.com/) reagira: dio korisnika ističe da je ovaj pristup logičan sljedeći korak nakon *chain-of-thought* (CoT) metoda, ali upozorava na jazu između akademskih rezultata i industrijskih potreba. „Da, radi na 456 zadacima, ali koliko košta pokrenuti ovo na milione upita?“ — pitanje koje se ponavlja. Također, randomizirano klipiranje kao tehnika za ubrzavanje učenja nije novo (koristi se i u [RLHF](https://arxiv.org/abs/2203.08066) modelima), ali njegova primjena ovdje pokazuje koliko je fine-tuning ključan za efikasnost.
+
+Najveća ironija? Dok se mediji bace na „AI koji rješava programerske zadatke“, stvarna priča je u ekonomiji razmišljanja.
+
+Modeli poput ovog mogu postati standard — ali samo za one koji mogu platiti račun. Za ostale, ostaje pitanje: je li ovo napredak ili samo novi način pakiranja istih ograničenja?
+
+Stvarna priča iza ovog istraživanja nije toliko u samom AI-u, već u ekonomskim aspektima koji utječu na njegovu primjenu. Trošak razmišljanja postaje sve važniji čimnik u odlučivanju koji modeli će biti isplativi za korištenje. Ovo otvara nova pitanja o pristupu tehnologiji i kako će se ona razvijati u budućnosti.

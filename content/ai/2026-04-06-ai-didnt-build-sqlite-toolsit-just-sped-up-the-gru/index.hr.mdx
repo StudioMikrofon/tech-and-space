@@ -1,0 +1,49 @@
+---
+id: "2026-04-06-ai-didnt-build-sqlite-toolsit-just-sped-up-the-gru"
+db_id: 1686
+title: "Osam godina razmišljanja, tri mjeseca AI gradnje"
+lang: "hr"
+category: "ai"
+date: "2026-04-06T02:15:10Z"
+excerpt: "Lalit Maganti je osam godina razmišljao o alatu koji bi SQLite zaslužio, a zatim ga je sagradio u samo tri mjeseca uz pomoć AI-a."
+exec_summary: "Lalit Maganti’s syntaqlite demonstrates AI’s dual role in software development: accelerating prototyping while exposing the limits of automated design. The project’s 8-year gestation and 3-month AI-assisted build reveal a critical tension—tools like Claude Code excel at implementation but falter at high-level architecture, demanding human oversight for production-grade systems."
+key_points:
+  - "Claude Code prototip odbačen zbog arhitekturnih mana"
+  - "400+ pravila gramatike za SQLite parser"
+  - "Alat za lintanje i verifikaciju SQLite upita"
+source:
+  name: "simonwillison.net"
+  url: "https://simonwillison.net/2026/Apr/5/building-with-ai/#atom-everything"
+image:
+  url: "/images/articles/ai-didnt-build-sqlite-toolsit-just-sped-up-the-gru/main.jpg"
+  alt: "Osam godina razmišljanja, tri mjeseca AI gradnje"
+subtitle: "Od prototipa do produkcije: kako AI mijenja razvoj alata za SQLite"
+subtitleImage:
+  url: "/images/articles/ai-didnt-build-sqlite-toolsit-just-sped-up-the-gru/subtitle.jpg"
+  alt: "Od prototipa do produkcije: kako AI mijenja razvoj alata za SQLite"
+tags: ["AI Development", "Deployment", "Demo"]
+lead_sentence: "Prvi AI-prototip syntaqlite-a, napravljen uz Claude Code, završio je u smeću zbog *neharmonične arhitekture* – dokaz kako brzina razvoja ne garantira kvalitetu."
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Lalit Maganti je osam godina razmišljao o alatu koji bi SQLite zaslužio, a zatim ga je sagradio u samo tri mjeseca uz pomoć AI-a. Rezultat je [syntaqlite](https://github.com/lalitmaganti/syntaqlite) – parser, formatter i verifikator za SQLite upite, dizajniran za integraciju u language servere.
+
+Prvi prototip, napravljen uz [Claude Code](https://www.anthropic.com/claude), odbačen je zbog *arhitekturnih nekonzistentnosti*. To je klasičan primjer kako AI ubrzava implementaciju, ali ne i dizajn. Iako je Maganti ranije radio na manje ambicioznom [sqlite-ast](https://github.com/simonw/sqlite-ast) projektu, syntaqlite je prvi alat koji nudi *produkcijsku razinu* podrške za SQLite.
+
+Problem je u tome što su eksperti poput [Simona Willisona](https://simonwillison.net/) godinama tražili takav alat, ali je ekosustav oko SQLite parsiranja ostao fragmentiran. Čak i sa 400+ pravila gramatike, pitanje je koliko će syntaqlite izdržati u realnim uvjetima. AI je ovdje bio katalizator, ali ne i magični štapić. Maganti je u [svom eseju](https://lmaganti.github.io/syntaqlite/) istaknuo kako je Claude Code pomogao u *prototypingu*, ali je konačna arhitektura zahtijevala ljudsko preispitivanje.
+
+<ArticleBreak />
+
+Za razliku od generičkih AI *code assistant* alata, syntaqlite je specifičan: cilja SQLite, bazu koja pokreće sve od iOS-a do [Fly.io](https://fly.io/) infrastrukture. Njegova prednost? Brzina i robusnost u lintanju upita, što razvijačima štedi sate ručnog debugiranja. Ali tu je i rizik: ako se alat oslanja na AI-generiranu logiku, koliko je pouzdana u edge caseovima?
+
+Developer community već reagira: na GitHubu je projekt skupio [preko 1,2k zvjezdica](https://github.com/lalitmaganti/syntaqlite) u roku od mjesec dana, a diskusije se vrte oko performansi na velikim bazama. Kritičari, međutim, upozoravaju kako je *agentic engineering* još uvijek nezrela za složene sustave. Magantijev pristup – koristiti AI za *brzu iteraciju*, a zatim ručno popravljati greške – možda je najbolji kompromis.
+
+Pravi test dolazi kada alat uđe u produkcijska okruženja. SQLite je poznat po stabilnosti, a svaki novi layer (čak i onaj za lintanje) može uvesti latentne bugove. Ako syntaqlite uspije, otvorit će vrata sličnim alatom za PostgreSQL ili MySQL. Ako ne, bit će još jedan primjer kako AI ubrzava *početak* projekta, ali ne i njegov kraj.
+
+Tržište alata za SQLite konačno dobiva alat koji je bio potreban godinama. Syntaqlite bi mogao biti prekretnica za razvojnu zajednicu. Ako uspije, otvorit će vrata novim mogućnostima u optimizaciji i održavanju SQLite baza.

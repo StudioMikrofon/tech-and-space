@@ -253,7 +253,7 @@ export default async function ArticlePage({ params }: PageProps) {
               )}
               {/* Image source credit and description */}
               <p className="text-[0.65rem] font-mono tracking-wider text-text-secondary/40 mt-1.5 mb-8 px-0.5">
-                {article.image?.alt && <span className="block text-text-secondary/50 mb-0.5">{article.image.alt}</span>}
+                {(article.image?.caption || article.image?.alt) && <span className="block text-text-secondary/50 mb-0.5">{article.image?.caption || article.image?.alt}</span>}
                 {article.image?.url
                   ? article.image.credit
                     ? article.image.creditUrl
@@ -311,21 +311,21 @@ export default async function ArticlePage({ params }: PageProps) {
                             return videoId ? <YouTubeEmbed id={videoId} title={article.title} /> : null;
                           })()}
                           {article.subtitleImage?.url && (
-                            <div className="glass-card overflow-hidden mb-2 !hover:transform-none">
+                            <div className="glass-card overflow-hidden mb-6 !hover:transform-none">
                               <img
                                 src={article.subtitleImage.url}
                                 alt={article.subtitleImage?.alt}
                                 className="w-full h-auto max-h-[400px] object-cover"
                               />
-                              {/* Image credit and description */}
+                              {/* Image credit and description only — article subtitle removed */}
                               <p className="text-[0.65rem] font-mono tracking-wider text-text-secondary/40 mt-1.5 px-2.5 pb-2">
-                                {article.subtitleImage?.alt && <span className="block text-text-secondary/50 mb-0.5">{article.subtitleImage.alt}</span>}
+                                {(article.subtitleImage?.caption || article.subtitleImage?.alt) && <span className="block text-text-secondary/50 mb-0.5">{article.subtitleImage?.caption || article.subtitleImage?.alt}</span>}
                                 <span>📷 {article.subtitleImage?.credit || `Published: ${new Date(article.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} at ${new Date(article.date).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })} UTC`}</span>
                               </p>
                             </div>
                           )}
                           {displaySubtitle && (
-                            <p className="text-text-secondary italic text-lg leading-relaxed font-medium mb-4">
+                            <p className="text-text-secondary italic text-lg leading-relaxed font-medium mb-4 mt-2">
                               {displaySubtitle}
                             </p>
                           )}

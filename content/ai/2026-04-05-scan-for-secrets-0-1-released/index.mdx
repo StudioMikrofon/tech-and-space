@@ -1,0 +1,57 @@
+---
+id: "2026-04-05-scan-for-secrets-0-1-released"
+db_id: 1586
+title: "Scan-for-Secrets 0.1 Released"
+category: "ai"
+date: "2026-04-05T06:23:41Z"
+excerpt: "Simon Willison has released scan-for-secrets 0."
+exec_summary: "Simon Willison’s scan-for-secrets 0.1 is a minimalist Python tool for detecting API keys and encoded secrets in logs, targeting developers who manually review sensitive data before publication. While useful for niche cases like preparing Claude Code transcripts, its lack of CI/CD integration and unclear support for advanced secret formats raises questions about scalability compared to enterprise solutions like GitGuardian or Gitleaks."
+key_points:
+  - "Simon Willison"
+  - "API Key Scanning"
+  - "Security Tooling"
+source:
+  name: "simonwillison.net"
+  url: "https://simonwillison.net/2026/Apr/5/scan-for-secrets-3/#atom-everything"
+image:
+  url: "/images/articles/scan-for-secrets-0-1-released/main.jpg"
+  alt: "Scan-for-Secrets 0.1 Released"
+  caption: "Scan-for-Secrets 0.1 Released"
+  credit: "Source: Web"
+subtitle: "Između paranoje i preventivne mjere: tko zapravo treba ovaj alat?"
+subtitle_en: "The Gap Between Benchmark and Product"
+subtitleImage:
+  url: "/images/articles/scan-for-secrets-0-1-released/subtitle.jpg"
+  alt: "The Gap Between Benchmark and Product"
+  caption: "The Gap Between Benchmark and Product"
+  credit: "Source: Web"
+tags: ["API Key Detection", "Security Tool", "Secret Scanning"]
+lead_sentence: "Simon Willison's new tool scan-for-secrets 0.1 is designed to scan directories for exposed API keys or secrets in log files, providing a solution for a specific problem in the AI and tech industries."
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Simon Willison has released scan-for-secrets 0.1, a Python tool designed to scan directories for exposed API keys or secrets in log files. The tool scans for literal secrets and common encodings, such as backslash or JSON escaping, as described in its README. According to the usage example, users can feed it secrets and have it scan for them in a specified directory using the command `uvx scan-for-secrets $OPENAI_API_KEY -d logs-to-publish/`.
+
+
+This tool is intended to help users reassure themselves that sensitive data, such as API keys, isn’t accidentally leaked in logs. Willison’s personal use case involves publishing Claude Code session transcripts via his claude-code-transcripts tool, and he wants to ensure that his API keys are not exposed. The community is responding positively to this release, with some users noting the importance of security tooling in preventing data leaks.
+
+
+The tool's functionality is not just limited to scanning for secrets, but also provides a way for users to store frequently protected secrets in a ~/.scan-for-secrets.conf.sh file via echo commands. This feature adds an extra layer of security and convenience for users who need to manage multiple secrets. For more information, visit [Simon Willison's website](https://simonwillison.net/) or check out the [scan-for-secrets GitHub repository](https://github.com/simonw/scan-for-secrets).
+
+<ArticleBreak />
+
+The release of scan-for-secrets 0.1 highlights the importance of security in the AI and tech industries. As AI models become more prevalent, the risk of data leaks and exposure of sensitive information increases. This tool provides a solution for developers and users who want to ensure that their API keys and secrets are not accidentally exposed. The tool's ability to scan for common encodings of secrets adds an extra layer of security, making it a valuable asset for anyone working with sensitive data.
+
+
+The industry is taking note of this release, with some experts pointing out the potential benefits of using scan-for-secrets 0.1 in conjunction with other security tools. For example, [OWASP](https://owasp.org/) provides guidelines for secure coding practices, and [GitHub](https://github.com/) offers security features such as secret scanning. By combining these tools and practices, developers can significantly reduce the risk of data leaks and exposure of sensitive information.
+
+
+In terms of competitive advantage, the release of scan-for-secrets 0.1 gives Simon Willison an edge in the security tooling market. His tool provides a unique solution for scanning directories and logs for exposed API keys and secrets, making it a valuable asset for anyone working in the AI and tech industries. As the demand for security tools continues to grow, Willison's tool is well-positioned to meet the needs of developers and users alike. For more information on the latest security tools and trends, visit [The Verge](https://www.theverge.com/) or [Wired](https://www.wired.com/).
+
+The hype surrounding scan-for-secrets 0.1 is warranted, given its potential to prevent data leaks and exposure of sensitive information. However, it's essential to separate the genuine benefits from the marketing hype. In other words, the tool's value lies in its ability to provide a solution for a specific problem, rather than being a revolutionary game-changer.

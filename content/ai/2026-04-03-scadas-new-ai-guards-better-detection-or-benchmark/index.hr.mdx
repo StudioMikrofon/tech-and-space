@@ -1,0 +1,49 @@
+---
+id: "2026-04-03-scadas-new-ai-guards-better-detection-or-benchmark"
+db_id: 1295
+title: "Duboko učenje protiv SCADA hakerâ: SPARK i SAD u akciji"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T08:11:32Z"
+excerpt: "Dva nova algoritma — **SPARK** (Spike Encoding Adaptive Regulation Kernel) i **SAD** (Scented Alpine Descent) — ne zvuče kao tipična rješenja za industrijsku sigurnost."
+exec_summary: "New deep learning-based intrusion detection models (SPARK and SAD) claim to outperform traditional SCADA security—but the lack of production testing and open-source validation raises skepticism. The real story isn’t the algorithms, but whether energy giants will risk deploying them in high-stakes solar infrastructures."
+key_points:
+  - "Saudi-Britanski tim razvio SPARK i SAD algoritme za SCADA sigurnost"
+  - "Cilj: real-time zaštita solarnih postrojenja od naprednih prijetnji"
+  - "Benchmark vs. deployment: tko će prvi testirati u proizvodnji?"
+source:
+  name: "pv-magazine.com"
+  url: "https://www.pv-magazine.com/2026/04/03/new-intrusion-detection-systems-boost-protection-of-scada-systems-against-cyber-threats/"
+image:
+  url: "/images/articles/scadas-new-ai-guards-better-detection-or-benchmark/main.jpg"
+  alt: "Duboko učenje protiv SCADA hakerâ: SPARK i SAD u akciji"
+subtitle: "Demo obećanja nasuprot realnim izazovima: Zašto novi IDS-ovi možda neće riješiti problem SCADA sigurnosti"
+subtitleImage:
+  url: "/images/articles/scadas-new-ai-guards-better-detection-or-benchmark/subtitle.jpg"
+  alt: "Demo obećanja nasuprot realnim izazovima: Zašto novi IDS-ovi možda neće riješiti problem SCADA sigurnosti"
+tags: ["SCADA cybersecurity", "AI-based intrusion detection systems (IDS)", "OT security vs. traditional cybersecurity", "U.S. Department of Defense (DoD) cyber initiatives", "Deployment challenges in industrial AI defense"]
+lead_sentence: "Saudi-Britanski tim predlaže dva nova IDS algoritma — SPARK i SAD — za zaštitu solarnih postrojenja, ali bez dokaza o testiranju u realnim uvjetima."
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Dva nova algoritma — **SPARK** (Spike Encoding Adaptive Regulation Kernel) i **SAD** (Scented Alpine Descent) — ne zvuče kao tipična rješenja za industrijsku sigurnost. Upravo su ih saudijsko-britanski istraživači predložili kao odgovor na kroničnu ranjivost [SCADA sustava](https://en.wikipedia.org/wiki/SCADA) u solarnim postrojenjima. Problem nije nov: SCADA mreže, ključne za nadzor velikih energetskih infrastruktura, već godinaima su meta sofisticiranih napada, a postojeći IDS-ovi često kašnjenju u detekciji nepoznatih prijetnji.
+
+Razlika je u **hibridnom pristupu** koji kombinira spike neuralne mreže (SNNS) s adaptivnom regulacijom — barem prema [objavljenim rezultatima](https://www.pv-magazine.com/2024/03/15/new-intrusion-detection-systems-boost-protection-of-scada-systems-against-cyber-threats/). Autori tvrde da njihovi modeli **premašuju tradicionalne metode** na više datasetova. Međutim, ključno pitanje ostaje: radi li se o **sintetičkim benchmarkovima** ili stvarnim uvjetima solarnog postrojenja pod DDoS-om?
+
+Čudno je da se u službenoj objavi ne spominje **tko konkretno testira ove modele u proizvodnji**. Solarne farme nisu laboratoriji, a latencija od nekoliko milisekundi može značiti razliku između detektiranog napada i [fizičkog oštećenja](https://www.energy.gov/ceser/articles/cybersecurity-energy-delivery-systems). To čini sve 'revolucionarne' tvrdnje sumnjivima dok ne vidimo real-world metrike.
+
+<ArticleBreak />
+
+Industrija energetike već godinaima sluša obećanja o 'AI-om pojačanoj sigurnosti', ali rijetko se vide dokazi o **skalabilnosti** takvih rješenja. SPARK i SAD možda rade odlično na papiru, ali tko garantira da neće propustiti [napad tipa Stuxnet](https://en.wikipedia.org/wiki/Stuxnet) samo zato što je treniran na drugom setu podataka? Pravo usko grlo možda uopće nije u algoritmu, već u **integraciji s postojećim SCADA protokolima** — a to je dio priče koji istraživači nisu detaljno objasnili.
+
+Zanimljivije od samih algoritama je **tko stoji iza ovog projekta**. Saudijska Arabija već godina ulaže u [cyber-obranu kritične infrastrukture](https://www.spglobal.com/commodityinsights/en/market-insights/latest-news/energy-transition/031523-saudi-arabia-invests-in-cybersecurity-as-energy-transition-accelerates), a Britanci imaju dugogodišnje iskustvo u SCADA sigurnosti. Ako je ovo više od akademskog eksperimenta, očekujmo brzo preuzimanje od strane igrača poput [Siemensa](https://new.siemens.com/global/en/products/automation/industry/process-automation/scada.html) ili [Schneider Electrica](https://www.se.com/ww/en/) — ili barem pokretanje pilota u nekom od [NEOM-ovih projekata](https://www.neom.com/en-us).
+
+Za sada, međutim, ostaje pitanje: **gdje su kodovi?** Ni na [GitHubu](https://github.com/) ni u pratećim materijalima nema tragova open-source implementacije. To kod zajednice već budi sumnju. Ako je cilj zaista poboljšati sigurnost, zašto ne dopustiti neovisnu validaciju? Ili je, pak, riječ o još jednom 'enterprise-only' rješenju koje će završiti u crnoj kutiji neke korporacije?
+
+Dok se ne riješe pitanja integracije i skalabilnosti, nova rješenja riskiraju postati još jedan primjer kako dobra teorija često propada u praksi. Energetska industrija zaslužuje bolje od eksperimenata koji nikad ne napuste laboratorij.

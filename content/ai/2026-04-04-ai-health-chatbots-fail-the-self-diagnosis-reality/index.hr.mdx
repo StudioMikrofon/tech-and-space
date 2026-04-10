@@ -1,0 +1,57 @@
+---
+id: "2026-04-04-ai-health-chatbots-fail-the-self-diagnosis-reality"
+db_id: 1545
+title: "AI liječnici: Chatbotovi gore od Googla za samodijagnozu"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T22:47:53Z"
+excerpt: "Studija objavljena u *MedicalXpressu* potvrđuje ono što su skeptici već dugo sumnjali: **AI chatbotovi ne samo da ne poboljšavaju samodijagnozu, nego je čine gorem**."
+exec_summary: "Despite passing medical exams with high scores, AI chatbots worsen self-diagnosis accuracy in real-world tests. The gap between benchmark performance and clinical utility exposes risks of unchecked AI deployment in healthcare — while tech vendors continue selling 'health assistants' with fine-print disclaimers."
+key_points:
+  - "Chatbotovi pogoršavaju točnost samodijagnoze"
+  - "Prošli medicinske ispite, ali propadaju u praksi"
+  - "Tko profitira od ovoga — a tko će platiti cijenu?"
+source:
+  name: "medicalxpress.com"
+  url: "https://medicalxpress.com/news/2026-03-ai-health-chatbots-wont.html"
+image:
+  url: "/images/articles/ai-health-chatbots-fail-the-self-diagnosis-reality/main.jpg"
+  alt: "AI liječnici: Chatbotovi gore od Googla za samodijagnozu"
+subtitle: "Benchmark vs. stvarni svijet: Zašto LLMs neće zamijeniti liječnike usprkos 90% točnosti na ispitima"
+subtitleImage:
+  url: "/images/articles/ai-health-chatbots-fail-the-self-diagnosis-reality/subtitle.jpg"
+  alt: "Benchmark vs. stvarni svijet: Zašto LLMs neće zamijeniti liječnike usprkos 90% točnosti na ispitima"
+tags: ["LLMs", "Medical Diagnosis", "Chatbots", "Benchmarking"]
+lead_sentence: "Nova studija dokazuje da ljudi koji koriste AI chatbotove za zdravstvene savjete *češće pogreše dijagnozu* nego oni koji uopće ne traže pomoć online."
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Studija objavljena u *MedicalXpressu* potvrđuje ono što su skeptici već dugo sumnjali: **AI chatbotovi ne samo da ne poboljšavaju samodijagnozu, nego je čine gorem**. Ispitanici koji su koristili popularne LLMs za procjenu simptoma bili su *manje* vjerojatni da točno identifikiraju svoj zdravstveni problem nego kontrolna skupina koja uopće nije koristila alate.
+
+Ironično, isti modeli koji [prolaze medicinske licence](https://www.nejm.org/doi/full/10.1056/NEJMc2301306) s 90%+ točnošću u teoriji, u praksi zaboravljaju pitati ključna pitanja — poput *kada su simptomi počeli* ili *je li pacijent uzimao lijekove*. To nije samo problem 'lošeg UX-a'. **Razlika između benchmarka i realnog svijeta ovdje je smrtonosna**: chatbotovi su trenirani na statičnim podacima, dok je medicina dinamičan proces pun iznimki.
+
+Na primjer, model može savršeno opisati simptome upale pluća, ali će propustiti upozoriti da isti kašalj kod pušača od 20 godina može značiti nešto sasvim drugo. Britanski glavni liječnik [upozorio je](https://www.theguardian.com/society/2023/dec/10/ai-healthcare-nhs-chatbots-ruby-wax) na ove rizike još 2023., ali tek sad imamo brojeve koji potkrepljuju skepsu.
+
+Dodatni problem? **Chatbotovi ne znaju *šutjeti***. Umjesto da kažu 'Ne znam' ili 'Idi kod liječnika', generiraju uvjerljive (ali pogrešne) odgovore.
+
+Prema studiji, 68% ispitanika koji su koristili AI mislilo je da je dobilo 'potpunu i točnu' procjenu — iako je objektivna točnost bila ispod 50%. To nije bug, to je feature: LLMs su optimizirani za *samopouzdanje*, ne za skromnost.
+
+<ArticleBreak />
+
+Tehnički gledano, problem nije u medicinskom znanju modela, već u **nedostatku kontekstualne inteligencije**. Chatbotovi ne razumiju *zašto* pacijent postavlja pitanje: da li je to iz zabrine, hipohondrije, ili pokušaja da izbjegne posjet liječniku? [Istraživanje MIT-a](https://news.mit.edu/2024/ai-health-communication-gap-0212) pokazuje da LLMs u 89% slučajeva ne prepoznaju emocionalni kontekst pitanja — što dovodi do odgovora koji su tehnički točni, ali klinički beskorisni.
+
+Primjer: ako pitate 'Jesam li u opasnosti od srca?' nakon šetnje brzim korakom, chatbot će vam reci statistiku o infarktu, a ne pitati koliko ste stari ili imate li obiteljsku anamnezu. Tržišni efekt ovoga je dvostruk. **1) Velike tech kompanije** (poput Googlea i Microsofta) i dalje će prodavati 'AI zdravstvene asistente' bolnicama — ali s fine-printom da su to 'samo alati za edukaciju'. **2) Startupi koji nude 'AI dijagnozu'** (npr. [Ada Health](https://ada.com/)) sada moraju ili smanjiti obećanja ili uložiti u *ljudsku* validaciju.
+
+Regulatorni pritisak raste: [EU AI Act](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai) već klasificira zdravstvene chatbote kao 'visokorizične' — što znači skupe certifikacije i odgođene lansiranja. Zanimljivije od same studije je **što developer community *nije* iznenađen**.
+
+Na [GitHubu](https://github.com/) i [Hacker News-u](https://news.ycombinator.com/), reakcije kreću od 'Tko je mislio da će ovo ikad funkcionirati?' do detaljnih rasprava o tome kako bi *fine-tuning na specifične simptome* mogao pomoći — ali samo za uske slučajeve upitnika. Pravi signal ovdje nije u tome da AI 'ne radi', već da **zdravstvo nije problem koji se može riješiti skaliranjem podataka**.
+
+I tu priča postaje zanimljivija od same objave: ako chatbotovi ne mogu ni osnovnu samodijagnozu, **što zapravo prodajemo kada kažemo 'AI u zdravstvu'?**
+
+Ovo istraživanje pokazuje da je potrebno preispitati ulogu AI u zdravstvu i razviti nove pristupe koji će uzeti u obzir kompleksnost ljudskog zdravlja. Također, potrebno je educirati javnost o ograničenjima AI tehnologija u zdravstvu. Na kraju, cilj je stvoriti sustav koji će omogućiti sigurnu i učinkovitu dijagnozu i liječenje, a to nije moguće bez ljudske intervencije i pregleda.

@@ -1,0 +1,53 @@
+---
+id: "2026-04-06-netflixs-void-ai-erases-objectsbut-can-it-erase-vf"
+db_id: 1736
+title: "Netflix’s VOID AI Erases Objects—But Can It Erase VFX Sweatshops?"
+category: "ai"
+date: "2026-04-06T12:19:47Z"
+excerpt: "Netflix’s AI research team just dropped [VOID](https://github."
+exec_summary: "Netflix’s VOID isn’t just another inpainting tool: it simulates physical interactions (e.g., gravity) after object removal, leveraging a 5B-parameter 3D Transformer from Alibaba. The open-source release targets VFX automation, but real-world deployment faces resolution limits (384×672) and data hunger—raising questions about who can actually use it at scale."
+key_points:
+  - "VOID fills gaps left by Hollywood’s manual physics fixes"
+  - "Open-source move targets AI research, not immediate production"
+  - "Runway and Adobe now face pressure to match physics-aware edits"
+source:
+  name: "marktechpost.com"
+  url: "https://www.marktechpost.com/2026/04/04/netflix-ai-team-just-open-sourced-void-an-ai-model-that-erases-objects-from-videos-physics-and-all/"
+image:
+  url: "/images/articles/netflixs-void-ai-erases-objectsbut-can-it-erase-vf/main.jpg"
+  alt: "Netflix’s VOID AI Erases Objects—But Can It Erase VFX Sweatshops?"
+subtitle: "Demo nasuprot deploymentu: tko će zapravo moći koristiti ovaj alat"
+subtitle_en: "The gap between demo magic and deployment reality"
+subtitleImage:
+  url: "/images/articles/netflixs-void-ai-erases-objectsbut-can-it-erase-vf/subtitle.jpg"
+  alt: "The gap between demo magic and deployment reality"
+tags: ["Netflix", "Object Removal", "Computer Vision"]
+lead_sentence: "Hollywood spends an average of [$2,000 per VFX shot](https://www.vfxvoice.com/the-cost-of-visual-effects/) fixing what Netflix’s VOID AI promises to automate—if it works outside a demo."
+geo:
+  name: "Los Gatos, California, USA"
+  lat: 37.2267
+  lon: -121.9774
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Netflix’s AI research team just dropped [VOID](https://github.com/Netflix/void-ai) (Video Object Removal via Inpainting and Diffusion), an open-source model that doesn’t just erase objects from videos—it *simulates* the physical aftermath. Remove a person holding a guitar, and the instrument now falls to the ground (or vanishes entirely) instead of hovering like a glitchy prop from a 2005 CGI cutscene. This is the part where Hollywood VFX artists either cheer or quietly update their LinkedIn profiles.
+
+
+The problem VOID tackles isn’t new: object removal has been a [labor-intensive nightmare](https://www.fxguide.com/fxfeatured/the-art-of-invisible-vfx/) for decades, requiring frame-by-frame roto work and physics simulations that can take weeks. What’s different here is the automation of *plausible* physics—something even [Runway ML’s Gen-3](https://runwayml.com/) and [Adobe’s Topaz Video AI](https://www.topazlabs.com/topaz-video-ai) sidestep by focusing on visual coherence over dynamic realism. Netflix’s play isn’t just technical; it’s a strategic open-source gambit to set the benchmark before commercial tools catch up.
+
+
+Early [GitHub reactions](https://github.com/Netflix/void-ai/discussions) suggest cautious optimism, with developers noting the model’s potential for indie filmmakers and social media creators—but also flagging the lack of public benchmarks. No word yet on how VOID handles complex scenes (e.g., reflections, occlusions, or fast motion), the kind that turn ‘demo-ready’ tools into ‘debugging hell’ in production.
+
+<ArticleBreak />
+
+The real signal isn’t that Netflix solved physics in video—it’s that they’re betting open-source collaboration will get them there faster than Adobe or Runway’s closed systems. This mirrors [Meta’s approach with Segment Anything](https://ai.meta.com/blog/segment-anything/), where releasing early (and messy) tools accelerates iteration. The catch? VOID’s current [README](https://github.com/Netflix/void-ai) admits it’s ‘research-grade,’ meaning it’s more likely to appear in a SIGGRAPH paper than a Marvel post-credits scene this year.
+
+
+For studios, the math is brutal: if VOID (or its descendants) can cut physics-simulation time by even 30%, it undermines the billing models of boutique VFX houses. For platforms like TikTok or YouTube, it’s a potential goldmine—imagine auto-removing watermarks or unwanted bystanders *without* the uncanny valley. But the [reality gap](https://arxiv.org/abs/2303.17599) remains wide: what works on a controlled 1080p clip often fails on 8K raw footage with motion blur.
+
+
+The community’s already dissecting VOID’s [diffusion-based architecture](https://arxiv.org/abs/2208.09392), but the bigger question is whether Netflix will productize it or let others commercialize the tech. Either way, the pressure’s on: if VOID’s physics tricks scale, every ‘AI video editor’ suddenly looks like a glorified Photoshop clone.
+
+In other words, Netflix just open-sourced a tool that could either democratize VFX or become another overhyped GitHub graveyard. The difference hinges on whether ‘physics-aware’ translates to ‘production-ready’—a leap no demo has ever guaranteed.

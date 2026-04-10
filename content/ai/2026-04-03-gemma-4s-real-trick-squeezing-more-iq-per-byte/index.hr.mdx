@@ -1,0 +1,49 @@
+---
+id: "2026-04-03-gemma-4s-real-trick-squeezing-more-iq-per-byte"
+db_id: 1283
+title: "Gemma 4: Googleov odgovor na inflaciju parametara"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T06:08:06Z"
+excerpt: "Google DeepMind objavio je Gemma 4 seriju – četiri nova jezična modela s vizualnim sposobnostima veličine od 2B do 31B parametara, plus jedan MoE hibrid od 26B-A4B."
+exec_summary: "Google DeepMind's release of Gemma 4 marks a strategic push toward efficient, open-source multimodal models, challenging competitors with architecture-level innovations like Per-Layer Embeddings. While the models promise improved intelligence-per-parameter, their real-world impact hinges on deployment performance and developer adoption, not just benchmark claims."
+key_points:
+  - "Četiri nova multimodalna modela pod Apache 2.0 licencom"
+  - "PLE tehnologija za učinkovitije male modele"
+  - "Tko stvarno profitira od 'inteligencije po parametru'"
+source:
+  name: "simonwillison.net"
+  url: "https://simonwillison.net/2026/Apr/2/gemma-4/#atom-everything"
+image:
+  url: "/images/articles/gemma-4s-real-trick-squeezing-more-iq-per-byte/main.jpg"
+  alt: "Gemma 4: Googleov odgovor na inflaciju parametara"
+subtitle: "Benchmark nasuprot stvarnoj iskoristivosti u mobilnim scenarijima"
+subtitleImage:
+  url: "/images/articles/gemma-4s-real-trick-squeezing-more-iq-per-byte/subtitle.jpg"
+  alt: "Benchmark nasuprot stvarnoj iskoristivosti u mobilnim scenarijima"
+tags: ["Gemma", "Googleov"]
+lead_sentence: "Googleov novi Gemma 4 nudi četiri multimodalna modela s vizualnim sposobnostima, ali pravi test bit će kako će PLE tehnologija funkcionirati izvan laboratorija."
+geo:
+  name: "Mountain View, United States"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Google DeepMind objavio je Gemma 4 seriju – četiri nova jezična modela s vizualnim sposobnostima veličine od 2B do 31B parametara, plus jedan MoE hibrid od 26B-A4B. Svi su licencirani pod Apache 2.0, što je rijetkost za modele ove klase i performansi. Najveća novost nije sama veličina, već kako su inženjeri riješili problem učinkovitosti: Per-Layer Embeddings (PLE) omogućuju svakom dekoderskom sloju vlastitu malu tablicu ugradnji za svaki token, čime se povećava kapacitet bez dodavanja novih slojeva ili parametara.
+
+Dva manja modela, E2B i E4B, označena su kao 'efektivni' parametarski brojevi, što je Googleov način da istakne kako se radi o optimiziranim verzijama koje bi trebale pružiti bolje performanse od klasičnih modela iste veličine. Prema sistemskoj kartici, PLE je posebno dizajniran za implementaciju na uređajima, što sugerira da je cilj bio stvoriti modele koji mogu raditi lokalno na mobilnim uređajima ili rubnim uređajima bez značajnog gubitka kvalitete.
+
+Međutim, tu se javlja prvi jaz između benchmarka i stvarnosti. Iako Google ističe 'neviđenu razinu inteligencije po parametru', još nije jasno kako se to prevodi u konkretne scenarije korištenja. Demo primjeri često pokazuju idealne uvjete – savršeno strukturirane upite, optimizirane podatke – dok stvarni korisnici mogu naići na probleme s latencijom ili točnošću kada se modeli implementiraju u stvarne aplikacije.
+
+<ArticleBreak />
+
+Ono što je zanimljivo u ovoj priči nije samo tehnička inovacija, već i strateški potez. Google ovime šalje jasnu poruku konkurenciji: otvoreni modeli mogu biti jednako dobri kao i zatvoreni, pod uvjetom da se inovira na razini arhitekture. To stavlja pritisak na Meta, Mistral i druge igrače koji su se do sada oslanjali na veličinu modela kao glavnu prednost.
+
+[AI Studio](https://aistudio.google.com/) već nudi API pristup za dva veća modela, što je direktan izazov OpenAI-jevom ekosustavu. Ipak, pravo pitanje je tko će stvarno iskoristiti ove modele. Razvojna zajednica već reagira s oprezom – na GitHubu i tehnološkim forumima primjećuje se skepsa oko toga koliko će PLE tehnologija biti jednostavna za implementaciju izvan Googleova okruženja.
+
+Dok su manji modeli atraktivni za startupove i istraživače s ograničenim resursima, veći modeli i dalje zahtijevaju značajnu infrastrukturu, što ograničava njihovu dostupnost. Za kraj, vrijedi spomenuti i 26B-A4B MoE varijantu, koja bi trebala kombinirati performanse velikih modela s učinkovitošću manjih. Iako su detalji o sparsity omjeru nejasni, rani signali sugeriraju da bi ova hibridna arhitektura mogla biti ključna za buduće multimodalne aplikacije.
+
+U budućnosti možemo očekivati da će se Gemma 4 modeli koristiti u različitim aplikacijama, od chatbotova do sustava preporuka. Ovo bi moglo dovesti do poboljšanja korisničkog iskustva i olakšanja pristupa informacijama. Također, moglo bi potaknuti razvoj novih tehnologija koje će koristiti ove modele, kao što su virtualni asistenti i sustavi za automatizaciju.

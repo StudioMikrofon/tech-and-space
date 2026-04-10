@@ -1,0 +1,49 @@
+---
+id: "2026-04-07-autokernels-llm-agent-loop-gpu-optimization-or-hyp"
+db_id: 1881
+title: "AutoKernel: Kada LLM postane GPU tuner — i zašto to nije magija"
+lang: "hr"
+category: "ai"
+date: "2026-04-07T16:22:18Z"
+excerpt: "Tim [RightNow AI](https://rightnow."
+exec_summary: "RightNow AI’s AutoKernel automates GPU kernel optimization for PyTorch via an LLM agent loop, promising democratized high-performance tuning—but benchmarks reveal even advanced LLMs struggle to beat PyTorch baselines in most cases. The real story isn’t the hype of ‘autonomous agents’ but the trade-off between brute-force experimentation and real-world deployment reliability. Watch for adoption patterns among teams with spare GPU cycles and complex models."
+key_points:
+  - "909 redaka upute za autonomno optimiziranje jezgre"
+  - "40 eksperimenata na sat, noću do 400 iteracija"
+  - "Manje od 20% slučajeva gdje LLM-i nadmašuju PyTorch"
+source:
+  name: "marktechpost.com"
+  url: "https://www.marktechpost.com/2026/04/06/rightnow-ai-releases-autokernel-an-open-source-framework-that-applies-an-autonomous-agent-loop-to-gpu-kernel-optimization-for-arbitrary-pytorch-models/"
+image:
+  url: "/images/articles/autokernels-llm-agent-loop-gpu-optimization-or-hyp/main.jpg"
+  alt: "AutoKernel: Kada LLM postane GPU tuner — i zašto to nije magija"
+subtitle: "Demokratizacija performansi ili samo pametniji benchmarking?"
+subtitleImage:
+  url: "/images/articles/autokernels-llm-agent-loop-gpu-optimization-or-hyp/subtitle.jpg"
+  alt: "Demokratizacija performansi ili samo pametniji benchmarking?"
+tags: ["AutoKernel", "Kada LLM", "GPU"]
+lead_sentence: "Autonomni LLM agent koji za 90 sekundi generira, testira i odbacuje GPU jezgre — a ipak manje od 20% slučajeva nadmašuje PyTorchove bazne performanse, pokazuje KernelBench."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Tim [RightNow AI](https://rightnow.ai) objavio je AutoKernel — open-source okvir koji pretvara autonomne LLM agente u GPU tuneere za proizvoljne PyTorch modele. Ključna razlika od prethodnih alata leži u činjenici da se ne radi o još jednom compileru, već o **petlji eksperimenata** koja automatski generira, testira i odbacuje Triton jezgre sve dok ne pronađe bolje rješenje od PyTorchove bazne linije. Svaka iteracija traje točno 90 sekundi (30 za provjeru ispravnosti, 30 za benchmark, 30 za modifikaciju), što omogućava **40 eksperimenata na sat** — ili čitavu noć s 300–400 testova.
+
+Problem koji AutoKernel pokušava riješiti nije mali: pisanje optimiziranog GPU koda za ML modele jedna je od najzahtjevnijih vještina u industriji, koja zahtijeva duboko poznavanje CUDA-a/Tritona, upravljanja memorijom i paralelnog računarstva. Čak i napredni LLM-i, kao što pokazuje [KernelBench](https://github.com/rightnow-ai/kernelbench) benchmark, **u manje od 20 % slučajeva** uspijevaju izjednačiti performanse s PyTorchovim osnovnim rješenjima. AutoKernel tu dinamiku pretvara u prednost: umjesto da se oslanja na jednoraznu generaciju, koristi **fiksni benchmarking okvir** koji mjeri propusnost i točnost svake kandidatske jezgre.
+
+Ali ovdje počinje i prva siva zona. RightNow AI tvrdi da njihov pristup ’demokratizira’ pristup high-performance kernelima, ali **realni jaz između benchmarka i production okruženja** ostaje neadresiran. Što ako optimizirana jezgra radi savršeno na sintetičkim testovima, a u praksi — recimo, na dinamičkim ulazima ili heterogenim GPU klasterima — propadne? To je pitanje koje dokumentacija od 909 redaka (ih [program.md](https://github.com/rightnow-ai/autokernel/blob/main/program.md)) ne odgovara.
+
+<ArticleBreak />
+
+AutoKernel nije prvi pokušaj automatizacije GPU optimizacije, ali je prvi koji kombinira **autonomne agente** s strukturiranom petljom eksperimenata. Ključna inovacija leži u ’optimizacijskom priručniku’ — kodiranom u 909 redaka — koji agentu daje smjernice za iterativno poboljšavanje. Na primjer, za matmul operaciju (gdje ručno pisana jezgra ima **200+ redaka CUDA/Triton koda**), AutoKernel pokušava pronaći balans između memorijske lokalnosti, paralelizma i registarskog pritiska, sve bez ljudske intervencije.
+
+Među prvim signalima iz zajednice, [GitHub diskusije](https://github.com/rightnow-ai/autokernel/discussions) pokazuju podijeljene reakcije: dio developera hvali brzu automatizaciju agenta za ’dosadne’ optimizacije, dok drugi upozoravaju na **’benchmarking iluziju’** — situaciju gdje alati sjajno izgledaju na kontroliranim testovima, ali se raspadnu u realnim uvjetima. Posebno je zanimljivo usporediti AutoKernel s PyTorchovim postojećim Triton compilerom: dok PyTorch nudi ’dobru dovoljnu’ performansu za 90 % slučajeva, RightNow AI cilja preostalih 10 % — ali po cijeni **višestruko većeg broja eksperimenata**.
+
+Najveće pitanje ostaje ekonomija pažnje: tko će zapravo koristiti ovaj alat? Za startupe s ograničenim GPU resursima, 10-satna noćna optimizacija možda je luksuz. Ali za velika istraživačka tima — recimo, onih koji rade na difuzijskim modelima ili LLM-ovima — AutoKernel bi mogao postati **’tihi multiplier’** performansi, bez potrebe za angažiranjem skupe GPU ekspertize. Pravi test dolazi kada netko pokrene alat na nečem što nije ’benchmark-friendly’, recimo, na modelu s dinamičnom arhitekturom ili neobičnim tenzorima.
+
+Pitanje nije hoće li AutoKernel revolucionirati GPU optimizaciju, već koliko će brzo zajednica prihvatiti njegovu metodologiju. Dok neki vide alat kao spas od kompleksnosti, drugi ga smatraju još jednom kompliciranom varijantom koja ne donosi pravu vrijednost.

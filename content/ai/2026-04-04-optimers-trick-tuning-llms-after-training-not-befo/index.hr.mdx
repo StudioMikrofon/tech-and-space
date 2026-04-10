@@ -1,0 +1,57 @@
+---
+id: "2026-04-04-optimers-trick-tuning-llms-after-training-not-befo"
+db_id: 1413
+title: "OptiMer razotkriva: miješanje podataka je gubljenje vremena"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T02:21:18Z"
+excerpt: "OptiMer razotkriva: miješanje podataka je gubljenje vremena."
+exec_summary: "OptiMer replaces manual data mixture tuning in continual pre-training with post-hoc Bayesian optimization, claiming 15-35x cost savings on Gemma 3 27B. The real story isn’t the math but the competitive threat to Google’s CPT dominance—if the method scales beyond academic benchmarks. Watch for industry adoption (or silence) on multimodal datasets."
+key_points:
+  - "Bayesova optimizacija zamjenjuje ručno podešavanje hiperparametara"
+  - "Gemma 3 27B pokazuje 15-35x manji trošak pretrage"
+  - "Googleov alati za CPT dobivaju neočekivan konkurent"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.28858"
+image:
+  url: "/images/articles/optimers-trick-tuning-llms-after-training-not-befo/main.jpg"
+  alt: "OptiMer razotkriva: miješanje podataka je gubljenje vremena"
+subtitle: "Demo nasuprot deploymenta: zašto bi industrija trebala paziti na ova broja"
+subtitleImage:
+  url: "/images/articles/optimers-trick-tuning-llms-after-training-not-befo/subtitle.webp"
+  alt: "Demo nasuprot deploymenta: zašto bi industrija trebala paziti na ova broja"
+tags: ["Data Mixing", "Deployment Strategy", "OptiMer", "Demo vs Deployment", "Data Loss Prevention"]
+lead_sentence: "Bayesova optimizacija smanjuje troškove pretrage hiperparametara za continual pre-training do 35 puta — ali samo ako vjerujete brojkama iz arXiv papera koji je testiran na Googleovoj Gemmi 3 27B."
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+OptiMer razotkriva: miješanje podataka je gubljenje vremena. Part 1: Bayesova optimizacija nije nova — ali je rijetko da je netko uspio pretvoriti matematičku elegantnost u stvarnu uštedu od 35 puta manje troškova pri adaptaciji velikih jezičnih modela.
+
+OptiMer, novi okvir za continual pre-training (CPT) iz arXiv papera koji je prošlog tjedna procurio, ne nudi samo bolje performanse nego i razdvaja podesivanje omjera podataka od same obuke. To znači: umjesto da tjednima gubite gpu sate pokušavajući pogoditi optimalnu mješavinu japanskog, kineskog i koderskih podataka, sve to rješavate post-hoc — nakon što su modeli već obučeni.
+
+Dakle, što se zapravo dogodilo? Umjesto klasičnog pristupa gdje se omjeri podataka fiksiraju prije obuke (i moli se da je procjena točna), OptiMer trenira zaseban model za svaki dataset, izvlači tzv. distribution vector (vektor koji opisuje kako je dataset pomaknuo parametre modela), a zatim Bayesovom optimizacijom traži optimalnu kombinaciju tih vektora.
+
+Rezultat? Prema eksperimentima na Gemma 3 27B — modelu koji Google još uvijek drži pod ključem za većinu komercijalnih primjena — trošak pretrage hiperparametara pao je 15 do 35 puta, a performanse su nadmašile i data mixing i model averaging bazline.
+
+Ovdje valja zaustaviti se kod brojeka. 15-35x manji trošak zvuči impresivno, ali to je usporedba s ručnim tunanjem — ne s postojećim automatiziranim rješenjima. A kada se radi o adaptaciji modela na specifične domene (recimo, matematičke teoreme ili Python kod), čak i mala poboljšanja u efikasnosti mogu značiti milione uštedjenih dolara za tvrtke kao što su DeepMind ili Mistral.
+
+No, kao i uvijek, demo nije deployment: papir ne spominje koliko ovo skalira na modele veće od 27B parametara, niti kako se ponaša u produkcijskim uvjetima gdje podaci nisu savršeno balansirani.
+
+<ArticleBreak />
+
+Part 2: Pravi signal ovdje nije u samoj tehnici već u tom što Google — čija Gemma familija modela dominira enterprise segmentom — možda gubi kontrolu nad CPT alatom. OptiMer nije samo akademski rad; on otvara vrata za bržu i jeftiniju adaptaciju otvorenih modela na specifične jezike ili domene, što bi moglo erodirati prednost zatvorenih ekosustava kao što su Gemini ili Claude. Ako se ovo potvrdi u praksi, tvrtke poput Hugging Face ili Together AI imale bi novu kartu u ruci: umjesto da kupe skupe Googleove modele, mogle bi brže fine-tunati otvorene alternative.
+
+No, postoji i druga strana medalje. Bayesova optimizacija je elegantna, ali njeni rezultati često ovise o početnim pretpostavkama — a papir ne detaljira koliko je osjetljiva na izbor priornog distribucijskog prostora. Također, rani signali iz communityja sugeriraju da metoda možda nije tako robustna kada se radi o multimodalnim datasetovima (npr. tekst + slika), što je upravo područje gdje se trenutno vode najveće bitke.
+
+I na kraju: ako je OptiMer zaista toliko superioran, zašto ga Google još nije integrirao u svoje interne CPT pipelineove? Možda zato što stvarno usko grlo nije u algoritmu, već u podacima — a tko ima bolje podatke od Googla? Za razliku od većine AI papera koji obećavaju 'revoluciju', ovdje barem imamo konkretne brojke i jasnu metodu.
+
+Ali, kao i uvijek, razlika između akademskog benchmarka i stvarnog svijeta ostaje neizmjerna. Gemmu 3 27B možete fine-tunati u laboratoriju; pitanje je kako će se OptiMer ponašati kada ga pokrenete na praktičnom datasetu punom šuma, gdje 80% podataka nije ni označeno ni čisto. To je trenutak kada se teorija sudara s inženjeringom — i tada tek saznajemo tko je zapravo dobio prednost.
+
+Na kraju, OptiMer predstavlja korak naprijed u razvoju umjetne inteligencije, ali treba ga shvatiti u širem kontekstu. Razvoj velikih jezičnih modela je samo jedan dio veće priče o tome kako ćemo koristiti tehnologiju da poboljšamo naše živote. OptiMer može biti važan alat u tom procesu, ali treba ga koristiti uz razum i uzimanje u obzir svih mogućih posljedica.

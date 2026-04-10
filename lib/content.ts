@@ -55,6 +55,13 @@ function parseMdxFile(filePath: string): Article | null {
     const raw = fs.readFileSync(filePath, "utf-8");
     const { data, content } = matter(raw);
 
+    // DEBUG: Log articles from 2026-04-08 that fail to parse
+    if (filePath.includes("2026-04-08") && !data.approved) {
+      console.warn(`[DEBUG] Rejected 2026-04-08 article: ${filePath}`);
+      console.warn(`[DEBUG] approved field:`, data.approved, typeof data.approved);
+      console.warn(`[DEBUG] keys in data:`, Object.keys(data).slice(0, 15));
+    }
+
     if (!data.approved) return null;
 
     return {

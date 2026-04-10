@@ -1,0 +1,49 @@
+---
+id: "2026-04-04-federated-mllms-a-pre-training-workaround-for-silo"
+db_id: 1505
+title: "Federirano učenje otključava silosirane multimodalne podatke"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T16:43:50Z"
+excerpt: "Istraživači s arXiv-a objavili su rad koji bi mogao biti prekretnica za razvoj multimodalnih velikih jezičnih modela (MLLM)."
+exec_summary: "A new federated learning paradigm (Fed-MA) aims to unlock siloed multimodal data for MLLM pretraining, freezing core components while training only the cross-modal projector. While experimental results show promise, the real test lies in scalability and real-world adoption—highlighting a gap between benchmarks and deployment."
+key_points:
+  - "Fed-MA paradigm zamrzava encoder i LLM"
+  - "Rješava interferenciju parametara u FL okruženju"
+  - "Pokusni rezultati nadmašuju postojeće baseline"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.26786"
+image:
+  url: "/images/articles/federated-mllms-a-pre-training-workaround-for-silo/main.jpg"
+  alt: "Federirano učenje otključava silosirane multimodalne podatke"
+subtitle: "Što se ovdje zapravo promijenilo — i tko dobiva prednost"
+subtitleImage:
+  url: "/images/articles/federated-mllms-a-pre-training-workaround-for-silo/subtitle.jpg"
+  alt: "Što se ovdje zapravo promijenilo — i tko dobiva prednost"
+tags: ["Federirano"]
+lead_sentence: "Istraživači su predstavili Fed-MA, federiranu paradigmu za pretraining MLLM-ova koja zamrzava encoder i LLM, a trenira samo cross-modalni projektor — s obećavajućim, ali ne i revolucionarnim rezultatima."
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači s arXiv-a objavili su rad koji bi mogao biti prekretnica za razvoj multimodalnih velikih jezičnih modela (MLLM). Umjesto klasičnog pristupa fine-tuningu, predstavili su **Federated MLLM Alignment (Fed-MA)**, paradigmu koja zamrzava vizualni encoder i LLM, a zajednički trenira samo cross-modalni projektor u federiranom okruženju. To nije samo tehnički detalj: radi se o pokušaju rješavanja temeljnog problema — zasićenosti javnih datasetova visokokvalitetnim multimodalnim podacima, dok ogromne količine podataka ostaju zaključane u privatnim silosima.
+
+Fed-MA nije prva federirana inicijativa za MLLM, ali je jedna od rijetkih koja cilja na **pretraining**, a ne samo fine-tuning. Prema istraživačima, ključni izazovi bili su **interferencija parametara pri agregaciji lokalnih ažuriranja** i **oscilacije gradijenata u jednom prolazu kolaborativnog SGD-a**. Rješenje? **Fed-CMP okvir**, koji uvodi *Canonical Reliability-Aware Aggregation* i *Orthogonality-Preserved Momentum* — nazivi koji zvuče komplicirano, ali bi mogli biti game-changer za razvoj modela u uvjetima privatnosti.
+
+Eksperimentima na četiri scenarija federiranog pretraininga, korištenjem javnih datasetova, Fed-CMP je značajno nadmašio postojeće baselineove. To nije nešto što bismo očekivali od čiste teorije: rezultati sugeriraju da bi ovaj pristup mogao otvoriti vrata za korištenje zaključanih podataka u medicini, obrazovanju ili korporativnim aplikacijama — područjima gdje je privatnost ključna, a podaci nedostupni javnim istraživanjima.
+
+<ArticleBreak />
+
+Ipak, treba biti oprezan s hvaljenjem. Rad je dostupan samo kao preprint, a detalji eksperimentalnih postavki nisu široko dostupni za samostalnu provjeru. To što je nešto objavljeno na arXiv-u ne znači da je odmah spremno za produkciju. **Stvarni signal ovdje nije samo što su postigli, već kome to koristi**: kompanije koje imaju velike, privatne multimodalne datasete — recimo, tehnološki divovi s pristupom korisničkim podacima ili zdravstvene institucije s medicinskim slikama — mogle bi profitirati od ovog pristupa.
+
+Za open-source zajednicu i manje igrače situacija je složenija. Federirano učenje zahtijeva infrastrukturu i koordinaciju koja nije dostupna svima. Ako se Fed-CMP pokaže skalabilnim, mogao bi postati standard za treniranje modela na distribuiranim podacima — ali to još uvijek ostaje veliko *ako*. Razvojni alati poput Hugging Facea ili PyTorcha za sada nemaju out-of-the-box podršku za ovakve federirane paradigme, što znači da će softverska zajednica morati pratiti kako bi omogućila širu adopciju.
+
+Što je samo drugi način da se kaže: **hype je stvaran, ali pravo usko grlo možda nije tamo gdje ga marketing traži**. Dok istraživači slave uspjeh na benchmarkovima, stvarni izazov leži u implementaciji — hoće li ovaj okvir zaista omogućiti treniranje modela na podacima koji su do sada bili nedostupni, ili će završiti kao još jedan teorijski eksperiment koji nikada ne napusti laboratorij?
+
+Ovaj pristup mogao bi otvoriti nove mogućnosti za razvoj modela u uvjetima privatnosti. Međutim, još uvijek postoje brojni izazovi koji moraju biti riješeni. Razvojni alati i infrastruktura moraju biti prilagođeni za podršku ovakvih federiranih paradigmi.

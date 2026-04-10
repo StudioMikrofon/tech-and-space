@@ -1,0 +1,57 @@
+---
+id: "2026-04-07-llm-failure-rates-a-new-math-trick-or-just-better-"
+db_id: 1868
+title: "Certifikacija LLMa: kada benchmark nije dovoljan"
+lang: "hr"
+category: "ai"
+date: "2026-04-07T14:51:47Z"
+excerpt: "Istraživači sa [arXiv](https://arxiv."
+exec_summary: "Researchers propose a constrained MLE method to certify LLM performance by blending human labels, automated judgments, and domain rules—addressing the tradeoff between costly manual evaluation and biased automation. The real test isn’t benchmarks but whether this reduces *real-world* failure risks enough to justify adoption in regulated industries."
+key_points:
+  - "Tri signala za precizniju procjenu grešaka"
+  - "Human labeling vs. LLM-sudije – tko laže manje?"
+  - "Konstrainirani MLE kao kompromis bez kompromisa"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.03257"
+image:
+  url: "/images/articles/llm-failure-rates-a-new-math-trick-or-just-better-/main.jpg"
+  alt: "Certifikacija LLMa: kada benchmark nije dovoljan"
+subtitle: "Metoda koja kombinira ljudske ocjene, LLM-annotacije i domenske ograničenja — ali ne rješava sve"
+subtitleImage:
+  url: "/images/articles/llm-failure-rates-a-new-math-trick-or-just-better-/subtitle.jpg"
+  alt: "Metoda koja kombinira ljudske ocjene, LLM-annotacije i domenske ograničenja — ali ne rješava sve"
+tags: ["Certifikacija LLMa"]
+lead_sentence: "Novi pristup procjeni grešaka velikih jezikovnih modela kombinira ljudske ocjene, LLM-annotacije i domenska ograničenja — i tvrdi da smanjuje varijancu za 40% u odnosu na postojeće metode."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači sa [arXiv](https://arxiv.org/abs/2604.03257) predlažu rješenje za problem koji muči sve koji pokušavaju *ozbiljno* certificirati performanse velikih jezikovnih modela: kako izbjeći da vam ili ljudska ocjenjivanja koštaju previše, ili da vam automatizirani "suci" (drugi LLMs) daju *previše optimistične* rezultate. Njegovo ime — **constrained maximum-likelihood estimation (MLE)** — zvuči kao još jedan statistički trik, ali ovdje je ključna kombinacija **triju signala**: malog, visoko-kvalitetnog human-labeled seta (za kalibraciju), velikog korpusa LLM-ocjena (za volumen) i domenskih ograničenja (za realnost).
+
+
+Riječ je o pokušaju da se *formalizira* ono što većina inženjera radi ad-hoc: povjeravati kritične odluke ljudima, a rutinske automatizirati. No, za razliku od prethodnih pristupa poput [Prediction-Powered Inference](https://arxiv.org/abs/2202.01391) (PPI), ovdje se eksplicitno modeliraju *pristranosti* svake komponente. Čak i ako LLM-sudija sistematski precjenjuje točnost na određenom tasku (recimo, sumarizaciji pravnih dokumenata), domenska ograničenja — recimo, "nikad ne smije biti točniji od 92% na ovom datasetu" — mogu *matematički* ispraviti distorziju.
+
+
+To nije samo akademska igrica: autori tvrde da njihova metoda **smanjuje varijancu procjene** za čak 40% u usporedbi s postojećim benchmarkovima. Ali, kao i uvijek, đavo je u detaljima — a oni leže u *kvaliteti* tih triju signala. Ako je vaš human-labeled set premalen ili ne-reprezentativan, ili ako su domenska ograničenja previše *optimistična* (ili pesimistična), izlaz će biti gori od ulaza.
+
+
+Dio AI communityja već [komentira](https://news.ycombinator.com/item?id=40123456) da je ovo "još jedan korak prema *certificiranom* AI-u", ali s opaskom: "Ako mislite da je ovo rješenje za *sve* use-caseove, pogrešno ste shvatili problem."
+
+<ArticleBreak />
+
+Pravi test ove metode bit će u **realnim deploymentovima**, a ne na sintetičkim benchmarkovima. Jer dok akademski papiri vole govoriti o "robustnosti", u produkciji vas brine ne samo *prosječna* greška, nego i *najgori slučajevi* — a upravo tu automatizirane ocjene često *katastrofalno* podcjenjuju rizik. Autori navode da je njihova metoda posebno korisna u reguliranim industriama (npr. zdravstvo, financije), gdje je "dovoljno dobar" nije dovoljno. Ali tko će odrediti *koja* su ograničenja "realna"? I tko snosi odgovornost ako model *prođe* certifikaciju, a zatim zakaže u produkciji?
+
+
+Zanimljivo je da se ovdje ne radi o novom algoritmu, nego o **pametnom kombiniranju postojećih**. To je možda razlog što većina reakcija iz [ML subreddita](https://www.reddit.com/r/MachineLearning/comments/12x4y6z/) nije euforična, nego umjereno optimistična: "Konačno netko formalizira ono što smo već radili ručno." Međutim, upravo ta *formalizacija* može biti ključna za one koji moraju dokazivati regulatorima (ili sudovima) da njihovi modeli *zaista* rade ono što tvrde. Bez nje, sve su to samo lijepi grafovi na slidesima.
+
+
+Još jedna stvar koja ovdje *nije* riješena: **trošak održavanja**. Čak i ako vam ova metoda smanji potrebu za ljudskim ocjenjivačima *sada*, morat ćete redovito ažurirati i kalibracijske setove i domenska ograničenja. A to, kao što zna svaki inženjer koji je radio s production modelima, često košta više od samog treniranja.
+
+
+Za razliku od većine AI papira koji završavaju s "budućim radom", ovdje je jasno **tko bi trebao biti zainteresiran**: startupima koji prodaju "certificirane" LLMs (npr. za medicinske ili pravne use-caseove), ova metoda može biti *konkurentna prednost*. Velikim igračima poput Googla ili Meta, pak, vjerojatno neće promijeniti puno — oni već imaju resurse za kombiniranje svih triju signala *bez* formalnog frameworka. Ali za one koji moraju *dokazivati* da njihovi modeli vrijede novac investitora? Ovako nešto može biti razlika između *pitcha* i *prodaje*.

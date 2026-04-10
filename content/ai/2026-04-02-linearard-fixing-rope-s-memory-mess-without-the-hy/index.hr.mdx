@@ -1,0 +1,45 @@
+---
+id: "2026-04-02-linearard-fixing-rope-s-memory-mess-without-the-hy"
+db_id: 1174
+title: "LinearARD: Pametna distilacija koja spašava RoPE od zaborava"
+lang: "hr"
+category: "ai"
+date: "2026-04-02T04:44:32Z"
+excerpt: "Istraživači s arXiva objavili su metodu LinearARD koja vraća RoPE-skaliranim modelima gotovo potpunu sposobnost obrade kratkih konteksta – čak 98,3 % performansi originalnog LLaME-7B modela."
+exec_summary: "LinearARD introduces a self-distillation method that restores RoPE-scaled models' short-text performance with near-perfect accuracy (98.3%) while using minimal training tokens (4.25M). This technique addresses the common trade-off between context window extension and performance degradation, offering a potential solution for developers and companies looking to scale context without retraining from scratch. The key innovation lies in attention-structure consistency rather than brute-force scaling."
+key_points:
+  - "98,3% oporavka performansi na kratkim tekstovima"
+  - "Linear-memory kernel zaobišao kvadratni memorijski zid"
+  - "Samo 4,25M tokena za treniranje LLaME-7B"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.00004"
+image:
+  url: "/images/articles/linearard-fixing-rope-s-memory-mess-without-the-hy/main.jpg"
+  alt: "LinearARD: Pametna distilacija koja spašava RoPE od zaborava"
+subtitle: "Revolucija u skaliranju konteksta: Kako LinearARD mijenja pravila igre s minimalnim resursima"
+subtitleImage:
+  url: "/images/articles/linearard-fixing-rope-s-memory-mess-without-the-hy/subtitle.jpg"
+  alt: "Revolucija u skaliranju konteksta: Kako LinearARD mijenja pravila igre s minimalnim resursima"
+tags: ["LinearARD: RoPE attention optimization", "Transformer architecture improvements", "Efficient attention mechanisms in LLMs", "Memory-efficient language models", "Attention scaling techniques"]
+lead_sentence: "LLaMA2-7B s proširenim kontekstom koji postiže 98,3% originalne performanse na kratkim benchmarkovima – uz samo 4,25M tokena za treniranje."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Istraživači s arXiva objavili su metodu LinearARD koja vraća RoPE-skaliranim modelima gotovo potpunu sposobnost obrade kratkih konteksta – čak 98,3 % performansi originalnog LLaME-7B modela. Tehnika koristi samo 4,25 milijuna tokena za distilaciju, što je desetine puta manje od standardnog kontinuiranog pretreniranja (CPT). Ključni pomak nije u tome što LinearARD radi, već kako to radi: umjesto da nasumce prilagođava pozicijske embedinge, metoda se fokusira na konzistentnost strukture pažnje između „učitelja“ s izvornim RoPE-om i „učenika“ s proširenim kontekstom.
+
+Alinacija redaka u Q/Q, K/K i V/V matricama nije nova ideja, ali rijetko se provodi s ovom preciznošću – i još rjeđe s ovim rezultatima. Autori se nisu zadovoljili sintetske benchmarkove: njihova metoda pokazuje da se izbjegava „katastrofalno zaboravljanje“, fenomen koji muči većinu skaliranja konteksta. To nije samo akademski uspjeh – ovo je direktan odgovor na praktični problem s kojim se suočavaju svi proizvođači koji žele proširiti kontekstni prozor bez gubitka performansi na kratkim tekstovima.
+
+<ArticleBreak />
+
+Linear-memory kernel koji LinearARD koristi nije samo optimizacija – on razbija kvadratni memorijski zid koji onemogućava obradu dugih sekvenci na standardnom hardveru. Dok većina metoda zahtijeva stotine milijardi tokena za učinkovito skaliranje, ovaj pristup postiže superiorne rezultate s samo 256 milijuna tokena za fine-tuning. GitHub rasprave već pokazuju da su developerima najzanimljiviji baš ovi praktični aspekti: koliko dodatnog koda treba za implementaciju i koliko je metoda osjetljiva na hiperparametre.
+
+Industrijska implikacija je jasna: kompanije koje ovladaju ovom tehnikom dobivaju prednost u obradi dugih dokumenata bez potrebe za skupim pretreniranjem ili žrtvovanjem performansi na kratkim benchmarkovima. Konkretno, ovo znači da će modeli poput LLaME-7B sada moći obraditi 4K tokena s gotovo identičnom točnošću kao i prije skaliranja – ali uz znatno manji memorijski i računski otisak. Ipak, postoji pitanje: koliko je ovaj metod robusan izvan kontroliranih laboratorijskih uvjeta?
+
+LinearARD dokazuje da inovacije ne moraju biti komplicirane da bi bile revolucionarne. Umjesto goleme potrošnje resursa, nude se elegantna rješenja koja stvarno rade.

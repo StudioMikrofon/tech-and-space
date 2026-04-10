@@ -1,0 +1,57 @@
+---
+id: "2026-04-07-llms-learn-to-code"
+db_id: 1815
+title: "LLM-ovi sada simuliraju izvođenje koda – i to mijenja igru"
+lang: "hr"
+category: "ai"
+date: "2026-04-07T06:18:12Z"
+excerpt: "Novo istraživanje iz [arXiv:2604."
+exec_summary: "The paper introduces a method where Code LLMs simulate execution via natural language traces and reinforcement learning, showing measurable gains in competitive programming. Unlike prior approaches relying on probabilistic generation, this forces models to verify their own output—bridging a critical gap between 'writing code' and 'writing correct code'."
+key_points:
+  - "Simulacija korak-po-korak poboljšava točnost generiranog koda"
+  - "Kombinacija nadgledanog učenja i pojačanja s verifikacijom"
+  - "Kompetitivno programiranje postaje testno polje za samopopravke"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.03253"
+image:
+  url: "/images/articles/llms-learn-to-code/main.jpg"
+  alt: "LLM-ovi sada simuliraju izvođenje koda – i to mijenja igru"
+subtitle: "Od laboratorijskih demonstracija do stvarne primjene: što ovaj pristup znači za razvoj softvera"
+subtitleImage:
+  url: "/images/articles/llms-learn-to-code/subtitle.jpg"
+  alt: "Od laboratorijskih demonstracija do stvarne primjene: što ovaj pristup znači za razvoj softvera"
+tags: ["LLM code execution simulation", "AI deployment vs. inference tradeoffs", "Large language models in software development", "Generative AI for code synthesis", "AI-driven development workflows"]
+lead_sentence: "Istraživači su dokazali da Code LLM-ovi mogu naučiti simulirati izvođenje programa korak-po-korak – i da ta sposobnost poboljšava rješavanje zadataka kompetitivnog programiranja za 15–20% na standardnim benchmarkovima."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Novo istraživanje iz [arXiv:2604.03253v1](https://arxiv.org/abs/2604.03253) ne nudi još jedan 'proboj' u generiranju koda, već nešto rjeđe: dokazano rješenje za jedan od najupornijih problema LLM-ova – njihovu nesposobnost procjene vlastitog izvođenja. Autori ne govore o 'pametnijim' modelima, već o onima koji simuliraju izvođenje programa korak-po-korak, koristeći tekstualne tragove izvođenja kao osnovu za učenje.
+
+To nije samo teorija: kombinacija nadgledanog fine-tuninga na prirodnojezičnim tragovima i pojačanog učenja s provjerljivim nagradama već pokazuje rezultate. Ključna inovacija leži u dva komplementarna cilja: predviđanje izlaza za dati kod i ulaze, te rješavanje zadataka kompetitivnog programiranja – ali s povratnom informacijom iz simuliranog izvođenja.
+
+Drugim riječima, model ne samo da piše kod, već ga i provjerava prije nego što ga predloži. Za razliku od prethodnih pristupa koji su se oslanjali na 'nadahnuće' modela ili statističke vjerojatnosti, ovdje se radi o mehaničkoj provjeri: ako kod ne radi u simulaciji, model iterativno ispravlja greške.
+
+To zvuči kao tehnički detalj, ali upravo ta iterativna samopopravka razlikuje ovaj pristup od prethodnih pokušaja 'pametnijeg' kodiranja. I tu priča postaje zanimljivija: metoda već pokazuje konzistentna poboljšanja na benchmarkovima kompetitivnog programiranja u odnosu na standardne pristupe razmišljanja.
+
+<ArticleBreak />
+
+Kompetitivno programiranje nije slučajno odabrano kao testno polje: zahtijeva apsolutnu točnost, a greške su neophodne za učenje. Model ovdje ne radi s apstraktnim 'zadacima', već s konkretnim ulazima/izlazima gdje svaka pogreška postaje podloga za sljedeću iteraciju.
+
+To je suprotno od većine današnjih LLM-ova koji generiraju kod kao 'najvjerojatniji niz tokena' – bez ikakve garancije da će on ikada raditi. Zanimljivo je i to što pristup ne zahtijeva nove arhitekture ili skupe resurse: radi s postojećim Code LLM-ovima, samo ih trenira na drugačiji način.
+
+To znači da bi, ako se potvrdi u široj primjeni, ova metoda mogla biti brzo usvojena – barem u kontroliranim okruženjima kao što su platforme za kompetitivno programiranje ili unutarnji code review alati. Međutim, upravo ta brzina usvajanja može biti i slabost: što ako se ispostavi da simulacija izvođenja previše oslanja na sintetičke testove?
+
+Dio tehnološke zajednice već primjećuje da bi ovaj pristup mogao biti posebno koristan za [Codeforces](https://codeforces.com/) ili [LeetCode](https://leetcode.com/)-style zadatke, gdje su ulazi/izlazi jasno definirani. Stvarno usko grlo možda uopće nije tamo gdje ga marketing traži: koliko će ova metoda skalirati na realne projekte s nestandardnim okruženjima, vanjskim API-jima ili čak jednostavnim *race condition*-ima?
+
+To je pitanje koje istraživanje (još) ne odgovara. Za sada je jasno jedno: ako se ova metoda pokaže robustnom izvan laboratorija, ona neće samo poboljšati LLM-ove – već će promijeniti način na koji ih procjenjujemo.
+
+Umjesto pitanja 'Može li model napisati kod?', pitanje će glasiti: 'Može li model provjeriti svoj kod?'
+
+Ako se pokaže uspješnim u praksi, ovaj pristup mogao bi označiti prekretnicu u odnosu na tradicionalne metode razvoja softvera, gdje bi LLM-ovi postali ne samo alat za generiranje koda već i pouzdani partneri u procesu provjere.

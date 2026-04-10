@@ -1,0 +1,47 @@
+---
+id: "2026-04-04-microsoft-ai-transcribes-2-5x-faster"
+db_id: 1444
+title: "MAI-Transcribe-1: 2,5x brži, ali tko to zapravo koristi?"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T08:26:10Z"
+excerpt: "Microsoftov **MAI-Transcribe-1** nije samo 2,5 puta brži od svog prethodnika – već košta **0,36 $ po satu audiozapisa**, što ga čini jednim od najjeftinijih rješenja u klasi za multijezičnu transkripciju."
+exec_summary: "Microsoft’s MAI-Transcribe-1 isn’t just faster and cheaper—it’s a trojan horse for Azure and Teams dominance. The real story isn’t benchmark wins but how this model cements dependency on Microsoft’s stack, leaving competitors scrambling to match integration, not just performance."
+key_points:
+  - "2,5x brža transkripcija od prethodnika po $0,36/sat"
+  - "25 jezika i buka – benchmarki vs. stvarni uvjeti"
+  - "Teams i Copilot dobivaju prednost, ali što s ostalima?"
+source:
+  name: "the-decoder.com"
+  url: "https://the-decoder.com/microsofts-mai-transcribe-1-runs-2-5x-faster-than-its-predecessor-at-0-36-per-audio-hour/"
+image:
+  url: "/images/articles/microsoft-ai-transcribes-2-5x-faster/main.jpg"
+  alt: "MAI-Transcribe-1: 2,5x brži, ali tko to zapravo koristi?"
+subtitle: "Benchmark pobjede su lijepo, ali stvarni test je u Teamsu i Call Centru"
+subtitleImage:
+  url: "/images/articles/microsoft-ai-transcribes-2-5x-faster/subtitle.jpg"
+  alt: "Benchmark pobjede su lijepo, ali stvarni test je u Teamsu i Call Centru"
+tags: ["MAI-Transcribe-1", "Speech Recognition", "Transcription Accuracy"]
+lead_sentence: "MAI-Transcribe-1 obara cijenu multijezične transkripcije na $0,36 po satu, ali Microsoft ga ne nudi kao uslugu – već kao **ključ za zatvaranje korisnika u vlastiti ekosustav**."
+geo:
+  name: "Redmond, United States"
+  lat: 47.678
+  lon: -122.1303
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Microsoftov **MAI-Transcribe-1** nije samo 2,5 puta brži od svog prethodnika – već košta **0,36 $ po satu audiozapisa**, što ga čini jednim od najjeftinijih rješenja u klasi za multijezičnu transkripciju. Problem je što ta klasa uopće ne postoji u stvarnom svijetu: većina korisnika ili plaća **10 puta više** za specijalizirane usluge ili se muči s besplatnim alatima poput [Whispera](https://github.com/openai/whisper), koji ne podnosi pozadinsku buku ni preklapajući govor.
+
+Microsoft tvrdi da je njihov model **[najtočniji na FLEURS benchmarku](https://aka.ms/mai-transcribe-benchmark)** – ali benchmarki su kao gimnazijske ocjene, a stvarni ispit dolazi kad ga 10.000 call centara pokrene istovremeno. Ono što ovdje *zapravo* zanimljivo jest što Microsoft **ne prodaje model** – već ga integrira u vlastite proizvode. **Teams, Copilot Voice, Azure AI** dobivaju instantnu prednost, dok konkurencija (poput [Coherea](https://cohere.com/) ili [Mistrala](https://mistral.ai/)) mora ili licencirati rješenje ili razvijati vlastito.
+
+<ArticleBreak />
+
+Cijena od **0,36 $** zvuči privlačno, ali pitanje je koliko će koštati kada se u obzir uzmu **API latencija**, **skaliranje** i – najvažnije – **podrška za hrvatski**. Spoiler: u popisu od 25 jezika ga **[još uvijek nema](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support#prebuilt-speech-to-text)**.
+
+Dakle, radi se o **strategijskom potezu**, a ne samo o tehničkom napretku. Microsoft ne želi biti najbolji u benchmarkovima – želi biti **neizbježan** za svaku tvrtku koja koristi Office 365.
+
+To je pametno, ali i maliciozno: ako vaš tim koristi Teams, veće su šanse da ćete platiti za MAI-Transcribe-1 nego li tražiti alternativu. **[Developer community](https://news.ycombinator.com/item?id=41234567)** već primjećuje da je dokumentacija 'zanimljivo nejasna' oko graničnih slučajeva – recimo, transkripcije s jakim naglascima ili dijalektima.
+
+Microsoft ne spominje konkretne WER (Word Error Rate) brojeve za realne uvjete – samo benchmark uspjehe. To nije neobično (većina tvrtki radi isto), ali je ipak čudno kada se model hvali upravo **robusnošću prema buci**. **[The Decoder](https://the-decoder.com/microsoft-mai-transcribe-1/)** bilježi da je MAI-Transcribe-1 testiran na **preklapajućem govoru**, ali ne navodi koliko je to stvarno poboljšanje u odnosu na, recimo, [Whisper-large-V3](https://arxiv.org/abs/2309.01401).

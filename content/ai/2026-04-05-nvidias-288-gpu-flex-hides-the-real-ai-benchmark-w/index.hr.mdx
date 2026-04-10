@@ -1,0 +1,47 @@
+---
+id: "2026-04-05-nvidias-288-gpu-flex-hides-the-real-ai-benchmark-w"
+db_id: 1563
+title: "Nvidijini 288 GPU-a i igranje s brojevima na MLPerfu"
+lang: "hr"
+category: "ai"
+date: "2026-04-05T00:55:52Z"
+excerpt: "Nvidijin [GB300-NVL72](https://www."
+exec_summary: "Nvidia’s MLPerf v6.0 dominance with 288 GPUs highlights a strategic gap: while they push extreme scalability for hyperscalers, AMD and Intel target cost-efficient, deployable solutions. The real story isn’t the benchmark win—it’s whether these numbers translate outside a lab, and who actually needs them."
+key_points:
+  - "288 Blackwell Ultra GPU-a u jednoj konfiguraciji"
+  - "2.7x skok performansi bez novog hardvera"
+  - "AMD i Intel mjeri drugačije — usporedbe nemoguće"
+source:
+  name: "the-decoder.com"
+  url: "https://the-decoder.com/nvidia-sets-new-mlperf-records-with-288-gpus-while-amd-and-intel-focus-on-different-battles/"
+image:
+  url: "/images/articles/nvidias-288-gpu-flex-hides-the-real-ai-benchmark-w/main.jpg"
+  alt: "Nvidijini 288 GPU-a i igranje s brojevima na MLPerfu"
+subtitle: "Demo nasuprot deploymenta: tko zapravo potrebuje 2.49 milijuna tokena u sekundi"
+subtitleImage:
+  url: "/images/articles/nvidias-288-gpu-flex-hides-the-real-ai-benchmark-w/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: tko zapravo potrebuje 2.49 milijuna tokena u sekundi"
+tags: ["Nvidia", "MLPerf", "GPU Performance"]
+lead_sentence: "Nvidijin GB300-NVL72 postigao je 2.49 milijuna tokena u sekundi na DeepSeek-R1 — ali samo uz 288 Blackwell Ultra GPU-a i InfiniBand koji košta više od većine startupova."
+geo:
+  name: "Santa Clara, United States"
+  lat: 37.3541
+  lon: -121.9552
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Nvidijin [GB300-NVL72](https://www.nvidia.com/en-us/data-center/blackwell/) s **Blackwell Ultra** GPU-ima postavio je nove rekorde na [MLPerf Inference v6.0](https://mlcommons.org/en/inference-datacenter-60/) — ali s **288 GPU-a u jednoj konfiguraciji**, što je više o marketinškom broju nego o realnom use case-u. Činjenica da je **2,7 puta poboljšanje performansi** došlo isključivo zahvaljujući *softverskim optimizacijama* — a ne novom hardveru — otkriva pravi fokus: Nvidia ne prodaje čipove, prodaje **skalabilnost koju malo tko može iskoristiti**.
+
+Podaci pokazuju da je njihov sustav postigao **2,49 milijuna tokena u sekundi** na *DeepSeek-R1*, ali to je broj koji ima smisla samo u hiperscale okruženjima tipa Meta ili Microsoft. Za ostale, pitanje nije *može li* već *treba li*.
+
+MLCommons je ovu rundu proširio s [multimodalnim i video modelima](https://mlcommons.org/en/news/mlperf-inference-60/), što je koristan korak — ali i podložno istom problemu: benchmarkovi mjere **maksimalne mogućnosti**, a ne realne troškove ili energetsku učinkovitost.
+
+<ArticleBreak />
+
+Dok Nvidia gura granice *što više*, AMD i Intel su se usredotočili na **drugačije metrike**: prvi na [energetsku učinkovitost](https://www.amd.com/en/technologies/ai-solutions), drugi na integraciju CPU/GPU u [enterprise okruženjima](https://www.intel.com/content/www/us/en/developer/articles/technical/mlperf-inference-v60.html). To nije slabije, samo drugačije — i upravo ta nespojivost čini usporedbe besmislenim.
+
+Pravi signal ovdje nije u brojevima, već u **strategijskoj divergenciji**. Nvidia drži **291 MLPerf pobjede** od 2018. — devet puta više od svih drugih zajedno — ali to ne znači da su njihova rješenja optimalna za sve.
+
+Najveća ironija? Svi ovi brojevi dolaze u trenutku kada se industrija počinje pitati **jesu li benchmarkovi poput MLPerf-a uopće relevantni** za svaki dan AI razvoja. Kada 90 % modela radi na cloud instance-u s **4 GPU-a ili manje**, 288 zvuči više kao *flex* nego kao rješenje. Ovo pokazuje da je potrebno promijeniti način razmišljanja o performansama i skalabilnosti.

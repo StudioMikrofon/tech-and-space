@@ -1,0 +1,51 @@
+---
+id: "2026-04-04-ais-intent-problem-new-benchmarks-old-limitations"
+db_id: 1479
+title: "ClauseCompose obara BERT: 95,7% na neviđenim kombinacijama intenata"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T12:52:23Z"
+excerpt: "Novi benchmark CoMIX-Shift ne traži samo da modeli prepoznaju više intenata u jednoj rečenici — već da ih kombiniraju na načine koje nikad nisu vidjeli u treningu."
+exec_summary: "The paper introduces ClauseCompose, a lightweight decoder that outperforms fine-tuned BERT variants on unseen intent combinations by factorizing inputs by clause rather than processing whole utterances. This challenges the assumption that larger models are always better for compositional tasks, but the benchmark-to-reality gap remains untested. Watch for adoption patterns in conversational AI tools and reactions from teams maintaining multi-intent systems."
+key_points:
+  - "CoMIX-Shift testira generalizaciju na zakrivljene kombinacije intenata"
+  - "ClauseCompose nadmašuje fine-tunirani tiny BERT na neviđenim uzorcima"
+  - "Benchmark otkriva jaz između laboratorijskih i realnih uvjeta"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.28929"
+image:
+  url: "/images/articles/ais-intent-problem-new-benchmarks-old-limitations/main.jpg"
+  alt: "ClauseCompose obara BERT: 95,7% na neviđenim kombinacijama intenata"
+subtitle: "Demo nasuprot deploymenta: zašto 95,7% točnosti možda nije dovoljno"
+subtitleImage:
+  url: "/images/articles/ais-intent-problem-new-benchmarks-old-limitations/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: zašto 95,7% točnosti možda nije dovoljno"
+tags: ["ClauseCompose", "BERT", "Natural Language Processing"]
+lead_sentence: "ClauseCompose, dekoder težak samo 1/10 tiny BERT-a, postigao je 95,7% točnosti na neviđenim kombinacijama intenata — dok isti BERT zaostaje za gotovo 15 posto."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Novi benchmark CoMIX-Shift ne traži samo da modeli prepoznaju više intenata u jednoj rečenici — već da ih kombiniraju na načine koje nikad nisu vidjeli u treningu. To nije samo akademska vježba: autori tvrde da je upravo ova vrsta kompozicijske generalizacije kritična za stvarne aplikacije, gdje korisnici ne slijede skriptirane obrasce.
+
+Dok postojeći dataseti često recikliraju iste kombinacije intenata u train i test setovima, CoMIX-Shift namjerno uvodi held-out parove, promijenjene diskursne obrasce i šumne omotače koji simuliraju realnije uvjete. Ključni rezultat?
+
+ClauseCompose, lakšani dekoder treniran samo na pojedinačnim intentima (singletonima), postigao je 95,7% exact match točnosti na neviđenim parovima intenata — nasuprot 81,4% kod WholeMultiLabel pristupa i 91,5% kod fine-tuniranog tiny BERT-a.
+
+<ArticleBreak />
+
+Za razliku od uobičajenog marketinga koji slavi 'nova najbolja točnost', ovdje je zanimljivije pitanje kako ClauseCompose postigne ove rezultate. Umjesto da modelira cijeli utterance odjednom, pristup razlaže ulaz po klauzama i kombinira intente na nivou tih segmenata.
+
+To nije samo optimizacija — to je fundamentalno drugačija pretpostavka o tome kako ljudi izražavaju višestruke namjere. Na primjer, rečenica 'Prikaži mi restorane u centru, ali ne one skupe i provjeri ima li parkirnog mjesta' sadrži tri intenta rasporedjena u dvije klauze.
+
+ClauseCompose ovdje ima prednost jer ne pokušava sve riješiti u jednom prolazu. Industrijski implikacije su dvostruke.
+
+Prvo, za startupe i timove s ograničenim resursima: ClauseCompose je lakši za treniranje (potrebni su samo singleton primjeri) i manji od BERT-ova, što smanjuje troškove deploymenta.
+
+Ovdje se pojavljuje prvi reality gap: benchmark je kontroliran, ali stvarni svijet nije. Autori priznaju da su čak i njihovi 'teški' uzorci još uvijek sintetički — pitanje je koliko će ovi rezultati preživjeti u produkciji, gdje korisnici ne govore u čisto obradivim rečenicama. Ipak, signal je jasno: faktorizacija po klauzama donosi robusniju generalizaciju.

@@ -1,0 +1,55 @@
+---
+id: "2026-04-04-know3ds-backside-problem-fixing-3ds-blind-spot-wit"
+db_id: 1466
+title: "Know3D otkriva stražnju stranu 3D objekata – ali je li to dovoljno?"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T10:54:44Z"
+excerpt: "Tim istraživača predvođen Qwen-om i Microsoftovim Trellis."
+exec_summary: "Know3D addresses a core limitation in single-image 3D generation by using LLMs to infer hidden geometry from text prompts. While the demo shows promise for CAD and VR, the real test lies in scalability and integration with closed-source tools like Trellis.2—raising questions about who actually benefits from this 'open' research."
+key_points:
+  - "Qwen2.5-VL i Trellis.2 iza nove metode za 3D generaciju"
+  - "Tekstualni promptovi kontroliraju nevidljive dijelove modela"
+  - "Rješenje za „slijepu točku“ single-image 3D rekonstrukcije"
+source:
+  name: "the-decoder.com"
+  url: "https://the-decoder.com/know3d-lets-users-control-the-hidden-back-side-of-3d-objects-with-text-prompts/"
+image:
+  url: "/images/articles/know3ds-backside-problem-fixing-3ds-blind-spot-wit/main.jpg"
+  alt: "Know3D otkriva stražnju stranu 3D objekata – ali je li to dovoljno?"
+subtitle: "Demo protiv deploymena: tko zapravo riješava problem?"
+subtitleImage:
+  url: "/images/articles/know3ds-backside-problem-fixing-3ds-blind-spot-wit/subtitle.jpg"
+  alt: "Demo protiv deploymena: tko zapravo riješava problem?"
+tags: ["3D object reconstruction", "NeRF-based inverse rendering", "AI reverse engineering", "Computer vision for 3D modeling", "Demo vs. production deployment"]
+lead_sentence: "Istraživači iz Kine i SAD-a kombiniraju Qwen2.5-VL, Qwen-Image-Edit i Microsoftov Trellis.2 da bi tekstualnim promptovima kontrolirali nevidljive dijelove 3D modela — ali rješenje još uvijek zaostaje za realnim zahtjevima industrije."
+geo:
+  name: "Redmond, WA"
+  lat: 47.6739
+  lon: -122.1214
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Tim istraživača predvođen Qwen-om i Microsoftovim Trellis.2 alatima objavio je Know3D – metod koji korisnicima omogućava kontrolu „skrivenih“ strana 3D objekata putem tekstualnih prompta. To nije samo još jedan AI trik za generiranje slika, nego pokušaj rješavanja jednog od najupornijih problema u 3D rekonstrukciji: što se događa s onim što kamera ne snima?
+
+Riječ je o klasičnom „blind spotu“ single-image 3D generacije, gdje algoritmi obično ili ignoriraju stražnju stranu objekta ili je nasumično dopunjavaju. Know3D umjesto toga koristi Qwen2.5-VL za interpretaciju tekstualnih uputa (npr. „stražnja strana stolice ima policu za knjige“) i generira geometrijski dosljedne rezultate.
+
+Zanimljivo, rješenje ne zahtijeva dodatne 3D podatke za treniranje – oslanja se na postojeće znanje velikih jezičnih modela. Ali ovdje počinje i prvo veliko pitanje: koliko je ovo zapravo novo?
+
+Većina postojećih alata (poput Stable Diffusion-a ili Shap-E) već omogućava neku kontrolu nad 3D objektima, ali obično zahtijeva više ulaznih podataka ili ručno fine-tuninganje. Know3D tvrdi da radi s jednom slikom i tekstualnim opisom – što bi, ako se potvrdi u praksi, moglo biti korisno za aplikacije od CAD-a do virtualne trgovine.
+
+<ArticleBreak />
+
+Problem je što demo nije produkt. Trenutni rezultati prikazani u istraživačkom papiru (još uvijek u preprint fazi) izgledaju impresivno – ali su ograničeni na jednostavne objekte poput stolica, ormara i automobila.
+
+Kompleksniji oblici (npr. ljudska figura ili organski oblik) još uvijek predstavljaju izazov, a pitanje je koliko će metoda skalirati na realne scenarije. Na primjer, generiranje 3D modela za igru ili film zahtijeva ne samo geometrijsku točnost, nego i fizičku plausibilnost – a tu Know3D još nije testiran.
+
+Druga stvar: tko ovdje zapravo dobiva prednost? Microsoftov Trellis.2 već je integriran u neke Azure usluge, pa bi Know3D mogao biti koristan za njihove korisnike u industriji.
+
+Ali za open-source zajednicu, koja se već godinama bori s ograničenjima 3D podataka, ovo je još jedan alat koji ovisi o zatvorenim modelima (Qwen2.5-VL nije potpuno otvoren). Razvojni tim naglašava da će kod biti dostupan, ali bez jasnog rokova – što je klasičan obrazac „obćećanja otvorenosti“ koji često završava s polu-otvorenim rješenjima.
+
+Zanimljivije od same tehnologije možda je i reakcija zajednice: dio istraživača na Twitteru već primjećuje da Know3D ne riješava problem skaliranja na velike scene, dok drugi ističu da je pravi napredak u kombinaciji s postojećim alatima poput NeRF-a.
+
+Možda nije revolucija, ali Know3D predstavlja korakan korak u razvoju 3D tehnologije. Njegova sposobnost generiranja geometrijski dosljednih rezultata bez potrebe za dodatnim 3D podacima je zanimljiva. Međutim, još uvijek postoje pitanja o skaliranju i primjeni u realnim scenarijima.

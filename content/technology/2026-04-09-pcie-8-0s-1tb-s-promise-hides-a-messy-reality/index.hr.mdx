@@ -1,0 +1,49 @@
+---
+id: "2026-04-09-pcie-8-0s-1tb-s-promise-hides-a-messy-reality"
+db_id: 2088
+title: "PCIe 8.0: 1TB/s je realnost, ali integratori se znoje"
+lang: "hr"
+category: "technology"
+date: "2026-04-09T06:27:10Z"
+excerpt: "PCI-SIG je potvrdio kako će PCI Express 8."
+exec_summary: "PCIe 8.0’s promised 1TB/s bandwidth reveals a tension between theoretical specs and real-world integration costs. While data centers may adopt it early, mainstream users face diminishing returns as physical limits and software bottlenecks overshadow raw speed gains."
+key_points:
+  - "1TB/s u PCIe 8.0 – teorija ili stvarna potreba?"
+  - "PCIe 6.0 već stvara probleme proizvođačima"
+  - "Data centri će prvi platiti cijenu brzinom"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/pc-components/motherboards/pci-express-roadmap-the-path-to-1tb-s-with-pci-8-0-the-challenges-of-integration-and-beyond"
+image:
+  url: "/images/articles/pcie-8-0s-1tb-s-promise-hides-a-messy-reality/main.jpg"
+  alt: "PCIe 8.0: 1TB/s je realnost, ali integratori se znoje"
+subtitle: "Razmah propusnosti donosi nove izazove: troškovi, fizička ograničenja i fragmentacija tržišta"
+subtitleImage:
+  url: "/images/articles/pcie-8-0s-1tb-s-promise-hides-a-messy-reality/subtitle.jpg"
+  alt: "Razmah propusnosti donosi nove izazove: troškovi, fizička ograničenja i fragmentacija tržišta"
+tags: ["PCIe 8.0", "Bandwidth", "Computer Hardware"]
+lead_sentence: "PCI-SIG je 2022. uveo PAM4 modulaciju u PCIe 6.0, a sada radi na 1TB/s standardu koji će zahtijevati potpuno nove fizičke slojeve i kodiranje."
+geo:
+  name: "Santa Clara, CA"
+  lat: 37.3875
+  lon: -122.0575
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+PCI-SIG je potvrdio kako će PCI Express 8.0 dosegnuti 1 terabajt po sekundi preko 16 traka, ali brzina nije jedino pitanje. Dok marketing ističe brojeve, inženjeri se suočavaju s fizičkim ograničenjima – PAM4 modulacija (uvedena u PCIe 6.0) već zahtijeva precizniju proizvodnju, a svaki dodatni GT/s pojačava probleme s integritetom signala i potrošnjom energije.
+
+Praktična primjena PCIe 6.0 (64 GT/s po traci) već pokazuje kako teorijska brzina ne znači automatsku dostupnost. Proizvođači matičnih ploča i GPU-ova kasne s masovnom implementacijom zbog troškova testiranja i potrebe za novim materijalima. Čak i kada hardver podržava standard, stvarni protok podataka ovisi o cijelom lancu komponenti – od SSD-ova do kabela.
+
+Problem nije samo u brzinama. Svaka nova generacija PCIe-a donosi kompleksnije kodiranje (npr. 242B/256B FLIT u PCIe 6.0), što smanjuje *overhead*, ali povećava zahtjeve za procesorsku obradu. To znači da čak i ako novi GPU podržava PCIe 5.0, stvarni dobitak u igrama ili renderiranju može biti minimalan ako ostale komponente sustava ne prate.
+
+<ArticleBreak />
+
+Gdje se ovi izazovi najviše osjećaju? Prije svega u data centrima i HPC okruženjima, gdje PCIe 8.0 može postati nužan za AI ubrzivače i NVMe SSD-ove sljedeće generacije. No, [analitičari](https://www.anandtech.com/) upozoravaju kako će cijena rješenja rasti brže od performansi. Proizvođači poput Nvidie ili AMD već razmatraju alternativne interkonekte (npr. CXL) za zaobilaženje PCIe ograničenja, što može dodatno fragmentirati tržište.
+
+Za prosječnog korisnika priča je drukčija. Čak i ako PCIe 8.0 stigne između 2025. i 2026., masovna adopcija u desktop računalima ovisit će o troškovima i stvarnoj potrebi. Trenutno većina GPU-ova i SSD-ova ne iskorištava puni potencijal PCIe 4.0, a kamoli 5.0. Pravi signal je u tome što PCI-SIG više ne može jednostavno udvostručavati brzine – moraju se mijenjati fizički slojevi, što podrazumijeva skupe R&D investicije.
+
+Najveća ironija leži u činjenici da se industrija natječe u GT/s brojevima, dok je stvarno usko grlo za većinu korisnika softver i aplikacije koje ne znaju iskoristiti dostupnu propusnost. Primjer je najbrži PCIe 5.0 SSD ([Samsung 990 Pro](https://www.samsung.com/)), koji u realnim scenarijima rijetko prelazi 10 GB/s zbog ograničenja kontrolera i operativnog sustava.
+
+Za korisnike ovo znači da će napredak biti postepen, a ne revolucionaran. Umjesto očekivanog skoka performansi, industrija će se suočiti s potrebom za strateškim investicijama i suradnjom između proizvođača. Samo tako će se moći iskoristiti puni potencijal novih standarda.

@@ -1,0 +1,59 @@
+---
+id: "2026-04-03-google-gemma-4s-local-ai-push-skirts-cloud-costsat"
+db_id: 1376
+title: "Gemma 4 i NVIDIA ubijaju ‘porez na tokene’ — ali tko zaista štedi?"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T21:08:19Z"
+excerpt: "Googleova nova obitelj modela Gemma 4 — s varijantama od E2B do 31B parametara — optimizirana je za lokalno izvođenje."
+exec_summary: "Google’s Gemma 4 and NVIDIA’s RTX hardware shift AI workloads from cloud to local, cutting ‘token tax’ costs—but the real battle is between hardware vendors and cloud providers. The 2.7× performance boost is impressive, but adoption hinges on whether companies can maintain local infrastructure."
+key_points:
+  - "Gemma 4 na RTX GPU-ima 2,7× brža od M3 Ultra"
+  - "OpenClaw kao lokalni asistent bez cloud troškova"
+  - "DGX Spark i Jetson Orin Nano kao nova fronta protiv API-ja"
+source:
+  name: "marktechpost.com"
+  url: "https://www.marktechpost.com/2026/04/02/defeating-the-token-tax-how-google-gemma-4-nvidia-and-openclaw-are-revolutionizing-local-agentic-ai-from-rtx-desktops-to-dgx-spark/"
+image:
+  url: "/images/articles/google-gemma-4s-local-ai-push-skirts-cloud-costsat/main.jpg"
+  alt: "Gemma 4 i NVIDIA ubijaju ‘porez na tokene’ — ali tko zaista štedi?"
+subtitle: "Benchmarkovi nasuprot stvarnoj uporabi: tko plaća manje, a tko gubi posao"
+subtitleImage:
+  url: "/images/articles/google-gemma-4s-local-ai-push-skirts-cloud-costsat/subtitle.jpg"
+  alt: "Benchmarkovi nasuprot stvarnoj uporabi: tko plaća manje, a tko gubi posao"
+tags: ["NVIDIA", "Gemma 4", "Tokenization", "Benchmarking", "Compute Costs"]
+lead_sentence: "NVIDIA-in RTX 5090 pokreće Googleovu Gemmu 4 **2,7 puta brže** od Appleovog M3 Ultra, ali stvarno pitanje je tko će zapravo prestati plaćati cloud troškove."
+geo:
+  name: "Mountain View, California, United States"
+  lat: 37.386052
+  lon: -122.083851
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Googleova nova obitelj modela Gemma 4 — s varijantama od E2B do 31B parametara — optimizirana je za lokalno izvođenje. Pravo pitanje, međutim, nije performansa, nego tko će prestati plaćati cloud.
+
+NVIDIA-in RTX 5090 nudi 2,7× brži inference od Appleovog M3 Ultra, ali ta brojka vrijedi samo u kontroliranim uvjetima. Za razliku od prethodnih valova AI hypea, ovdje je ključna cijenovna matematika: lokalni modeli na Jetson Orin Nano ili DGX Spark mogu smanjiti troškove po upitu za red veličine — ako ih netko zapravo usvoji u produkciji.
+
+Slučaj OpenClaw je zanimljiv jer pokazuje kako bi lokalni agenti mogli funkcionirati. Bez latencije cloud API-ja, bez „poreza na tokene“ (koji kod nekih provajdera doseže $0,03 po 1K tokena za napredne modele) i s boljom kontrolom podataka.
+
+Ali tu počinje i realnost jaz: demo radi savršeno, no koliko će poduzeća žrtvovati udobnost cloud-a za održavanje lokalne infrastrukture? I tko će zapravo imati stručnjake za fine-tuning 31B modela na vlastitom hardveru?
+
+NVIDIA ovdje ima jasnu prednost. Njihovi GPU-i već dominiraju tržištem za AI inferencu, a sad dobivaju i softverski sloj — optimizirane Gemmu 4 modele koji rade bolje na njihovom hardveru.
+
+Ali to nije filantropija: svaki lokalni model znači manje posla za Google Cloud ili Azure AI.
+
+<ArticleBreak />
+
+Najveća ironija je u tome što Google objavljuje otvorene modele koji će vjerojatno smanjiti njegov vlastiti prihod od cloud usluga. Gemma 4 podržava strukturirano pozivanje funkcija i multimodalne ulaze (tekst + slike), što je korisno za agente poput OpenClaw-a — ali isto tako znači da će manje tvrtki trebati plaćati za Vertex AI ili slične usluge.
+
+NVIDIA, s druge strane, prodaje fizički hardver, pa im je svaki lokalni model dodatna prilika za prodaju RTX kartica ili DGX sustava. Razlika između benchmarka i stvarnog svijeta ovdje je ključna. 2,7× brži inference na RTX 5090 zvuči impresivno, ali koliko će to stvarno uštedjeti u produkcijskom okruženju s stotinama upita u sekundi?
+
+A što je s troškovima održavanja, hlađenja i struje za lokalne klastere? Rani korisnici na Hugging Faceu već primjećuju da manji modeli (E2B, E4B) rade praktično jednako dobro kao veći za većinu zadataka — što dovodi u pitanje potrebu za skupe 31B varijante.
+
+Pravi signal ovdje nije u samim modelima, nego u pomicanju granice između cloud-a i edge-a. Ako lokalni agenti poput OpenClaw-a zaista postanu mainstream, cijeli biznis model velikih cloud provajdera može doći pod pritisk.
+
+Ali dok god većina tvrtki nema kapacitet ili volju za samostalno održavanje ovih sustava, „porez na tokene“ će i dalje biti profitabilan — samo će se premjestiti s API-ja na hardver.
+
+Tehnologija je spremna, ali ljudski faktor ostaje najveća prepreka. Dok se kompanije dvoume između ugodnosti i kontrole, „porez na tokene“ će i dalje curiti iz njihovih budžeta.

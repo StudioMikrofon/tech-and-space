@@ -1,0 +1,49 @@
+---
+id: "2026-04-04-ais-new-memory-trick-actually-learns-from-mistakes"
+db_id: 1434
+title: "RAG koji pamti postupke: 32 milijuna modula protiv izoliranog razmišljanja"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T06:16:37Z"
+excerpt: "Novo istraživanje iz [arXiv-a](https://arxiv."
+exec_summary: "Reasoning Memory introduces a procedural knowledge reuse system that improves reasoning tasks by up to 19.2% on benchmarks—but its real test lies in scalability beyond controlled environments. The framework’s 32-million-module database highlights a shift from answer retrieval to process reuse, with Meta and Google already exploring similar approaches, signaling an emerging battle over who owns the 'memory' of AI reasoning."
+key_points:
+  - "32 milijuna kompaktnih proceduralnih jedinica iz prethodnih rješenja"
+  - "19,2% poboljšanja na matematičkim benchmarkovima — ali koliko vrijedi u produkciji?"
+  - "Meta i Google već testiraju slične pristupe, ali tko ima prednost?"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.01348"
+image:
+  url: "/images/articles/ais-new-memory-trick-actually-learns-from-mistakes/main.jpg"
+  alt: "RAG koji pamti postupke: 32 milijuna modula protiv izoliranog razmišljanja"
+subtitle: "Demo nasuprot deploymenta: zašto je ovo više od još jednog RAG-a s pamćenjem"
+subtitleImage:
+  url: "/images/articles/ais-new-memory-trick-actually-learns-from-mistakes/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: zašto je ovo više od još jednog RAG-a s pamćenjem"
+tags: ["Retrieval-Augmented Generation (RAG) procedural memory", "32-million-module memory architecture", "Isolated reasoning vs. contextualized inference", "Enterprise-grade RAG deployment challenges", "Memory-augmented AI for complex workflows"]
+lead_sentence: "Novi RAG okvir pod nazivom Reasoning Memory ne pamti odgovore, već **postupke**—i s 32 milijuna kompaktnih modula obara granice izoliranog razmišljanja, ali i otvara pitanje: što se događa kada AI nauči pogrešan proces?"
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Novo istraživanje iz [arXiv-a](https://arxiv.org/abs/2604.01348v1) ne predlaže još jedan 'pametan' model, već sustav koji *krađe od sebe samog* – doslovno. Reasoning Memory, kako ga autori nazivaju, nije novi RAG s pamćenjem, već baza od **32 milijuna proceduralnih modula** iz prethodnih razmišljanja: kako preformulirati problem, odabrati pristup ili povući korak unatrag kada model zaglavi. To nije samo 'pamćenje odgovora', već **pamćenje procesa** – što je, ironično, ono što ljudima najčešće nedostaje kada rješavaju isti tip zadataka po stoti put.
+
+Ključna razlika u odnosu na prethodne RAG-ove? Ovi moduli nisu statični isječci teksta, već **dinamičke subrutine** koje model može reaktivirati ovisno o kontekstu. Na primjer: ako model naiđe na matematički problem s višekoraknim rješenjem, umjesto da počne od nule, 'sjeća' se kako je riješio sličan dio problema u prošlosti – i to ne kao gotov odgovor, već kao **postupak**. Autori tvrde da je to donijelo **19,2 % poboljšanja** na matematičkim benchmarkovima i **7,9 %** na znanstvenim zadacima.
+
+Ali, kao i uvijek, brojevi na papiru i performanse u produkciji dvije su stvarno različite priče. Što je zanimljivije od samog rada jest **tko ga već koristi**. Meta i Google eksperimentiraju s sličnim pristupima u svojim internim modelima, ali ovdje je ključno pitanje: koliko je ovo skalabilno izvan kontroliranih benchmarkova? Proceduralno znanje korisno je – sve dok ne naiđete na problem koji nije 'sličan' ničemu što je model prije vidio. A to je, naravno, upravo trenutak kada bi vam trebalo *novo* proceduralno znanje, a ne reciklirano.
+
+<ArticleBreak />
+
+Hajp oko 'pametnijih' modela obično zaboravlja na jednu stvar: **većina realnih problema nije benchmark**. Kada korisnik pita chatbot kako popraviti kvar rasvjetnog sustava, a odgovor uključuje pet koraka od kojih su tri nepotpuna, proceduralno pamćenje može biti **blagoslov ili prokletstvo**. Ako je model naučio 'pogrešan' postupak iz prethodnih iteracija, sada će ga ponavljati – s sistematskom preciznošću.
+
+Autori kažu da su riješili ovaj problem 'verifikacijskim slojem', ali detalji o tome kako funkcionira u dinamičnim okruženjima ostaju u sjeni. Još jedan ključni detalj: **tko zapravo kontrolira ovu bazu znanja?** 32 milijuna modula nisu mala stvar – i ako se pokažu korisnima, postat će strateški resurs. Trenutno je kod otvoren, ali što će se dogoditi kada neke tvrtke počnu graditi zatvorene ekosustave oko svojih proceduralnih baza? [Hugging Face](https://huggingface.co/) već ima slične inicijative, a startupi poput [Vectara](https://vectara.com/) eksperimentiraju s komercijalizacijom proceduralnog RAG-a.
+
+Prava bitka neće biti o točnosti modela, već o tome **tko posjeduje 'pamćenje'**. Za razliku od većine AI radova koji obećavaju 'revoluciju', ovaj barem ima konkretan mehanizam – ali i konkretna ograničenja. Proceduralno znanje korisno je **dok god problemi ostaju slični**. Čim uđete u domene gdje su zadaci jedinstveni (npr. kreativno pisanje ili strategijsko planiranje), prednost se topi. To možda zvuči kao tehnički detalj, ali jest **upozorenje**: ako se ispostavi da je ovo još jedan alat optimiziran za benchmarkove, a ne za stvarni svijet, bit ćemo svjedoci još jednog AI ciklusa – gdje demo postane proizvod, a proizvod postane razočaranje.
+
+Razvoj ovog modela otvara nova pitanja o etici i kontrolama u razvoju umjetne inteligencije. Kako se tehnologija nastavlja razvijati, važno je razmotriti kako će se osigurati da se ona koristi na odgovoran način. To uključuje pitanja kontrole, sigurnosti i transparentnosti.

@@ -1,0 +1,51 @@
+---
+id: "2026-04-08-north-koreas-fake-teams-update-exposes-a-new-malwa"
+db_id: 1953
+title: "Precizni napadi: Kako su hackeri iskoristili Teams i Slack za npm otrov"
+lang: "hr"
+category: "technology"
+date: "2026-04-08T06:07:26Z"
+excerpt: "Axiosov održavatelj Jason Saayman nije tipična meta napada — ali upravo je njegov račun postao ključni čvor u jednoj od najpreciznijih socijalnih inženjerskih kampanja posljednjih godina."
+exec_summary: "North Korean hackers compromised the axios maintainer’s account via an elaborate social engineering scheme, publishing malicious npm packages that delivered a RAT. The attack exposes critical vulnerabilities in open-source supply chains—where trust is both the greatest strength and the weakest link."
+key_points:
+  - "Dvotjedna socijalna inženjerija preko LinkedIn i Slacka"
+  - "Lažne axios verzije 1.14.1 i 0.30.4 s RAT-om za Windows/macOS/Linux"
+  - "100 milijuna tjednih preuzimanja — koliko korisnika je pogođeno?"
+source:
+  name: "windowscentral.com"
+  url: "https://www.windowscentral.com/microsoft/windows/north-korea-axios-hack-teams-slack"
+image:
+  url: "/images/articles/north-koreas-fake-teams-update-exposes-a-new-malwa/main.jpg"
+  alt: "Precizni napadi: Kako su hackeri iskoristili Teams i Slack za npm otrov"
+subtitle: "Profesionalno izvedena prijevara koja je obmanula čak i održavatelja s desetak godina iskustva"
+subtitleImage:
+  url: "/images/articles/north-koreas-fake-teams-update-exposes-a-new-malwa/subtitle.jpg"
+  alt: "Profesionalno izvedena prijevara koja je obmanula čak i održavatelja s desetak godina iskustva"
+tags: ["npm supply chain attacks", "Teams and Slack phishing campaigns", "open-source dependency exploitation", "developer security breaches", "malicious package distribution"]
+lead_sentence: "Dvije zaražene axios verzije s više od 100 milijuna tjednih preuzimanja ostale su dostupne satima prije nego što je npm reagirao — a sve je počelo lažnim LinkedIn profilom."
+geo:
+  name: "Redmond, WA"
+  lat: 47.6739
+  lon: -122.1214
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Axiosov održavatelj Jason Saayman nije tipična meta napada — ali upravo je njegov račun postao ključni čvor u jednoj od najpreciznijih socijalnih inženjerskih kampanja posljednjih godina.
+
+Grupacija UNC1069, poznata po financijski motiviranim napadima, dvije je sedmice gradila povjerenje preko lažnog LinkedIn profila i Slack radnog prostora s autentičnim brandingom prije nego što je 30. ožujka 2026. objavila dvije zaražene verzije axiosa (1.14.1 i 0.30.4) na npm-u. Napad nije bio nasumičan: počeo je pozivom na lažni Microsoft Teams sastanak gdje je ‘nedostajuća nadogradnja’ instalirala udaljeni pristup trojan (RAT) sposoban krađi podatke s Windowsa, macOS-a i Linuxa.
+
+Čak i detalji poput profesionalno izrađenog Slack kanala s lažnim zaposlenicima — sve je bilo dizajnirano da prođe kao legitimna poslovna interakcija. ‘Sve je bilo iznimno dobro koordinirano i izgledalo autentično’, rekao je Saayman, ističući da se radi o preciznom, a ne prigodnom napadu. Problem leži u ekosustavu: axios se preuzima više od 100 milijuna puta tjedno, što znači da je procjena broja pogođenih korisnika gotovo nemoguća. Npm je ubrzo uklonio zaražene pakete, ali pitanje ostaje: koliko je tvrtki već ugradilo kompromitirano rješenje u svoje produkcijsko okruženje?
+
+<ArticleBreak />
+
+Ovaj napad otkriva dvije kritične slabosti u modernom razvoju softvera.
+
+Prva: čak i iskusni održavatelji otvorenog koda nisu imuni na socijalnu inženjeriju ako je izvedena s razinom profesionalizma kakvu je pokazala UNC1069. Druga: napadi na opskrbni lanac popularnih biblioteka poput axiosa nisu samo teorijska prijetnja — oni se dogode, i njihove posljedice šire se brže nego što ih većina tvrtki može detektirati.
+
+Praktični učinak? Timovi će morati revidirati svoje postupke upravljanja ovisnostima, posebno za biblioteke s visokim brojem preuzimanja. Npm je najavio jače provjere autentifikacije, ali to rješenje dolazi post factum: zaražene su verzije već bile dostupne satima prije nego što je alarm podignut. Za korisnike to znači ručno provjeravanje hash-eva paketa ili oslanjanje na alate poput npm audit — što dodaje trenje u workflow koji je trebao biti brz i pouzdan.
+
+Najveća ironija? Napad nije ciljao samo tehnologiju, već ljudsko povjerenje. LinkedIn profil, Slack razgovori, čak i lažni Teams sastanak — sve je bilo dizajnirano da iskoristi naš instinkt da vjerujemo ‘profesionalno’ izgledajućim interakcijama. A to je upravo razlog zašto će se slični napadi ponavljati: jer funkcioniraju.
+
+U konačnici, ovo je problem koji zahtijeva kolektivni odgovor. Sve tvrtke i pojedinci koji koriste otvoreni kod moraju raditi zajedno kako bi spriječili ove vrste napada. To uključuje dijeljenje informacija, suradnju na sigurnosnim rješenjima i stalno učenje o novim prijetnjama.

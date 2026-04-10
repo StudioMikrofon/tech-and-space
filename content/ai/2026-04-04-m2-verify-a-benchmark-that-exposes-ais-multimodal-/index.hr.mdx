@@ -1,0 +1,47 @@
+---
+id: "2026-04-04-m2-verify-a-benchmark-that-exposes-ais-multimodal-"
+db_id: 1421
+title: "M2-Verify razotkriva AI-ov slabi žarišni punkt"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T04:13:01Z"
+excerpt: "State-of-the-art modeli postigli su **85,8 % Micro-F1** na jednostavnim medicinskim perturbacijama u novom [M2-Verify](https://arxiv."
+exec_summary: "M2-Verify exposes a critical gap in AI’s ability to verify multimodal scientific claims, with performance collapsing under complexity. The benchmark’s scale is impressive, but its real value lies in revealing where current models fail—and who stands to gain from fixing those failures."
+key_points:
+  - "469K primjeraka iz 16 domena – ali modeli propadaju na složenim zadacima"
+  - "85,8% točnosti pada na 61,6% kod visoke kompleksnosti"
+  - "PubMed i arXiv kao izvori: tko zapravo koristi ove podatke?"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.01306"
+image:
+  url: "/images/articles/m2-verify-a-benchmark-that-exposes-ais-multimodal-/main.jpg"
+  alt: "M2-Verify razotkriva AI-ov slabi žarišni punkt"
+subtitle: "Od sjajnih benchmarkova do kaotične stvarnosti: gdje multimodalna provjera tvrdnji gubi bitku"
+subtitleImage:
+  url: "/images/articles/m2-verify-a-benchmark-that-exposes-ais-multimodal-/subtitle.jpg"
+  alt: "Od sjajnih benchmarkova do kaotične stvarnosti: gdje multimodalna provjera tvrdnji gubi bitku"
+tags: ["M2-Verify AI benchmarking", "AI model evaluation in production environments", "Real-world AI performance vs. benchmark metrics", "AI deployment challenges", "AI reliability testing"]
+lead_sentence: "State-of-the-art modeli ostvaruju 85,8% točnosti na jednostavnim zadacima, ali ih realna znanstvena kompleksnost obara na 61,6% – i to je problem za sve osim za autore papera."
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+State-of-the-art modeli postigli su **85,8 % Micro-F1** na jednostavnim medicinskim perturbacijama u novom [M2-Verify](https://arxiv.org/abs/2604.01306) benchmarku – ali ta brojka pada na **61,6 %** čim se kompleksnost poveća. To nije samo statistički pad, već signal da trenutni pristupi multimodalnoj provjeri tvrdnji **ne drže korak s realnim znanstvenim argumentima**.
+
+Dataset od **469.000 primjeraka** iz 16 domena, izvučen iz [PubMed](https://pubmed.ncbi.nlm.nih.gov/) i [arXiv](https://arxiv.org/), zvuči impresivno, ali pitanje je koliko toga zapravo reflektira kaotičnost stvarnih podataka. Istraživači ističu da postojeći benchmarkovi nedostaju **skalu, domensku raznolikost i vizualnu kompleksnost** – ali je upitno je li M2-Verify rješenje ili samo bolji paket istog problema.
+
+Ekspertne audite su prošli, ali to ne garantira da će modeli prestati halucinirati objašnjenja kada ih se postavi pred neočekivane kombinacije teksta i slika. Ako ništa drugo, ovaj dataset barem pokazuje gdje AI još uvijek **gubi bitku za kontekst**. Zanimljivije od samih brojki je **tko će ovo zapravo koristiti**. Akademska zajednica? Sigurno. Ali kada se pogleda [reakcija developer zajednice](https://github.com/topics/multimodal-verification) na slične projekte, vidljivo je da industrija još uvijek čeka nešto što se može **integrirati u produkcijske sustave** – a ne samo objaviti u paperu.
+
+<ArticleBreak />
+
+Pravi test za M2-Verify neće biti koliko dobro radi u kontroliranim uvjetima, već **kako će se nositi s prljavim podacima iz stvarnog svijeta**. Modeli koji sada propadaju na visokoj kompleksnosti upućuju na fundamentalni problem: AI još uvijek **ne razumije znanstvene argumente** na način na koji to čini čovjek. To nije samo tehnički, već i **poslovni problem** – jer kompanije kao što su [Google DeepMind](https://deepmind.google/) i [Meta](https://ai.meta.com/) ulaze u trku za multimodalne modele koji moraju raditi **izvan laboratorija**.
+
+Još jedan ključni detalj: dataset je dizajniran za **provjeru konzistentnosti**, a ne samo za tekst ili slike odvojeno. To znači da će onaj tko riješi problem **kros-modalne koherencije** imati prednost – ali i da će oni koji se oslanjaju na postojeće benchmarkove biti iznenađeni kada ih realni podaci **razotkriju**. Prema ranim signalima iz [Hugging Face foruma](https://huggingface.co/discussions), dio zajednice već primjećuje da **postoji jaz između onoga što benchmark mjeri i onoga što industrija treba**.
+
+M2-Verify otkriva koliko je AI još uvijek daleko od prave znanstvene analize. Njegova vrijednost leži u ukazivanju na praznine, a ne u pružanju rješenja. Industrija će morati tražiti dublje promjene, ne samo bolje alate.

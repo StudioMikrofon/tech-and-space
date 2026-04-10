@@ -1,0 +1,49 @@
+---
+id: "2026-04-03-logicdiffs-ai-reasoning-fix-a-band-aid-or-breakthr"
+db_id: 1372
+title: "LogicDiff otkriva: razlog lošeg rasuđivanja nije u modelu, nego u redoslijedu"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T20:57:59Z"
+excerpt: "Maskirani difuzijski jezici (MDLM-i) već godinama obećavaju paralelno generiranje teksta s kontekstom u oba smjera, ali ih nitko ne koristi za ozbiljne zadatke rasuđivanja."
+exec_summary: "LogicDiff exposes that MDLMs' poor reasoning isn’t a model flaw but a *token unmasking order* problem—fixing it with a 4.2M-parameter classifier (0.05% of base) boosts GSM8K accuracy from 22.0% to 60.7%. The real story isn’t the benchmark jump but the implication: many \"fundamental\" AI limits may just be suboptimal usage patterns."
+key_points:
+  - "60,7% točnosti na GSM8K umjesto 22,0% — bez treniranja modela"
+  - "4,2M parametara (0,05% baze) predviđa logičke uloge s 98,4% točnošću"
+  - "Dodatni overhead od 6% brzina za razumijevanje koje radi *prioritet*"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.26771"
+image:
+  url: "/images/articles/logicdiffs-ai-reasoning-fix-a-band-aid-or-breakthr/main.jpg"
+  alt: "LogicDiff otkriva: razlog lošeg rasuđivanja nije u modelu, nego u redoslijedu"
+subtitle: "Marketing traži revoluciju u arhitekturi, a rješenje leži u 0,05% modela"
+subtitleImage:
+  url: "/images/articles/logicdiffs-ai-reasoning-fix-a-band-aid-or-breakthr/subtitle.jpg"
+  alt: "Marketing traži revoluciju u arhitekturi, a rješenje leži u 0,05% modela"
+tags: ["LogicDiff model architecture", "AI reasoning failure analysis", "Prompt ordering optimization", "Model inference efficiency", "Attention mechanism limitations"]
+lead_sentence: "Maskirani difuzijski jezici (MDLM-i) propadaju na zadacima rasuđivanja jer standardno otkrivaju tokene po *povjerenju*—a ne po logičkoj važnosti, pokazuje novo istraživanje s 98,4% točnog klasifikatora od 4,2M parametara."
+geo:
+  name: "Stanford, United States"
+  lat: 37.4275
+  lon: -122.1697
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Maskirani difuzijski jezici (MDLM-i) već godinama obećavaju paralelno generiranje teksta s kontekstom u oba smjera, ali ih nitko ne koristi za ozbiljne zadatke rasuđivanja. Razlog? Standardna strategija otkrivanja tokena sustavno odgađa logičke veznike (poput 'ako', 'ali', 'zato'), ključne točke grananja u lancima zaključivanja. Evo ironije: problem nije u modelu, nego u naivnom redoslijedu kojim ga koristimo.
+
+LogicDiff iz Stanforda i UC Berkeleya ne mijenja arhitekturu, ne zahtijeva pretreniranje, ni čak fine-tuning. Umjesto povjerenja u confidence score, uvodom klasifikatora od 4,2 milijuna parametara (0,05 % veličine baze) predviđa logičku ulogu svakog tokena i otkriva ih po prioritetu.
+
+Rezultat? Na GSM8K benchmarku LLaDA-8B-Instruct skoči s 22,0 % na 60,7 % točnosti (+38,7 postotnih bodova), dok na MATH-500 postigne skromniji, ali značajan porast s 23,6 % na 29,2 %.
+
+<ArticleBreak />
+
+Ovdje je ključna razlika: LogicDiff ne popravlja model, nego ispravlja naš pristup. To je kao otkriti da vaš superračunalo radi sporo jer mu pogrešno ugrađujete RAM — a ne zato što procesor nije dovoljno jak.
+
+Zašto ovo nije samo još jedan benchmark trik? Jer LogicDiff ne optimizira za točnost na papiru, nego za strukturnu integraciju logike u generirani tekst. Klasifikator ne gleda sadržaj tokena, nego njegovu ulogu u argumentaciji (npr. je li hipoteza, pretpostavka, zaključak). To objašnjava zašto metoda radi bolje na GSM8K (gdje je logička struktura jasna) nego na MATH-500 (gdje su problemi kompleksniji i manje linearni).
+
+Industrijski signal je jasno upućen prema startapima koji grade na difuzijskim modelima (poput Adept AI ili Character.AI): umjesto da troše milijune na skaliranje, možda je vrijedno pogledati kako koristite ono što već imate.
+
+Zanimljivo je i što developer community već primjećuje da bi sličan pristup mogao funkcionirati i za multimodalne modele (npr. pri generiranju koda iz prirodnog jezika, gdje su logičke veze između blokova kritične). Ovo otvara nove mogućnosti za istraživanje i primjenu umjetne inteligencije u različitim područjima.

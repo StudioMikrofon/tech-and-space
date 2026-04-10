@@ -1,0 +1,57 @@
+---
+id: "2026-04-03-gpt-5-gets-outclassed-on-supply-chain-forecasting"
+db_id: 1290
+title: "GPT-5 gets outclassed on supply chain forecasting"
+category: "ai"
+date: "2026-04-03T06:42:59Z"
+excerpt: "A preprint paper from arXiv [arXiv:2604."
+exec_summary: "Researchers introduced a fine-tuned LLM framework that outperforms GPT-5 in predicting rare, high-impact supply chain disruptions by using real-world outcomes as supervision. The breakthrough lies in structured probabilistic reasoning, but the gap between academic benchmarks and real-world deployment remains unaddressed—leaving open whether this will become a tool for logistics giants or another shelved proof-of-concept."
+key_points:
+  - "LLMs trained on disruption outcomes beat GPT-5 at rare-event forecasting"
+  - "Noisy data + task-specific tuning > general-purpose AI hype"
+  - "Industry winners: logistics giants, not AI labs"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.01298"
+image:
+  url: "/images/articles/gpt-5-gets-outclassed-on-supply-chain-forecasting/main.jpg"
+  alt: "GPT-5 gets outclassed on supply chain forecasting"
+  caption: "ultra-realistic documentary photography, layered depth, sharp foreground and atmospheric background, industrial ambient realism, raw material"
+  credit: "Photo by Tech&Space"
+subtitle: "Od akademskog proof-of-concepta do stvarne primjene: tko će iskoristiti prednosti novog frameworka?"
+subtitle_en: "The gap between benchmark and real-world supply chain chaos"
+subtitleImage:
+  url: "/images/articles/gpt-5-gets-outclassed-on-supply-chain-forecasting/subtitle.jpg"
+  alt: "The gap between benchmark and real-world supply chain chaos"
+  caption: "GPT-5 gets outclassed on supply chain forecasting"
+  credit: "Photo by Tech&Space"
+tags: ["LLM", "GPT-5", "Predictive Modeling"]
+lead_sentence: "Researchers just proved GPT-5 can’t reliably forecast supply chain disruptions—unless you force it to abandon its ‘general intelligence’ and specialize."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+A preprint paper from arXiv [arXiv:2604.01298v1](https://arxiv.org/abs/2604.01298) just demonstrated what AI labs won’t admit: **general-purpose models like GPT-5 are terrible at forecasting rare, high-impact events**—unless you force them to specialize. The researchers built an end-to-end framework that fine-tunes LLMs on *realized disruption outcomes*, turning noisy supply chain data into **calibrated probabilistic forecasts** that outperform GPT-5 in accuracy, calibration, and precision.
+
+
+This isn’t another ‘AI solves everything’ press release. The paper explicitly calls out the **reality gap**: general-purpose models fail at infrequent, high-stakes predictions because they lack task-specific adaptation. The team’s approach sidesteps this by training on **supervised disruption data**, which induces more structured reasoning without the crutch of explicit prompting. In other words, they’re teaching AI to *think like a risk analyst*, not a chatbot.
+
+
+The kicker? This isn’t just about supply chains. The framework’s design suggests it could generalize to other **rare-event forecasting**—pandemics, financial black swans, or geopolitical shocks. But as always, the devil’s in the deployment details.
+
+<ArticleBreak />
+
+Let’s talk benchmarks. The paper claims **‘substantial’ outperformance over GPT-5**, but the fine print matters: these are **synthetic tests against a model not optimized for this task**. Real-world supply chains involve **messy, incomplete data streams** from ERP systems, IoT sensors, and human reports—none of which behave like clean arXiv datasets. The [MIT Center for Transportation & Logistics](https://ctl.mit.edu/) has spent years trying (and often failing) to predict disruptions with traditional ML. If this framework works in production, it’s a **logistics coup**, not an AI breakthrough.
+
+
+Industry impact? **Freight forwarders and retail giants** should be salivating. Companies like [Flexport](https://www.flexport.com/) or [Maersk](https://www.maersk.com/) already use probabilistic models for routing—this could sharpen their edge. Meanwhile, AI labs get another reminder that **domain-specific tuning beats scale-alone hype**. The open-source community is watching: early [GitHub reactions](https://github.com/) suggest skepticism about reproducibility, but the core idea—**supervised fine-tuning for rare events**—is getting traction among ML engineers tired of vague ‘agentic’ promises.
+
+
+The real signal here isn’t about AI’s capabilities. It’s about **who controls the adaptation layer**. If logistics firms build these models in-house, they own the forecasting stack. If AI labs package it as a service, they become the new middlemen. Either way, GPT-5’s ‘general intelligence’ just got niche-dominated.
+
+In other words, the next time an AI lab claims their model ‘understands complexity,’ ask them how it handles a port strike in Shanghai during a typhoon. The answer will reveal whether they’re selling hype or actual foresight.

@@ -1,0 +1,57 @@
+---
+id: "2026-04-03-ais-bug-bounty-how-slop-became-linuxs-new-qa-team"
+db_id: 1389
+title: "AI otkriva bugove — i kernel-maintaineri se bore sa poplavom"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T22:48:38Z"
+excerpt: "Willy Tarreau, vođa razvoja HAProxyja, ne govori o hipotezama: broj sigurnosnih izvještaja na kernel security mailing listi je eksponencijalno narastao."
+exec_summary: "The Linux kernel security list is facing an unprecedented surge in *accurate* bug reports—5–10 daily, up from 2–3 weekly—driven by AI tools that now routinely find the same vulnerabilities independently. The paradox? More correctness means more work for human maintainers, exposing a scalability gap in open-source security workflows."
+key_points:
+  - "5–10 ispravnih izvēštaja dnevno na kernel security listi"
+  - "Duplikati istih bugova iz različitih AI alata"
+  - "HAProxyjev Willy Tarreau: „Morali smo dovući više maintainera“"
+source:
+  name: "simonwillison.net"
+  url: "https://simonwillison.net/2026/Apr/3/willy-tarreau/#atom-everything"
+image:
+  url: "/images/articles/ais-bug-bounty-how-slop-became-linuxs-new-qa-team/main.jpg"
+  alt: "AI otkriva bugove — i kernel-maintaineri se bore sa poplavom"
+subtitle: "Više točnih prijava ne znači manje posla — upravo suprotno"
+subtitleImage:
+  url: "/images/articles/ais-bug-bounty-how-slop-became-linuxs-new-qa-team/subtitle.jpg"
+  alt: "Više točnih prijava ne znači manje posla — upravo suprotno"
+tags: ["Linux kernel vulnerability reporting", "Open-source software maintenance challenges", "AI-assisted bug detection", "Kernel maintainer workflows", "Developer productivity in open-source"]
+lead_sentence: "Willy Tarreau, arhitekt HAProxyja, potvrđuje: kernel security lista sada prima **5–10 točnih sigurnosnih izvēštaja dnevno** — tri puta više nego prije godinu dana, a krivac je AI koji radi *previše* dobro."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Willy Tarreau, vođa razvoja HAProxyja, ne govori o hipotezama: broj sigurnosnih izvještaja na kernel security mailing listi je eksponencijalno narastao. Dok su prije dvije godine stizala dva-tri tjedna, lani desetak tjedno, od početka ove godine brojka je 5–10 dnevno — i većina je točna.
+
+To nije problem kvalitete, nego kapaciteta: „Morali smo dovući više maintainera da bi pratili ritam“, kaže Tarreau, a to je rjeđe viđeno u open-source svijetu gdje resursi obično nedostaju, a ne se šire. Ne radi se o klasičnom ‘šumom’ koji prate lažne pozitive.
+
+Simon Willison bilježi da su duplikati — isti bug pronađen nezavisno od dva različita AI alata — postali dnevna pojava. To je nov fenomen: prije su se takve stvari događale mjesecima, ako ikad.
+
+Sada su to rutinski događaji, a razlog je očit: AI alati za analizu koda ne samo da skaliraju brže od ljudskih revizora, nego i različiti modeli istovremeno nalaze iste greške. Ovdje nema revolucije, ali postoji realna promjena dinamičke.
+
+Kernel maintaineri nisu navikli na situaciju gdje im previše točnih izvještaja postaje operativni problem. To je ironija koju samo open-source svijet može proizvesti: više kvalitete dovodi do više posla, a ne manje.
+
+<ArticleBreak />
+
+Da je riječ o lošim prijavama, problem bi bio jednostavan — filtriranje. Ali ovdje se radi o visoko-relevantnim nalazima, što znači da svaki zahtijeva ljudsku procjenu.
+
+Tarreauovo svjedočenje ukazuje na dva ključna signala: prvo, AI alati za static analysis djeluju (bar u ovom kontekstu), i drugo, ekosustav nije spreman na njihovu brzinu. Kernel security lista nije laboratorij — to je produkcijsko okruženje gdje se greške moraju brzo zakrpati, a sada ih stiže brže nego što ih se može obraditi.
+
+Zanimljivije je pitanje tko ovdje gubi. Komercijalni vendori AI alata za code review — poput GitHub Copilota ili Snyk Codea — dobivaju besplatnu validaciju svojih proizvoda: kernel maintaineri nesvjesno potvrđuju njihovu učinkovitost.
+
+S druge strane, open-source projekti s ograničenim resursima sada moraju skalirati ljudski dio lanca — što je upravo suprotno od obećanja da će AI smanjiti teret. Pravi test će biti sljedeći: hoće li ova ‘poplava točnosti’ rezultirati bržim zakrpama, ili će se bugovi gomilati u queue-u dok čekaju na maintainere?
+
+Ako je ovo nova normala, kernel timovi će morati pronaći načine za automatizaciju trijaže — ili prihvatiti da je AI, ironično, stvorila novi vrhunski posao za ljude.
+
+U svakom slučaju, AI je pokazao svoju vrijednost u otkrivanju bugova, ali sada je potrebno pronaći način da se taj potencijal iskoristi na najbolji način. To će zahtijevati promjene u načinu rada kernel maintainera i open-source projekata. Jedno je sigurno: AI nije samo alat za otkrivanje bugova, već i pokretač promjena u softverskoj industriji.

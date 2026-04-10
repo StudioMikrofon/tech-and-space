@@ -1,0 +1,49 @@
+---
+id: "2026-04-06-netflixs-void-ai-erases-objectsbut-can-it-erase-vf"
+db_id: 1736
+title: "Netflixov VOID briše objekte — i fiziku s njima"
+lang: "hr"
+category: "ai"
+date: "2026-04-06T12:19:47Z"
+excerpt: "Netflix i istraživači s [INSAIT-a](https://insait."
+exec_summary: "Netflix’s VOID isn’t just another inpainting tool: it simulates physical interactions (e.g., gravity) after object removal, leveraging a 5B-parameter 3D Transformer from Alibaba. The open-source release targets VFX automation, but real-world deployment faces resolution limits (384×672) and data hunger—raising questions about who can actually use it at scale."
+key_points:
+  - "VOID generira realistične interakcije nakon brisanja objekata"
+  - "5B parametara i 3D Transformer iz Alibabe kao baza"
+  - "GitHub aktivnost već pokazuje interesa VFX timova"
+source:
+  name: "marktechpost.com"
+  url: "https://www.marktechpost.com/2026/04/04/netflix-ai-team-just-open-sourced-void-an-ai-model-that-erases-objects-from-videos-physics-and-all/"
+image:
+  url: "/images/articles/netflixs-void-ai-erases-objectsbut-can-it-erase-vf/main.jpg"
+  alt: "Netflixov VOID briše objekte — i fiziku s njima"
+subtitle: "Demo nasuprot deploymentu: tko će zapravo moći koristiti ovaj alat"
+subtitleImage:
+  url: "/images/articles/netflixs-void-ai-erases-objectsbut-can-it-erase-vf/subtitle.jpg"
+  alt: "Demo nasuprot deploymentu: tko će zapravo moći koristiti ovaj alat"
+tags: ["Netflix", "Object Removal", "Computer Vision"]
+lead_sentence: "VOID koristi *quadmask* s četiri vrijednosti umjesto binarnog maskiranja — i to je prvi AI koji eksplicitno modelira uzročnost pri brisanju objekata iz videa."
+geo:
+  name: "Los Gatos, California, USA"
+  lat: 37.2267
+  lon: -121.9774
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Netflix i istraživači s [INSAIT-a](https://insait.ai/) objavili su **VOID** — model koji ne samo da briše objekte iz videa, nego i simulira fizičke posljedice tog brisanja. Ako iz scene maknete osobu koja drži gitaru, alat neće ostaviti instrument da lebdi: on će pasti, otkotrljati se ili se raspasti, ovisno o kontekstu. To je ključna razlika u odnosu na postojeće alate poput [Runway ML Gen-3](https://runwayml.com/) ili [Adobe Topaz](https://www.topazlabs.com/topaz-video-ai), koji uglavnom *boje* praznine bez obzira na uzročnost.
+
+Razlog zašto ovo nije samo još jedan 'AI čarobnjak za video' leži u arhitekturi: VOID koristi [CogVideoX-Fun-V1.5-5b](https://huggingface.co/THUDM/CogVideoX-Fun-V1.5-5b-InP) — Alibabin 3D Transformer s **5 milijardi parametara**, optimiziran za generiranje dinamike, a ne statičnih slika. Umjesto binarnog maskiranja (objekt/pozadina), korisnik navodi *quadmask* s četiri vrijednosti: što brisati, što zadržati, i — kritično — **kako** se scena treba ponovno sastaviti. To je prvi put da vidimo AI koji eksplicitno modelira *uzročnost* u video inpaintingu.
+
+Među konkurentima koje su istraživači usporedili — od [ProPainter](https://github.com/sczhou/ProPainter) do [DiffuEraser](https://arxiv.org/abs/2303.17297) — VOID je jedini koji ne zaostaje iza ručno uređenih scenarija u testovima s padajućim objektima. Ali tu počinje i problem: **benchmark ≠ realni performansi**. Model radi s rezolucijom **384×672** i do **197 okvira** po sekvenciji, što je daleko od 4K standarda filmske industrije. Ipak, čak i u ovom ograničenju, rezultat je dovoljan da [VFX umjetnici na Redditu](https://www.reddit.com/r/vfx/) već raspravljaju o integraciji u pipeline.
+
+<ArticleBreak />
+
+Netflixovo otvaranje koda nije samo dobrotvorni gest — to je strategijski potez. Kompanija ima interes u automatizaciji postprodukcije za svoje *volume* sadržaje (recimo, *reality show*-ove s ponavljajućim elementima koje treba brisati). Ali pravi signal ovdje je širi: VOID dokazuje da se **fizika može *naučiti*** iz podataka, a ne samo hardkodirati. To otvara vrata za alate koji ne zahtijevaju ručno podešavanje svake scene — što bi moglo smanjiti troškove za studije koji nisu na razini ILM-a ili Wēta.
+
+Iako je model open-source, **stvarno usko grlo možda uopće nije tamo gdje ga marketing traži**. Problem nije algoritam, nego *podaci*: VOID zahtijeva obučavanje na sekvencama s jasno definiranim fizičkim zakonima. A to znači da će kompanije s pristupom visokokvalitetnim 3D skeniranim scenama (npr. [Unreal Engine](https://www.unrealengine.com/) ekosustav) imati prednost u finetuningu. Za ostale, čak i sa FP8 kvantizacijom za uštedu memorije, troškovi pokretanja ovog modela na cloud GPU-ima mogu biti zabranjujući.
+
+Dio zajednice već primjećuje da VOID *nije* univerzalno rješenje: loše funkcionira s tekućinama, dimom ili scenama s previše pokretnih dijelova. Ali to je i očekivano — **prva iteracija** uvijek ima rupe. Zanimljivije je pitanje tko će prvi integrirati ovaj pristup u postojeće alate. [Blackmagic Design](https://www.blackmagicdesign.com/) ili [Foundry](https://www.foundry.com/) bi mogli ugraditi slične module u svoje Nuke ili Fusion pakete, čime bi VOID postao *feature*, a ne samostalni projekt.
+
+Za svu buku, stvarna priča je da Netflix ovdje ne prodaje magiju — nego dokaz koncepta da se fizika može automatizirati. To je mnogo opasnije po tradicionalne VFX timove nego još jedan 'AI filter'.

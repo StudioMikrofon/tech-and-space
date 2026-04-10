@@ -1,0 +1,50 @@
+---
+id: "2026-04-03-nvidia-gpus-now-have-a-rowhammer-problemwith-cpu-c"
+db_id: 1279
+title: "Nove Rowhammer napade na Nvidijine GPU-ove daju potpunu kontrolu"
+lang: "hr"
+category: "technology"
+date: "2026-04-03T04:24:16Z"
+excerpt: "Dvije nove varijante Rowhammer napada – **GDDRHammer** i **GeForge** – dokazuju kako se skupe Nvidijine grafičke kartice (cijene od **$8."
+key_points:
+  - "GDDRHammer i GeForge iskorištavaju GPU memoriju za preuzimanje CPU-a"
+  - "$8.000+ GPU-ovi u opasnosti u zajedničkim cloud okruženjima"
+  - "Bit flips u memoriji otvaraju vrata root pristupu"
+source:
+  name: "arstechnica.com"
+  url: "https://arstechnica.com/security/2026/04/new-rowhammer-attacks-give-complete-control-of-machines-running-nvidia-gpus/"
+image:
+  url: "/images/articles/nvidia-gpus-now-have-a-rowhammer-problemwith-cpu-c/main.jpg"
+  alt: "Nove Rowhammer napade na Nvidijine GPU-ove daju potpunu kontrolu"
+subtitle: "Stvarna cijena visokih performansi: sigurnosni propusti koji pretvaraju GPU u ulaznu točku"
+subtitleImage:
+  url: "/images/articles/nvidia-gpus-now-have-a-rowhammer-problemwith-cpu-c/subtitle.jpg"
+  alt: "Stvarna cijena visokih performansi: sigurnosni propusti koji pretvaraju GPU u ulaznu točku"
+tags: ["Nvidia", "GPU Security", "Rowhammer Attack"]
+lead_sentence: "Istraživači su demonstrirali kako dva nova Rowhammer napada — GDDRHammer i GeForge — mogu pretvoriti Nvidijine GPU-ove vrijedne preko $8.000 u alate za potpuno preuzimanje računala."
+geo:
+  name: "Santa Clara, United States"
+  lat: 37.3541
+  lon: -121.9552
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Dvije nove varijante Rowhammer napada – **GDDRHammer** i **GeForge** – dokazuju kako se skupe Nvidijine grafičke kartice (cijene od **$8.000+**) mogu pretvoriti u ključ za potpunu kontrolu nad računalom. 
+
+Napadi ne ciljaju samo GPU, već iskorištavaju njegovu memoriju da kompromitiraju CPU i dobiju root pristup – što ih čini posebno opasnima u cloud okruženjima gdje se isti GPU dijeli između desetaka korisnika. Problem nije novi: Rowhammer ranjivosti poznate su od 2014., ali evoluiraju s tehnologijom. 
+
+Ovaj put meta su GDDR memorijske ćelije u visokoperformansnim GPU-ovima, koje su zbog sve većeg zagušenja i smanjenih napona postale osjetljivije na bit flips – spontane promjene vrijednosti u memoriji. To nije teorija: istraživači su demonstrirali kako se ovim metodama može preuzeti kontrola nad cijelim sustavom, bez potrebe za sofisticiranim eksploitima. Zanimljivo je da napadi ne zahtijevaju fizički pristup uređaju. 
+
+Dovoljno je da napadčev kod pokrene na istom GPU-u u multi-tenant cloud okruženju – scenarij koji postaje sve učestaliji s rastom usluga kao što su [Nvidia DGX Cloud](https://www.nvidia.com/en-us/data-center/dgx-cloud/) ili [AWS EC2 GPU instance](https://aws.amazon.com/ec2/instance-types/g4/).
+
+<ArticleBreak />
+
+Za korisnike koji rabe Nvidijine GPU-ove u lokalnim postrojima, rizik je manji – ali ne i nepostojeći. Problem postaje kritičan u zajedničkim resursima, gdje jedan kompromitirani korisnik može ugroziti cijeli cluster. To stavlja pritisak na cloud provajdere da hitno implementiraju mitigacije na razini hardvera ili hipervizora, što može rezultirati povećanim troškovima ili ograničenjima performansi. 
+
+Nvidia još nije objavila službeno rješenje, ali raniji odgovori na Rowhammer uključivali su povećanje refresh rate-a memorije ili on-die ECC (Error-Correcting Code). Međutim, ova rješenja često dolaze s kompromisima u brzini ili povećanom potrošnjom energije – što nije idealno za visokoperformansne aplikacije kao što su AI treniranje ili renderiranje. Istraživači upozoravaju da bi dugotrajno rješenje moglo zahtijevati redizajn memorijskih kontrolera, što bi moglo odgoditi popravke za godine. 
+
+Pravi signal ovdje nije samo u novim napadiima, već u činjenici da se sigurnosni modeli visokih performansi moraju promijeniti. Dok se industrija usredotočuje na brzinu i skalabilnost, Rowhammer pokazuje kako hardverske ranjivosti mogu postati najslabija karika – čak i u sustavima koji se smatraju sigurnim.
+
+Sigurnosni propusti u visokoperformansnim GPU-ovima mogu imati ozbiljne posljedice, posebno u cloud okruženjima. Kompromitirani GPU može biti ulazna točka za napadače, koji mogu pristupiti osjetljivim podacima i uzeti kontrolu nad cijelim sustavom. Zbog toga je važno da se ovi problemi riješe što prije.

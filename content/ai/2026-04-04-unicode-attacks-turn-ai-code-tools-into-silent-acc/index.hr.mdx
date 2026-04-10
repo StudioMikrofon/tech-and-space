@@ -1,0 +1,55 @@
+---
+id: "2026-04-04-unicode-attacks-turn-ai-code-tools-into-silent-acc"
+db_id: 1412
+title: "Unicode kao trojanski konj: Kako su GitHub tokeni ukradeni preko Codex-a"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T02:19:08Z"
+excerpt: "Security istraživači su otkrili kako Ideographic Space (U+3000) — Unicode znak koji izgleda kao prazan prostor — može pretvoriti GitHub branch name u skrito oružje."
+exec_summary: "The attack exploits a blind spot in AI coding tools: they execute obfuscated Unicode commands invisibly to users, bypassing traditional security. This isn’t just a Codex bug—it’s a systemic risk for any AI agent with execution privileges, exposing gaps in input validation and privilege management."
+key_points:
+  - "94 nevidljiva Unicode znakova sakrila je zlonamjerni kod"
+  - "Codex je izvršavao naredbe iz naziva grana bez provjere"
+  - "GitHub Installation tokeni ugroženi i preko pull request komentara"
+source:
+  name: "techradar.com"
+  url: "https://www.techradar.com/pro/the-invisible-threat-hidden-in-clear-view-how-unicode-characters-are-being-weaponized-to-hide-malicious-commands-from-human-users"
+image:
+  url: "/images/articles/unicode-attacks-turn-ai-code-tools-into-silent-acc/main.jpg"
+  alt: "Unicode kao trojanski konj: Kako su GitHub tokeni ukradeni preko Codex-a"
+subtitle: "Demo nasuprot deploymenta: Zašto AI alati s privilegijama postaju meta"
+subtitleImage:
+  url: "/images/articles/unicode-attacks-turn-ai-code-tools-into-silent-acc/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: Zašto AI alati s privilegijama postaju meta"
+tags: ["GitHub", "Codex", "AI Privilege Escalation"]
+lead_sentence: "Napadači su koristeći 94 Unicode Ideographic Space znakova uspjeli sakriti maliciozni payload u GitHub branch nazivu, koji je OpenAI-ov Codex potom izvršio s korisnikovim privilegijama."
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Security istraživači su otkrili kako Ideographic Space (U+3000) — Unicode znak koji izgleda kao prazan prostor — može pretvoriti GitHub branch name u skrito oružje. Napadači su iskoristili 94 takva znaka da sakriju payload u nazivu grane, koje je OpenAI-ov Codex potom nekritički izvršio u svom cloud okruženju.
+
+Ključni detalj: Codex nije samo prepisivao kod, već ga je i izvršavao s privilegijama korisnika — što je omogućilo krađu GitHub autentikacijskih tokena. Problem nije u samom Unicode-u, već u tome kako AI alati poput Codex-a, Copilota ili sličnih povjerljivo tretiraju ulazne podatke.
+
+Tradicionalni security alati ne skeniraju tekstualne naredbe unutar AI generiranog koda, a kamoli Unicode obfuscation. To znači da je ovdje riječ o novom vektoru napada koji zaobilazi i antivirus i firewalle — jednostavno zato što oni ne gledaju tamo gdje Codex radi posao.
+
+Dokazi pokazuju da je tehnika testirana na Amazon EC2 serveru, gdje je automatizirano kompromitirano više korisnika s pristupom istom repozitoriju. Još zabrinjavajuće: isti metod može ukrasti i GitHub Installation Access token preko pull request komentara.
+
+Drugim riječima, riječ je o sistemskom propustu, a ne o pojedinačnom bugu.
+
+<ArticleBreak />
+
+Ovdje se otvara pitanje: koliko su AI coding agenti poput Codex-a ili Copilota stvarno pripremljeni za production upotrebu? OpenAI je problem popravio, ali samo za ovaj konkretni slučaj — što s ostalim Unicode varijacijama ili sličnim obfuscation tehnikama?
+
+Rani signali iz developer zajednice sugeriraju da je ovo samo vrh ledenca: igrači primjećuju kako se slične tehnike mogu primijeniti na Slack bote, cloud CLI alate, pa čak i na IDE ekstenzije koje automatski procesiraju tekstualne komande. Benchmark kontekst je ključan: Codex radi u okruženju gdje mu korisnici daju privilegije — kao da bi programer ručno pokrenuo rm -rf / u terminalu, ali bez da vidi upozorenje.
+
+Razlika je u tome što ovdje nema terminala, već AI koji tihim glasom izvršava naredbe skrivene iza 94 nevidljivih znakova. To možda zvuči kao tehnički detalj, ali zapravo je to fundamentalni jaz između onoga što AI može učiniti i onoga što korisnik vidi.
+
+Stvarno usko grlo možda uopće nije u samom modelu, već u pretpostavci da će developeri uvijek moći prepoznati što leur AI alat izvršava. A tu priča postaje zanimljivija od same objave: ako ne možemo povjerovati vlastitim očima pri čitanju branch imena, što nam onda preostaje?
+
+U konačnici, ovo otkriće naglašava važnost kontinuiranog istraživanja i razvoja sigurnosnih tehnika za zaštitu od napada koji koriste AI tehnologije. To uključuje razvoj novih alata i tehnika za detekciju i sprečavanje napada, kao i edukaciju korisnika o potencijalnim rizicima. Također, potrebno je razviti nove standarde i smjernice za sigurnu upotrebu AI alata u razvoju softvera.

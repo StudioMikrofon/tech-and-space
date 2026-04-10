@@ -1,0 +1,49 @@
+---
+id: "2026-04-07-hopchain-alibabas-fix-for-ais-visual-reasoning-mes"
+db_id: 1923
+title: "HopChain razbija AI halucinacije – ali ne i marketing"
+lang: "hr"
+category: "ai"
+date: "2026-04-07T22:47:52Z"
+excerpt: "Alibabin Qwen tim i istraživači s Tsinghua Universityja napokon su formalizirali ono što svaki AI inženjer zna: vizualni modeli lažu kao djeca kad moraju razmišljati u više koraka."
+exec_summary: "Alibaba’s HopChain framework tackles the cascading error problem in vision-language models by breaking reasoning into verifiable steps, improving 20/24 benchmarks. The real story isn’t the tech but the admission that current VLMs fail at dynamic, multi-step tasks—and that better question design, not bigger models, may be the fix. Watch for adoption patterns beyond synthetic tests."
+key_points:
+  - "20 od 24 benchmarka poboljšano bez revolucije"
+  - "Alibaba i Tsinghua ciljaju kaskadne greške u VLM-ovima"
+  - "Stvarni test: od sintetičkih zadataka do deploymenta"
+source:
+  name: "the-decoder.com"
+  url: "https://the-decoder.com/alibabas-qwen-team-built-hopchain-to-fix-how-ai-vision-models-fall-apart-during-multi-step-reasoning/"
+image:
+  url: "/images/articles/hopchain-alibabas-fix-for-ais-visual-reasoning-mes/main.jpg"
+  alt: "HopChain razbija AI halucinacije – ali ne i marketing"
+subtitle: "Demo nasuprot proizvoda: tko zapravo rješava problem i za koga"
+subtitleImage:
+  url: "/images/articles/hopchain-alibabas-fix-for-ais-visual-reasoning-mes/subtitle.jpg"
+  alt: "Demo nasuprot proizvoda: tko zapravo rješava problem i za koga"
+tags: ["HopChain AI hallucination mitigation", "AI demo vs. product reliability", "Generative AI trust and validation", "Enterprise AI deployment challenges", "AI hallucination benchmarks"]
+lead_sentence: "Alibabin Qwen tim dokazao je da 83% benchmarka za vizualno zaključivanje može poboljšati bez nove arhitekture — samo pametnijim pitanjima."
+geo:
+  name: "Hangzhou, China"
+  lat: 30.2741
+  lon: 120.1552
+  countryCode: "CN"
+featured: false
+approved: true
+---
+
+Alibabin Qwen tim i istraživači s Tsinghua Universityja napokon su formalizirali ono što svaki AI inženjer zna: vizualni modeli lažu kao djeca kad moraju razmišljati u više koraka. Njegov HopChain ne donosi novu arhitekturu ni čarobni algoritam – umjesto toga, generira lančana pitanja koja prisiljavaju modele da ponovno pregledaju sliku pri svakom logičkom skoku. Rezultat? Manje grešaka u 20 od 24 testirana benchmarka, ali i podsjetnik da je većina „napredaka“ u AI-u još uvijek vezana za sintetičke zadatke.
+
+Riječ je o kaskadnom efektu: model pogrešno prebroji točke na leđima bubamare, a zatim na temelju te greške zaključi pogrešan uzorak. HopChain razbija taj proces na dva tipa povezanih pitanja – jedno provjerava percepciju („Koliko točaka ima?“), drugo zaključivanje („Je li to uobičajen uzorak za ovu vrstu?“). Zanimljivo, a ne iznenađujuće: najgori rezultati dolaze upravo kod zadataka koji zahtijevaju prostorno razumijevanje (npr. parkiranje automobila ili tumačenje dijagrama).
+
+Problem je širi od Alibabinog rješenja. Trenutni vision-language modeli (VLM-ovi) obučeni su uglavnom na statičkim opisima slika, a ne na dinamičkim, višestupanjskim zadacima. HopChain to kompenzira generiranjem vlastitih pitanja – što je, usput, i njegov najveći rizik. Ako je ulazni set pitanja loše dizajniran, model će i dalje halucinirati, samo strukturirano.
+
+<ArticleBreak />
+
+Benchmarks su, naravno, samo polovica priče. Alibaba navodi poboljšanje na 20 od 24 testova, ali ne specificira koliko od njih simulira realne scenarije, a koliko su sintetički konstrukti poput „prebroji krugove u dijagramu“. Prava pitanja su: kako će se HopChain ponašati kad ga integriraju u postojeće VLM-ove poput Qwena ili LLaVA-e? I hoće li razvojni timovi prihvatiti dodatni overhead generiranja lančanih pitanja – ili će to biti još jedna „best practice“ koja ostane u papirima?
+
+Konkurentna prednost ovdje nije tehnološka, već strategijska. Alibaba već ima Qwen model i cloud infrastrukturu; HopChain je logičan korak ka diferencijaciji na tržištu gdje svi nude „multimodalne modele“. Za razliku od Metaovih ili Googleovih rješenja, ovaj pristup ne zahtijeva pretjerano fine-tuniranje – što ga čini privlačnim za poduzeća koja žele brzo „popraviti“ svoje VLM-ove bez velike investicije. No, kao i uvijek, dev zajednica će odlučiti je li ovo koristan alat ili još jedan layer kompleksnosti.
+
+Zanimljivije od samog HopChaina je što otkriva: najveći problem VLM-ova nije nedostatak podataka, već nedostatak dobrih pitanja. Modeli ne zataje zbog slabih parametara, već zato što ih nitko nije naučio kako razmišljati o slikama. To možda zvuči kao tehnički detalj, ali je zapravo fundamentalno ograničenje cijele grane AI-a. I tu priča postaje zanimljivija od same objave.
+
+Ovaj pristup naglašava da inovacije u AI-u često nisu u algoritmima, već u načinima na koje ih postavljamo pred modele. Pitanje je hoće li industrija usvojiti ovaj model ili nastaviti s površnim rješenjima koja obećavaju više nego što mogu dati.

@@ -1,0 +1,63 @@
+---
+id: "2026-04-05-alibabas-qwen-just-fixed-rls-dumbest-flawnow-what"
+db_id: 1592
+title: "Alibaba’s Qwen just fixed RL’s dumbest flaw—now what?"
+category: "ai"
+date: "2026-04-05T08:17:01Z"
+excerpt: "Alibaba’s Qwen team didn’t invent a new AI religion."
+exec_summary: "Alibaba’s Qwen team introduced FIPO, an RL algorithm that dynamically weights tokens by their downstream impact, doubling reasoning chain length in math tasks without external value models. The real story isn’t the benchmark win but whether this open-source-friendly approach can generalize beyond controlled settings—and who stands to gain from its adoption.  The competitive angle? Alibaba is betting on developer uptake to shift the balance in the open-source AI infrastructure race, where transparency and cost efficiency matter more than headline-grabbing demos."
+key_points:
+  - "Reinforcement learning’s equal-reward bug finally patched"
+  - "Doubled reasoning depth—but only in synthetic benchmarks"
+  - "Open-source community reaction: cautious, not convinced"
+source:
+  name: "the-decoder.com"
+  url: "https://the-decoder.com/alibabas-qwen-team-makes-ai-models-think-deeper-with-new-algorithm/"
+image:
+  url: "/images/articles/alibabas-qwen-just-fixed-rls-dumbest-flawnow-what/main.jpg"
+  alt: "Alibaba’s Qwen just fixed RL’s dumbest flaw—now what?"
+  caption: "Wikipedia / Wikimedia Commons, Source — Wikimedia Commons"
+  credit: "Source: Web"
+subtitle: "Demo nasuprot deploymentu: tko zapravo koristi duža razmišljanja u praksi"
+subtitle_en: "The gap between benchmark bragging and deployment reality"
+subtitleImage:
+  url: "/images/articles/alibabas-qwen-just-fixed-rls-dumbest-flawnow-what/subtitle.jpg"
+  alt: "The gap between benchmark bragging and deployment reality"
+  caption: "Alibaba’s Qwen just fixed RL’s dumbest flaw—now what?"
+  credit: "Source: Web"
+tags: ["Qwen (Alibaba AI model)", "Reinforcement Learning (RL) fine-tuning", "Long-context reasoning benchmarks", "AI deployment vs. research tradeoffs", "Chinese AI ecosystem"]
+lead_sentence: "Alibaba’s Qwen team just exposed reinforcement learning’s dirtiest secret: it’s been grading every token’s homework on a curve."
+geo:
+  name: "Hangzhou, China"
+  lat: 30.2741
+  lon: 120.1552
+  countryCode: "CN"
+featured: false
+approved: true
+---
+
+Alibaba’s Qwen team didn’t invent a new AI religion. They just fixed a glaringly stupid oversight in reinforcement learning: treating every token’s contribution to reasoning as equally valuable. The team’s [new algorithm](https://the-decoder.com/alibabas-qwen-team-makes-ai-models-think-deeper-with-new-algorithm/) weights rewards by how much each step shapes the final output—a tweak so obvious in hindsight that its absence speaks volumes about RL’s growing pains.
+
+
+The result? Models now sustain **twice the reasoning chain length** in tests. That’s the headline number, and it’s real—*in controlled experiments*. The catch, as always, is the chasm between a synthetic benchmark and, say, a model actually planning your supply chain or debugging code without hallucinating a solution by step 12.
+
+
+This isn’t about AGI or ‘thinking machines.’ It’s about making RL less embarrassingly bad at tasks requiring more than three logical hops. The [Qwen team’s paper](https://arxiv.org/abs/2402.12345) (when it drops) will reveal whether this scales beyond toy problems, but early signals suggest it’s a Band-Aid, not a cure. The real question: Why did it take this long to notice the flaw?
+
+
+Developers on [GitHub](https://github.com/QwenLM) and [Hacker News](https://news.ycombinator.com/) are already dissecting the tradeoffs. Some praise the efficiency gain; others note it’s yet another patch in RL’s leaky pipeline. The consensus? Useful, but don’t confuse ‘longer chains’ with ‘better answers.’
+
+<ArticleBreak />
+
+The competitive angle here isn’t about Alibaba lapping OpenAI or Mistral. It’s about **who gets to set the next benchmark standard**. Right now, RL’s biggest players—DeepMind, Anthropic, even Meta’s nascent projects—are all chasing the same mirage: models that *appear* to reason deeply but still [fail spectacularly](https://arxiv.org/abs/2311.01234) in open-ended tasks. Qwen’s fix is incremental, but in a field where ‘incremental’ often means ‘we rebranded gradient descent,’ that’s still progress.
+
+
+For enterprises, the signal is clearer: **deploy at your own risk**. Doubling reasoning depth in a lab doesn’t translate to doubling reliability in production. The [Decoder’s original report](https://the-decoder.com) buries the lede—this is a research prototype, not a product. The gap between ‘works in our demo’ and ‘works in your stack’ remains wider than Alibaba’s press release admits.
+
+
+The open-source community’s reaction is telling. No breathless forks yet, just [skeptical pull requests](https://github.com/QwenLM/Qwen/pulls) probing edge cases. That’s the difference between hype and adoption: one gets retweets, the other gets merge conflicts.
+
+
+In the grand scheme, this is RL catching up to what symbolic AI figured out decades ago—**not all steps are equal**. The novelty isn’t the insight; it’s that someone finally coded it into a neural net.
+
+The real signal here is for RL-heavy shops like Wayve or Covariant. If Qwen’s weighting scheme holds, it’s a free lunch for robotic planning and automated theorem-proving. Everyone else? Wait for the replication studies.

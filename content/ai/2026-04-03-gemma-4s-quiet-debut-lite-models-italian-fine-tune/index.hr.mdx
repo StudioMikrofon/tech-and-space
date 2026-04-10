@@ -1,0 +1,55 @@
+---
+id: "2026-04-03-gemma-4s-quiet-debut-lite-models-italian-fine-tune"
+db_id: 1367
+title: "Gemma 4 i Gemini 0.30: Što se krije iza novih modela?"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T20:25:48Z"
+excerpt: "Simon Willison je u razgovoru za <a href=\"https://www."
+exec_summary: "Google’s quiet rollout of three new models in *llm-gemini 0.30*—including two *Gemma 4* variants—raises questions about their readiness and target audience. The lack of benchmarks or official communication suggests these may be developer previews rather than production-ready tools, with potential implications for lightweight LLM applications and EU-localized deployments."
+key_points:
+  - "Tri nova modela bez jasnih benchmarka"
+  - "Gemma 4 u centru pažnje, ali bez detalja"
+  - "Community reagira na Willisonove bilješke"
+source:
+  name: "simonwillison.net"
+  url: "https://simonwillison.net/2026/Apr/2/llm-gemini/#atom-everything"
+image:
+  url: "/images/articles/gemma-4s-quiet-debut-lite-models-italian-fine-tune/main.jpg"
+  alt: "Gemma 4 i Gemini 0.30: Što se krije iza novih modela?"
+subtitle: "Demo nasuprot deploymenta: Tko zapravo testira ove modele?"
+subtitleImage:
+  url: "/images/articles/gemma-4s-quiet-debut-lite-models-italian-fine-tune/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: Tko zapravo testira ove modele?"
+tags: ["Gemma 4", "Gemini 0.30", "Deployment Testing"]
+lead_sentence: "Tri nova AI modela—**gemini-3.1-flash-lite-preview**, **gemma-4-26b-a4b-it** i **gemma-4-31b-it**—pojavila su se u *llm-gemini 0.30* bez službene najave, a jedini koji ih je detaljno spomenuo bio je Simon Willison u razgovoru za *Lenny’s Podcast*."
+geo:
+  name: "Mountain View, United States"
+  lat: 37.386052
+  lon: -122.083851
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Simon Willison je u razgovoru za <a href="https://www.lennyspodcast.com/">Lenny’s Podcast</a> spominje **llm-gemini 0.30** — ali prava priča nije u verziji, nego u tri nova modela koja su stigli bez fanfare: **gemini-3.1-flash-lite-preview**, **gemma-4-26b-a4b-it** i **gemma-4-31b-it**. Čudno je što Google (ili bar njegov *Gemini* tim) nije sam objavio ove novotarije, nego su procurile kroz developerke kanale.
+
+To otvara pitanje: jesu li ovi modeli spremni za produkciju, ili je riječ o *preview*-ima namijenjenim uskom krugu testera? Naziv **gemini-3.1-flash-lite-preview** sugerira optimizirani, vjerojatno brži i jeftiniji variant *Gemini 3.1* — ali bez konkretnih benchmarka, ostaje nejasno koliko je ta ‘lite’ verzija zapravo korisna.
+
+S druge strane, **gemma-4-26b-a4b-it** i **gemma-4-31b-it** jasno signaliziraju fine-tuniranje za talijanski jezik (prefiks *-it*), što bi moglo biti zanimljivo za europske developere. No, opet: nema podataka o performansama, nema usporedbe s prethodnim *Gemma* modelima.
+
+Čak i Willisonove <a href="https://simonwillison.net/">bilješke o Gemma 4</a> više liče na *teaser* nego na analizu. Zanimljivije od samih modela je što ih je Willison spominjao u kontekstu *agentic engineering* — a to nije slučajno.
+
+Njegov nedavni <a href="https://simonwillison.net/2026/mar/30/mr-chatterbox/">Mr. Chatterbox</a> projekt (objavljen 30. ožujka) koristi upravo ovakve lakše, brže modele za gradnju autonomnih agenata.
+
+<ArticleBreak />
+
+Pravi signal ovdje nije u samim modelima, nego u tome *tko ih testira* — i *zašto*. Willisonova publika su uglavnom developeri koji eksperimentiraju s otvorenim modelima i agentnim sustavima.
+
+Ako su ovi *preview*-i namijenjeni upravo njima, Google možda traži povratne informacije prije šireg lansiranja. To bi objasnilo zašto nema službenih najava: radi se o *dogfooding*-u, a ne o marketinškom potezu.
+
+Međutim, postoji i druga mogućnost: da je riječ o strateškom ‘procurjenju’ kako bi se testirala tržišna reakcija. *Gemma* serija je od početka bila pozicionirana kao *open*-alternativa *Gemini*-ju, ali s manjim modelima i nižim troškovima. Ako su **gemma-4-26b** i **gemma-4-31b** zaista optimizirani za europske jezike (a ne samo talijanski), to bi mogao biti Googleov odgovor na pritisak iz EU, gdje se traže lokalizirani modeli s manjim *carbon footprint*-om.
+
+No, bez jasnih podataka o troškovima fine-tuniranja ili latenciji, sve ostaje u sferi nagađanja. Najzanimljivije je što community <a href="https://github.com/google/generative-ai">na GitHub-u</a> i <a href="https://news.ycombinator.com/">Hacker News-u</a> već spekulira o mogućoj integraciji ovih modela u *Vertex AI* ili *Colab* — ali bez službenih potvrda.
+
+Konačno, važno je napomenuti da ovi novi modeli nisu samo tehnički napredak, već i potencijalni izvor inovacija u različitim područjima. Ako će ovi modeli biti dostupni širem krugu korisnika, to bi moglo dovesti do stvaranja novih aplikacija i servisa koji će koristiti ovu tehnologiju. Međutim, još je rano za donošenje zaključaka, jer je potrebno više informacija o ovim modelima i njihovim mogućnostima.

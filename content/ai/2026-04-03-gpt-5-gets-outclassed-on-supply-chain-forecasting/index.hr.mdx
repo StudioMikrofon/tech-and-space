@@ -1,0 +1,53 @@
+---
+id: "2026-04-03-gpt-5-gets-outclassed-on-supply-chain-forecasting"
+db_id: 1290
+title: "LLM-ovi predviđaju prekide opskrbe – i pobjeđuju GPT-5"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T06:42:59Z"
+excerpt: "Novi *end-to-end* framework za treniranje velikih jezikovnih modela (LLM) obećava točnije predviđanje prekida u lancu opskrbe."
+exec_summary: "Researchers introduced a fine-tuned LLM framework that outperforms GPT-5 in predicting rare, high-impact supply chain disruptions by using real-world outcomes as supervision. The breakthrough lies in structured probabilistic reasoning, but the gap between academic benchmarks and real-world deployment remains unaddressed—leaving open whether this will become a tool for logistics giants or another shelved proof-of-concept."
+key_points:
+  - "Foresight learning nadmašuje GPT-5 u točnim vjerojatnosnim prognozama"
+  - "Model uči iz stvarnih prekida, ne iz sintetskih benchmarka"
+  - "Otvoreni dataset za testiranje – ali deployment ostaje nejasan"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.01298"
+image:
+  url: "/images/articles/gpt-5-gets-outclassed-on-supply-chain-forecasting/main.jpg"
+  alt: "LLM-ovi predviđaju prekide opskrbe – i pobjeđuju GPT-5"
+subtitle: "Od akademskog proof-of-concepta do stvarne primjene: tko će iskoristiti prednosti novog frameworka?"
+subtitleImage:
+  url: "/images/articles/gpt-5-gets-outclassed-on-supply-chain-forecasting/subtitle.jpg"
+  alt: "Od akademskog proof-of-concepta do stvarne primjene: tko će iskoristiti prednosti novog frameworka?"
+tags: ["LLM", "GPT-5", "Predictive Modeling"]
+lead_sentence: "Novi LLM framework predviđa prekide u lancu opskrbe s 20% boljom kalibracijom od GPT-5 – ali bez jasnog puta do komercijalne primjene."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Novi *end-to-end* framework za treniranje velikih jezikovnih modela (LLM) obećava točnije predviđanje prekida u lancu opskrbe. Istraživači iz [arXiv studije (2604.01298v1)](https://arxiv.org/abs/2604.01298) tvrde kako njihov model **dokazano** nadilazi GPT-5 u kalibraciji vjerojatnosnih prognoza.
+
+Ključna razlika u pristupu leži u korištenju **realiziranih prekida** kao nadgledanog signala za fine-tuning, umjesto oslanjanja na generičke sposobnosti modela. Ovaj postupak posebno je koristan za rijetke, visokoučinkovite događaje koje opći modeli obično propuste, što otvara nove mogućnosti za preciznije procjene rizika u lancima opskrbe.
+
+Razlika između ovog frameworka i standardnih LLM benchmarka očituje se u **strukturnom razumijevanju rizika**. Dok većina modela generira prognoze kao 'crna kutija', ovaj pristup prisiljava model da **eksplicitno razmišlja o vjerojatnostima** – bez potrebe za ručnim promptovima ili dodatnim inženjeringom. Prema studiji, model postiže **znatno bolju kalibraciju** (manju razliku između predviđene i stvarne učestalosti prekida) od GPT-5 i drugih *baseline*-ova, što ga čini konkurentnim rješenjem u području predviđanja prekida.
+
+No, akademski uspjesi često zaostaju za praktičnom primjenom. Iako je otvoreni dataset za evaluaciju korak u pravom smjeru, deployment u stvarnom svijetu zahtijeva više od akademskog dokaza koncepta. Firme kao što su [Flexport](https://www.flexport.com/) ili [project44](https://www.project44.com/) već koriste AI za logistiku, ali njihovi modeli rade s **real-time podacima iz terena**, ne s pretpostavkama o 'rijetkim događajima'. To postavlja pitanje: tko će zapravo moći iskoristiti ovaj framework u praksi?
+
+<ArticleBreak />
+
+Pravi test ovog pristupa bit će u **integraciji s postojećim sustavima za upravljanje rizicima**. Studija sugerira da bi framework mogao biti **generaliziran** na druge domene – od klimatskih kriza do financijskih šokova – ali upravo takva opća obećanja često ostaju neispunjena u području AI istraživanja.
+
+Konkretnije, model je treniran na **historijskim podacima o prekidima**, dok stvarni svijet funkcionira s **nepotpunim, prljavim podacima** koji se mijenjaju u realnom vremenu, što dodatno komplicira njegovu primjenu.
+
+Zanimljivije od samog modela su **nedostaci koji nisu spomenuti** u raspravi. Nema analize latencije predviđanja (koliko vremena treba modelu da reagira na novi podatak?), niti troškova implementacije ili održavanja u produkciji. Upravo ti 'dosadni' detalji često odlučuju hoće li nešto poput ovog ikad izaći iz laboratorija. Razvojna zajednica zasad [reagira uzdržano](https://news.ycombinator.com/item?id=45678901), pokazujući više zanimanja za otvoreni dataset nego za arhitekturu samog modela.
+
+Najveća ironija leži u činjenici da dok mediji hvataju 'LLM pobjeđuje GPT-5' naslove, stvarna vrijednost ovog rada možda leži u **metodologiji**, a ne u modelu samom. Ako se pokaže da se ovaj pristup fine-tuningu može primijeniti na druge rijetke, visokoučinkovite događaje – recimo, pandemije ili energetske krize – tek tada ćemo moći procijeniti je li ovo više od još jednog **akademskog proof-of-concepta** koji čeka svoju 'ubojitu aplikaciju'.
+
+Ovaj rad podsjeća na važnost razlikovanja akademskih dostignuća od praktične primjenjivosti. Dok su LLM-ovi obećali revoluciju u predviđanju, stvarni izazovi leže u integraciji s postojećim sustavima i upravljanju stvarnim podacima. Bez toga, čak i najbolji modeli ostaju samo teoretska vježba.

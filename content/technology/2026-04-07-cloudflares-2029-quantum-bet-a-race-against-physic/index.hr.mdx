@@ -1,0 +1,49 @@
+---
+id: "2026-04-07-cloudflares-2029-quantum-bet-a-race-against-physic"
+db_id: 1877
+title: "Cloudflare žuri: puni PQ sigurnost do 2029. ili kasni"
+lang: "hr"
+category: "technology"
+date: "2026-04-07T16:17:25Z"
+excerpt: "Cloudflare je upravo pomaknuo rok za punu **post-kvantnu sigurnost** na 2029."
+exec_summary: "Cloudflare’s accelerated 2029 post-quantum security target isn’t just a technical update—it’s a wake-up call for an industry unprepared for the impending collapse of RSA and ECC encryption. With 65% of its traffic already post-quantum encrypted but authentication lagging, the real question is whether the market will act in time or repeat past delays until it’s too late."
+key_points:
+  - "Google i Oratomic ubrzali kvantnu prijetnju na 10.000 kubita"
+  - "65% Cloudflareovog prometa već šifrirano post-kvantumno"
+  - "RSA i ECC u opasnosti — migracija postaje hitna"
+source:
+  name: "blog.cloudflare.com"
+  url: "https://blog.cloudflare.com/post-quantum-roadmap/"
+image:
+  url: "/images/articles/cloudflares-2029-quantum-bet-a-race-against-physic/main.jpg"
+  alt: "Cloudflare žuri: puni PQ sigurnost do 2029. ili kasni"
+subtitle: "Kvantna prijetnja postaje stvarnost, a troškovi kašnjenja rastu"
+subtitleImage:
+  url: "/images/articles/cloudflares-2029-quantum-bet-a-race-against-physic/subtitle.png"
+  alt: "Kvantna prijetnja postaje stvarnost, a troškovi kašnjenja rastu"
+tags: ["Cloudflare Post-Quantum Cryptography", "Quantum-Resistant Security Deployment", "Cryptographic Transition Timeline 2029", "Enterprise Cybersecurity Infrastructure", "Post-Quantum Cryptography Migration"]
+lead_sentence: "Googleov novi algoritam i Oratomicova procjena od 10.000 kubita prisilili su Cloudflare da pomakne punu post-kvantumnu sigurnost na 2029. — pet godina ranije od očekivanog."
+geo:
+  name: "San Francisco, United States"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Cloudflare je upravo pomaknuo rok za punu **post-kvantnu sigurnost** na 2029. — pet godina ranije nego što su mnogi pretpostavljali. Razlog? Dva ključna događaja: Googleov [dokaz koncepta](https://security.googleblog.com/2024/07/preparing-for-post-quantum-world.html) kako lomiti eliptičku krivuljnu kriptografiju (ECC) koristeći Shorov algoritam, te Oratomicova procjena da bi **10.000 kubita** na neutralnom atomskom računalu bilo dovoljno za slom P-256 — standard koji danas štiti sve od bankarstva do VPN-ova.
+
+Ovo nije samo akademska zabrinutost. Cloudflare je već 2022. uveo post-kvantnu šifru za sve stranice i API-je na svojoj mreži, a danas **65% ljudskog prometa** prolazi kroz te kanale. No autentikacija — ključni dio sigurnosnog lanca — još uvijek ovisi o klasičnim algoritmima. Upravo taj jaz pokreće žurbu: ako kvantni napad uspije prije migracije, posljedice neće biti samo teoretske.
+
+Problem je širi od Cloudflarea. Google je istovremeno [pomaknuo](https://blog.google/technology/safety-security/preparing-post-quantum-cryptography/) vlastiti rok za post-kvantnu migraciju na 2029., a NSA i NIST već godinama upozoravaju na **Q-Day** — trenutak kada će kvantna računala moći dekriptirati danas šifrirane podatke. Pitanje više nije *hoće li* doći do toga, nego *kada* i tko će biti spreman.
+
+<ArticleBreak />
+
+Za korisnike i tvrtke, ovo znači konkretne troškove. Cloudflare nudi besplatne SSL certifikate od 2014., ali puni prijelaz na post-kvantne standarde zahtijeva nadogradnju hardvera, testiranje kompatibilnosti i eventualne padove performansi. [Istraživanje](https://www.cloudflareresearch.com/pq-deployment-challenges/) pokazuje da neka rješenja povećavaju latenciju za **20-40%**, što za visokofrekventne usluge (npr. financijske transakcije) može biti neprihvatljivo.
+
+Ekosustav reagira sporije od tehnoloških divova. Manje tvrtke još uvijek koriste zastarjele biblioteke kao što je OpenSSL 1.1.1 (koji ne podržava post-kvantne algoritme), a cloud provajderi poput AWS-a i Azure-a tek polako uvode podršku za **Kyber** ili **Dilithium** — dva vodeća kandidata za novu eru. Pravi signal ovdje nije u Cloudflareovoj objavi, nego u činjenici da čak i oni koji su najspremniji kažu: *‘Ako ne počnemo sada, kasnimo.’*
+
+Najveća ironija? Kvantna računala koja bi mogla slomiti današnju kriptografiju još uvijek ne postoje u praktičnoj primjeni. No kada se dogode — a [procjene](https://arxiv.org/abs/2307.00739) sugeriraju da bi to moglo biti već 2030. — svi podatci šifrirani današnjim standardima bit će **otvorena knjiga**. Cloudflareovo ubrzanje nije panika, nego priznanje da je sigurnost uvijek trka s vremenom.
+
+Budućnost kriptografije već je ovdje — samo još ne u obliku koji očekujemo. Ono što sada učinimo odredit će hoće li podaci budućnosti biti zaštićeni ili izloženi.

@@ -1,0 +1,57 @@
+---
+id: "2026-04-05-anthropics-claude-leak-a-midnight-self-own-not-a-h"
+db_id: 1597
+title: "Anthropicov propust: 512.000 redaka Claudeova koda na ulici"
+lang: "hr"
+category: "ai"
+date: "2026-04-05T10:20:53Z"
+excerpt: "Anthropic je u 4 sata ujutro objavio 512."
+exec_summary: "Anthropic accidentally leaked Claude’s proprietary interface code—not the model itself—via a routine update error. The incident exposes how human oversight can erode competitive moats in AI, even without a breach. Watch for competitors reverse-engineering features like real-time graphics tools, and Anthropic’s scramble to reclaim narrative control."
+key_points:
+  - "512.000 redaka TypeScript koda u 4 sata ujutro"
+  - "Nema modela, ali sučelje je na udaru konkurencije"
+  - "GitHub već brijše repozitorije na DMCA zahtjev"
+source:
+  name: "9to5google.com"
+  url: "https://9to5google.com/2026/04/01/claude-source-code-leak-internal-error/"
+image:
+  url: "/images/articles/anthropics-claude-leak-a-midnight-self-own-not-a-h/main.jpg"
+  alt: "Anthropicov propust: 512.000 redaka Claudeova koda na ulici"
+subtitle: "Greška pakiranja umjesto hakiranja – tko sad ima prednost"
+subtitleImage:
+  url: "/images/articles/anthropics-claude-leak-a-midnight-self-own-not-a-h/subtitle.jpg"
+  alt: "Greška pakiranja umjesto hakiranja – tko sad ima prednost"
+tags: ["Anthropic Claude model data leak", "512,000 tokens exposed via packaging error", "AI model security incident", "Supply chain risk in AI deployment", "Anthropic supply chain breach"]
+lead_sentence: "Debug datoteka od 512.000 redaka TypeScripta završila je na javnom GitHubu jer je Anthropic u 4 sata ujutro zaboravio isključiti *release packaging* mod."
+geo:
+  name: "San Francisco, United States"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Anthropic je u 4 sata ujutro objavio 512.000 redaka interne TypeScript dokumentacije Claudea – ne kao rezultat sofisticiranog napada, nego kao poslijepodnevnu grešku u pakiranju. Kod nije uključivao model (dakle, nema rizika od kloniranja ai logike), ali je otkrio detalje sučelja koji konkurenciji mogu ubrzati razvoj sličnih funkcija.
+
+Posebno je zanimljivo što je riječ o debug datoteci koju je netko brzo prepoznao i proslijedio daljnjim krugovima – dok je Anthropic još spavao. Kompanija je reagirala brzo: dmca obrisi već su stigli na github repozitorije, a službena izjava naglašava kako nisu izloženi korisnički podaci ni vjerodajnice.
+
+No, pravo pitanje glasi: koliko je ovakav leak zapravo koristan konkurenciji? Prema dostupnim informacijama, kod sadrži dijelove grafičkog sučelja i interakcije s vanjskim alatima – upravo onih funkcija koje je Anthropic nedavno isticao kao prednost (npr. real-time grafike ili daljinsko upravljanje računalom).
+
+Dio zajednice već eksperimentira s rekreiranjem internog „Tamagotchi“ sučelja koje je bilo naznačeno u kodu. To nije revolucija, ali je zanimljivo koliko brzo se leak pretvara u feature requests za open-source alternative.
+
+Anthropic će sada morati ubrzati implementaciju tih funkcija – ili riskirati da ih netko drugi iskoristi prije njih.
+
+<ArticleBreak />
+
+Realna opasnost ovdje nije u krađi modela (to je i dalje nemoguće bez infrastrukture), nego u gubitku vremenske prednosti. Anthropic je posljednjih mjeseci gradio reputaciju na brzim iteracijama i jedinstvenim funkcijama – a sad konkurencija (npr.
+
+Mistral ili Perplexity) može reverse-engineerati dio tih rješenja bez troška istraživanja. To je posebno osjetljivo jer se radi o sučelju, a ne o jezgrenom modelu: lakše je kopirati ui nego izgraditi bolju arhitekturu.
+
+Zanimljivo je i kako je zajednica reagirala: umjesto panike, prevladava ironična radознаłość. Na Hacker News se šalju pull requestovi s „popravcima“ Anthropicovog koda, a neki već spekuliraju kako bi se debug alatke mogle pretvoriti u zasebne projekte.
+
+Anthropic je sada u neugodnoj poziciji: morat će ili ubrzati roadmapu (i riskirati nestabilne verzije) ili pričekati da konkurencija stigne – što u ai svijetu znači gubiti relevantnost za tjedan dana. Najveće pitanje ostaje: koje funkcije su zapravo bile „skrivane“ u tom kodu?
+
+Ako se potvrdi da je riječ o naprednijim alatima za automatizaciju (npr. integracija s apijevima trećih strana), Anthropic bi mogao izgubiti ključnu kartu u pregovorima s partnerima. Za sada je sigurno samo jedno: sljedeći release će biti pažljivije pakiran.
+
+U svijetu ai tehnologija, brzina i sigurnost su ključni faktori uspješnosti. Anthropic će morati naći ravnotežu između brze implementacije novih funkcija i zaštite svog koda. Ako uspije, kompanija će moći zadržati svoj položaj na tržištu i nastaviti razvijati inovativne rješenja.

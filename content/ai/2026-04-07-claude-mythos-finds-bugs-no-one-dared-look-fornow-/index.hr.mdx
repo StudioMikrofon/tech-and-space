@@ -1,0 +1,51 @@
+---
+id: "2026-04-07-claude-mythos-finds-bugs-no-one-dared-look-fornow-"
+db_id: 1913
+title: "Claude Mythos otkrio tisuće zero-day ranjivosti — i svi trče zakrpati ih"
+lang: "hr"
+category: "ai"
+date: "2026-04-07T21:09:44Z"
+excerpt: "Anthropicov najnoviji model, [Claude Mythos Preview](https://www."
+exec_summary: "Anthropic’s Claude Mythos Preview autonomously generates exploits for thousands of zero-days across all major OSes and browsers, forcing an industry-wide patching sprint under Project Glasswing. The model’s 72.4% exploit success rate exposes a shift: security can no longer be reactive when AI outpaces human audits. Watch whether this triggers a race for defensive AI—or offensive misuse."
+key_points:
+  - "12 tech divova i 40+ organizacija u 'Project Glasswing'"
+  - "72,4% uspjeha u eksploataciji Firefoxovih bugova"
+  - "JIT heap spray koji je probio renderer i OS sandboxe"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/tech-industry/artificial-intelligence/anthropics-latest-ai-model-identifies-thousands-of-zero-day-vulnerabilities-in-every-major-operating-system-and-every-major-web-browser-claude-mythos-preview-sparks-race-to-fix-critical-bugs-some-unpatched-for-decades"
+image:
+  url: "/images/articles/claude-mythos-finds-bugs-no-one-dared-look-fornow-/main.jpg"
+  alt: "Claude Mythos otkrio tisuće zero-day ranjivosti — i svi trče zakrpati ih"
+subtitle: "Demo nasuprot deploymenta: Anthropic drži model pod ključem dok industrija žuri"
+subtitleImage:
+  url: "/images/articles/claude-mythos-finds-bugs-no-one-dared-look-fornow-/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: Anthropic drži model pod ključem dok industrija žuri"
+tags: ["Anthropic", "Zero-Day Vulnerabilities", "AI Security"]
+lead_sentence: "Claude Mythos Preview ne samo da pronalazi kritične bugove, već ih pretvara u funkcionalne eksploate s 72,4% uspjeha — i Anthropic ga drži pod ključem dok 12 tech divova žuri zakrpati dekadama skrivane ranjivosti."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Anthropicov najnoviji model, [Claude Mythos Preview](https://www.anthropic.com/news/mythos-preview), ne samo da *pronalazi* tisuće kritičnih ranjivosti — on ih može **autonomno pretvoriti u funkcionalne eksploate**. Prema podacima koje je kompanija podijelila s [Tom’s Hardwareom](https://www.tomshardware.com/tech-industry/anthropics-latest-ai-model-identifies-thousands-of-zero-day-vulnerabilities-in-every-major-operating-system-and-every-major-web-browser), model je u Firefoxovom JavaScript shellu uspio eksploatirati **72,4% identificiranih bugova**, a u 11,6% slučajeva postigao kontrolu nad registrima. To nije teorijska prijetnja: Mythos je napisan eksploit koji je **lančano iskoristio četiri ranjivosti**, kreirajući kompleksni JIT heap spray koji je probio *i* renderer sandbox *i* OS-level zaštitu.
+
+
+Razlika između ovog i prethodnih AI alata za sigurnosno testiranje? **Skala i automatizacija**. Dok su raniji modeli kao što su [GitHub Copilot](https://github.com/features/copilot) ili OpenAIjev Codex mogli pomagati u pronalaženju bugova, Mythos ih ne samo locira nego i **samostalno gradi eksploate** — što ga čini potencijalno opasnijim od većine human-in-the-loop alata. Anthropic to ne objavljuje kao produkt, već kao **upozorenje**: model je trenutno ograničen na izabrane partnere pod okriljem [Project Glasswinga](https://www.anthropic.com/project-glasswing), inicijative koja okuplja 12 tech divova (od Applea do Nvidie) i preko 40 dodatnih organizacija, uključujući Linux Foundation i U.S. vladu.
+
+
+Čudno je da se o ovome govori kao o 'napretku' umjesto o **kriznom pozivu**. Ako model može toliko lako pronaći i iskoristiti bugove koji su **dekadama ostali nezakrpani**, što znači da su ih propustili i ljudski auditori i postojeći alati? Odgovor leži u tome kako Mythos **interpretira kod na način koji ljudima nije intuitivan** — kombinirajući statičku analizu, dinamičko testiranje i generiranje koda u realnom vremenu. To nije evolucija, već **skok u nepoznato**.
+
+<ArticleBreak />
+
+Anthropicove brojke govore više od marketinga: **150–175 'tier 1' crashova** (kritičnih padova koji omogućavaju daljnju eksploataciju) i 100 'tier 2' slučajeva. Za usporedbu, većina sigurnosnih alata se hvali ako pronađe desetak visokorizičnih bugova po auditu. Ovde se radi o **masovnom otkrivanju** — i to ne samo u legacy kodu, već i u modernim sistemima. Primjer: model je generirao eksploit koji je **obišao sve slojeve zaštite** u browseru, od JavaScript enginea do OS kernel sandboksa. To nije teorija; to je **dokazano u kontroliranim uvjetima**.
+
+
+Industrija reagira kao da je u pitanju **trka naoružanja**, a ne rutinski patch cycle. Razlog? Ako jedan model može toliko brzo pronaći ranjivosti, što sprečava drugu stranu — recimo, državne aktere ili kriminalce — da istu tehniku iskoristi za masovne napade? Anthropic tvrdi da drži model 'pod ključem' dok se bugovi zakrpavaju, ali **ko garantira da slične sposobnosti ne razvijaju i drugi**? Open-source zajednica već [spekulira](https://news.ycombinator.com/item?id=41234567) da li je ovo samo pitanje vremena prije nego što se takvi alati pojave na crnom tržištu.
+
+
+Pravi signal ovdje nije u broju bugova, već u **promjeni paradigme**: sigurnost softvera više ne može biti reaktivna. Ako AI može generirati eksploate brže nego što ljudi pišu patcheve, **cijeli model razvoja softvera mora u brzinu**. To možda zvuči kao tehnički detalj, ali je zapravo pitanje **ko kontrolira ovu moć** — i tko će platiti cijenu ako se stvari pokrenu krivo.

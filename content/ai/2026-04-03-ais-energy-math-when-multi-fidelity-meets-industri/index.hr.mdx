@@ -1,0 +1,49 @@
+---
+id: "2026-04-03-ais-energy-math-when-multi-fidelity-meets-industri"
+db_id: 1311
+title: "ML modeli u energetici: 42% manje simulacija, isti rezultat"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T10:32:22Z"
+excerpt: "Istraživači s [arXiv](https://arxiv."
+exec_summary: "Researchers proposed an online ML framework that reduces high-fidelity energy system simulations by 42% while estimating performance bounds—critical for industrial-scale designs where architecture-to-operation gaps hit 34%. The pilot on a 1 MW system shows promise, but real-world scalability and adoption by major players like Siemens will determine if this is a tool or just another academic footnote."
+key_points:
+  - "42% manje skupih simulacija uz ML optimizaciju"
+  - "Pilot na 1 MW industrijskom sustavu otkrio jaz performansi"
+  - "Multi-rezolucijski pristup razlikuje arhitekturu od operacije"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.01308"
+image:
+  url: "/images/articles/ais-energy-math-when-multi-fidelity-meets-industri/main.jpg"
+  alt: "ML modeli u energetici: 42% manje simulacija, isti rezultat"
+subtitle: "Demo nasuprot deploymentu: tko stvarno štedi vrijeme i novac"
+subtitleImage:
+  url: "/images/articles/ais-energy-math-when-multi-fidelity-meets-industri/subtitle.jpg"
+  alt: "Demo nasuprot deploymentu: tko stvarno štedi vrijeme i novac"
+tags: ["Energy Efficiency", "ML Modeling", "Simulation Optimization"]
+lead_sentence: "Novi ML okvir za energetsku optimizaciju smanjuje potrebu za skupim simulacijama za 42%, ali ključno pitanje ostaje: radi li i van kontroliranog pilota na 1 MW sustavu?"
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Istraživači s [arXiv](https://arxiv.org/abs/2604.01308) predlažu *online* okvir koji koristi strojno učenje za optimizaciju energetskih sustava — ali stvarni napredak nije u algoritmu, već u tome što je uspio smanjiti 42 % skupih high-fidelity simulacija bez gubitka točnosti.
+
+Problem kojeg rješavaju nije novi: industrijski energetski sustavi (poput onog za 1 MW toplinsko opterećenje iz njihovog pilota) zahtijevaju modele različite razlučivosti — od arhitektonskog dizajna do dinamičke operacije. No, do sada je neslaganje između tih modela stvaralo „crne kutije“ u kojima se gubi do 34 % performansi pri prelasku s papira u praksu.
+
+Rješenje? Umjesto da se oslanjaju isključivo na skupe simulacije visoke razlučivosti, koristi se ML za procjenu gornje granice performansi specifične za svaku arhitekturu — a tek onda se provjerava s minimalnim brojem high-fidelity pokretanja. To zvuči kao klasičan kompromis između brzine i točnosti, ali ključna razlika je u *online* pristupu: model se kontinuirano ažurira tijekom optimizacije, umjesto da radi na statičkom skupu podataka. Dakle, ne radi se o još jednom ‘AI-om ubrzanom’ alatu (tih ima kao pijeska u pustinji), već o konkretnom smanjenju troškova verifikacije — što je, ironično, dio procesa koji najčešće ostaje izvan marketinških priča o ‘revolucionarnim’ energetskim rješenjima.
+
+<ArticleBreak />
+
+Gdje ovo zapravo funkcionira? Pilot-projekt na 1 MW industrijskom sustavu pokazao je da okvir može riješiti multi-objective optimizaciju arhitekture (npr. balansiranje troškova, efikasnosti i održivosti) bez eksplozije računarskih resursa. No, kao i uvijek, demo nije deployment: autorima još treba dokazati hoće li se 42 % uštede skaliraju na sustave od 10+ MW, gdje dinamička operacija postaje nepredvidljivija. A tu leži pravi test — jer je lako optimizirati model na papiru, teže kada u igru ulaze realni podaci s terena, kašnjenja u mreži ili nepredvidivi industrijski zahtjevi.
+
+Tko od ovog ima korist? Prije svega, inženjeri koji dizajniraju hibridne energetske sustave (npr. kombinacije solarne, baterijske i plinske infrastrukture) — jer im ovaj pristup omogućava brže iteracije bez žrtvovanja pouzdanosti. S druge strane, proizvođači softvera za energetsku optimizaciju poput [Siemens Energy](https://www.siemens-energy.com/) ili [GE Vernova](https://www.gevernova.com/) mogu dobiti konkurentnu prednost ako usvoje slične *online* ML pristupe. Opasnost leži u činjenici: ako se ispostavi da 34 % gubitka performansi između arhitekture i operacije nije riješivo ovim okvirom u realnim uvjetima, sve ostaje na razini lijepog akademskog eksperimenta.
+
+Zanimljivije od samog alata je pitanje zašto tek sada dolazimo do rješenja za problem koji postoji desetljećima. Odgovor možda leži u činjenici da su energetski sustavi postali dovoljno kompleksni da tradicionalne metode više nisu održive — a to je signal i za druge industrije koje se oslanjaju na multi-fidelity modele (npr. aerospace ili poluvodiči).
+
+Ubrzanje verifikacije energetskih rješenja moglo bi ubrzati i njihovu komercijalizaciju, što bi na kraju koristilo i krajnjim korisnicima — od industrije do kućanstava.

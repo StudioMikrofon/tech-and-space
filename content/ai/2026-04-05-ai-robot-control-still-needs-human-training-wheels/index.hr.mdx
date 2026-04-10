@@ -1,0 +1,51 @@
+---
+id: "2026-04-05-ai-robot-control-still-needs-human-training-wheels"
+db_id: 1560
+title: "Agentno skeliranje zatvara jaz: Kako AI konačno kontrolira robote"
+lang: "hr"
+category: "ai"
+date: "2026-04-05T00:41:10Z"
+excerpt: "Nvidia, UC Berkeley, Stanford i Carnegie Mellon razvili su okvir CaP-X koji je testirao sposobnost dvanaest vodećih AI modela da kontroliraju robote putem samostalno napisanih programa."
+exec_summary: "Nvidia, UC Berkeley, and Stanford's CaP-X framework reveals that even top AI models fail at robot control without human-designed abstractions, but agentic scaffolding methods like parallel code generation can close the performance gap. This shifts the competitive advantage toward companies building structured robotic functions rather than betting on pure generalist models."
+key_points:
+  - "Nvidia, Berkeley i Stanford testirali 12 AI modela na robotskim zadacima"
+  - "Čak i vrhunski modeli padaju bez ljudskih apstrakcija"
+  - "CaP-Agent0 postiže ljudsku pouzdanost bez dodatnog treniranja"
+source:
+  name: "the-decoder.com"
+  url: "https://the-decoder.com/ai-models-fail-at-robot-control-without-human-designed-building-blocks-but-agentic-scaffolding-closes-the-gap/"
+image:
+  url: "/images/articles/ai-robot-control-still-needs-human-training-wheels/main.jpg"
+  alt: "Agentno skeliranje zatvara jaz: Kako AI konačno kontrolira robote"
+subtitle: "Što se dogodilo kad su najbolji modeli dobili sirove slike umjesto gotovih naredbi"
+subtitleImage:
+  url: "/images/articles/ai-robot-control-still-needs-human-training-wheels/subtitle.jpg"
+  alt: "Što se dogodilo kad su najbolji modeli dobili sirove slike umjesto gotovih naredbi"
+tags: ["Computer Vision", "Multimodal AI"]
+lead_sentence: "Dvanaest vodećih AI modela palo je na sedam robotskih zadataka kad su morali sami povezati vizuelne podatke s fizičkim akcijama umjesto korištenja unaprijed definiranih naredbi."
+geo:
+  name: "Santa Clara, United States"
+  lat: 37.3541
+  lon: -121.9552
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Nvidia, UC Berkeley, Stanford i Carnegie Mellon razvili su okvir CaP-X koji je testirao sposobnost dvanaest vodećih AI modela da kontroliraju robote putem samostalno napisanih programa. Rezultati su nedvosmisleni: čak i Gemini-3-Pro, GPT-5.2 i Claude Opus 4.5 ne uspijevaju izvesti pouzdane manipulativne zadatke bez ljudskih apstrakcija.
+
+Kad su modeli dobili sirove slike umjesto unaprijed definiranih naredbi kao što su 'segmentiraj objekt' ili 'planiraj hvatanje', performanse su drastično pale. Problem nije u samim modelima, već u jazima između njihove sposobnosti razumijevanja teksta i neophodnog multi-modalnog zaključivanja.
+
+Direktno hranjenje kameranskih slika AI-u bez posredničkih funkcija rezultiralo je propastom. To otkriva osnovno ograničenje: generalistički modeli jednostavno nisu dizajnirani za niskorazinski robotski nadzor.
+
+Istraživači su identifikovali tri ključna nedostatka: nemogućnost kombiniranja višestrukih naredbi u nizu, slabosti u preciznom pozicioniranju i potpun pad performansi kad je potrebno povezati vizuelne podatke s fizičkim akcijama.
+
+<ArticleBreak />
+
+Rješenje koje su predložili nije dodatno treniranje, već tzv. 'agentno skeliranje'. CaP-Agent0 koristi tri ključna mehanizma: automatizirano generiranje funkcionalne biblioteke, paralelno generiranje devet kandidatskih rješenja i Visual Differencing Module koji uspoređuje stvarno i očekivano stanje.
+
+Ova metoda — koja ne zahtija dodatno treniranje — postiže ljudsku razinu pouzdanosti. Većina kompanija trenutno prodaje 'agentnu budućnost' kao spremno rješenje, ali CaP-X otkriva da pravi izazov nije inteligencija, već integracija.
+
+Dok marketing narativa sugerira da je dovoljno pustiti model da slobodno razmišlja, stvarnost je da roboti još uvijek trebaju precizno definirane 'grane' na koje se mogu osloniti.
+
+Razvoj Visual Differencing Modula i skalabilnost paralelnih generacija rješenja će biti ključni za dalji napredak. Jer dok agentno skeliranje danas djeluje kao tehnički detalj, sutra bi moglo biti razlika između robota koji radi i onog koji samo 'razmišlja' o radu. To će zahtijevati dodatna ulaganja u istraživanje i razvoj.

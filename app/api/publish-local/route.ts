@@ -199,11 +199,10 @@ async def auto_select_hero(article_id):
         if not row:
             return
 
-        # Check if image_main already set
+        # Always ensure images are in the right location
         try:
             existing = json.loads((images_row[0] or '{}') if images_row else '{}')
-            if existing.get('image_main', {}).get('url'):
-                return  # Already has hero
+            # Don't return early — we need to verify files exist and copy them to public folder
         except Exception:
             existing = {}
 
@@ -287,13 +286,17 @@ async def auto_select_hero(article_id):
                     shutil.copy2(legacy_sub, target_sub)
                     existing['image_subtitle'] = {'url': f'/images/articles/{slug}/{target_sub.name}', 'alt': title_en}
 
+        # If still no image_main, can't publish with images
         if not existing.get('image_main', {}).get('url'):
+            print(f'WARN: No image_main found for article {article_id}', file=sys.stderr)
             return
 
+        # CRITICAL: Update database with final image URLs before MDX conversion
         conn = db.get_conn()
         conn.execute('UPDATE articles SET images_json=? WHERE id=?', (json.dumps(existing), article_id))
         conn.commit()
         conn.close()
+        print(f'OK: Images updated for article {article_id}: {json.dumps(existing)}', file=sys.stderr)
     except Exception:
         pass  # Non-fatal
 
@@ -387,7 +390,81 @@ conn.close()
 _scrape_time = (article.get('created_at') or '').strip()
 article['published_at'] = _scrape_time if _scrape_time else _publish_time
 
-# Convert to MDX
+# CRITICAL: COPY IMAGES FIRST (before MDX creation!)
+# This ensures slike.url u images_json pokazuje na već kopirirane datoteke
+import shutil
+
+# Determine slug from article
+def slugify_article(article):
+    title_en = (article.get('title_en') or article.get('title') or '').strip()
+    if not title_en:
+        return None
+    import re
+    char_map = {'č':'c','ć':'c','š':'s','ž':'z','đ':'dj'}
+    t = title_en.lower()
+    for src, dst in char_map.items():
+        t = t.replace(src, dst)
+    t = t.encode('ascii', 'ignore').decode()
+    t = re.sub(r'[^a-z0-9]+', '-', t).strip('-')
+    return t[:50]
+
+slug = slugify_article(article)
+
+# Copy images NOW (before MDX conversion!)
+if slug:
+    img_folder = WORKSPACE / 'public' / 'images' / 'articles' / slug
+    img_folder.mkdir(parents=True, exist_ok=True)
+
+    copied = []
+    imgs = _parse_images_json(article)
+    for img_type, key in [('main', 'main_url'), ('subtitle', 'subtitle_url')]:
+        src_url = imgs.get(key, '') or ''
+        if not src_url:
+            continue
+
+        src = None
+        # Strategy 1: resolve from images_json URL
+        if src_url.startswith('/images/articles/'):
+            candidate = WORKSPACE / 'public' / src_url.lstrip('/')
+            if candidate.exists():
+                src = candidate
+        if src is None:
+            # Strategy 2: look in FP_IMAGES by basename
+            candidate = FP_IMAGES / Path(src_url).name
+            if candidate.exists():
+                src = candidate
+        if src is None:
+            # Strategy 3: scan FP_IMAGES for art{id}_main/sub files
+            art_prefix = f'art{article.get("id", 0)}_'
+            search_pattern = '_main_' if img_type == 'main' else '_sub_'
+            for f in sorted(FP_IMAGES.iterdir(), reverse=True) if FP_IMAGES.exists() else []:
+                if f.name.startswith(art_prefix) and search_pattern in f.name.lower() and f.suffix.lower() in ('.jpg', '.jpeg', '.png', '.webp'):
+                    src = f
+                    break
+
+        if src and src.exists():
+            ext = src.suffix
+            dst = img_folder / f'{img_type}{ext}'
+            if src.resolve() != dst.resolve():
+                shutil.copy2(src, dst)
+            copied.append(str(dst))
+
+    # Update images_json with canonical paths BEFORE MDX conversion
+    if copied:
+        try:
+            existing_imgs = json.loads(article.get('images_json', '{}') or '{}')
+            for c in copied:
+                cp = Path(c)
+                canon_url = f'/images/articles/{slug}/{cp.name}'
+                if cp.stem.startswith('main'):
+                    existing_imgs['image_main'] = {'url': canon_url, 'alt': article.get('title_en', '')}
+                elif cp.stem.startswith('subtitle'):
+                    existing_imgs['image_subtitle'] = {'url': canon_url, 'alt': article.get('subtitle_en', '')}
+            article['images_json'] = json.dumps(existing_imgs)
+        except Exception:
+            pass
+
+# NOW convert to MDX (with correct image URLs)
 try:
     mdx_en, cat_folder, slug, date, images_info = convert_to_mdx(article)
 except Exception as e:
@@ -402,7 +479,7 @@ folder.mkdir(parents=True, exist_ok=True)
 (folder / 'index.mdx').write_text(mdx_en, encoding='utf-8')
 (folder / 'index.hr.mdx').write_text(mdx_hr, encoding='utf-8')
 
-# Copy images
+# (Old image copy section - now REMOVED as it's done above)
 img_folder = PUBLIC_IMAGES / slug
 img_folder.mkdir(parents=True, exist_ok=True)
 
@@ -610,55 +687,48 @@ print(json.dumps({
     );
     rebuild.unref();
 
-    // Health check: ensure service comes up after build (every 10s for 90s)
-    // ONLY if build succeeded (indicated by /tmp/tech-pulse-build-success flag)
-    let healthCheckCount = 0;
-    let cacheCleared = false;
-    const healthCheckInterval = setInterval(() => {
-      healthCheckCount++;
+    // CRITICAL: Wait for service to be truly ready before returning
+    // This ensures images are served immediately after publish
+    const waitForServiceReady = async (maxWaitMs = 60000) => {
+      const startTime = Date.now();
       const { execSync } = require('child_process');
       const fs = require('fs');
-      try {
-        // Only check if build succeeded
-        if (!fs.existsSync('/tmp/tech-pulse-build-success')) {
-          if (healthCheckCount >= 3) {
-            console.log("[publish-local] Build failed — skipping health check");
-            clearInterval(healthCheckInterval);
-          }
-          return;
-        }
 
-        const status = execSync("systemctl is-active tech-pulse-test 2>&1", { encoding: 'utf8' }).trim();
-        if (status === "active") {
-          console.log("[publish-local] Service came up successfully after build");
-
-          // Once service is up, clear webpack cache to prevent bloat on next startup
-          if (!cacheCleared) {
-            cacheCleared = true;
-            try {
-              console.log("[publish-local] Cleaning webpack cache...");
-              execSync("rm -rf /opt/openclaw/workspace/tech-pulse-css/.next/cache", { stdio: "ignore" });
-            } catch (e) {
-              console.error("[publish-local] Cache clear error:", e instanceof Error ? e.message : String(e));
-            }
+      while (Date.now() - startTime < maxWaitMs) {
+        try {
+          // Check 1: Service is active
+          const status = execSync("systemctl is-active tech-pulse-test 2>&1", { encoding: 'utf8' }).trim();
+          if (status !== "active") {
+            await new Promise(r => setTimeout(r, 1000));
+            continue;
           }
 
-          clearInterval(healthCheckInterval);
-          return;
+          // Check 2: Build manifest exists (build succeeded)
+          const nextDir = "/opt/openclaw/workspace/tech-pulse-css/.next";
+          if (!fs.existsSync(`${nextDir}/prerender-manifest.json`)) {
+            await new Promise(r => setTimeout(r, 1000));
+            continue;
+          }
+
+          console.log("[publish-local] Service ready after", Date.now() - startTime, "ms");
+          // Clean webpack cache now that we know it's ready
+          try {
+            execSync("rm -rf /opt/openclaw/workspace/tech-pulse-css/.next/cache", { stdio: "ignore" });
+          } catch (e) {}
+          return true;
+        } catch (e) {
+          await new Promise(r => setTimeout(r, 1000));
         }
-        if (healthCheckCount >= 9) {
-          // After 90 seconds, force start if build succeeded
-          console.log("[publish-local] Service still down after 90s, force starting...");
-          try { execSync("systemctl stop tech-pulse-test", { stdio: "ignore" }); } catch (e) {}
-          execSync("systemctl start tech-pulse-test", { stdio: "ignore" });
-          clearInterval(healthCheckInterval);
-        }
-      } catch (e) {
-        console.error("[publish-local] Health check error:", e instanceof Error ? e.message : String(e));
       }
-    }, 10000);
 
-    return NextResponse.json({ ...data, rebuilding: true, live: true });
+      console.log("[publish-local] Service readiness timeout after", maxWaitMs, "ms");
+      return false;
+    };
+
+    // Wait for service to be ready (don't return response until it is)
+    await waitForServiceReady(60000);
+
+    return NextResponse.json({ ...data, rebuilding: false, live: true });
   } catch {
     return NextResponse.json({ error: "Parse error", raw: result.stdout }, { status: 500 });
   }

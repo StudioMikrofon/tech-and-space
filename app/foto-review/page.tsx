@@ -199,10 +199,16 @@ export default function FotoReviewPage() {
   }, []);
 
   // Queue state
-  const [queueOpen, setQueueOpen] = useState(false);
+  const [queueOpen, setQueueOpen] = useState(true);  // Queue vidljiv po defaultu
   const [queueTasks, setQueueTasks] = useState<QueueTask[]>([]);
   const [queueCounts, setQueueCounts] = useState<Record<string, number>>({});
+  const [imageActivity, setImageActivity] = useState<Record<string, unknown>[]>([]);
+  const [imageCounts, setImageCounts] = useState<Record<string, unknown>[]>([]);
   const [queueAdding, setQueueAdding] = useState<Record<string, boolean>>({});
+  const [expandedTasks, setExpandedTasks] = useState<Set<number>>(new Set());
+  const [taskLogs, setTaskLogs] = useState<Record<number, any[]>>({});
+  const [logsLoading, setLogsLoading] = useState<Record<number, boolean>>({});
+  const [canceling, setCanceling] = useState<Record<number, boolean>>({});
 
   // Global model selector for image generation
   const [genModel, setGenModel] = useState<"qwen" | "openai">("qwen");
@@ -342,6 +348,22 @@ export default function FotoReviewPage() {
       .then((data) => {
         if (data.articles) {
           setArticles(data.articles);
+
+          // Auto-pull images for articles in written_en stage without images
+          const needsImages = data.articles.filter((a: Article) =>
+            (a.pipeline_stage === "written_en" || a.pipeline_stage === "auto_pull_images") &&
+            (!a.images || a.images.length === 0)
+          );
+
+          if (needsImages.length > 0) {
+            // Trigger background image pull (detached, no blocking)
+            const imageIds = needsImages.map((a: Article) => a.id);
+            fetch("/api/image-pull", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ ids: imageIds }),
+            }).catch(() => {}); // Silently fail, don't block
+          }
         } else setError(data.error || "API error");
       })
       .catch((e) => setError(e.message))
@@ -382,16 +404,34 @@ export default function FotoReviewPage() {
     if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 300);
   }, [loading, deepLinkId]);
 
-  const refreshArticle = useCallback(async (articleId: number) => {
-    try {
-      const res = await fetch(`/api/foto-review?id=${articleId}`);
-      const data = await res.json();
-      if (data.article) {
-        setArticles((prev) =>
-          prev.map((a) => (a.id === articleId ? data.article : a))
-        );
+  const refreshArticle = useCallback(async (articleId: number, retries = 3) => {
+    for (let attempt = 0; attempt < retries; attempt++) {
+      try {
+        const res = await fetch(`/api/foto-review?id=${articleId}`);
+        if (!res.ok) {
+          if (attempt < retries - 1) {
+            await new Promise(r => setTimeout(r, 1000 * (attempt + 1))); // Exponential backoff
+            continue;
+          }
+          throw new Error(`HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        if (data.article) {
+          setArticles((prev) =>
+            prev.map((a) => (a.id === articleId ? data.article : a))
+          );
+        }
+        return true; // Success
+      } catch (e) {
+        if (attempt === retries - 1) {
+          console.warn(`[refreshArticle] Failed after ${retries} attempts for article ${articleId}:`, e);
+          return false;
+        }
+        // Wait before retry with exponential backoff
+        await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
       }
-    } catch {}
+    }
+    return false;
   }, []);
 
   // Build editData from full article — falls back to body_md for old articles missing part1/part2
@@ -700,22 +740,53 @@ export default function FotoReviewPage() {
   // ── Queue ────────────────────────────────────────────────────
   const fetchQueue = useCallback(async () => {
     try {
-      const res = await fetch("/api/foto-review?queue=1");
+      // Fetch system queue status (active taskovi iz sistema)
+      const res = await fetch("/api/queue/status");
       const data = await res.json();
-      setQueueTasks(data.tasks ?? []);
-      const counts: Record<string, number> = {};
-      for (const c of (data.counts ?? [])) counts[c.status] = c.n;
-      setQueueCounts(counts);
-    } catch {}
+
+      if (data.active) {
+        // Transform system tasks to match UI format
+        const systemTasks = data.active.map((t: Record<string, unknown>) => ({
+          id: t.id,
+          article_id: t.article_id,
+          task_type: t.task_type,
+          model: t.model,
+          status: t.status,
+          error_msg: t.error_msg,
+          created_at: t.created_at,
+          done_at: t.done_at,
+        }));
+
+        setQueueTasks(systemTasks);
+        setQueueCounts(data.counts ?? {});
+      }
+    } catch (e) {
+      console.error("Queue fetch error:", e);
+    }
   }, []);
 
-  // Auto-poll when queue is open or there are pending/running tasks
+  // Fetch image generation activity (šta se trenutno generiše)
+  const fetchImageActivity = useCallback(async () => {
+    try {
+      const res = await fetch("/api/queue/image-activity");
+      const data = await res.json();
+      setImageActivity(data.activities ?? []);
+      setImageCounts(data.counts ?? []);
+    } catch (e) {
+      console.error("Image activity fetch error:", e);
+    }
+  }, []);
+
+  // Auto-poll queue AND image activity (real-time prikaz) - refresh svake 2s
   useEffect(() => {
-    if (!queueOpen && !queueCounts.pending && !queueCounts.running) return;
     fetchQueue();
-    const iv = setInterval(fetchQueue, 4000);
+    fetchImageActivity();
+    const iv = setInterval(() => {
+      fetchQueue();
+      fetchImageActivity();
+    }, 2000);  // Osvežava svake 2 sekunde
     return () => clearInterval(iv);
-  }, [queueOpen, fetchQueue, queueCounts.pending, queueCounts.running]);
+  }, [fetchQueue, fetchImageActivity]);
 
   const handleQueueAdd = useCallback(async (articleId: number, taskType: string, model?: string) => {
     const key = `${articleId}-${taskType}`;
@@ -740,6 +811,44 @@ export default function FotoReviewPage() {
       body: JSON.stringify({ action: "queue_clear", articleId: 0 }),
     });
     await fetchQueue();
+  }, [fetchQueue]);
+
+  const fetchTaskLogs = useCallback(async (taskId: number, articleId: number) => {
+    setLogsLoading(p => ({ ...p, [taskId]: true }));
+    try {
+      const res = await fetch(`/api/image-operations?article_id=${articleId}`);
+      const data = await res.json();
+      if (data.logs) {
+        setTaskLogs(p => ({ ...p, [taskId]: data.logs }));
+      }
+    } catch {}
+    finally {
+      setLogsLoading(p => ({ ...p, [taskId]: false }));
+    }
+  }, []);
+
+  const handleTaskCancel = useCallback(async (taskId: number, articleId: number) => {
+    if (!confirm(`Otkazati task #${taskId} za članak #${articleId}?`)) return;
+    setCanceling(p => ({ ...p, [taskId]: true }));
+    try {
+      const res = await fetch("/api/queue/cancel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ task_id: taskId }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        await fetchQueue();
+        setActionResult(p => ({ ...p, [articleId]: { ok: true, msg: `✓ Task #${taskId} otkazan` } }));
+      } else {
+        setActionResult(p => ({ ...p, [articleId]: { ok: false, msg: data.error || "Otkazivanje nije uspjelo" } }));
+      }
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setActionResult(p => ({ ...p, [articleId]: { ok: false, msg } }));
+    } finally {
+      setCanceling(p => ({ ...p, [taskId]: false }));
+    }
   }, [fetchQueue]);
 
   const queuePending = (queueCounts.pending ?? 0) + (queueCounts.running ?? 0);
@@ -893,8 +1002,21 @@ export default function FotoReviewPage() {
       body: JSON.stringify({ action: "delete_article", articleId }),
     });
     const data = await res.json();
-    if (data.ok) setDeletedIds((p) => new Set([...p, articleId]));
-    else alert(data.error || "Greška pri brisanju");
+    if (data.ok) {
+      // Immediately remove from articles array + add to deletedIds for UI feedback
+      setArticles((prev) => prev.filter((a) => a.id !== articleId));
+      setDeletedIds((p) => new Set([...p, articleId]));
+      setActionResult((prev) => ({
+        ...prev,
+        [articleId]: { ok: true, msg: "✅ Članak obrisan" },
+      }));
+    } else {
+      alert(data.error || "Greška pri brisanju");
+      setActionResult((prev) => ({
+        ...prev,
+        [articleId]: { ok: false, msg: `❌ ${data.error || "Greška"}` },
+      }));
+    }
   };
 
   const handleDeleteImage = async (articleId: number, imageId: string) => {
@@ -938,9 +1060,26 @@ export default function FotoReviewPage() {
       setBatchResult("Prvo oznaci clanke za batch publish.");
       return;
     }
-    if (!confirm(`Objaviti ${selectedFiltered.length} oznacenih clanaka?`)) return;
+    if (!confirm(`Objaviti ${selectedFiltered.length} oznacenih clanaka? (prvo će se automatski pull-ati web slike)`)) return;
     setBatchBusy("publish");
-    setBatchResult(`Objavljujem ${selectedFiltered.length} oznacenih clanaka...`);
+
+    // STEP 1: Auto-pull web images for all articles (detached, doesn't block)
+    setBatchResult(`1️⃣ Auto-pulling web slike za ${selectedFiltered.length} clanaka...`);
+    const ids = selectedFiltered.map(a => a.id);
+    try {
+      await fetch("/api/image-pull", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids }),
+      });
+      // Give it 2 seconds to start processing
+      await new Promise(r => setTimeout(r, 2000));
+    } catch (e) {
+      console.error("Auto-pull failed (continuing anyway):", e);
+    }
+
+    // STEP 2: Publish each article sequentially
+    setBatchResult(`2️⃣ Objavljujem ${selectedFiltered.length} clanaka...`);
     let ok = 0;
     for (const article of selectedFiltered) {
       if (await publishLocal(article.id, false)) {
@@ -948,7 +1087,7 @@ export default function FotoReviewPage() {
       }
     }
     setBatchBusy(null);
-    setBatchResult(`Objavljeno ${ok}/${selectedFiltered.length} oznacenih clanaka.`);
+    setBatchResult(`✅ Objavljeno ${ok}/${selectedFiltered.length} clanaka (slike će biti dostupne za ~30s).`);
   };
 
   const handleBatchPullPress = async () => {
@@ -1143,44 +1282,67 @@ export default function FotoReviewPage() {
     setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: `Generiram ${type}${modelLabel}... (~30s)` } }));
     // Snapshot current image URLs to detect new ones (comparing URLs, not just count)
     const prevUrls = new Set(article.images.map(i => i.url));
-    try {
-      const res = await fetch("/api/image-regen", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: article.id, image_type: type, model }),
-      });
-      const data = await res.json();
-      if (data.ok) {
-        setActionResult((p) => ({ ...p, [article.id]: { ok: true, msg: data.message || "Generacija pokrenuta, čekam..." } }));
-        let attempts = 0;
-        let found = false;
-        const poll = setInterval(async () => {
-          attempts++;
-          await refreshArticle(article.id);
+
+    // Retry logic for initial request
+    let res: Response | null = null;
+    let data: Record<string, any> | null = null;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        res = await fetch("/api/image-regen", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: article.id, image_type: type, model }),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        data = await res.json();
+        break; // Success
+      } catch (e) {
+        if (attempt === 0) {
+          setActionResult((p) => ({
+            ...p,
+            [article.id]: {
+              ok: false,
+              msg: `Greška, pokušavam ponovno... (${e instanceof Error ? e.message : 'network error'})`
+            }
+          }));
+          await new Promise(r => setTimeout(r, 2000)); // Wait before retry
+        } else {
+          const msg = e instanceof Error ? e.message : String(e);
+          setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: `Generacija nije uspjela: ${msg}` } }));
+          setGenerating((p) => ({ ...p, [article.id]: null }));
+          return;
+        }
+      }
+    }
+
+    if (data?.ok) {
+      setActionResult((p) => ({ ...p, [article.id]: { ok: true, msg: data.message || "Generacija pokrenuta, čekam..." } }));
+      let attempts = 0;
+      let found = false;
+      const poll = setInterval(async () => {
+        attempts++;
+        const refreshed = await refreshArticle(article.id, 2); // Quick refresh with 2 retries
+        if (refreshed) {
           // Check if any new URL appeared that wasn't in the pre-generation snapshot
           setArticles((prev) => {
             const cur = prev.find(a => a.id === article.id);
             if (cur && cur.images.some(i => !prevUrls.has(i.url))) found = true;
             return prev;
           });
-          if (found || attempts >= 10) {
-            clearInterval(poll);
-            setGenerating((p) => ({ ...p, [article.id]: null }));
-            setActionResult((p) => ({
-              ...p,
-              [article.id]: found
-                ? { ok: true, msg: "✓ Nova slika generirana" }
-                : { ok: false, msg: "⚠ Generacija završena ali slika nije pronađena — provjeri log" },
-            }));
-          }
-        }, 5000);
-      } else {
-        setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: data.error || "Generacija nije uspjela" } }));
-        setGenerating((p) => ({ ...p, [article.id]: null }));
-      }
-    } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : String(e);
-      setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg } }));
+        }
+        if (found || attempts >= 12) {
+          clearInterval(poll);
+          setGenerating((p) => ({ ...p, [article.id]: null }));
+          setActionResult((p) => ({
+            ...p,
+            [article.id]: found
+              ? { ok: true, msg: "✓ Nova slika generirana" }
+              : { ok: false, msg: attempts >= 12 ? "⚠ Timeout — slika možda je u generaciji, provjeri za 30s" : "⚠ Slika nije pronađena — provjeri log" },
+          }));
+        }
+      }, 5000);
+    } else {
+      setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: data?.error || "Generacija nije uspjela" } }));
       setGenerating((p) => ({ ...p, [article.id]: null }));
     }
   };
@@ -1189,28 +1351,39 @@ export default function FotoReviewPage() {
     const model = getArticleModel(article.id);
     setGenerating((p) => ({ ...p, [article.id]: "main" }));
     setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: `Generiram main + subtitle [${model === "openai" ? "OpenAI" : "Qwen"}]...` } }));
+
+    // Helper to make regen request with retry
+    const makeRegenRequest = async (imageType: "main" | "subtitle", maxRetries = 2) => {
+      for (let attempt = 0; attempt < maxRetries; attempt++) {
+        try {
+          const res = await fetch("/api/image-regen", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: article.id, image_type: imageType, model }),
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          if (!data.ok) throw new Error(data.error || `${imageType} gen failed`);
+          return data;
+        } catch (e) {
+          if (attempt === maxRetries - 1) throw e;
+          await new Promise(r => setTimeout(r, 1000));
+        }
+      }
+    };
+
     try {
-      const res1 = await fetch("/api/image-regen", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: article.id, image_type: "main", model }),
-      });
-      const d1 = await res1.json();
-      if (!d1.ok) throw new Error(d1.error || "Main gen failed");
+      await makeRegenRequest("main");
       setGenerating((p) => ({ ...p, [article.id]: "subtitle" }));
       setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: "Main OK — generiram subtitle..." } }));
-      const res2 = await fetch("/api/image-regen", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: article.id, image_type: "subtitle", model }),
-      });
-      const d2 = await res2.json();
-      if (!d2.ok) throw new Error(d2.error || "Subtitle gen failed");
+
+      await makeRegenRequest("subtitle");
       setActionResult((p) => ({ ...p, [article.id]: { ok: true, msg: "✓ Obje slike generirane — čekam..." } }));
+
       let attempts = 0;
       const poll = setInterval(async () => {
         attempts++;
-        await refreshArticle(article.id);
+        await refreshArticle(article.id, 2);
         if (attempts >= 12) {
           clearInterval(poll);
           setGenerating((p) => ({ ...p, [article.id]: null }));
@@ -1401,48 +1574,10 @@ export default function FotoReviewPage() {
           {batchResult && <span className="text-white/45">{batchResult}</span>}
         </div>
 
-        {/* Queue panel */}
-        {queueOpen && (
-          <div className="border-t border-indigo-500/20 bg-[#0a0a18] px-4 py-3 max-h-64 overflow-y-auto">
-            <div className="flex items-center gap-3 mb-2">
-              <span className="text-[10px] text-indigo-400/70 tracking-widest">QUEUE STATUS</span>
-              {Object.entries(queueCounts).map(([s, n]) => (
-                <span key={s} className={`text-[9px] px-1.5 py-0.5 rounded ${
-                  s === "pending" ? "bg-yellow-900/30 text-yellow-400" :
-                  s === "running" ? "bg-indigo-900/40 text-indigo-300 animate-pulse" :
-                  s === "done" ? "bg-green-900/20 text-green-500/70" :
-                  "bg-red-900/20 text-red-400/70"
-                }`}>{s}: {n}</span>
-              ))}
-              <button onClick={handleQueueClear}
-                className="ml-auto text-[9px] px-2 py-0.5 rounded border border-white/10 text-white/25 hover:text-white/50 transition-colors"
-              >CLEAR DONE</button>
-            </div>
-            {queueTasks.length === 0 ? (
-              <div className="text-white/20 text-xs italic">Queue je prazan</div>
-            ) : (
-              <div className="space-y-1">
-                {queueTasks.map(t => (
-                  <div key={t.id} className="flex items-center gap-2 text-[10px]">
-                    <span className={`w-14 text-center rounded px-1 py-0.5 ${
-                      t.status === "pending" ? "bg-yellow-900/30 text-yellow-400" :
-                      t.status === "running" ? "bg-indigo-900/40 text-indigo-300 animate-pulse" :
-                      t.status === "done" ? "text-green-500/50" : "text-red-400/70"
-                    }`}>{t.status}</span>
-                    <span className="text-white/25">#{t.article_id}</span>
-                    <span className="text-white/60">{t.task_type}</span>
-                    <span className="text-white/25">[{t.model}]</span>
-                    {t.error_msg && <span className="text-red-400/70 truncate max-w-xs">{t.error_msg}</span>}
-                    <span className="text-white/15 ml-auto">{t.created_at?.slice(11, 19)}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+      </div>
 
-        {/* Batch scrape panel */}
-        {batchOpen && (
+      {/* Batch scrape panel */}
+      {batchOpen && (
           <div className="border-t border-purple-500/20 bg-[#0c0812] px-4 py-4">
             <div className="max-w-screen-2xl mx-auto">
               {/* Input area — full width, then list below */}
@@ -1542,10 +1677,12 @@ export default function FotoReviewPage() {
             </div>
           </div>
         )}
-      </div>
 
-      {/* Article list */}
-      <div className="max-w-screen-2xl mx-auto px-4 py-5 space-y-4">
+      {/* Main layout: articles full width, queue below */}
+      <div className="flex flex-col flex-1 overflow-hidden">
+        {/* Articles list - full width */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="max-w-screen-2xl mx-auto px-4 py-5 space-y-4">
         {filtered.length === 0 && <div className="text-center text-white/20 py-24 text-sm">Nema članaka</div>}
 
         {filtered.map((article) => {
@@ -1608,15 +1745,15 @@ export default function FotoReviewPage() {
               </div>
 
               {/* Source Info */}
-              {(article.source_name || article.source_published_at) && (
-                <div className="px-4 py-2 text-white/40 text-[11px] flex flex-wrap gap-3 border-b border-white/5">
+              {(article.source_name || article.created_at) && (
+                <div className="px-4 py-2 text-white/40 text-[11px] flex flex-col gap-1.5 border-b border-white/5">
                   {article.source_name && (
-                    <span>📰 <span className="text-white/60">{article.source_name}</span></span>
+                    <div>📰 Izvor: <span className="text-white/60 font-mono">{article.source_name}</span></div>
                   )}
-                  {article.source_published_at && (
-                    <span>
-                      📅{" "}
-                      {new Date(article.source_published_at).toLocaleDateString("en-US", {
+                  {article.created_at && (
+                    <div>
+                      🕒 Skrejpano:{" "}
+                      {new Date(article.created_at).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",
@@ -1625,7 +1762,7 @@ export default function FotoReviewPage() {
                         timeZone: "UTC"
                       })}
                       {" UTC"}
-                    </span>
+                    </div>
                   )}
                 </div>
               )}
@@ -2108,7 +2245,105 @@ export default function FotoReviewPage() {
             </div>
           );
         })}
+          </div>
+        </div>
+
       </div>
+
+      {/* Image Generation Activity - šta se generiše SADA */}
+      {imageActivity.length > 0 && (
+        <div className="border-t border-cyan-500/20 bg-[#0a0812] px-4 py-3">
+          <div className="max-w-screen-2xl mx-auto">
+            <div className="text-[10px] text-cyan-400/70 tracking-widest font-bold mb-2">
+              🎨 TRENUTNA GENERACIJA SLIKA (poslednih 30 minuta)
+            </div>
+
+            {/* Generation summary */}
+            <div className="flex gap-4 mb-3 flex-wrap">
+              {imageCounts.filter((c: Record<string, unknown>) => c.operation === 'generate_success').length > 0 && (
+                <span className="text-[9px] text-green-400/70">
+                  ✅ {(imageCounts.filter((c: Record<string, unknown>) => c.operation === 'generate_success' && c.status === undefined)[0]?.count as number) || 0} generirano
+                </span>
+              )}
+              {imageCounts.filter((c: Record<string, unknown>) => c.operation === 'generate_start').length > 0 && (
+                <span className="text-[9px] text-cyan-400/70 animate-pulse">
+                  🔄 {(imageCounts.filter((c: Record<string, unknown>) => c.operation === 'generate_start')[0]?.count as number) || 0} u radu
+                </span>
+              )}
+            </div>
+
+            {/* Recent activity list */}
+            <div className="space-y-1 max-h-32 overflow-y-auto">
+              {imageActivity.slice(0, 15).map((act: Record<string, unknown>, idx: number) => (
+                <div key={idx} className="text-[8px] text-white/50 font-mono flex gap-2 items-center">
+                  <span className="text-white/30 min-w-[16px]">
+                    {act.status === 'success' ? '✅' : act.status === 'error' ? '❌' : '🟡'}
+                  </span>
+                  <span className="text-white/60 min-w-[40px]">#{String(act.article_id)}</span>
+                  <span className="text-cyan-400/60">{String(act.operation)}</span>
+                  {act.image_type ? <span className="text-white/40">[{String(act.image_type)}]</span> : null}
+                  <span className="text-white/25 ml-auto">{String(act.created_at).slice(11, 19)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Task Queue List - at bottom as redosled */}
+      {queueTasks.length > 0 && (
+        <div className="border-t border-indigo-500/20 bg-[#0a0a18] px-4 py-3">
+          <div className="max-w-screen-2xl mx-auto">
+            <div className="flex items-center justify-between gap-3 mb-2">
+              <div className="text-[10px] text-indigo-400/70 tracking-widest font-bold">
+                📋 REDOSLED ZADATAKA: {queueTasks.filter(t => t.status === 'pending').length} čeka | {queueTasks.filter(t => t.status === 'running').length} radi
+              </div>
+              <button onClick={handleQueueClear} className="text-[8px] px-2 py-1 rounded border border-white/10 text-white/30 hover:text-white/50 transition-colors">Očisti</button>
+            </div>
+
+            {/* Task queue as horizontal list */}
+            <div className="flex gap-2 overflow-x-auto pb-2 flex-wrap">
+              {queueTasks.map((t, idx) => (
+                <div
+                  key={t.id}
+                  className={`flex-shrink-0 px-3 py-2 rounded border text-[9px] font-mono ${
+                    t.status === "running"
+                      ? "border-indigo-500/50 bg-indigo-900/40 text-indigo-300 animate-pulse"
+                      : t.status === "pending"
+                      ? "border-yellow-500/30 bg-yellow-900/20 text-yellow-300"
+                      : t.status === "done"
+                      ? "border-green-500/30 bg-green-900/20 text-green-400/70 line-through opacity-60"
+                      : "border-red-500/30 bg-red-900/20 text-red-400/70"
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-bold text-white/70">#{idx + 1}.</span>
+                    <span className={`w-2 h-2 rounded-full ${
+                      t.status === "running" ? "bg-indigo-400 animate-pulse" :
+                      t.status === "pending" ? "bg-yellow-400" :
+                      t.status === "done" ? "bg-green-400" :
+                      "bg-red-400"
+                    }`}></span>
+                    <span>#{t.article_id}</span>
+                    <span className="opacity-60 text-white/60">{t.task_type}</span>
+                    {t.model && <span className="text-white/40">[{t.model}]</span>}
+                    {["pending", "running"].includes(t.status) && (
+                      <button
+                        onClick={() => handleTaskCancel(t.id, t.article_id)}
+                        disabled={canceling[t.id]}
+                        className="ml-1 text-red-400/50 hover:text-red-300 disabled:opacity-30"
+                        title="Otkaži"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {previewImage && (
         <div

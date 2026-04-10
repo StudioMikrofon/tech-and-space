@@ -1,0 +1,57 @@
+---
+id: "2026-04-03-ollamas-mlx-move-apples-ai-play-gets-realsort-of"
+db_id: 1345
+title: "Ollama’s MLX move: Apple’s AI play gets real—sort of"
+category: "ai"
+date: "2026-04-03T16:41:49Z"
+excerpt: "Ollama’s quiet integration of [Apple’s MLX framework](https://github."
+exec_summary: "Ollama’s MLX integration turns Apple Silicon Macs into viable local AI workstations—but only for users with 32GB+ RAM, exposing a hardware divide. The move capitalizes on growing frustration with cloud costs and rate limits, giving Macs a competitive edge in on-device inference while leaving most consumer-grade machines behind."
+key_points:
+  - "MLX taps Apple’s unified memory for local AI speedups"
+  - "No benchmarks, just ‘better’—hype or hardware truth?"
+  - "Developers cheer, but cloud AI isn’t sweating yet"
+source:
+  name: "arstechnica.com"
+  url: "https://arstechnica.com/apple/2026/03/running-local-models-on-macs-gets-faster-with-ollamas-mlx-support/"
+image:
+  url: "/images/articles/ollamas-mlx-move-apples-ai-play-gets-realsort-of/main.jpg"
+  alt: "Ollama’s MLX move: Apple’s AI play gets real—sort of"
+  caption: "Ollama’s MLX move: Apple’s AI play gets real—sort of"
+  credit: "Source: Web"
+subtitle: "Demo nasuprot deploymenta: tko zapravo može pokrenuti 35B model na laptopu"
+subtitle_en: "The gap between ‘optimized’ and ‘actually faster’"
+subtitleImage:
+  url: "/images/articles/ollamas-mlx-move-apples-ai-play-gets-realsort-of/subtitle.jpg"
+  alt: "The gap between ‘optimized’ and ‘actually faster’"
+  caption: "The gap between ‘optimized’ and ‘actually faster’"
+  credit: "Source: Web"
+tags: ["Ollama on Apple Silicon (M1/M2)", "35B-parameter model inference on consumer hardware", "Local AI deployment vs. cloud dependency", "Open-source LLMs for edge devices", "Performance benchmarks for Apple ARM chips"]
+lead_sentence: "Ollama’s latest update sidesteps synthetic benchmarks, instead betting Apple’s unified memory can make local LLMs feel less like a compromise."
+geo:
+  name: "Cupertino, United States"
+  lat: 37.322998
+  lon: -122.032181
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Ollama’s quiet integration of [Apple’s MLX framework](https://github.com/ml-explore/mlx) into its local model runner isn’t just another ‘now with M-series support!’ press release. It’s the first time an open-source LLMs-as-a-service tool has directly leveraged Apple Silicon’s [unified memory architecture](https://developer.apple.com/metal/unified-memory/), where CPU and GPU share the same pool—no serializing data between them. That’s the kind of plumbing that turns ‘runs on a Mac’ into ‘runs *well* on a Mac.’
+
+
+The catch? No one’s publishing numbers. Ollama’s [release notes](https://ollama.ai/blog) call it a ‘performance boost,’ but ‘boost’ could mean 10% or 10x. Early [GitHub reactions](https://github.com/jmorganca/ollama/issues) from developers running [Llama 2 7B](https://ai.meta.com/llama/) on M2 Max machines suggest smoother inference, not a step-change. That’s the reality gap: Apple’s on-device AI push relies on tools like this to make ‘local’ feel competitive with cloud—yet here we are, still waiting for someone to run a controlled test.
+
+
+This isn’t about replacing Nvidia’s dominance in training. It’s about inference—the grunt work of actually *using* models. And for Apple, that’s a strategic play: the more performant local AI becomes, the less iOS and macOS developers default to [Google’s Vertex AI](https://cloud.google.com/vertex-ai) or [Azure ML](https://azure.microsoft.com/en-us/products/machine-learning/). The question isn’t whether MLX helps (it does), but whether it helps *enough* to shift behavior.
+
+<ArticleBreak />
+
+The developer signal is cautiously optimistic. Ollama’s [Discord](https://discord.gg/ollama) lit up with M1/M2 users reporting snappier response times, though no one’s confusing it with a [H100-powered endpoint](https://www.nvidia.com/en-us/data-center/h100/). One pattern stands out: the gains seem most noticeable on smaller models (7B–13B parameters), where memory bandwidth matters more than raw compute. Larger models? Still better off in the cloud.
+
+
+Industry-wise, this is Apple playing the long game. The company’s [WWDC 2024 AI push](https://developer.apple.com/wwdc24/) leaned hard on ‘private, on-device’ processing, but without third-party tools like Ollama, it’s just vapor. MLX support turns that into a tangible (if modest) advantage for Mac developers. Meanwhile, [Microsoft’s DirectML](https://learn.microsoft.com/en-us/windows/ai/directml/) and [Qualcomm’s NPU](https://www.qualcomm.com/ai) are racing to do the same for Windows/ARM. The real competition isn’t about who has the fastest chip—it’s about who owns the stack developers actually use.
+
+
+What’s missing? Any mention of [model quantization](https://arxiv.org/abs/2106.08295) or [sparse attention](https://arxiv.org/abs/2301.00774), the techniques that could turn ‘runs locally’ into ‘runs *efficiently* locally.’ Ollama’s MLX integration is a start, not a finish line. And for all the talk of ‘AI on your laptop,’ the elephant in the room remains: most users still just want [ChatGPT in Safari](https://chat.openai.com/), not a terminal command.
+
+There’s still no answer to the obvious question: how much faster, exactly? Until someone publishes reproducible benchmarks—ideally on the same hardware, same model, same prompts—the ‘performance boost’ is just a euphemism for ‘we hope you’ll try it.’

@@ -1,0 +1,51 @@
+---
+id: "2026-04-07-claude-mythos-finds-bugs-no-one-dared-look-fornow-"
+db_id: 1913
+title: "Claude Mythos finds bugs no one dared look for—now what?"
+category: "ai"
+date: "2026-04-07T21:09:44Z"
+excerpt: "Anthropic’s **Claude Mythos Preview** didn’t just find a few overlooked bugs—it unearthed *thousands* of zero-days lurking in **every major OS and browser**, some unpatched since the dial-up era."
+exec_summary: "Anthropic’s Claude Mythos Preview autonomously generates exploits for thousands of zero-days across all major OSes and browsers, forcing an industry-wide patching sprint under Project Glasswing. The model’s 72.4% exploit success rate exposes a shift: security can no longer be reactive when AI outpaces human audits. Watch whether this triggers a race for defensive AI—or offensive misuse."
+key_points:
+  - "Decades-old vulnerabilities exposed by AI, not humans"
+  - "Anthropic throttles its own model to avoid chaos"
+  - "Browser and OS makers scramble in silent patch race"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/tech-industry/artificial-intelligence/anthropics-latest-ai-model-identifies-thousands-of-zero-day-vulnerabilities-in-every-major-operating-system-and-every-major-web-browser-claude-mythos-preview-sparks-race-to-fix-critical-bugs-some-unpatched-for-decades"
+image:
+  url: "/images/articles/claude-mythos-finds-bugs-no-one-dared-look-fornow-/main.jpg"
+  alt: "Claude Mythos finds bugs no one dared look for—now what?"
+subtitle: "Demo nasuprot deploymenta: Anthropic drži model pod ključem dok industrija žuri"
+subtitle_en: "The gap between ‘zero-day discovery’ and ‘zero-day panic’"
+subtitleImage:
+  url: "/images/articles/claude-mythos-finds-bugs-no-one-dared-look-fornow-/subtitle.jpg"
+  alt: "The gap between ‘zero-day discovery’ and ‘zero-day panic’"
+tags: ["Anthropic", "Zero-Day Vulnerabilities", "AI Security"]
+lead_sentence: "Claude Mythos Preview didn’t just outperform human auditors—it exposed flaws so old they predate the iPhone, forcing Anthropic to **manually limit its own model’s output**."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Anthropic’s **Claude Mythos Preview** didn’t just find a few overlooked bugs—it unearthed *thousands* of zero-days lurking in **every major OS and browser**, some unpatched since the dial-up era. The lab’s response? A rare act of self-censorship: withholding the model’s full capabilities to give vendors breathing room. This isn’t another [AI security demo](https://www.theregister.com/2024/02/15/anthropic_claude_mythos_vulnerabilities/) with staged vulnerabilities; it’s a firehose of exploits so broad that even the discoverer hit the brakes.
+
+
+The scale suggests Mythos isn’t just better at pattern-matching—it’s **rewriting the rules of automated security testing**. Traditional fuzzers and static analyzers miss what Mythos flags: logic flaws buried in legacy code, assumptions so old they predate modern threat models. Yet here’s the catch: if an AI can find these, **what else is it quietly capable of**? The answer may lie in how quickly Microsoft, Google, and Apple patch silently, without the usual fanfare of coordinated disclosure.
+
+
+Early signals point to a **two-speed reaction**. Publicly, vendors downplay the urgency; privately, [GitHub commits](https://github.com/search?q=zero-day+2024&type=commits) spike in repos tied to core infrastructure. The open-source community, meanwhile, is split: some praise Anthropic’s restraint, others ask why this wasn’t caught by **two decades of human audits**.
+
+<ArticleBreak />
+
+The real story isn’t the bugs—it’s the **asymmetry of access**. Mythos’ findings are a **competitive moat** for Anthropic: a proprietary dataset of exploits that could be weaponized, licensed, or (optimistically) shared under strict controls. Compare this to [Google’s Project Zero](https://googleprojectzero.blogspot.com/), which publishes after 90 days—Mythos’ approach is **preemptive suppression**, a gambit that assumes vendors will act faster if they’re not publicly shamed.
+
+
+Developers are already reverse-engineering the implications. If Mythos can **infer vulnerabilities from code semantics** (not just syntax), that’s a leap beyond [existing AI tools like GitHub Copilot](https://github.blog/2023-03-23-github-copilot-x-the-ai-powered-developer-experience/). The unanswered question: how many of these flaws were **theoretically exploitable** but never found because no human thought to look? The [CVE database](https://cve.mitre.org/) might need a new category: *AI-discovered, decades-dormant*.
+
+
+For all the noise about AI ‘assisting’ security, Mythos flips the script: **it’s the first tool that outpaces human defenders by design**. The race isn’t just to patch—it’s to decide who gets to wield this kind of analysis next, and under what rules. Anthropic’s restraint buys time, but the genie’s already half out of the bottle.

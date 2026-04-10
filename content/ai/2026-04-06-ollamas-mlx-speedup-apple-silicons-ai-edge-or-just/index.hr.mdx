@@ -1,0 +1,57 @@
+---
+id: "2026-04-06-ollamas-mlx-speedup-apple-silicons-ai-edge-or-just"
+db_id: 1687
+title: "Ollama 0.19: Apple Silicon dobiva MLX turbo, ali koliko to znači?"
+lang: "hr"
+category: "ai"
+date: "2026-04-06T02:18:58Z"
+excerpt: "Ollama je s verzijom 0."
+exec_summary: "Ollama 0.19 leverages Apple’s MLX for claimed speedups on Silicon chips, but lacks hard benchmarks. The real play is reducing CUDA dependency for macOS developers—if the performance holds up. Watch for independent tests and competitor responses."
+key_points:
+  - "MLX ubrzava lokalne modele na M1/M2/M3 čipovima"
+  - "Nema konkretnih benchmarka – samo korisnički entuzijazam"
+  - "Razvojni timovi sada mogu testirati bez oblaka"
+source:
+  name: "producthunt.com"
+  url: "https://www.producthunt.com/products/ollama"
+image:
+  url: "/images/articles/ollamas-mlx-speedup-apple-silicons-ai-edge-or-just/main.jpg"
+  alt: "Ollama 0.19: Apple Silicon dobiva MLX turbo, ali koliko to znači?"
+subtitle: "Između marketinga i stvarnih performansi: tko ovdje zapravo profitira?"
+subtitleImage:
+  url: "/images/articles/ollamas-mlx-speedup-apple-silicons-ai-edge-or-just/subtitle.jpg"
+  alt: "Između marketinga i stvarnih performansi: tko ovdje zapravo profitira?"
+tags: ["Apple Silicon", "MLX", "Ollama"]
+lead_sentence: "Appleov MLX framework sada pokreće Ollamu 0.19, ali bez službenih benchmarka — samo korisničke priče o ‚znatno bržem‘ radu na M2 Pro čipovima."
+geo:
+  name: "Cupertino, United States"
+  lat: 37.322998
+  lon: -122.032181
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Ollama je s verzijom 0.19 napokon iskoristio Appleov MLX framework za ubrzanje lokalnih modela na Silicon čipovima – ali bez jasnih brojeka o poboljšanju. Dok Product Hunt pliva u hvali o „masivnom“ ubrzanju, stvarna priča je u detaljima: MLX optimizira matrice za Appleov Neural Engine, što teorijski smanjuje latenciju kod inferencije.
+
+Problem? Niti jedna službena usporedba s prethodnom verzijom, niti benchmark na realnim opterećenjima.
+
+Dio communityja već slavi kako se modeli sada 'pokreću kao na maslacu' na M2 Pro, ali to su anegdotske priče – ne dokazi. Čak i ako je ubrzanje značajno, pitanje je koliko će to biti vidljivo van idealnih uvjeta: lokalni LLM-i i dalje zahtijevaju RAM, a Appleovi čipovi imaju ograničenja s VRAM-om za veće modele.
+
+Zanimljivije od samog ubrzanja je što Ollama sada eksplicitno cilja Appleov ekosustav, što nije bilo slučajno. Appleov MLX je još uvijek relativno mlada tehnologija, a njegova integracija znači da Ollama sada ima 'domaćinicu' za razvijače koji rade na macOS-u.
+
+To možda zvuči kao tehnički detalj, ali je zapravo strategijski potez: manje ovisnosti o CUDA-i, više kontrole nad performansama na Appleovom hardveru.
+
+<ArticleBreak />
+
+Realni signal ovdje nije u brzini već u smjeru: Ollama polako postaje platforma koja ne favorizira samo Nvidiju. Za razvijače koji rade na Apple Siliconu, to znači manje kompromisa prilikom lokalnog testiranja modela – npr.
+
+Mistral 7B ili Llama 2 sada bi trebali raditi glatije. Ali pažnja: 'lokalno' ne znači 'besplatno' – veliki modeli i dalje koštaju resurse, a Appleovi čipovi nisu magični za sve slučajeve upotrebe.
+
+Konkurenti poput LM Studio ili Jan.ai već dugo nude lokalne LLM-ove, ali Ollama sada ima prednost u integriranju s Appleovim alatom. Ako se ovo pokaže stabilnim, mogao bi postati *de facto* izbor za macOS razvijače koji žele izbjeći cloud.
+
+Ipak, ostaje pitanje koliko će ova optimizacija biti relevantna za prosječnog korisnika: većina i dalje koristi LLM-ove preko API-ja, a lokalna pokretanja su niche. Najveći rizik za Ollamu je da se uhvati u 'brži je bolji' narativi bez dokaza.
+
+Dok god nema transparentnih usporedbi s verzijom 0.18 ili konkurentima, sve ostaje u sferi 'vjeruj nam, radimo na tome'. A to je opasna igra u svijetu gdje svaki tjedan izlazi nova 'revolucija' u AI-u.
+
+Strateški potez Ollame da se usredotoči na Appleov ekosustav može joj osigurati prednost među macOS razvijačima. Međutim, bez transparentnosti i konkretnih rezultata, teško je procijeniti hoće li ovo dugoročno donijeti stvarnu konkurentsku prednost.

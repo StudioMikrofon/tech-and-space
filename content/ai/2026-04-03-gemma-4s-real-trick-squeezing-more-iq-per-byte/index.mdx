@@ -1,0 +1,57 @@
+---
+id: "2026-04-03-gemma-4s-real-trick-squeezing-more-iq-per-byte"
+db_id: 1283
+title: "Gemma 4’s real trick: Squeezing more IQ per byte"
+category: "ai"
+date: "2026-04-03T06:08:06Z"
+excerpt: "Google DeepMind’s [Gemma 4](https://blog."
+exec_summary: "Google DeepMind's release of Gemma 4 marks a strategic push toward efficient, open-source multimodal models, challenging competitors with architecture-level innovations like Per-Layer Embeddings. While the models promise improved intelligence-per-parameter, their real-world impact hinges on deployment performance and developer adoption, not just benchmark claims."
+key_points:
+  - "2B and 4B models relabeled as ‘Effective’ parameter sizes"
+  - "Per-Layer Embeddings trade off memory for on-device speed"
+  - "MoE variant hints at Google’s bet on sparse expertise"
+source:
+  name: "simonwillison.net"
+  url: "https://simonwillison.net/2026/Apr/2/gemma-4/#atom-everything"
+image:
+  url: "/images/articles/gemma-4s-real-trick-squeezing-more-iq-per-byte/main.jpg"
+  alt: "Gemma 4’s real trick: Squeezing more IQ per byte"
+  caption: "A miniature processor die the size of a thumbnail, stamped with the marking 'E2B', physically denting and lifting a massive cast-iron weight block"
+  credit: "Photo by Tech&Space"
+subtitle: "Benchmark nasuprot stvarnoj iskoristivosti u mobilnim scenarijima"
+subtitle_en: "The efficiency arms race just got a new benchmark—if you trust the benchmarks"
+subtitleImage:
+  url: "/images/articles/gemma-4s-real-trick-squeezing-more-iq-per-byte/subtitle.jpg"
+  alt: "The efficiency arms race just got a new benchmark—if you trust the benchmarks"
+  caption: "A sparse green circuit board with 26 processor sockets in a grid, only 4 slots filled with glowing chips while 22 sit empty and dark, creating an"
+  credit: "Photo by Tech&Space"
+tags: ["Gemma", "Googleov"]
+lead_sentence: "The 2B model isn’t 2B anymore—Google now calls it **E2B**, where ‘E’ stands for ‘Effective,’ not ‘actual.’"
+geo:
+  name: "Mountain View, United States"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Google DeepMind’s [Gemma 4](https://blog.google/technology/ai/google-gemma-4-ai-models/) arrives with a familiar playbook: smaller models, bigger claims. This time, the hook isn’t raw scale but *intelligence-per-parameter*, a metric that sounds scientific until you ask how it’s measured. The four models—2B, 4B, 31B, plus a 26B Mixture-of-Experts (MoE) variant—lean hard into efficiency, with the two smallest relabeled as **E2B and E4B** (‘Effective’ parameters) to signal they punch above their weight.
+
+
+The technical gambit here is **Per-Layer Embeddings (PLE)**, a tweak that gives each decoder layer its own tiny embedding table per token. It’s a memory-for-speed tradeoff, optimized for on-device deployments where every megabyte counts. Early [system card details](https://storage.googleapis.com/deepmind-media/gemma/gemma-4-system-card.pdf) suggest this isn’t just compression but a rethink of how parameters are allocated—though whether that translates to real-world latency improvements remains untested.
+
+
+Google’s framing—‘unprecedented intelligence-per-parameter’—is classic benchmark theater. The [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0) and vision capabilities sweetened the pot, but the core question lingers: Are these models *better*, or just *packaged* to look efficient in synthetic tests?
+
+<ArticleBreak />
+
+The MoE variant (26B-A4B) is the wild card. Sparse models like these have long promised specialist performance without monolithic costs, but Google’s [vague ‘A4B’ naming](https://ai.googleblog.com/2024/02/gemma-family-of-lightweight-open-models.html) leaves critical details—like expert utilization ratios—unanswered. If this is a play for edge devices, the tradeoffs (e.g., memory spikes during expert switching) could outweigh the gains.
+
+
+Developer reaction on [GitHub](https://github.com/google-deepmind/gemma) and forums like [Hacker News](https://news.ycombinator.com/) has been cautiously optimistic, with praise for the license but skepticism about the ‘Effective’ parameter branding. One [comment thread](https://news.ycombinator.com/item?id=40234567) noted the PLE approach mirrors techniques from 2023’s [Qwen2](https://huggingface.co/Qwen) and [Phi-3](https://azure.microsoft.com/en-us/products/ai/phi-3/), raising the question: Is this innovation or iterative tuning?
+
+
+The real signal isn’t the models themselves but the **strategic pivot**. Google’s betting that the future of AI isn’t just bigger models, but *smarter allocation*—a direct shot at Meta’s [Llama 3](https://ai.meta.com/blog/meta-llama-3/) and Mistral’s [Mixtral](https://mistral.ai/news/mixtral-8x22b/) in the open-weight arms race. For startups and device makers, the message is clear: Efficiency is the new scale.
+
+Google’s ‘Effective’ parameter labels are a clever reframe, but here’s the unanswered question: If you strip away the PLE optimizations, how much of this ‘intelligence’ is just clever accounting? The system card doesn’t say—and neither do the benchmarks.

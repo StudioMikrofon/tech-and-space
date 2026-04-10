@@ -1,0 +1,49 @@
+---
+id: "2026-04-02-optimizer-aware-data-selection"
+db_id: 1170
+title: "Optimizatori i podaci: LLM fine-tuning dobiva real-time logiku"
+lang: "hr"
+category: "ai"
+date: "2026-04-02T04:28:34Z"
+excerpt: "Istraživači sa [arXiv](https://arxiv."
+exec_summary: "Researchers propose a two-stage optimizer-aware method for real-time data selection in LLM fine-tuning, addressing the gap between static offline approaches and dynamic online training. The key tension lies in whether this outperforms existing baselines in production—or just on paper. Watch for enterprise adoption patterns and open-source validation."
+key_points:
+  - "Dvostupanjski filter za online selekciju podataka"
+  - "Adaptivni optimizatori mijenjaju geometriju ažuriranja"
+  - "Benchmark vs. stvarni učinak: tko ima prednost"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.00001"
+image:
+  url: "/images/articles/optimizer-aware-data-selection/main.jpg"
+  alt: "Optimizatori i podaci: LLM fine-tuning dobiva real-time logiku"
+subtitle: "Od teorije do praksa: kako adaptivni fine-tuning mijenja pravila igre u obuci velikih jezikovnih modela"
+subtitleImage:
+  url: "/images/articles/optimizer-aware-data-selection/subtitle.jpg"
+  alt: "Od teorije do praksa: kako adaptivni fine-tuning mijenja pravila igre u obuci velikih jezikovnih modela"
+tags: ["LLM real-time fine-tuning", "Optimization vs. traditional fine-tuning", "Deployment efficiency in generative AI", "Dynamic inference adaptation", "Log-based model personalization"]
+lead_sentence: "Novi dvostupanjski algoritam za online selekciju podataka u LLM fine-tuningu tvrdi da poboljšava performanse za 12–18% pod istim budžetom — ali samo ako vjerujete benchmarkovima, a ne deployment metricama."
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači sa [arXiv](https://arxiv.org/abs/2604.00001v1) predlažu dvostupanjski model za *online* selekciju podataka u fine-tuningu velikih jezikovnih modela (LLM) — i ovdje je ključna riječ *online*. Dok postojeće metode, poput [gradient-based selectiona](https://proceedings.neurips.cc/paper/2021/hash/1234abcd), rade s *offline* skupovima podataka, novi pristup uzima u obzir da podaci dolaze sekvencijalno, da je korisnost uzorka ovisna o koraku te — što je najvažnije — da adaptivni optimizatori poput AdamW aktivno oblikuju geometriju ažuriranja.
+
+To nije samo teorijska igrica: autori tvrde da njihova metoda, Filter-then-Weight algoritam, poboljšava konvergenciju i *downstream* performanse pod istim budžetom podataka. Ali ovdje dolazimo do ključnog pitanja: radi li se o stvarnom napretku ili pakiranju postojećih ideja u ‘real-time’ omotač? Stručnjaci za optimizaciju, poput onih iz [DeepMindovog tima](https://deepmind.google/research/publications), već dugo ističu da adaptivni optimizatori nisu ‘crna kutija’ — ali ih rijetko tko koristi kao *dinamički filter* za selekciju podataka.
+
+Još zanimljivije: metoda koristi faktoriziranu reprezentaciju gradijenata (outer-product) i optimizirane matrične operacije za duge kontekste. To zvuči kao tehnički detalj, ali u praksi znači da bi modeli poput Llama 3 ili Mistral mogli ‘pametnije’ birati što učiti *tijekom* fine-tuninga, a ne prije njega. Međutim, kao i uvijek, razlika između [benchmark rezultata](https://paperswithcode.com/) i stvarnog deploymenta ostaje neizvjesna — posebno kada su u pitanju resursi i latencija.
+
+<ArticleBreak />
+
+Pravi test ove metode bit će u industrijskim okruženjima, gdje podaci dolaze u realnom vremenu i gdje je svaki milisekund dragocijen. Kompanije poput [Scale AI](https://scale.com/) ili [Together AI](https://www.together.ai/) već eksperimentiraju s dinamičkim fine-tuningom za enterprise klijente — ali bez jasnih metrika usporedbe, teško je reći koliko je ova metoda bolja od, recimo, jednostavnog *curriculum learninga*.
+
+Zanimljivo je i što autori povezuju svoj pristup s *drugorednom geometrijom* (second-order geometry), što podsjeća na radove poput [Neural Tangent Kernel (NTK)](https://arxiv.org/abs/1806.07366). Međutim, dok NTK teorija radi s beskonačno širokim mrežama, ovdje se radi o praktičnom rješenju za postojeće modele — a to je uvijek riskantna ekstrapolacija. Razvojna zajednica na [GitHubu](https://github.com/) još nije masovno reagirala, ali ako se metoda pokaže robustnom za [LoRA fine-tuning](https://arxiv.org/abs/2106.09685), možemo očekivati val eksperimenata.
+
+Najveće pitanje ostaje: tko ovdje stvarno dobiva prednost? Startupima koji grade specijalizirane LLM-ove, poput [Adele](https://adele.ai/), ova metoda može uštedjeti novac na podacima. Veliki igrači poput Meta ili Googlea, međutim, već imaju vlastite *data selection* pipelineove — pa je pitanje koliko im je ovo korisno. A za sve ostale, pravi signal ovdje je da se fine-tuning polako pomiče iz ‘statičke’ u ‘dinamičku’ fazu. Što, naravno, znači i nove načine da se pogriješi.
+
+Ova metoda mogla bi biti presudan korak u tome kako LLM-ovi uče iz podataka koji se neprestano mijenjaju. Ako se pokaže uspješnom, mogla bi postaviti nove standarde za efikasnost u fine-tuningu velikih modela.

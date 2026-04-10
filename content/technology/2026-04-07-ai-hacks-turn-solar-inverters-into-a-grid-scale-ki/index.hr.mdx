@@ -1,0 +1,49 @@
+---
+id: "2026-04-07-ai-hacks-turn-solar-inverters-into-a-grid-scale-ki"
+db_id: 1882
+title: "AI hakeri otkrili „kill switch“ u 100.000 solarnih invertera"
+lang: "hr"
+category: "technology"
+date: "2026-04-07T16:24:51Z"
+excerpt: "Cybersecurity tvrtka Jakkaru koristila je AI modele poput *Gemini Pro* da dešifrira firmware mikroinvertera AP Systems EZ1-M i otkrila je da se preko statičkih ključeva izvedenih iz serijskog broja može preuzeti kontrola nad uređajem."
+exec_summary: "A critical AI-assisted hack exposed static-key vulnerabilities in AP Systems microinverters, risking grid-scale shutdowns. The real shift isn’t the exploit itself but how it reveals systemic flaws in IoT security—and who bears the cost of fixing them."
+key_points:
+  - "AI modeli razotkrili slabost u AP Systems inverterima"
+  - "100.000 uređaja izloženo daljinskom gašenju"
+  - "Anker Solix Mi80 pod istim rizikom – ispravak stigao kasno"
+source:
+  name: "pv-magazine.com"
+  url: "https://www.pv-magazine.com/2026/04/07/microinverters-hacked-with-ai-coordinated-remote-shutdown-possible/"
+image:
+  url: "/images/articles/ai-hacks-turn-solar-inverters-into-a-grid-scale-ki/main.jpg"
+  alt: "AI hakeri otkrili „kill switch“ u 100.000 solarnih invertera"
+subtitle: "Od teorijskog propusta do sustavne ugroze: kako loša sigurnosna praksa ugrožava cijeli sektor obnovljivih izvora"
+subtitleImage:
+  url: "/images/articles/ai-hacks-turn-solar-inverters-into-a-grid-scale-ki/subtitle.jpg"
+  alt: "Od teorijskog propusta do sustavne ugroze: kako loša sigurnosna praksa ugrožava cijeli sektor obnovljivih izvora"
+tags: ["Technology"]
+lead_sentence: "AI modeli poput Gemini Pro otkrili su kako statički ključеви u 100.000 solarnih invertera omogućavaju daljinsko preuzimanje kontrole – a proizvođač je ispravak objavio tek nakon što je ranjivost demonstrirana."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Cybersecurity tvrtka Jakkaru koristila je AI modele poput *Gemini Pro* da dešifrira firmware mikroinvertera AP Systems EZ1-M i otkrila je da se preko statičkih ključeva izvedenih iz serijskog broja može preuzeti kontrola nad uređajem. Problem nije samo teorijski: prema njihovim podacima, 100.000 invertera bilo je dostupno preko interneta s ovom ranjivošću, a ukupno ih je u upotrebi čak 600.000 širom svijeta. AP Systems je naknadno objavio zakrpu, ali pitanje ostaje: koliko je instalatera i krajnjih korisnika uopće primijenilo ažuriranje?
+
+Nije riječ samo o pojedinačnim kućanskim sustavima. Ovi mikroinverteri – uključujući i Anker Solix Mi80, koji je zapravo isti uređaj pod drugim imenom – komuniciraju preko cloud-based MQTT protokola. Ako napadač preuzme kontrolu, može ne samo ugasiti invertore, nego i manipulirati podacima o proizvodnji, što direktno ugrožava stabilnost lokalnih mreža. Jakkaru je demonstrirao kako bi se napadi mogli automatizirati i skalirati – što pretvara ovu ranjivost iz tehničkog problema u sustavni rizik za cijeli sektor obnovljivih izvora.
+
+Praktično značenje? Vlasnici solarnih postrojenja moraju sada provjeriti verziju firmwarea i ručno instalirati zakrpu, ako je uopće dostupna za njihovu verziju. A to je problem: mnogi korisnici ne prate redovito sigurnosna ažuriranja, a instalateri često nemaju ugovore o održavanju. Drugim riječima, i nakon objave ispravka, stotine tisuća uređaja mogu ostati izložena – sve dok ih netko ne iskoristi.
+
+<ArticleBreak />
+
+Ova priča otkriva dva ključna propusta u industriji. Prvi: statički ključevi izvedeni iz serijskih brojeva loša su praksa još od 2010-ih, a opet se pojavljuju u kritičnoj infrastrukturi. Drugi: AI kao alat za hakiranje više nije futuristički scenarij, nego realnost. Jakkaru je upravo koristio AI modele da ubrza analizu firmwarea – što znači da će i napadači uskoro imati pristup istim alatom. „AI sustavi poput *Gemini Pro* mogu pronaći ranjivosti brže i učinkovitije“, ističu iz tvrtke, ali to vrijedi i za one s lošim namjerama.
+
+Za tržište to znači novi pritisak na proizvođače da ugrade zero-trust arhitekturu i redovite sigurnosne audite – što povećava troškove, ali i cijenu krajnjem korisniku. A problem je širi: isti MQTT protokol koriste i drugi proizvođači pametnih uređaja, od termostata do punjača za auto. Ako se ovo ne riješi sustavno, sljedeći cilj mogu biti cijele gradske četvrti s povezanim solarnim sustavima.
+
+I tu priča postaje zanimljivija od same objave. Jer dok se mediji usredotoče na „AI hakerstvo“, pravo usko grlo je u tome što korisnici ne znaju ni da su ugroženi – a kamoli kako provjeriti je li njihova instalacija sigurna. AP Systems je reagirao, ali pitanje je koliko će proizvođača učiti iz ovog slučaja prije nego što dođe do stvarnog napada.
+
+AI može biti dvostruki mač – alat za zaštitu i oružje za napade. Ono što je Jakkaru postigao kao sigurnosni stručnjak, drugi će uskoro koristiti kao uputu. Vrijeme za preventivne mjere je sada, prije nego što bude prekasno.

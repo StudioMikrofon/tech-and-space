@@ -29,7 +29,7 @@ import PageTransition from "@/components/PageTransition";
 import SpaceStage from "@/components/SpaceStage";
 import KonamiCode from "@/components/KonamiCode";
 import Ticker from "@/components/Ticker";
-import SpaceProSidebar from "@/components/SpaceProSidebar";
+import SpaceProSidebarWrapper from "@/components/SpaceProSidebarWrapper";
 import MainShell from "@/components/MainShell";
 import AgentPanel from "@/components/AgentPanel";
 import AmbientSound from "@/components/AmbientSound";
@@ -83,7 +83,7 @@ export default function RootLayout({
           <Header />
           <div className="flex flex-1 w-full max-w-full overflow-x-hidden">
             <MainShell>{children}</MainShell>
-            <SpaceProSidebar />
+            <SpaceProSidebarWrapper />
           </div>
           <Footer />
         </div>

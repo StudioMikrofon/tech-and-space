@@ -1,0 +1,57 @@
+---
+id: "2026-04-04-claude-ai-rewrites-biosbecause-intels-cpu-support-"
+db_id: 1475
+title: "Claude AI prepisao BIOS: 12 P-jezgri na Z790 bez podrške"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T12:39:48Z"
+excerpt: "Modder pod nadimkom [kryptonfly](https://twitter."
+exec_summary: "This isn’t just another ‘AI helped code’ story—it’s proof that large language models can co-author firmware mods with tangible hardware outcomes. By tricking an Asus Z790 board into recognizing an OEM-exclusive 12 P-core Bartlett Lake CPU as a Raptor Lake chip, the modder exposed a market gap: enthusiasts crave pure P-core architectures that Intel reserves for embedded systems. Watch whether this remains a niche hack or sparks a gray-market segment for high-core-count CPUs."
+key_points:
+  - "Claude AI kao alati za BIOS modding"
+  - "12 P-jezgri Bartlett Lake na Asus Z790-AYW"
+  - "Tržišni jaz između OEM-a i entuzijasta"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/pc-components/cpus/modder-uses-claude-ai-to-rewrite-bios-so-they-can-boot-unsupported-12-p-core-bartlett-lake-cpu-in-windows-on-a-z790-motherboard"
+image:
+  url: "/images/articles/claude-ai-rewrites-biosbecause-intels-cpu-support-/main.jpg"
+  alt: "Claude AI prepisao BIOS: 12 P-jezgri na Z790 bez podrške"
+subtitle: "Od hakerske inovacije do tržišnog jaza: tko stvarno dobiva na ovom eksperimentu"
+subtitleImage:
+  url: "/images/articles/claude-ai-rewrites-biosbecause-intels-cpu-support-/subtitle.jpg"
+  alt: "Od hakerske inovacije do tržišnog jaza: tko stvarno dobiva na ovom eksperimentu"
+tags: ["Claude AI", "BIOS hacking", "Z790 motherboard"]
+lead_sentence: "Modder kryptonfly koristio je Claude AI ne kao chatbota, već kao suautora BIOS modova koji su omogućili boot 12-jezgrenog Bartlett Lake-S na Asus Z790 ploči — konfiguraciji koju Intel službeno ne podržava."
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Modder pod nadimkom [kryptonfly](https://twitter.com/kryptonfly) uspio je zaobići jedno od najtvrđih ograničenja moderne hardverske scene: ekskluzivnost OEM CPU-a. Koristeći [Claude AI](https://www.anthropic.com/claude) kao pomoćni alat za prepisivanje BIOS-a, omogućio je pokretanje **12 P-jezgrene Bartlett Lake-S** (do 5.9 GHz) na Asus Z790-AYW OC Wi-Fi ploči — konfiguraciji koja službeno ne postoji.
+
+Ključni trik bio je namjestiti ploču da prepozna CPU kao Raptor Lake 13./14. generacije, čime je zaobišao blokadu inicijalizacije memorije. Riječ je o prvom dokumentiranom slučaju gdje AI ne služi samo kao koderski asistent, već kao koautor firmware modova u realnom hardverskom kontekstu.
+
+Bartlett Lake-S, Intelova linija namijenjena *embedded* i *edge* računalstvu, do sada je bila zaključana za OEM ploče poput onih u serverima ili specijaliziranoj opremi. Njegova čista P-jezgrena arhitektura (bez E-jezgara) privlači entuzijaste koji traže nisku latenciju u aplikacijama poput real-time renderinga ili visoko-frekventnog trgovanja — ali do sada im je pristup bio onemogućen.
+
+Iako je postignut post code 99 (A2) — što znači da je sistem uspio proširiti memoriju i pripremiti se za boot — ostaje problem: CPU ne ulazi u BIOS. To znači da su daljnje optimizacije (poput podrške za PCIe 5.0 ili fine-tuning napajanja) za sada nemoguće.
+
+Drugim riječima, radi se o djelomičnom uspjehu koji otvara vrata, ali ne i cijeli dom.
+
+<ArticleBreak />
+
+Prava priča nije u samom postignuću, već u tržišnom jazu koji otkriva. Intel je Bartlett Lake dizajnirao za ugrađene sustave, ali entuzijasti traže upravo njegovu čistu P-jezgrenu arhitekturu — nešto što mainstream desktop CPU-i (s E-jezgrama) ne nude.
+
+Ako se ova metoda proširi na druge LGA 1700 ploče (poput [Asus Apex](https://www.asus.com/motherboards-components/motherboards/rog-maximus/rog-maximus-z790-apex/) ili Encore), možemo vidjeti novi segment 'sivog tržišta' za high-core-count CPU-e. S druge strane, postoji realnost gap: ovo nije plug-and-play rješenje.
+
+Kryptonfly je potvrdio da je proces uključivao desetke iteracija s Claude AI-jem, ručno prilagođavajući mikrokod i ACM (Authentication Code Module) da bi zaobišao Intelove sigurnosne provjere. Bez otvorenog alata ili automatiziranog workflow-a, ostaje pitanje koliko će drugih moddera moći replificirati ovaj uspjeh. [GitHub community](https://github.com/) još uvijek nema jasne signale o širenju ove metode — što sugerira da je riječ o izoliranom, visokorizičnom poduhvatu.
+
+Industrijski kontekst je jasniji: Intel gura hybridne CPU-e (P+E jezgre) za desktop, dok AMD nudi čiste jezgre u Threadripper liniji — ali po znatno višoj cijeni. Bartlett Lake, svojom cijenom i performansama u uskoj niši, može postati neželjena konkurencija ako se modding proširi.
+
+To bi mogao biti prvi slučaj gdje AI-om modificirani firmware stvara novi tržišni segment — umjesto da samo ubrzava postojeće procese.
+
+Za sada, Claude AI je dokazao da može biti više od chatbota — ali je li svaki korisnik spreman riskirati bricked ploču radi 12 jezgara? Ovaj eksperiment otvara pitanja o odgovornosti u AI-potpomognutom hardverskom modingu, gdje granica između inovacije i uništenja postaje sve tanja.

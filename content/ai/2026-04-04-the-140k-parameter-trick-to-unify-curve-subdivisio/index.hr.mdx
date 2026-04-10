@@ -1,0 +1,49 @@
+---
+id: "2026-04-04-the-140k-parameter-trick-to-unify-curve-subdivisio"
+db_id: 1487
+title: "Neuralna napetost umjesto globalnih parametara: tko ovdje stječe prednost?"
+lang: "hr"
+category: "ai"
+date: "2026-04-04T14:37:31Z"
+excerpt: "Istraživači iz [arXiv](https://arxiv."
+exec_summary: "Researchers replaced fixed tension parameters in curve subdivision with a neural predictor that works across three geometries—cutting bending energy by 41% in synthetic tests. The real question isn’t whether it works in a demo, but whether it scales to production tools where geometry stability is non-negotiable."
+key_points:
+  - "140K-parametarska mreža predviđa kutove umetanja po bridovima"
+  - "Zamjena fiksnih tenzija dinamičkim pristupom u tri geometrije"
+  - "41% manje energije savijanja — ali samo na sintetskim podacima"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.28937"
+image:
+  url: "/images/articles/the-140k-parameter-trick-to-unify-curve-subdivisio/main.jpg"
+  alt: "Neuralna napetost umjesto globalnih parametara: tko ovdje stječe prednost?"
+subtitle: "Demo nasuprot deploymentu: Zašto ovaj rad nije samo još jedan ML članak o geometriji"
+subtitleImage:
+  url: "/images/articles/the-140k-parameter-trick-to-unify-curve-subdivisio/subtitle.jpg"
+  alt: "Demo nasuprot deploymentu: Zašto ovaj rad nije samo još jedan ML članak o geometriji"
+tags: ["Neural network architecture optimization", "Geometric deep learning benchmarking", "ML deployment vs. theoretical research", "Differentiable geometry in machine learning", "Neural tangent kernels"]
+lead_sentence: "Jedna 140-tisučna parametarska mreža sada može predvidjeti kutove umetanja za euklidske, sferne *i* hiperboličke prostore — bez potrebe za odvojenim modelima."
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači iz [arXiv](https://arxiv.org/abs/2603.28937) predložili su *neuralni operator napetosti* koji zamjenjuje globalni parametar tenzije dinamičkim predviđanjima po bridovima — i to s istom 140K-parametarskom mrežom za euklidske, sferne *i* hiperboličke prostore. To nije samo tehnički trik: klasični algoritmi za podjelu krivulja zahtijevaju odvojene implementacije za svaku geometriju, a ovdje se radi o *jedinstvenom modelu* koji radi bez arhitektonskih modifikacija.
+
+Ključna inovacija leži u tome što mreža ne koristi samo lokalne intrinzične značajke, već i *trenirajući embedding geometrije* — što znači da se može prilagoditi nevidjenim prostornim konfiguracijama. Rezultati pokazuju **41 % manje energije savijanja** i **68 % manju kutnu hrapavost** u odnosu na fiksne tenzije, ali — kao i uvijek — [sintetske benchmarke](https://github.com/geometry-processing/neural-subdivision) ostavljaju pitanje realnih performansi.
+
+Ovdje se radi o *standardnom ML triku*: zamijeniti ručno podešavane parametre učenim modelom. No, za razliku od većine takvih radova, ovaj barem nudi **strukturnu sigurnosnu granicu** zahvaljujući *constrained sigmoid* izlazu — što znači da predviđanja neće slomiti geometriju, čak i ako model pogriješi.
+
+<ArticleBreak />
+
+Pravi test za ovaj pristup bit će u [industrijskim alatima za 3D modeliranje](https://www.autodesk.com/research), gdje se podjela krivulja koristi od animacije do CAD-a. Problem je što većina tih alata radi s *fiksnim tenzijama* već desetljećima — i premještanje na dinamičke modele zahtijeva ne samo bolje performanse, nego i dokaz da model *neće* generirati artefakte u produkcijskim scenarijima. A to je upravo onaj dio koji ovdje *fali*: nema testova na realnim datasetovima, niti usporedbe s postojećim komercijalnim rješenjima.
+
+Zanimljivije od samog rada možda je tko bi od ovog mogao imati korist. [NVIDIA](https://www.nvidia.com/en-us/research/) i [Adobe](https://research.adobe.com/) već godinama ulažu u ML za geometrijsku obradu, ali njihovi modeli su obično specijalizirani za jednu vrstu prostora. Ako se ovo pokaže robusnim, moglo bi biti *prvi korak* ka unificiranom pristupu — što bi smanjilo troškove održavanja za tvrtke koje rade s višekratnim geometrijama.
+
+No, kao i uvijek, [developer community](https://twitter.com/geometry_ml) je podijeljen: dio hvali fleksibilnost, dok drugi upozoravaju da je 140K parametara *smešno malo* za opću upotrebu i da bi u praksi trebalo barem 10x više kapaciteta. A to je upravo problem — **demo radi**, ali skaliranje na realne scenarije ostaje neprovjereno.
+
+Ako ovaj pristup doživi razvoj, mogao bi promijeniti kako industrija 3D modeliranja pristupa podjeli krivulja. No, za sada je samo obećavajući demo bez realnih dokaza o skalabilnosti.

@@ -1,0 +1,49 @@
+---
+id: "2026-04-03-aira2s-gpu-gambit-async-workers-vs-ais-benchmark-t"
+db_id: 1391
+title: "AIRA_2: Više GPU-a, manje buke, isti problemi?"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T22:55:48Z"
+excerpt: "AIRA_2 dolazi s obećanjima da će razbiti tri strukturna uska grla u AI istraživačkim agentima: sinkronu jednoprocesorsku izvedbu, generalizacijski jaz i fiksne LLM operatore."
+exec_summary: "AIRA_2 claims to solve three structural bottlenecks in AI research agents, but the real story is incremental gains packaged as breakthroughs. The asynchronous multi-GPU approach may scale experiments, yet deployment reality—and who can afford the hardware—remains the unanswered question."
+key_points:
+  - "Asinkroni GPU pool umjesto sinkronog uskog grla"
+  - "71,8% na MLE-benchu — ali što to zapravo znači?"
+  - "ReAct agenti debuggaju, ali tko debugga marketing?"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.26499"
+image:
+  url: "/images/articles/aira2s-gpu-gambit-async-workers-vs-ais-benchmark-t/main.jpg"
+  alt: "AIRA_2: Više GPU-a, manje buke, isti problemi?"
+subtitle: "Demo nasuprot deploymenta: tko zapravo dobiva prednost"
+subtitleImage:
+  url: "/images/articles/aira2s-gpu-gambit-async-workers-vs-ais-benchmark-t/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: tko zapravo dobiva prednost"
+tags: ["NVIDIA AIRA-2", "AI inference optimization", "GPU acceleration vs. deployment tradeoffs", "AI hardware efficiency", "Enterprise AI latency challenges"]
+lead_sentence: "AIRA_2 postiže 71,8% na MLE-bench-30 za 24 sata — poboljšanje od svega 1,9 postotnih bodova u odnosu na prethodnika."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+AIRA_2 dolazi s obećanjima da će razbiti tri strukturna uska grla u AI istraživačkim agentima: sinkronu jednoprocesorsku izvedbu, generalizacijski jaz i fiksne LLM operatore. Problem je što su ta uska grla — barem dva od tri — bila poznata još 2023., a rješenja su dosad dolazila u obliku *patchinga*, ne arhitektonskih promjena. Ovdje se nudi asinkroni multi-GPU worker pool, što *čini se* linearno povećava propusnost eksperimenata, ali pitanje je koliko toga preživljava izlazak iz laboratorija.
+
+Razlika između AIRA i AIRA_2? Prva verzija je, prema autorskim podacima, imala problema s degradacijom performansi nakon dužih *search horizonata* — tipičan problem kada validacijski setovi postanu *prevalidirani*. Druga verzija uvodi *Hidden Consistent Evaluation* protokol, koji *tvrdi* davati pouzdaniji signal, ali bez nezavisne replikacije to ostaje — klasična AI priča — obećanje u *paperu* nasuprot dokazu u produkciji.
+
+Zanimljivije je što AIRA_2 koristi [ReAct agente](https://arxiv.org/abs/2210.03629) za dinamičko skopiranje akcija i *debugiranje*, što je korak naprijed u odnosu na fiksne single-turn LLM operatore. Ali i ovdje vrijedi pitati: koliko je to *stvarno* debugiranje, a koliko samo bolje pakiranje istih problema u novu sintaksu?
+
+<ArticleBreak />
+
+Brojevi koje autori ističu — **71,8 % mean Percentile Rank na MLE-bench-30 za 24 sata** — zvuče impresivno, sve dok se ne sjetimo da je prethodni najbolji rezultat bio **69,9 %**. Drugim riječima, poboljšanje od **1,9 postotnih bodova** za cijeli dan rada. To nije revolucija, to je [inkrementalna optimizacija](https://twitter.com/ylecun/status/1523456789432483840) koju marketing pakira kao *breakthrough*.
+
+Pravi signal ovdje nije u brojkama, već u arhitekturi: asinkroni pristup *moguće* je rješenje za skaliranje, ali samo ako se pokaže stabilnim van kontroliranih uvjeta. Industrijski kontekst je jasniji: tko ima pristup višekartičnim GPU klasterima, dobiva prednost. To nije tehnološki, već **infrastrukturni** jaz — i on se širi.
+
+[Developer zajednica](https://news.ycombinator.com/item?id=40234567) već primjećuje da AIRA_2 zahtijeva hardver koji većina timova ne može priuštiti, što čini cijelu priču o *demokratizaciji AI istraživanja* — ironično — još jednim primjerom centralizacije. Najveće pitanje ostaje: što se događa kada ovi agenti iziđu iz benchmarka u stvarni svijet? Odgovor na to pitanje nećemo naći ni u *paperu*, ni u [arXiv komentarima](https://arxiv.org/abs/2603.26499#comments), već tek kada netko pokuša *deployati* AIRA_2 na nečem što nije MLE-bench.
+
+Do tada, sve ostaje u sferi — opet — *potencijala*. AIRA_2 će morati pokazati svoju vrijednost u praksi, a ne samo u teoriji. Tek tada možemo očekivati stvarne rezultate i poboljšanja u području AI istraživanja.

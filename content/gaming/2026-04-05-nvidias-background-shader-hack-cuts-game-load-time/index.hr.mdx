@@ -1,0 +1,53 @@
+---
+id: "2026-04-05-nvidias-background-shader-hack-cuts-game-load-time"
+db_id: 1665
+title: "Nvidia App: Šejderi se sada kompajliraju u pozadini — i to je velika stvar"
+lang: "hr"
+category: "gaming"
+date: "2026-04-05T22:39:17Z"
+excerpt: "Nvidia App je dobio funkciju koja bi trebala biti obavezna već davno: **Auto Shader Compilation** automatski prekompajlira šejdere u pozadini nakon svakog ažuriranja gpu drajvera."
+exec_summary: "Nvidia’s new Auto Shader Compilation in the Nvidia App tackles a long-standing pain point—shader recompilation delays after driver updates—by handling it in the background. While it won’t eliminate first-launch waits, it could shave minutes off load times for existing installations, though its real-world effectiveness depends on game and GPU compatibility. The move also hints at Nvidia’s shift toward cloud-based shader solutions, aligning with industry trends but leaving room for community skepticism."
+key_points:
+  - "Auto-kompilacija šejdera nakon ažuriranja drajvera"
+  - "100 GB keša za ~20 AAA naslova — ali ne za sve"
+  - "Beta funkcija koja štedi minute, ali ne i prvo pokretanje"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/pc-components/gpu-drivers/nvidia-app-adds-auto-shader-compilation-for-faster-load-times-in-games-beta-feature-automatically-recompiles-shaders-in-the-background-after-every-driver-update"
+image:
+  url: "/images/articles/nvidias-background-shader-hack-cuts-game-load-time/main.jpg"
+  alt: "Nvidia App: Šejderi se sada kompajliraju u pozadini — i to je velika stvar"
+subtitle: "Nvidia napokon rješava frustraciju koja traje godina: čekanje na šejdere. Ali ima haka."
+subtitleImage:
+  url: "/images/articles/nvidias-background-shader-hack-cuts-game-load-time/subtitle.jpg"
+  alt: "Nvidia napokon rješava frustraciju koja traje godina: čekanje na šejdere. Ali ima haka."
+tags: ["Nvidia", "Shader Compilation", "Gaming Performance"]
+lead_sentence: "Nvidia App sada u beta verziji automatski prekompajlira šejdere u pozadini nakon svakog drajver updatea — i time štedi do nekoliko minuta čekanja pri pokretanju AAA igara poput *Cyberpunk 2077* ili *Star Wars Jedi: Survivor*."
+geo:
+  name: "Santa Clara, United States"
+  lat: 37.3541
+  lon: -121.9552
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Nvidia App je dobio funkciju koja bi trebala biti obavezna već davno: **Auto Shader Compilation** automatski prekompajlira šejdere u pozadini nakon svakog ažuriranja gpu drajvera. Za igrače to znači manja kašnjenja pri pokretanju igara — posebno kod aaa naslova poput *Alan Wake 2* ili *Starfielda*, gdje se čekanje na šejdere može pretvoriti u mini-pauzu za kavu.
+
+Prema testiranjima, ušteda može ići i do **nekoliko minuta** po igri, ovisno o hardveru i kompleksnosti šejdera. Ali, naravno, nema besplatnih ručka: funkcija je **beta**, isključena po defaultu (naći ćete je pod *Global Settings > Shader Cache*), i **ne rješava problem prvog pokretanja** — šejderi se i dalje moraju kompajlirati ručno nakon svake nove instalacije igre.
+
+To znači da će *Baldur’s Gate 3* i dalje prvi put tražiti strpljenje, ali barem nećete svaki put nakon drajver updatea doživljavati isti ritual. Nvidia ovime ne samo da popravlja dugogodišnji problem, nego i signalizira kretanje prema **cloud-based rješenjima** — slično kao Microsoftov [Advanced Shader Delivery](https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/system/performance/advanced-shader-delivery) koji već koristi *Forza Horizon 5*.
+
+Razlika je u tome što Nvidia još uvijek oslanja na lokalnu kompajlaciju, ali barem sada radi to pametnije. Zanimljivo je i to da funkcija nudi **tri razine prioriteta** (low/medium/high) za pozadinsku kompajlaciju, tako da možete odabrati koliko će vaš pc patiti dok ste u *Discordu* ili gledate Twitch.
+
+<ArticleBreak />
+
+Igračka zajednica je podijeljena: dio korisnika slavi ovu novost kao **konačno rješenje** za frustraciju koja traje od *GTX 10-serije*, dok drugi upozoravaju da je ovo samo **privremeno rješenje** dok ne dođu prava cloud-based alternativna poput Intelove *Precompiled Shader Distribution*. Na Redditu ([r/nvidia](https://www.reddit.com/r/nvidia/)) već cirkuliraju priče o tome kako funkcija **ne radi savršeno** sa svim igrama — posebno onima koje koriste eksperimentalne api-je poput *Vulkan* ili *DX12 Ultimate*.
+
+Prava stvar ovdje nije samo ušteda vremena, nego i **promjena navika**: umjesto da čekate šejdere svaki put kada Nvidia ispusti novi drajver (a to je, recimo, **svaka 2-3 tjedna** za *Game Ready* verzije), sada možete zaboraviti na taj korak. Ali — i ovdje dolazimo do ključnog *ali* — funkcija **ne radi retroaktivno**.
+
+Ako ste već imali igru instaliranu prije aktiviranja ASC-a, šejderi se neće automatski prekompajlirati. Morat ćete ili čekati sljedeće ažuriranje drajvera ili ručno pokrenuti kompajlaciju.
+
+Nvidia je, naravno, istaknula i drugu veliku novost u ovom updateu: **DLSS 4.5 s dinamičkim multi-frame generationom (MFG)**, ali to je priča za drugi članak. Za sada, ASC je onaj *quality-of-life* feature koji bi mogao promijeniti dnevnu rutinu pc igrača — ako radi kako treba.
+
+Jedno je sigurno: ako ovo funkcionira kako treba, Nvidia je upravo postavila novi standard za što gpu proizvođači **moraju** nuditi. Ako ovo funkcionira, Nvidia će biti još jedan korak ispred konkurencije. Igračka zajednica će sada pažljivo pratiti razvoj ove funkcije.

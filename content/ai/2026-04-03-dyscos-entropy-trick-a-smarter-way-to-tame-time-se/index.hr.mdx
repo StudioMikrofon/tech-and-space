@@ -1,0 +1,49 @@
+---
+id: "2026-04-03-dyscos-entropy-trick-a-smarter-way-to-tame-time-se"
+db_id: 1373
+title: "DySCo: Kompresija koja čisti šum u dugoročnim predviđanjima"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T21:00:19Z"
+excerpt: "Novi [DySCo](https://arxiv."
+exec_summary: "DySCo introduces entropy-guided sampling to filter noise in long-term time series forecasting, but its real test lies beyond benchmarks: will industries like finance or energy risk integrating it into live systems? The paper’s plug-and-play promise is intriguing, yet GitHub silence and lack of real-world stress tests raise familiar red flags."
+key_points:
+  - "Entropijski uzorak odabira ključnih segmenata podataka"
+  - "Hierarhijska dekompozicija frekvencija umjesto fiksnih prozora"
+  - "Plug-and-play modul za postojeće modele — ili marketing trik?"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.01261"
+image:
+  url: "/images/articles/dyscos-entropy-trick-a-smarter-way-to-tame-time-se/main.jpg"
+  alt: "DySCo: Kompresija koja čisti šum u dugoročnim predviđanjima"
+subtitle: "Između akademskog papira i stvarne primjene: tko će profitirati od ‘pametne’ kompresije?"
+subtitleImage:
+  url: "/images/articles/dyscos-entropy-trick-a-smarter-way-to-tame-time-se/subtitle.jpg"
+  alt: "Između akademskog papira i stvarne primjene: tko će profitirati od ‘pametne’ kompresije?"
+tags: ["DySCo", "Noise Reduction", "Predictive Modeling"]
+lead_sentence: "Entropijski algoritam koji bi trebao ‘očistiti’ vremenske serije od šuma — a ipak najzanimljivije pitanje nije kako radi, nego tko će ga usuditi implementirati u produkciju."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Novi [DySCo](https://arxiv.org/abs/2604.01261) framework ne nudi još jednu ‘revolucionarnu’ arhitekturu, nego nešto rizičnije: **dinamičku selekciju podataka** koja odabire što je vrijedno čuvati, a što odbaciti. Umjesto da se oslanja na fiksne prozore — standardni pristup koji često guši modele s irelevantnim šumom — autorima iz [arXiv](https://arxiv.org) papira predložen je **Entropy-Guided Dynamic Sampling (EGDS)**. Mehanizam koji, teorijski, identificira visokoentropske segmente (tj. one s najvećom informacijskom gustoćom) i komprimira redundante trendove.
+
+Problem koji DySCo pokušava riješiti nije nov: proširivanje *lookback* prozora u vremenskim serijama donosi više konteksta, ali i više smeća. Financijske platforme, energetski operateri i meteorolozi već desetljećima bore se s tim — no većina rješenja ili ignorira problem ili ga rješava brutalno (npr. skupljim hardverom). Ovdje se nudi **hijerarhijska frekvencijska dekompozicija (HFED)**, koja razlaže signale po skali prije nego što ih model obradi.
+
+Ali ovdje počinje zanimljivo pitanje: **je li ovo stvarno optimizacija ili samo pametno pakiranje?** EGDS i HFED zvuče uvjerljivo, ali koliko će to funkcionirati izvan kontroliranih benchmarkova? Autorima je zasluga što ne prodaju DySCo kao samostalni model, nego kao *plug-and-play* modul za postojeća rješenja — što je ili genijalno ili lukavo. [GitHub](https://github.com) još nema koda, a reakcije zajednice su u fazi ‘čujemo, gledamo’.
+
+<ArticleBreak />
+
+Pravi test za DySCo neće biti akademska usporedba s [Informerom](https://arxiv.org/abs/2012.07436) ili [Autoformerom](https://arxiv.org/abs/2106.13008), nego **realna implementacija u produkciji**. Na primjer: kako će se ponašati u scenariju gdje podaci dolaze s dronova s promjenjivom frekvencijom uzorkovanja? Ili kada financijski model mora predvidjeti *black swan* događaje s ograničenim povijesnim podacima? HFED obećava bolje hvatanje dugoročnih ovisnosti, ali **benchmarkovi rijetko uključuju kaotične uvjete stvarnog svijeta**.
+
+Još jedna stvar koja nedostaje u radu: **tko ovo zapravo može iskoristiti?** Startupima koji grade modele vremenskih serija od nule, DySCo može biti koristan *lego* blok. Ali za velika poduzeća s postojećim pipelineovima (npr. [Siemens Energy](https://www.siemens-energy.com) ili [Bloomberg](https://www.bloomberg.com)), integracija novog modula znači troškove testiranja i potencijalne *trade-offove* u performansama. Razvojna zajednica još nije pokazala entuzijazam — thread na [r/learnmachinelearning](https://www.reddit.com/r/learnmachinelearning/) o DySCo-u ima svega 12 komentara, većinom tipa ‘čujemo, čekamo replikaciju’.
+
+Zanimljivije od samog rada možda je **što on otkriva o trenutnom stanju TSF-a**: da je industrija spremna platiti za ‘pametniju’ kompresiju, ali samo ako je dokazano da radi **izvan laboratorija**. A to je uvijek najteži dio.
+
+DySCo sada čeka sudbinu mnogih inovacija: od laboratorija do stvarnog svijeta. Dok teorija obećava, pravi dokaz leži u performansama u produkciji, gdje šum nije samo statistički problem, već i poslovni rizik.

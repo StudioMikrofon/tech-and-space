@@ -1,0 +1,49 @@
+---
+id: "2026-04-07-nvidias-ntc-demo-85-vram-cut-or-just-clever-repack"
+db_id: 1924
+title: "Nvidiaov NTC: 85% manje VRAM-a, ali je li to stvarno besplatni ručak?"
+lang: "hr"
+category: "ai"
+date: "2026-04-07T22:51:32Z"
+excerpt: "Nvidia je na GTC-u 2024."
+exec_summary: "Nvidia’s Neural Texture Compression (NTC) slashes VRAM usage by 85% in demos, but real-world deployment remains unclear. The technology shifts compression workloads to neural networks, potentially locking users into Nvidia’s ecosystem—while competitors like AMD lack equivalent solutions. Watch for developer adoption and independent benchmarks to separate hype from utility."
+key_points:
+  - "Neuralni dekoder umjesto blok-kompresije — 6.5GB → 970MB"
+  - "Demo bez gubitka kvalitete, ali gdje su realni benchmarkovi?"
+  - "AMD i Intel gube teren u VRAM optimizaciji za igre"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/pc-components/gpus/nvidia-ai-tech-claims-to-slash-vram-usage-by-85-percent-with-zero-quality-loss-neural-texture-compression-demo-reveals-stunning-visual-parity-between-6-5gb-of-memory-and-970mb"
+image:
+  url: "/images/articles/nvidias-ntc-demo-85-vram-cut-or-just-clever-repack/main.jpg"
+  alt: "Nvidiaov NTC: 85% manje VRAM-a, ali je li to stvarno besplatni ručak?"
+subtitle: "Između obećavajućeg inovatora i marketinškog hypea: tko će zaista profitirati od ove tehnologije?"
+subtitleImage:
+  url: "/images/articles/nvidias-ntc-demo-85-vram-cut-or-just-clever-repack/subtitle.jpg"
+  alt: "Između obećavajućeg inovatora i marketinškog hypea: tko će zaista profitirati od ove tehnologije?"
+tags: ["Nvidia", "VRAM", "Graphics Technology"]
+lead_sentence: "Neuralni dekoder umjesto klasične kompresije: Nvidia je na GTC 2024 pokazala kako 6.5GB tekstura postaje 970MB — ali bez jasnih podataka o trošku te 'besplatne' optimizacije."
+geo:
+  name: "Santa Clara, United States"
+  lat: 37.3541
+  lon: -121.9552
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Nvidia je na GTC-u 2024. ponovno istaknula svoju Neural Texture Compression (NTC) tehnologiju, ovaj put s demo-scénom koja je s 6,5 GB VRAM-a smanjila potrebe na samo 970 MB — bez navodnog gubitka kvalitete. Umjesto tradicionalne blok-kompresije, teksture se ovdje dekodiraju malim neuralnim mrežama u realnom vremenu. Zvuči kao revolucionaran trik, ali ključno pitanje ostaje: tko će moći koristiti ovu tehnologiju i po kojoj cijeni?
+
+Problem koji NTC pokušava riješiti nije nov: moderne igre guše VRAM s 4K teksturama i ray tracingom, a rješenja poput DLSS-a samo premještaju teret na druge komponente. Nvidia tvrdi da NTC ne samo da smanjuje potrošnju za 85 %, nego čak i poboljšava kvalitetu u odnosu na standardne metode. Međutim, demo nije proizvod — nema podataka o latenciji dekodiranja, podršci za postojeće GPU-e, niti utjecaju na FPS u realnim igrama.
+
+Zanimljivo je da Nvidia ne spominje konkretne igre ili partnere koji bi već testirali NTC. To nije slučajno: tehnologija je još uvijek u fazi ispitivanja, što u Nvidijinom rječniku obično znači 'još nema što pokazati'. Signal je ipak jasan — igrači s RTX kartama trebali bi biti prvi u redu kada (i ako) ovo postane dostupno.
+
+<ArticleBreak />
+
+Realna prednost NTC-a nije samo u smanjenju VRAM-a — to bi mogao učiniti i bolji algoritam kompresije. Prava vrijednost leži u fleksibilnosti: neuralni dekoder može prilagođavati kompresiju po sceni, što tradicionalne metode ne mogu. No, to također znači da razvojari moraju preobučavati teksture za NTC, što nije trivijalan posao.
+
+Unity i Unreal Engine još nisu najavili integraciju, a bez njihove podrške, NTC ostaje igračka za Nvidijine interne demoe. Konkurenti poput AMD-a i Intela već imaju svoja rješenja za VRAM optimizaciju (npr. FSR 3 i XeSS), ali nijedno ne ide tako daleko kao NTC. To Nvidiji daje strategijski jaz — barem na papiru.
+
+Ako se ispostavi da NTC zahtijeva previše računske snage za dekodiranje ili da je kompatibilan samo s najnovijim RTX kartama, prednost će biti kratkog daha. Razvojna zajednica na GitHubu još nije reagirala, što sugerira da nema dostupnih alata za testiranje.
+
+NTC bi mogao postati još jedan način da Nvidia veže korisnike za svoju platformu, posebno ako zahtijeva dodatne neuralne resurse ili specijaliziranu podršku u driverima. Pitanje je koliko će to koštati igrače u konačnici — i hoće li im stvarno donijeti korist ili samo nova ograničenja.

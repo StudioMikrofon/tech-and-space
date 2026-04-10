@@ -1,0 +1,57 @@
+---
+id: "2026-04-03-neuro-symbolic-ai-tries-to-fix-process-monitorings"
+db_id: 1381
+title: "Neuro-symbolic AI tries to fix process monitoring’s blind spots"
+category: "ai"
+date: "2026-04-03T22:22:30Z"
+excerpt: "Predictive process monitoring has a dirty secret: it’s great at spotting patterns in hospital workflows or factory lines, but terrible at respecting the rules those workflows *must* follow."
+exec_summary: "The paper introduces a neuro-symbolic approach using LTNs to embed domain constraints (e.g., healthcare workflow rules) into predictive process monitoring—addressing a critical gap where sub-symbolic models fail. While benchmarks show promise, the real test lies in deployment scalability and cost, particularly in dynamic industries like logistics. Watch for reactions from compliance-as-a-service vendors and enterprise automation players."
+key_points:
+  - "Sub-symbolic AI ignores domain rules—neuro-symbolic merges data and logic"
+  - "Logic Tensor Networks force compliance into predictive models"
+  - "Healthcare, finance could gain—but benchmarks stay synthetic for now"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.26948"
+image:
+  url: "/images/articles/neuro-symbolic-ai-tries-to-fix-process-monitorings/main.jpg"
+  alt: "Neuro-symbolic AI tries to fix process monitoring’s blind spots"
+  caption: "Neuro-symbolic AI tries to fix process monitoring’s blind spots"
+  credit: "Source: Web"
+subtitle: "Od benchmaraka do bolničkih propisa: zašto 90% točnosti u testovima nije dovoljno"
+subtitle_en: "The gap between ‘predictive’ and ‘compliant’ just got narrower"
+subtitleImage:
+  url: "/images/articles/neuro-symbolic-ai-tries-to-fix-process-monitorings/subtitle.jpg"
+  alt: "The gap between ‘predictive’ and ‘compliant’ just got narrower"
+  caption: "The gap between ‘predictive’ and ‘compliant’ just got narrower"
+  credit: "Source: Web"
+tags: ["AI clinical decision support", "Benchmark vs. real-world deployment", "Regulatory compliance in healthcare AI", "Neuro-symbolic AI", "Medical AI validation challenges"]
+lead_sentence: "Logic Tensor Networks just became the rare AI method that cares more about your hospital’s protocols than its own accuracy metrics."
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Predictive process monitoring has a dirty secret: it’s great at spotting patterns in hospital workflows or factory lines, but terrible at respecting the rules those workflows *must* follow. A [new arXiv paper](https://arxiv.org/abs/2603.26948) from researchers at [Sapienza University of Rome](https://www.uniroma1.it/) calls this out directly—current sub-symbolic models (your typical deep learning) happily predict a patient’s surgical needs while ignoring that, say, *post-op recovery protocols* mandate a seven-day gap between discharge and re-admission. The result? "Compliance-aware" predictions that are neither compliant nor particularly aware.
+
+
+The fix, per the team, is a neuro-symbolic hybrid using [Logic Tensor Networks (LTNs)](https://ltn.fi.isc.cnr.it/), which embed domain rules (e.g., "IF patient X was discharged &lt;7 days ago, THEN surgery = invalid") directly into the model’s loss function. It’s not the first time someone’s tried to bolt logic onto neural nets, but the framing here is sharp: *predictive accuracy* and *regulatory adherence* aren’t tradeoffs—they’re the same problem.
+
+
+Early benchmarks (synthetic, naturally) show LTNs outperform pure deep learning on compliance-heavy tasks. The catch? The paper’s "real-world" example is a [BPI Challenge 2012](https://www.win.tue.nl/bpi/doku.php?id=2012:challenge) dataset—healthcare process logs so old they predate GDPR. That’s your first reality gap: academic rigor vs. deployment chaos.
+
+<ArticleBreak />
+
+The competitive angle is clearer. Vendors like [Celonis](https://www.celonis.com/) and [ABBYY](https://www.abbyy.com/) have built empires on process mining, but their tools still treat compliance as a post-hoc filter. If LTNs scale, they could force a rewrite of how enterprise workflows are audited—imagine a system that *rejects* predictions violating SOX or HIPAA rules before they’re even made. Developers in [GitHub’s process-mining corners](https://github.com/topics/process-mining) are already eyeing the repo, though reactions split between "finally" and "another framework to maintain."
+
+
+The bigger question is whether this crosses the demo-deployment chasm. Neuro-symbolic AI has been [five years away for a decade](https://arxiv.org/abs/2004.13131)—LTNs included. The paper’s healthcare example is telling: hospitals won’t trust a model that *might* respect protocols; they’ll demand certifiable guarantees. And while the team hints at real-time validation, that’s still speculation. For now, the signal is clearer for industries where process constraints are binary (manufacturing, finance) than those where they’re… *interpreted* (medicine, law).
+
+
+That leaves the hype filter’s favorite target: the benchmark. Synthetic data + 10-year-old logs ≠ a clinical trial. The real test isn’t whether LTNs work in a paper—it’s whether [Siemens](https://www.siemens.com/) or [Epic](https://www.epic.com/) will bet on them in production.
+
+There’s one glaring omission: how do LTNs handle *conflicting* rules? When two compliance constraints can’t both be satisfied, does the model default to the stricter one, the newer one, or just… pick randomly? The paper doesn’t say. That’s not an academic footnote—that’s the difference between a demo and a deployable system.

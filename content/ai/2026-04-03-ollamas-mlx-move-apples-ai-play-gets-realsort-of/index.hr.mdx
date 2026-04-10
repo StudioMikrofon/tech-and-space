@@ -1,0 +1,57 @@
+---
+id: "2026-04-03-ollamas-mlx-move-apples-ai-play-gets-realsort-of"
+db_id: 1345
+title: "Ollama na M1/M2: lokalni modeli dobivaju Apple-ov turbo"
+lang: "hr"
+category: "ai"
+date: "2026-04-03T16:41:49Z"
+excerpt: "Ollama na M1/M2: lokalni modeli dobivaju Apple-ov turbo"
+exec_summary: "Ollama’s MLX integration turns Apple Silicon Macs into viable local AI workstations—but only for users with 32GB+ RAM, exposing a hardware divide. The move capitalizes on growing frustration with cloud costs and rate limits, giving Macs a competitive edge in on-device inference while leaving most consumer-grade machines behind."
+key_points:
+  - "MLX podrška u Ollami 0.1.9 za Apple Silicon"
+  - "35B-parametarski Qwen3.5 radi na 32GB RAM-a"
+  - "Lokalni AI dobiva konkurentnu prednost nad cloudom"
+source:
+  name: "arstechnica.com"
+  url: "https://arstechnica.com/apple/2026/03/running-local-models-on-macs-gets-faster-with-ollamas-mlx-support/"
+image:
+  url: "/images/articles/ollamas-mlx-move-apples-ai-play-gets-realsort-of/main.jpg"
+  alt: "Ollama na M1/M2: lokalni modeli dobivaju Apple-ov turbo"
+subtitle: "Demo nasuprot deploymenta: tko zapravo može pokrenuti 35B model na laptopu"
+subtitleImage:
+  url: "/images/articles/ollamas-mlx-move-apples-ai-play-gets-realsort-of/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: tko zapravo može pokrenuti 35B model na laptopu"
+tags: ["Ollama on Apple Silicon (M1/M2)", "35B-parameter model inference on consumer hardware", "Local AI deployment vs. cloud dependency", "Open-source LLMs for edge devices", "Performance benchmarks for Apple ARM chips"]
+lead_sentence: "Ollama 0.1.9 sada podržava Alibabin 35-milijardni Qwen3.5 model na Macovima – ali samo ako imate Apple Silicon i minimalno 32GB RAM-a."
+geo:
+  name: "Cupertino, United States"
+  lat: 37.322998
+  lon: -122.032181
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Ollama 0.1.9 donosi [MLX](https://github.com/ml-explore/mlx) integraciju – Apple-ov framework optimiziran za unificiranu memoriju M1/M2/M3 čipova – i time pretvara Macove u ozbiljne igrače za lokalno pokretanje velikih jezika. Ne radi se o teorijskom ubrzanju: [dokumentacija](https://ollama.com/blog/mlx-support) navodi da 35-milijardni Qwen3.5 model sada radi na uređajima s minimalno 32GB RAM-a, što ga čini jednim od rijetkih lokalnih modela te klase dostupnih van oblaka.
+
+Ključna promjena nije samo u bržem izvođenju, već u efikasnijem korištenju unificirane memorije – Apple-ovog party tricka koji CPU i GPU dijele isti memorijski prostor bez kopiranja podataka. Iako Ollama ne navodi konkretne postotke ubrzanja, [benchmarci korisnika](https://github.com/ollama/ollama/discussions/4521) na M2 Ultra čipovima pokazuju smanjenje latencije za 30-40% u usporedbi s prethodnom CUDA implementacijom za Nvidijine kartice.
+
+To nije čudo: MLX je dizajniran upravo za Apple Silicon, dok su ranije lokalne implementacije bile portovi optimizirani za x86/Nvidia ekosustav. Ali tu počinje i stvarni jaz – dokumentacija jasno upozorava da će manji modeli (npr. 7B ili 13B varijante) i dalje raditi bolje na uređajima s 16GB RAM-a, dok 35B zahtijeva barem dupli kapacitet.
+
+Razlog za ovu granicu nije samo memorija, već i način na koji MLX upravlja cachingom. Ollama je istovremeno poboljšala predmemoriju za tokene, što smanjuje potrebu za ponovnim računanjem – ali to funkcioniše samo ako model stane u RAM.
+
+Za korisnike s M1 MacBookom od 16GB, ovo ostaje demo za druge: atraktivan, ali nedostupan bez nadogradnje hardvera.
+
+<ArticleBreak />
+
+Part 2: Kontekst ove objave nije samo tehnički, već i tržišni. Local-first AI dobiva na zamahu nakon frustracija s [OpenAI-jevim rate limitima](https://status.openai.com/) i cijenama pretplate od $300,000 godišnje za enterprise korisnike – što je potaknulo projekte poput [OpenClaw](https://github.com/openclaw-ai/openclaw) koji lokalne modele čine konkurentnima za coding zadatke.
+
+Ollamina MLX podrška dolazi upravo u tom trenutku, nudeći alternativu onima koji ne žele ili ne mogu platiti cloud. No, stvarna priča nije o 'revoluciji', već o segmentaciji tržišta.
+
+Apple Silicon korisnici s dovoljno RAM-a sada imaju prednost: mogu pokrenuti modele koji su ranije bili rezervirani za cloud ili high-end PC-ove s 64GB+ memorije. To je kompetitivni pomak – posebno za startupe i istraživače koji rade s osjetljivim podacima i ne žele slati upite van lokalne mreže.
+
+S druge strane, većina hobbyista i razvijača s osnovnim M1/M2 Macovima ostaje isključena iz ove premium funkcionalnosti. Dio community-a već primjećuje da je najveće usko grlo ipak softver, a ne hardver: iako MLX radi bolje od CUDA-e na Apple Siliconu, ekosustav alata za fine-tuning i optimizaciju modela na Macu još uvijek zaostaje za Linux/Nvidia okruženjem.
+
+Ollama je napravila korak, ali cijeli lanac mora pratiti – od podrške u PyTorchu do bolje integracije s Xcodeom. A to je priča koja će trajati duže od jednog releasea.
+
+U konačnici, Ollamina podrška za MLX otvara nova vrata za lokalno pokretanje velikih jezika, ali također pokazuje ograničenja postojeće tehnologije. Kako se tehnologija nastavlja razvijati, važno je da se zajednica fokusira na rješavanju postojećih ograničenja i na stvaranju bolje infrastrukture za lokalno pokretanje AI modela.

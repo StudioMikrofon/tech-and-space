@@ -1,0 +1,53 @@
+---
+id: "2026-04-06-intels-10b-chip-packaging-gamble-isnt-just-for-ner"
+db_id: 1730
+title: "Intel’s $10B Chip Packaging Gamble Isn’t Just for Nerds"
+category: "technology"
+date: "2026-04-06T10:41:23Z"
+excerpt: "Intel’s latest earnings call buried a telling detail: **$10 billion earmarked for advanced chip packaging** by 2025, a bet that [Foveros](https://www."
+exec_summary: "Intel is betting big on advanced chip packaging to regain ground in AI hardware, reactivating a dormant plant and targeting deals with Google and Amazon. The move shifts focus from raw manufacturing to custom solutions—but success hinges on scaling and outmaneuvering TSMC’s dominance in packaging."
+key_points:
+  - "AI workloads expose chip packaging as the new bottleneck"
+  - "Intel’s Foveros tech targets Nvidia’s dominance in AI hardware"
+  - "Developers may face higher costs for marginal performance gains"
+source:
+  name: "wired.com"
+  url: "https://www.wired.com/story/why-chip-packaging-could-decide-the-next-phase-of-the-ai-boom/"
+image:
+  url: "/images/articles/intels-10b-chip-packaging-gamble-isnt-just-for-ner/main.jpg"
+  alt: "Intel’s $10B Chip Packaging Gamble Isn’t Just for Nerds"
+subtitle: "Tko će platiti za Intelovu kladu na AI hardver i kako to mijenja pravila igre"
+subtitle_en: "The real-world tradeoffs behind Intel’s high-stakes packaging push"
+subtitleImage:
+  url: "/images/articles/intels-10b-chip-packaging-gamble-isnt-just-for-ner/subtitle.jpg"
+  alt: "The real-world tradeoffs behind Intel’s high-stakes packaging push"
+tags: ["Technology", "Intelov"]
+lead_sentence: "Intel’s $10 billion advanced packaging push targets a 15–20% power efficiency edge over Nvidia’s H100—if developers rewrite their AI software to match."
+geo:
+  name: "Rio Rancho, New Mexico, United States"
+  lat: 35.2375
+  lon: -106.6642
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Intel’s latest earnings call buried a telling detail: **$10 billion earmarked for advanced chip packaging** by 2025, a bet that [Foveros](https://www.intel.com/content/www/us/en/design/technology/foveros-technology.html) and [EMIB](https://www.intel.com/content/www/us/en/design/technology/embedded-multi-die-interconnect-bridge-technology.html) can outmaneuver Nvidia’s monolithic AI chips. The move isn’t academic—it’s a direct response to AI’s insatiable demand for memory bandwidth and power efficiency, two areas where traditional chip designs [hit physical limits](https://semiengineering.com/why-advanced-packaging-is-so-difficult/).
+
+
+Packaging—once a backwater of semiconductor R&D—now dictates whether a data center can run [LLMs like Llama 3](https://ai.meta.com/blog/meta-llama-3/) without melting or bankrupting operators. Intel’s approach stacks chiplets vertically, slashing data travel distances by up to 90% compared to side-by-side layouts. Early benchmarks suggest [15–20% power savings](https://www.anandtech.com/show/17000/intel-discloses-more-foveros-details-at-isscc-2022) for AI inference tasks, but the catch? **Only if software is rewritten to exploit the architecture.**
+
+
+This isn’t just about specs. Nvidia’s [H100](https://www.nvidia.com/en-us/data-center/h100/) dominates AI training because its monolithic design simplifies programming—developers don’t need to rethink memory hierarchies. Intel’s packaging play forces a tradeoff: **better efficiency at the cost of complexity.**
+
+<ArticleBreak />
+
+The market context is brutal. AMD’s [MI300X](https://www.amd.com/en/products/cpu/amd-instinct-mi300x) already uses 3D stacking for memory, and TSMC’s [SoIC](https://www.tsmc.com/english/dedicatedFoundry/technology/soic) threatens to commoditize Intel’s edge. Yet Intel’s bet hinges on a niche advantage: **Foveros allows mixing CPU, GPU, and memory dies in one package**, which could let cloud providers like AWS [customize silicon](https://aws.amazon.com/blogs/aws/aws-custom-silicon/) for specific workloads. The risk? Customization raises costs, and most AI teams lack the expertise to optimize for it.
+
+
+For end users, the impact splits cleanly. Hyperscalers (Google, Meta) might adopt Intel’s tech for inference—where power savings justify the hassle—but startups training models will likely stick with Nvidia’s plug-and-play GPUs. The ecosystem effect is clearer: **packaging innovation shifts power from chip designers to cloud architects**, who now dictate which hardware thrives.
+
+
+Early adopters report [mixed results](https://www.nextplatform.com/2024/03/12/intels-foveros-packaging-tech-gets-a-workout-in-ponte-vecchio/). Intel’s [Ponte Vecchio](https://www.intel.com/content/www/us/en/products/details/133458/ponte-vecchio-gpu.html) GPU, built with Foveros, delivers on raw performance but requires [oneAPI](https://www.intel.com/content/www/us/en/developer/tools/oneapi/overview.html) tweaks that many devs avoid. **The real bottleneck isn’t the tech—it’s the tooling.**
+
+The open question isn’t whether advanced packaging works—it’s whether the AI boom’s ‘move fast’ culture has patience for hardware that demands slow, bespoke optimization.
