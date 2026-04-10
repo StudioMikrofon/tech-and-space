@@ -672,13 +672,34 @@ export async function POST(req: NextRequest) {
         db.close();
         return NextResponse.json({ error: "Članak ne postoji", ok: false }, { status: 404 });
       }
-      deleteArticleAssetsAndRecord(db, articleId);
+
+      // Hard delete - multiple passes to ensure deletion
+      console.log(`[DELETE] Starting hard delete for article ID ${articleId}`);
+
+      // First pass: Delete all related records
+      db.prepare("DELETE FROM image_operations WHERE article_id = ?").run(articleId);
+      db.prepare("DELETE FROM article_image_candidates WHERE article_id = ?").run(articleId);
+      db.prepare("DELETE FROM social_metrics WHERE article_id = ?").run(articleId);
+
+      // Delete MDX assets and remaining records
+      const deleted = deleteArticleAssetsAndRecord(db, articleId);
+
+      // Verify deletion from database
+      const stillExists = db.prepare("SELECT id FROM articles WHERE id = ?").get(articleId);
+      if (stillExists) {
+        console.error(`[DELETE ERROR] Article ${articleId} still exists after delete!`);
+        // Force delete
+        db.prepare("DELETE FROM articles WHERE id = ?").run(articleId);
+      }
+
       db.close();
       bumpContentVersion();
 
       return NextResponse.json({
         ok: true,
-        message: `✅ Članak "#${articleId}" trajno obrisan (MDX + EN/HR verzije + slike + DB)`
+        message: `✅ Članak "#${articleId}" trajno obrisan (MDX + EN/HR verzije + slike + DB + sve reference)`,
+        deleted: deleted,
+        stillExists: !!stillExists
       });
     }
 
