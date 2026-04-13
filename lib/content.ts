@@ -128,8 +128,8 @@ function _readAllArticles(): Article[] {
         const indexPath = path.join(categoryDir, entry.name, "index.mdx");
         if (!fs.existsSync(indexPath)) continue;
         filePath = indexPath;
-      } else if (entry.name.endsWith(".mdx")) {
-        // Old format: content/{category}/{slug}.mdx
+      } else if (entry.name.endsWith(".mdx") && !entry.name.endsWith(".hr.mdx")) {
+        // Old format: content/{category}/{slug}.mdx (skip .hr.mdx files)
         filePath = path.join(categoryDir, entry.name);
       } else {
         continue;
