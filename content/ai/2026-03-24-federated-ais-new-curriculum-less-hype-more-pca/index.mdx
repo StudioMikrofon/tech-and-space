@@ -16,15 +16,11 @@ source:
 image:
   url: "/images/articles/federated-ais-new-curriculum-less-hype-more-pca/main.jpg"
   alt: "Federated AI’s new curriculum: Less hype, more PCA"
-  caption: "Unique perspective: A researcher sits at a terminal in a data center aisle, surrounded by server racks, with a screen displaying a neural network"
-  credit: "Photo by Tech&Space"
 subtitle: "Demo nasuprot deploymenta: tko zapravo može koristiti ovo rješenje"
 subtitle_en: "The gap between synthetic benchmarks and edge deployment just got a math-heavy patch"
 subtitleImage:
-  url: "/images/articles/federated-ais-new-curriculum-less-hype-more-pca/subtitle.jpg"
+  url: "/images/articles/federated-ais-new-curriculum-less-hype-more-pca/subtitle.png"
   alt: "The gap between synthetic benchmarks and edge deployment just got a math-heavy patch"
-  caption: "
-  credit: "Photo by Tech&Space"
 tags: ["Edge AI", "Knowledge Distillation", "Deployment Strategies"]
 geo:
   name: "Mountain View, CA"
@@ -34,8 +30,8 @@ geo:
 featured: false
 lead_sentence: "FAPD uses PCA to cut teacher model size by 90% for edge devices"
 approved: true
-title_en: "Federated AI’s new curriculum: Less hype, more PCA"
 ---
+-
 
 Another week, another federated learning framework promising to bridge the chasm between cloud-scale AI and edge devices. This time, it’s [Federated Adaptive Progressive Distillation (FAPD)](https://arxiv.org/abs/2603.20296), a curriculum-learning-inspired approach that—unlike its predecessors—actually acknowledges the elephant in the room: *high-dimensional teacher models don’t play nice with resource-starved clients*. The paper’s core insight? Use [PCA](https://en.wikipedia.org/wiki/Principal_component_analysis) to hierarchically decompose teacher features, ordering components by variance to feed clients only what they can digest.
 
@@ -50,3 +46,5 @@ Here’s the catch: the paper’s [arXiv drop](https://arxiv.org/abs/2603.20296)
 Industry-wise, this plays into a familiar tension. Cloud providers (looking at you, [AWS SageMaker](https://aws.amazon.com/sagemaker/)) will happily sell you managed distillation services, while edge vendors like [Qualcomm](https://www.qualcomm.com/ai) and [NVIDIA](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/) are desperate for frameworks that don’t treat on-device inference as an afterthought. FAPD’s PCA twist could give them ammunition—or just another paper to cite in marketing decks.
 
 The real signal here isn’t the math (which is solid) but the admission that *adaptive* distillation is table stakes now. Static teacher-student pipelines are dead; the question is whether this flavor of progressivity survives contact with latency, bandwidth, and the eternal scourge of [non-IID data](https://arxiv.org/abs/1909.06335).
+
+In other words, we’ve reached the stage where federated learning papers now come with *curriculum vitamins*—because if you’re not progressively adapting, you’re just repackaging old distillation wine in new math bottles. The hype cycle marches on, one PCA decomposition at a time.

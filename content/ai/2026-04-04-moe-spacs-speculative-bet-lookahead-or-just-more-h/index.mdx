@@ -34,7 +34,6 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
-title_en: "MoE-SpAc’s speculative bet: Lookahead or just more hype?"
 ---
 
 MoE-SpAc doesn’t just promise faster inference—it claims to turn [Speculative Decoding](https://arxiv.org/abs/2211.07053) into a crystal ball for memory management. The trick? A *Speculative Utility Estimator* that predicts which experts a model will need *before* it needs them, sidestepping the I/O logjam that cripples edge deployment. It’s a neat hack, but one that hinges on an unproven assumption: that speculative lookahead is reliable enough to trust with real-world workloads.
@@ -54,3 +53,5 @@ Industry-wise, this is a direct shot at Qualcomm and MediaTek, whose NPUs are al
 
 
 Watch the [MLPerf Tiny](https://mlcommons.org/en/groups/working/tiny/) results. If MoE-SpAc doesn’t show up there with real-world latency numbers, it’s just another paper chasing the ‘efficient AI’ mirage.
+
+In other words, we’ve reached the point where ‘efficient inference’ means adding *more* layers of prediction to fix the problems caused by the first layers of prediction. The hype cycle isn’t a loop—it’s a fractal.

@@ -31,7 +31,6 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
-title_en: "AI bots broke the cache—now Cloudflare’s rewriting the rules"
 ---
 
 Cloudflare’s [blog post](https://blog.cloudflare.com/ai-cache-rethink) drops a quiet bombshell: **10 billion AI-bot requests per week** are warping traditional CDN cache logic. That’s not just *more* traffic—it’s traffic that behaves nothing like humans. Bots don’t linger on pages, don’t follow linear paths, and demand freshness over stale efficiency. The result? Cache hit rates plummet, latency spikes, and suddenly your CDN’s “optimized” static rules look like a [Model T on the Autobahn](https://en.wikipedia.org/wiki/Autobahn).
@@ -51,3 +50,5 @@ The competitive angle is sharper. Akamai, Fastly, and Cloudflare are now in a si
 
 
 The real bottleneck may not be the cache itself, but the **assumption that AI traffic should play by human rules**. Cloudflare’s pivot hints at a larger truth: infrastructure built for the web’s *reading* era won’t survive its *scraping* era. The question isn’t whether caching needs to evolve—it’s whether this evolution will be open or locked behind proprietary walls.
+
+For all the noise about AI ‘revolutionizing’ everything, the actual story is far more prosaic: the plumbing is clogged. Bots broke the cache, and now we’re scrambling to unbreak it. Call it progress, or call it the tech industry’s version of Whac-A-Mole.

@@ -34,7 +34,6 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
-title_en: "Neural nets finally ditch 60-year-old momentum hacks"
 ---
 
 Neural network training just got a physics lesson. A [new paper](https://arxiv.org/abs/2603.28921) from arXiv dismantles the sacred cow of constant momentum (that 0.9 value you’ve blindly copied since 1964) and replaces it with a time-varying schedule derived from—of all things—the *critically damped harmonic oscillator*. The formula, *μ(t) = 1 – 2√α(t)*, ties momentum directly to the current learning rate, eliminating the need for yet another hyperparameter to tune.
@@ -54,3 +53,5 @@ For industry players, the implications split cleanly: cloud providers salivate o
 
 
 The hype filter kicks in when you ask: *Does this matter outside synthetic benchmarks?* CIFAR-10 is to real-world CV what tic-tac-toe is to chess. The authors’ silence on deployment noise (data drift, distributed training quirks) speaks volumes. Still, any method that turns hyperparameter voodoo into something derivable from first principles deserves attention—even if it’s just the first step.
+
+The paper’s diagnostic claims hinge on those three ‘problem layers’ appearing across optimizers. But what if that’s just CIFAR-10’s quirks talking? Until someone tests this on messy, real-world data, we’re still in the land of elegant theories and toy problems.

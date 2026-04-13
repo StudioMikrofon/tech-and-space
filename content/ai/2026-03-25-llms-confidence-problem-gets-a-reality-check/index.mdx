@@ -16,15 +16,11 @@ source:
 image:
   url: "/images/articles/llms-confidence-problem-gets-a-reality-check/main.jpg"
   alt: "LLMs’ Confidence Problem Gets a Reality Check"
-  caption: "
-  credit: "Source: Web"
 subtitle: "Demo nasuprot deploymenta: tko će stvarno koristiti ovu matematičku eleganciju"
 subtitle_en: "A rare case where internal model math might outpace the hype"
 subtitleImage:
   url: "/images/articles/llms-confidence-problem-gets-a-reality-check/subtitle.jpg"
   alt: "A rare case where internal model math might outpace the hype"
-  caption: "
-  credit: "Source: Web"
 tags: ["LLM", "Deployment", "Security", "Mathematical Modeling"]
 geo:
   name: "Global"
@@ -34,8 +30,8 @@ geo:
 featured: false
 lead_sentence: "New math outperforms probing by +21.02 Brier points."
 approved: true
-title_en: "LLMs’ Confidence Problem Gets a Reality Check"
 ---
+-
 
 Large language models lie with alarming confidence—so reliably, in fact, that uncertainty estimation (UE) has become a cottage industry. The usual suspects? Output-based heuristics (cheap, brittle) or probing internal representations (effective, computationally expensive). Enter [this arXiv paper](https://arxiv.org/abs/2603.22299), which proposes scoring cross-layer agreement patterns in a single forward pass. No extra parameters, no post-hoc calibration. Just math.
 
@@ -58,3 +54,5 @@ The industry map here is predictable. Startups selling LLM monitoring tools—th
 The method’s elegance is undeniable. But elegance doesn’t deploy itself. The gap between ‘works in a paper’ and ‘ships in a product’ is where most UE techniques go to die.
 
 For all the noise about ‘alignment’ and ‘safety,’ the quietest breakthroughs often come from fixing the plumbing. This might be one of them—if the benchmarks hold up outside the lab.
+
+There’s speculation that this could finally make LLMs ‘safe for prime time.’ But here’s the question no one’s asking: Does uncertainty estimation actually change user behavior? Or do people just ignore the disclaimers, as they always have?

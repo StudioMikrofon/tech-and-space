@@ -13,7 +13,7 @@ url: /images/articles/ic3-evolve-ai-tunes-hardware-checksbut-whos-buying/subtitl
 image: 
 alt: The gap between automated tuning and real-world trust
 subtitle: "Demo nasuprot deploymenta: što se stvarno optimizira u praksi"
-subtitle_en: "The gap between automated tuning and real-world trust"
+subtitle_en: The gap between automated tuning and real-world trust
 subtitleImage: 
 tags: "["Kada AI", "self-correcting code optimization", "AI-assisted software deployment", "automated code refinement", "IC3-Evolve benchmark"]"
 lead_sentence: "A new arXiv paper automates the finicky tuning of IC3, the algorithm that keeps hardware from melting down—but trust may be harder to verify than code."
@@ -23,7 +23,6 @@ lon: 0.0
 countryCode: XX
 featured: false
 approved: true
-title_en: "IC3-Evolve: AI tunes hardware checks—but who’s buying?"
 ---
 
 Hardware model checking just got its first LLM-powered mechanic. IC3-Evolve, outlined in [arXiv:2604.03232v1](https://arxiv.org/abs/2604.03232), uses offline code evolution to refine the IC3 algorithm’s heuristics—those finicky, hand-tuned knobs that decide whether a chip design is safe or broken. The twist: every candidate patch must pass formal verification before it’s applied, a proof-gated safeguard that keeps the AI from drifting into unsafe territory. It’s a rare case where generative AI isn’t just throwing spaghetti at the wall; it’s doing so under strict supervision.
@@ -43,3 +42,5 @@ Developer signals are mixed. The [GitHub repository](https://github.com/ic3-evol
 
 
 The real bottleneck here isn’t the LLM or even the heuristics. It’s the verification step itself. IC3-Evolve’s proof-gating adds overhead, and if that step becomes the new bottleneck, the whole system collapses. For now, this looks like a clever demo with a long road to deployment. The question isn’t whether AI can tune IC3—it’s whether anyone will trust it enough to ship a chip with it.
+
+In other words, we’ve reached the point where AI isn’t just writing code—it’s debugging the code that debugs our chips. The hype cycle has officially entered its ‘meta’ phase. Next stop: LLMs tuning the LLMs that tune the heuristics. At this rate, we’ll have self-improving silicon before we have self-improving software engineers.

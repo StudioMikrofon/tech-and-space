@@ -12,14 +12,10 @@ source:
 image:
   url: "/images/articles/ariadnemem-can-llms-finally-keep-their-facts-strai/main.jpg"
   alt: "AriadneMem: Can LLMs Finally Keep Their Facts Straight?"
-  caption: "A close-up of a researcher's terminal screen displaying LLM output with AriadneMem's memory structure visualized as a neural network diagram in the"
-  credit: "Photo by Tech&Space"
 subtitle: "Dvofazni sustav za povezivanje rasutih činjenica i ažuriranje starih podataka"
 subtitleImage:
   url: "/images/articles/ariadnemem-can-llms-finally-keep-their-facts-strai/subtitle.jpg"
   alt: "A two-phase fix for AI’s memory chaos—if developers bite"
-  caption: "A split-composition image featuring a robotic hand gripping a document on one side, with a data center aisle in the background, and a close-up of a"
-  credit: "Photo by Tech&Space"
 tags: ["future-pulse", "automated", "ai"]
 geo:
   name: "Redmond, WA"
@@ -31,17 +27,22 @@ lead_sentence: "AriadneMem tackles LLMs' memory chaos with a two-phase fix."
 approved: true
 title_en: "AriadneMem: Can LLMs Finally Keep Their Facts Straight?"
 subtitle_en: "A two-phase fix for AI’s memory chaos—if developers bite"
+part1_en: "Large language models are notoriously bad at remembering things over time. Ask an LLM agent to track your project deadlines or recall a detail from last month’s meeting, and you’ll likely get either a confidently wrong answer or a polite admission of amnesia. The problem isn’t just forgetfulness—it’s *structural*. Existing memory systems either drown in irrelevant context or fracture under updates, leaving agents to stitch together half-truths from scattered logs.
+
 That’s the gap [AriadneMem](https://arxiv.org/abs/2603.03290v1) aims to plug. Proposed in a new [arXiv paper](https://arxiv.org/abs/2603.03290v1) from researchers at the University of Wisconsin–Madison and Microsoft, the system tackles two core failures in long-term dialogue: *disconnected evidence* (where multi-step answers require linking facts buried across months of chat) and *state updates* (where new information—like a rescheduled flight—conflicts with outdated logs). Unlike brute-force solutions that cram more tokens into the context window, AriadneMem uses a **decoupled two-phase pipeline**: an offline construction phase that prunes and structures memory, followed by an online retrieval phase that dynamically pulls only what’s relevant.
 
 The offline phase is where the magic happens. It employs **entropy-aware gating** to filter out noise (e.g., your LLM won’t obsess over that one time you mentioned liking oat milk) and **conflict-aware coarsening** to resolve contradictions (e.g., your current address overrides the old one). The result? A memory graph that’s leaner, more accurate, and—crucially—usable within fixed context budgets. Early benchmarks suggest it outperforms baselines like [MemGPT](https://memgpt.ai/) and [LongMem](https://github.com/microsoft/longmem) in multi-hop QA tasks, though the paper stops short of real-world deployment metrics.
 
 This isn’t just an academic exercise. The stakes are high for enterprises betting on LLM agents to handle customer support, project management, or personalized assistants. Today’s agents either [hallucinate](https://www.technologyreview.com/2023/06/06/1073958/ai-hallucinations-are-getting-worse-not-better/) or require expensive fine-tuning to stay on script. AriadneMem’s promise is simpler: *let the agent remember what matters, without the cruft*."
+part2_en: "But here’s the catch: **AriadneMem isn’t a drop-in solution**. It demands upfront work to structure memory during the offline phase—a cost that might deter teams racing to ship ‘good enough’ agents. The paper’s focus on dialogue also leaves open questions about non-conversational use cases, like document analysis or codebase navigation, where memory needs are equally thorny but less linear.
+
 The competitive landscape is already crowded. Startups like [Vectara](https://vectara.com/) and [Weaviate](https://weaviate.io/) offer vector-based memory layers, while giants like Google and Meta are baking proprietary solutions into their agent frameworks. AriadneMem’s edge lies in its **conflict resolution**—a feature conspicuously absent in most commercial tools. For example, if a user tells an agent, *“Actually, my meeting’s at 3 PM, not 2”*, most systems will either ignore the update or duplicate the entry. AriadneMem’s coarsening step would merge the conflict, keeping only the latest version.
 
 Yet the real test isn’t benchmarks—it’s **user trust**. Developers have grown skeptical of memory systems that sound great in papers but falter in production. (See: [Microsoft’s recalled AI features](https://www.theverge.com/2023/5/23/23734362/microsoft-ai-recall-windows-copilot-security-privacy-concerns).) AriadneMem’s success hinges on whether its structural approach can scale beyond controlled experiments. Early adopters might include industries where memory accuracy is non-negotiable—healthcare triage bots, legal research assistants, or financial advisors—but broader adoption will require seamless integration with frameworks like [LangChain](https://python.langchain.com/) or [LlamaIndex](https://www.llamaindex.ai/).
 
 There’s also the elephant in the room: **cost**. Offline memory construction isn’t free. For a startup running thousands of agent instances, the trade-off between upfront computation and long-term accuracy might not pencil out. The paper doesn’t address latency in the online phase either—a critical factor for real-time applications. Still, if AriadneMem delivers on its claims, it could shift the conversation from *“How do we make LLMs remember more?”* to *“How do we make them remember *better*?”*—a subtler but far more useful question."
 ---
+-
 
 Large language models are notoriously bad at remembering things over time. Ask an LLM agent to track your project deadlines or recall a detail from last month’s meeting, and you’ll likely get either a confidently wrong answer or a polite admission of amnesia. The problem isn’t just forgetfulness—it’s *structural*. Existing memory systems either drown in irrelevant context or fracture under updates, leaving agents to stitch together half-truths from scattered logs.
 

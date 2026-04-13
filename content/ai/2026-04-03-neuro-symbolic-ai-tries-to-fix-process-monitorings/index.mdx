@@ -34,7 +34,6 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
-title_en: "Neuro-symbolic AI tries to fix process monitoring’s blind spots"
 ---
 
 Predictive process monitoring has a dirty secret: it’s great at spotting patterns in hospital workflows or factory lines, but terrible at respecting the rules those workflows *must* follow. A [new arXiv paper](https://arxiv.org/abs/2603.26948) from researchers at [Sapienza University of Rome](https://www.uniroma1.it/) calls this out directly—current sub-symbolic models (your typical deep learning) happily predict a patient’s surgical needs while ignoring that, say, *post-op recovery protocols* mandate a seven-day gap between discharge and re-admission. The result? "Compliance-aware" predictions that are neither compliant nor particularly aware.
@@ -54,3 +53,5 @@ The bigger question is whether this crosses the demo-deployment chasm. Neuro-sym
 
 
 That leaves the hype filter’s favorite target: the benchmark. Synthetic data + 10-year-old logs ≠ a clinical trial. The real test isn’t whether LTNs work in a paper—it’s whether [Siemens](https://www.siemens.com/) or [Epic](https://www.epic.com/) will bet on them in production.
+
+There’s one glaring omission: how do LTNs handle *conflicting* rules? When two compliance constraints can’t both be satisfied, does the model default to the stricter one, the newer one, or just… pick randomly? The paper doesn’t say. That’s not an academic footnote—that’s the difference between a demo and a deployable system.

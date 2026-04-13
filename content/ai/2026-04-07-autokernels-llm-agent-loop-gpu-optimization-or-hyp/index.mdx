@@ -30,7 +30,6 @@ geo:
   countryCode: "XX"
 featured: false
 approved: true
-title_en: "AutoKernel’s LLM agent loop: GPU optimization or hype repackaged?"
 ---
 
 RightNow AI’s [AutoKernel](https://github.com/RightNowAI/AutoKernel) frames itself as the end of manual GPU kernel tuning—a claim that smells faintly of [‘compilers will replace programmers’](https://queue.acm.org/detail.cfm?id=3531676) energy. The framework uses an LLM agent loop to generate and refine CUDA kernels for arbitrary PyTorch models, targeting the [notoriously brutal](https://developer.nvidia.com/blog/even-easier-introduction-cuda/) task of writing performant GPU code. Early benchmarks (because of course there are benchmarks) show speedups of **1.2–1.8x** on synthetic workloads, though the team wisely avoids calling these ‘real-world results.’
@@ -50,3 +49,5 @@ Community reaction on GitHub is cautiously optimistic, with stars climbing but i
 
 
 The bigger question isn’t whether AutoKernel works (it probably does, for some values of ‘works’), but whether it *matters*. Most teams still [ship models with unoptimized kernels](https://www.deepspeed.ai/) because the ROI on tuning is murky. If this shifts the cost curve, great. If it’s just another tool for the 0.01% of engineers who already obsess over FLOPS? Less exciting.
+
+Will AutoKernel’s agent loop actually outperform hand-tuned kernels in production, or is this just [benchmark theater](https://en.wikipedia.org/wiki/Benchmark_(computing)#Criticism) with extra steps? The answer depends on whether the community treats it as a toy or a tool—and right now, the jury’s still out.

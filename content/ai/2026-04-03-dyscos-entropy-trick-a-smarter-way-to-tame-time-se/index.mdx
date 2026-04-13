@@ -34,7 +34,6 @@ geo:
   countryCode: "XX"
 featured: false
 approved: true
-title_en: "DySCo’s entropy trick: A smarter way to tame time-series noise"
 ---
 
 Time series models have a dirty secret: the more history you feed them, the worse they often perform. Extending the lookback window—supposedly to capture richer patterns—usually just drowns models in redundant trends and computational bloat. Enter [DySCo](https://arxiv.org/abs/2604.01261v1), a framework that treats historical data like a cluttered attic: it keeps the high-entropy moments (the rare, informative chaos) and tosses the rest via its **Entropy-Guided Dynamic Sampling (EGDS)** mechanism.
@@ -60,3 +59,5 @@ The developer signal is mixed. Some [Hugging Face](https://huggingface.co/models
 
 
 For all the noise, the actual story is simpler: this is a rare case where compression isn’t just about saving space—it’s about making models *smarter* about what they ignore.
+
+In other words, DySCo is what happens when you stop treating time-series data like a sacred text and start editing it like a ruthless subeditor. The hype around ‘dynamic’ frameworks will inevitably outpace the deployments—but for once, the core idea might justify the buzz.

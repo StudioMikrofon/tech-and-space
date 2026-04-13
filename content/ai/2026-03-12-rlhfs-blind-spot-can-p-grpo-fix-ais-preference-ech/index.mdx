@@ -12,14 +12,10 @@ source:
 image:
   url: "/images/articles/rlhfs-blind-spot-can-p-grpo-fix-ais-preference-ech/main.jpg"
   alt: "RLHF’s blind spot: Can P-GRPO fix AI’s preference echo chamber?"
-  caption: "A researcher sitting at a terminal with a slate grey background, surrounded by rows of server racks in a dark matte data center, looking at LLM"
-  credit: "Photo by Tech&Space"
 subtitle: "Dali je ovo rješenje za problem dominantnih preferencija ili samo finije pakiranje?"
 subtitleImage:
   url: "/images/articles/rlhfs-blind-spot-can-p-grpo-fix-ais-preference-ech/subtitle.jpg"
   alt: "The ‘one-size-fits-all’ trap in AI alignment—and why fixing it isn’t just about better math"
-  caption: "A close-up of a robotic hand gripping a tablet with a Duolingo app open, showcasing adaptive learning paths, set against a cool white and dark matte"
-  credit: "Photo by Tech&Space"
 tags: ["future-pulse", "automated", "ai"]
 geo:
   name: "San Francisco, CA"
@@ -31,13 +27,18 @@ lead_sentence: "GRPO's flaw: treating all feedback as interchangeable"
 approved: true
 title_en: "RLHF’s blind spot: Can P-GRPO fix AI’s preference echo chamber?"
 subtitle_en: "The ‘one-size-fits-all’ trap in AI alignment—and why fixing it isn’t just about better math"
+part1_en: "Large language models have a dirty little secret: they’re terrible at listening to *you*, specifically. Despite the fanfare around [Reinforcement Learning with Human Feedback (RLHF)](https://arxiv.org/abs/2203.07605), the method’s core assumption—that human preferences can be distilled into a single, global objective—has always been a fiction. Now, a [new paper](https://arxiv.org/abs/2603.10009) from arXiv lays bare how this flaw isn’t just theoretical. It’s baked into the tools we use to ‘align’ AI, including [Group Relative Policy Optimization (GRPO)](https://arxiv.org/abs/2106.09097), a framework widely adopted for its stability in multi-agent settings.
+
 The problem? GRPO’s group-based normalization treats all feedback samples as interchangeable—an assumption that collapses under real-world heterogeneity. Early signals suggest this leads to a [‘tyranny of the majority’](https://dl.acm.org/doi/10.1145/3442188.3445922) effect, where dominant preferences (say, the tastes of English-speaking users or power-law-distributed engagement metrics) drown out niche signals. For companies deploying LLMs in [personalized recommendation](https://ai.meta.com/blog/generative-ai-recommendation-systems/) or [adaptive interfaces](https://deepmind.google/discover/blog/scaling-human-feedback-to-improve-ai-systems/), this isn’t an edge case. It’s a design flaw that risks turning ‘personalization’ into a statistical average dressed up as bespoke service.
 
 The authors’ solution, **Personalized GRPO (P-GRPO)**, proposes decoupling the normalization step to preserve individual preference gradients. On paper, it’s elegant: instead of pooling all feedback into a single distribution, P-GRPO maintains separate contexts for distinct preference clusters. But here’s where the **hype filter** kicks in. The paper’s experiments rely on synthetic preference distributions and [simulated heterogeneous environments](https://github.com/rlhf-research/grpo-baselines)—a far cry from the messy, long-tail diversity of real user behavior. As [one researcher noted](https://twitter.com/_akhaliq/status/1765432123456784384) on Twitter, ‘Until we see this tested on actual deployment telemetry, it’s just another variant of the *‘we fixed the benchmark’* genre.’"
+part2_en: "So who stands to gain if P-GRPO works as advertised? The most obvious beneficiaries are platforms where **preference fragmentation is a feature, not a bug**: think [Spotify’s niche playlist algorithms](https://engineering.atspotify.com/2021/07/how-spotify-uses-ml-to-enhance-recommendations/), [Duolingo’s adaptive learning paths](https://blog.duolingo.com/ai-labs/), or even [enterprise LLMs](https://www.ibm.com/blog/ai-at-work/watsonx-governance/) tuned for industry-specific compliance needs. For these players, the ability to *reliably* optimize for subpopulations without catastrophic forgetting could be a moat. The catch? Deploying P-GRPO requires granular preference data—something most companies either don’t have or can’t label at scale.
+
 Then there’s the **open-source reality gap**. While the paper drops the obligatory [GitHub link](https://github.com/p-grpo/baselines) (because what’s a modern ML paper without one?), early community reaction is muted. The repo has fewer than 50 stars, and discussions on [r/MachineLearning](https://www.reddit.com/r/MachineLearning/) focus less on the method’s promise than on its computational overhead. As one commenter put it: ‘Another paper where the *real* innovation is the GPU hours spent tuning hyperparameters.’ That’s not to dismiss P-GRPO outright—just to note that the distance between an arXiv drop and production-grade code remains [stubbornly wide](https://www.technologyreview.com/2023/06/15/1074500/the-messy-truth-about-open-source-ai/).
 
 The bigger question is whether this is even the right problem to solve. AI alignment’s [‘preference’ obsession](https://arxiv.org/abs/2305.14325) assumes users know what they want—a dubious premise when most interactions are [habitual, not deliberate](https://www.nirandfar.com/habits/). If P-GRPO’s real value is in surfacing *latent* preferences (the things users don’t articulate but act on), then the benchmark for success isn’t just better normalization. It’s whether the method can handle the [noise of real behavior](https://dl.acm.org/doi/10.1145/3531146.3533153)—where the same user might crave serendipity on Friday and predictability on Monday."
 ---
+-
 
 Large language models have a dirty little secret: they’re terrible at listening to *you*, specifically. Despite the fanfare around [Reinforcement Learning with Human Feedback (RLHF)](https://arxiv.org/abs/2203.07605), the method’s core assumption—that human preferences can be distilled into a single, global objective—has always been a fiction. Now, a [new paper](https://arxiv.org/abs/2603.10009) from arXiv lays bare how this flaw isn’t just theoretical. It’s baked into the tools we use to ‘align’ AI, including [Group Relative Policy Optimization (GRPO)](https://arxiv.org/abs/2106.09097), a framework widely adopted for its stability in multi-agent settings.
 

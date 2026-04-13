@@ -34,7 +34,6 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
-title_en: "Federated MLLMs: A Pre-Training Workaround for Siloed Data"
 ---
 
 A new arXiv preprint [Fed-MA](https://arxiv.org/abs/2603.26786) introduces a federated pre-training method for multimodal LLMs that sidesteps the usual hype: it doesn’t claim breakthroughs, just a pragmatic workaround. The core idea, **Federated MLLM Alignment (Fed-MA)**, freezes the vision encoder and LLM backbone, training only the cross-modal projector in a federated setting. That’s a narrow but deliberate choice—avoiding the computational chaos of full-model aggregation while still tapping into siloed data.
@@ -54,3 +53,5 @@ Industry players should note who benefits: cloud providers with federated infras
 
 
 The paper’s silence on performance is telling. Fed-MA might be a step, but it’s a small one on a very long staircase.
+
+In other words, we’ve gone from ‘federated learning will save AI’ to ‘federated learning might help pre-train one component of an MLLM.’ Progress, but not the kind that fits on a press release.

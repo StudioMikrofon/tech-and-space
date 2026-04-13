@@ -34,7 +34,6 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
-title_en: "Ollama’s MLX move: Apple’s AI play gets real—sort of"
 ---
 
 Ollama’s quiet integration of [Apple’s MLX framework](https://github.com/ml-explore/mlx) into its local model runner isn’t just another ‘now with M-series support!’ press release. It’s the first time an open-source LLMs-as-a-service tool has directly leveraged Apple Silicon’s [unified memory architecture](https://developer.apple.com/metal/unified-memory/), where CPU and GPU share the same pool—no serializing data between them. That’s the kind of plumbing that turns ‘runs on a Mac’ into ‘runs *well* on a Mac.’
@@ -54,3 +53,5 @@ Industry-wise, this is Apple playing the long game. The company’s [WWDC 2024 A
 
 
 What’s missing? Any mention of [model quantization](https://arxiv.org/abs/2106.08295) or [sparse attention](https://arxiv.org/abs/2301.00774), the techniques that could turn ‘runs locally’ into ‘runs *efficiently* locally.’ Ollama’s MLX integration is a start, not a finish line. And for all the talk of ‘AI on your laptop,’ the elephant in the room remains: most users still just want [ChatGPT in Safari](https://chat.openai.com/), not a terminal command.
+
+There’s still no answer to the obvious question: how much faster, exactly? Until someone publishes reproducible benchmarks—ideally on the same hardware, same model, same prompts—the ‘performance boost’ is just a euphemism for ‘we hope you’ll try it.’

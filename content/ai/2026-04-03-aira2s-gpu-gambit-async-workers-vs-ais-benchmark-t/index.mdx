@@ -34,7 +34,6 @@ geo:
   countryCode: "XX"
 featured: false
 approved: true
-title_en: "AIRA₂’s GPU gambit: async workers vs. AI’s benchmark theater"
 ---
 
 AI research agents hit a wall—not the kind solved by bigger models, but the kind built into their plumbing. The [arXiv paper](https://arxiv.org/abs/2603.26499v1) on AIRA₂ doesn’t just list bottlenecks; it admits the field’s dirty secret: most ‘agentic’ systems are still running on single-GPU training wheels, choking on their own sync overhead. Three problems, per the authors: throughput strangled by sequential execution, validation metrics that lie over time, and LLM operators so rigid they might as well be CLI tools.
@@ -54,3 +53,5 @@ Competitive advantage? NVIDIA, obviously—the only entity that profits from bot
 
 
 The paper’s quietest admission might be its loudest: even with async workers and smarter evals, the ceiling for LLM agents isn’t technical. It’s economic.
+
+In other words, we’ve replaced one bottleneck with another—this time with better branding. Async GPUs won’t fix the fact that most ‘agentic workflows’ are still glorified autocompletes with delusions of grandeur. The hype cycle doesn’t care; it just wants its next S-curve.
