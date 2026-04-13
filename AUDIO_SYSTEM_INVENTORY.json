@@ -1,0 +1,749 @@
+{
+  "project": "Tech & Space",
+  "audit_date": "2026-04-13",
+  "audio_system": "Web Audio API (Procedural - No External Files)",
+  "total_procedural_sounds": 15,
+  "total_mp3_files": 3,
+  "overall_sound_status": "COMPLETE - All mapped",
+  "master_volume": "0.06 (MASTER_VOL constant)",
+  "sounds": [
+    {
+      "id": 1,
+      "sound_name": "hover",
+      "file_type": "Procedural (Web Audio API - Sine + Noise)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 90,
+      "used_in_files": [
+        "Header.tsx (onMouseEnter on nav links)",
+        "ArticleCard.tsx (onMouseEnter)"
+      ],
+      "trigger_event": "User hovers over interactive elements (links, cards)",
+      "trigger_code": "playSound('hover')",
+      "sound_type": "UI Interaction - Hover Feedback",
+      "waveform_composition": "2-partial sine (980→1120Hz) + white noise burst (5200Hz bandpass)",
+      "description": "Subspace frequency blip - quick, subtle hover feedback. Very short, non-intrusive.",
+      "frequency": "very frequent (on every nav item/card hover)",
+      "importance": "high (core UX feedback)",
+      "loop": false,
+      "duration": "short",
+      "volume_control": "dynamic (MASTER_VOL * 0.35)",
+      "overlap": "allowed (many hovers in quick succession)",
+      "energy_level": "low",
+      "style": "sci-fi terminal",
+      "replacement_guidelines": {
+        "style": "soft beep - sci-fi interface",
+        "duration": "~90ms",
+        "energy": "low",
+        "intensity": "subtle",
+        "notes": "Should feel like NASA control panel subtle feedback, not intrusive"
+      }
+    },
+    {
+      "id": 2,
+      "sound_name": "click",
+      "file_type": "Procedural (Web Audio API - Triangle + Noise)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 110,
+      "used_in_files": [
+        "Header.tsx (onClick on multiple buttons)",
+        "ArticleQuizButton.tsx (onClick)",
+        "LikeButton.tsx (onClick)",
+        "GlobeWithQuiz.tsx (onClick on quiz button)",
+        "SpaceTrackerModal.tsx (onClick on various controls)",
+        "ArticleCard.tsx (implicit on click)"
+      ],
+      "trigger_event": "User clicks buttons, UI elements, navigation items",
+      "trigger_code": "playSound('click')",
+      "sound_type": "UI Interaction - Click Feedback",
+      "waveform_composition": "Triangle oscillator (720→540Hz) + noise burst (4200Hz bandpass) + sine tail (1320→1140Hz)",
+      "description": "Sharp console keypress sound with attack transient and resonant tail. Punchy, clear feedback.",
+      "frequency": "extremely frequent (every button click)",
+      "importance": "critical (primary user feedback)",
+      "loop": false,
+      "duration": "short",
+      "volume_control": "dynamic (MASTER_VOL * 0.42 peak)",
+      "overlap": "allowed (rapid clicking)",
+      "energy_level": "medium",
+      "style": "sci-fi terminal",
+      "replacement_guidelines": {
+        "style": "mechanical click - sci-fi console",
+        "duration": "~110ms",
+        "energy": "medium",
+        "intensity": "clear and present",
+        "notes": "Most frequent sound - should be satisfying but not annoying. NASA mission control aesthetic."
+      }
+    },
+    {
+      "id": 3,
+      "sound_name": "select",
+      "file_type": "Procedural (Web Audio API - Sine + Triangle)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 110,
+      "used_in_files": [
+        "SpaceTrackerModal.tsx (playSound('select') on mode/timescale changes)"
+      ],
+      "trigger_event": "User selects/changes modes (CIN/SCI mode toggle, timescale selection)",
+      "trigger_code": "playSound('select')",
+      "sound_type": "UI Interaction - Selection/Mode Change",
+      "waveform_composition": "Dual-tone: Sine (820→980Hz) + Triangle (1640→1820Hz)",
+      "description": "Lighter variant of click for tab/mode switching. More musical, less percussive.",
+      "frequency": "frequent (when changing space tracker modes)",
+      "importance": "high (mode change feedback)",
+      "loop": false,
+      "duration": "short",
+      "volume_control": "dynamic (MASTER_VOL * 0.28 primary, 0.14 secondary)",
+      "overlap": "not typically (mode changes are discrete events)",
+      "energy_level": "medium-low",
+      "style": "sci-fi terminal",
+      "replacement_guidelines": {
+        "style": "two-tone selection chime",
+        "duration": "~110ms",
+        "energy": "medium-low",
+        "intensity": "musical but clear",
+        "notes": "Should feel like switching between space observation modes (confirmation of state change)"
+      }
+    },
+    {
+      "id": 4,
+      "sound_name": "tab",
+      "file_type": "Procedural (Web Audio API - Triangle)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 55,
+      "used_in_files": [
+        "SpaceTrackerModal.tsx (playSound('tab') on tab changes)"
+      ],
+      "trigger_event": "User switches between sidebar tabs/panels",
+      "trigger_code": "playSound('tab')",
+      "sound_type": "UI Navigation - Tab Switch",
+      "waveform_composition": "Single triangle sweep (1500→1280Hz)",
+      "description": "Very quick tick for sidebar tab changes. Quick, punchy, minimal.",
+      "frequency": "occasional (sidebar tab navigation)",
+      "importance": "medium (navigation feedback)",
+      "loop": false,
+      "duration": "very short",
+      "volume_control": "dynamic (MASTER_VOL * 0.2)",
+      "overlap": "not typically (tab switches are discrete)",
+      "energy_level": "low-medium",
+      "style": "sci-fi terminal",
+      "replacement_guidelines": {
+        "style": "quick beep/tick",
+        "duration": "~55ms",
+        "energy": "low-medium",
+        "intensity": "quick and snappy",
+        "notes": "Brief confirmation of tab switch - should not be intrusive"
+      }
+    },
+    {
+      "id": 5,
+      "sound_name": "glitch",
+      "file_type": "Procedural (Web Audio API - Digital Scramble)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 144,
+      "used_in_files": [
+        "PageTransition.tsx (playSound('glitch') on page transitions)",
+        "HeroSection.tsx (playSound('glitch') on hero entry)"
+      ],
+      "trigger_event": "Page transitions, route changes, hero section load",
+      "trigger_code": "playSound('glitch')",
+      "sound_type": "Navigation Transition - Page Change",
+      "waveform_composition": "8-step digital scramble: alternating noise bursts and pitch steps (freqs: 2400, 800, 3200, 600, 2800, 1200, 3600, 400 Hz)",
+      "description": "Digital scramble effect with pitch steps and noise. Dramatic transition effect.",
+      "frequency": "infrequent (only on page transitions)",
+      "importance": "high (marks major navigation/transitions)",
+      "loop": false,
+      "duration": "medium",
+      "volume_control": "dynamic (volume decreases across steps, MASTER_VOL * 0.8 max)",
+      "overlap": "not allowed (transitions are discrete)",
+      "energy_level": "high",
+      "style": "sci-fi digital effect",
+      "replacement_guidelines": {
+        "style": "digital scramble/noise burst",
+        "duration": "~144ms",
+        "energy": "high",
+        "intensity": "dramatic",
+        "notes": "Marks page boundaries - should feel like digital system transition, not jarring"
+      }
+    },
+    {
+      "id": 6,
+      "sound_name": "transition",
+      "file_type": "Procedural (Web Audio API - Multi-layer Sweep)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 420,
+      "used_in_files": [
+        "Not currently mapped in grep results - may be in dynamic code or unused"
+      ],
+      "trigger_event": "Potential: Major modal opens, significant state change (UNUSED/POTENTIAL)",
+      "trigger_code": "playSound('transition') - NOT TRIGGERED",
+      "sound_type": "Navigation Transition - Major State Change",
+      "waveform_composition": "3-layer: (1) Rise glitch (240→960Hz triangle), (2) Space whoosh (700→5200Hz bandpass noise sweep), (3) Clean confirm tone (1280→1520Hz sine)",
+      "description": "Glitch scramble → whoosh → clean. Major transition sound for significant state changes.",
+      "frequency": "rare (would be for major transitions only)",
+      "importance": "high (if used)",
+      "loop": false,
+      "duration": "long",
+      "volume_control": "dynamic (layered envelope control)",
+      "overlap": "not allowed (major transitions)",
+      "energy_level": "high",
+      "style": "sci-fi transition",
+      "status": "DEFINED BUT UNUSED - Candidate for implementation",
+      "replacement_guidelines": {
+        "style": "dramatic transition - chaos to clarity",
+        "duration": "~420ms",
+        "energy": "high",
+        "intensity": "cinematic",
+        "notes": "Should feel like system breaking through interference to clear signal"
+      }
+    },
+    {
+      "id": 7,
+      "sound_name": "boot",
+      "file_type": "Procedural (Web Audio API - CRT Power-on Simulation)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 1300,
+      "used_in_files": [
+        "TerminalBoot.tsx (playSound('boot') on component mount)",
+        "SpaceTrackerModal.tsx (playSound('boot') on modal open)"
+      ],
+      "trigger_event": "Terminal component mounts, Space Tracker modal opens, app boot sequence",
+      "trigger_code": "playSound('boot')",
+      "sound_type": "System Event - Startup/Boot",
+      "waveform_composition": "Multi-layer boot simulation: Sub rumble (46→62Hz sine), Pitch lift (120→1480Hz triangle), 3 digital handshake tones (780/1040/1320Hz), Confirm tone (1760→1960Hz)",
+      "description": "CRT power-on simulator. Sub rumble, pitch ramp, digital handshake. Complex, cinematic.",
+      "frequency": "infrequent (only on boot, modal open)",
+      "importance": "very high (marks major system events)",
+      "loop": false,
+      "duration": "long",
+      "volume_control": "dynamic (complex envelope across 4 layers)",
+      "overlap": "not allowed (boot is discrete event)",
+      "energy_level": "high",
+      "style": "vintage CRT/sci-fi",
+      "replacement_guidelines": {
+        "style": "power-on startup sound",
+        "duration": "~1300ms",
+        "energy": "high",
+        "intensity": "epic and present",
+        "notes": "Should feel like powering up a NASA control system, not a video game"
+      }
+    },
+    {
+      "id": 8,
+      "sound_name": "success",
+      "file_type": "Procedural (Web Audio API - Dual-tone Confirm)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 340,
+      "used_in_files": [
+        "TerminalBoot.tsx (playSound('success') after boot completes)"
+      ],
+      "trigger_event": "After boot sequence completes, system ready confirmation",
+      "trigger_code": "playSound('success')",
+      "sound_type": "Positive Feedback - Success/Confirmation",
+      "waveform_composition": "Two ascending tones: 880Hz (80ms) → 1320Hz (100ms), clean dual-tone comms confirm",
+      "description": "Clean dual-tone confirmation. Not video-gamey. Professional comms aesthetic.",
+      "frequency": "rare (only after boot)",
+      "importance": "high (success indicator)",
+      "loop": false,
+      "duration": "medium",
+      "volume_control": "dynamic (MASTER_VOL * 0.7 sustained, fast fade)",
+      "overlap": "not allowed (success follows boot)",
+      "energy_level": "medium",
+      "style": "professional radio/comms",
+      "replacement_guidelines": {
+        "style": "confirmation tone - professional",
+        "duration": "~340ms",
+        "energy": "medium",
+        "intensity": "clear and present",
+        "notes": "Should feel like mission control confirmation, clean and professional"
+      }
+    },
+    {
+      "id": 9,
+      "sound_name": "dataStream",
+      "file_type": "Procedural (Web Audio API - Packet Burst)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 120,
+      "used_in_files": [
+        "Not currently mapped in grep results - may be unused or dynamic"
+      ],
+      "trigger_event": "Potential: Data loading, telemetry updates (UNUSED/POTENTIAL)",
+      "trigger_code": "playSound('dataStream') - NOT TRIGGERED",
+      "sound_type": "System Feedback - Data/Loading Event",
+      "waveform_composition": "Digital packet burst: 4 fast frequency steps (980→1240→1480→1720Hz) with triangle osc + noise gate",
+      "description": "Fast freq steps with noise gate. Digital packet simulation.",
+      "frequency": "would be frequent (if triggered on data updates)",
+      "importance": "medium (data feedback)",
+      "loop": false,
+      "duration": "short",
+      "volume_control": "dynamic (MASTER_VOL * 0.12 per packet)",
+      "overlap": "could occur (multiple data packets)",
+      "energy_level": "medium",
+      "style": "digital data/telemetry",
+      "status": "DEFINED BUT UNUSED - Candidate for telemetry sounds",
+      "replacement_guidelines": {
+        "style": "data packet transmission",
+        "duration": "~120ms",
+        "energy": "medium",
+        "intensity": "busy/digital",
+        "notes": "Could enhance space tracker data telemetry updates"
+      }
+    },
+    {
+      "id": 10,
+      "sound_name": "ping",
+      "file_type": "Procedural (Web Audio API - Space Sonar)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 420,
+      "used_in_files": [
+        "SpaceTrackerModal.tsx (playSound('ping') when clicking to focus on Sun)"
+      ],
+      "trigger_event": "User clicks to focus camera on celestial bodies in space tracker",
+      "trigger_code": "playSound('ping')",
+      "sound_type": "Space/Astronomy - Sonar/Detection",
+      "waveform_composition": "Deep-space sonar: Core sine (1080→900Hz) + overtone (2160→1800Hz triangle) + echo (980→820Hz sine, delayed 180ms)",
+      "description": "Deep-space sonar effect. Fundamental + overtone + echo. Exploration/detection feel.",
+      "frequency": "occasional (when focusing on planets/sun)",
+      "importance": "high (space-specific feedback)",
+      "loop": false,
+      "duration": "medium",
+      "volume_control": "dynamic (layered: core 0.18, overtone 0.08, echo 0.09)",
+      "overlap": "not typically (discrete focus events)",
+      "energy_level": "medium",
+      "style": "space/astronomy",
+      "replacement_guidelines": {
+        "style": "sonar ping - space exploration",
+        "duration": "~420ms",
+        "energy": "medium",
+        "intensity": "contemplative",
+        "notes": "Should feel like probing space, discovering objects - scientific, not sci-fi dramatic"
+      }
+    },
+    {
+      "id": 11,
+      "sound_name": "ambient",
+      "file_type": "Procedural (Web Audio API - Continuous Loop)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 10000,
+      "used_in_files": [
+        "AmbientSound.tsx (startAmbient() triggered on first user interaction)"
+      ],
+      "trigger_event": "First user interaction (click/key/touch) - starts background ambient loop",
+      "trigger_code": "startAmbient() from AmbientSound.tsx component",
+      "sound_type": "Background Ambient - Continuous Drone",
+      "waveform_composition": "Complex layered: (1) Sub-bass drone 40Hz+41.1Hz (beat effect), (2) Mid hum 120Hz sawtooth→lowpass filtered, (3) Slow LFO tremolo (0.07Hz), (4) High-freq shimmer (4800Hz bandpass with 0.03Hz LFO)",
+      "description": "Dark cinematic terminal aesthetic. Multi-layer ambient drone. Loops indefinitely.",
+      "frequency": "continuous (runs once started, until stopAmbient() called)",
+      "importance": "very high (immersive atmospheric)",
+      "loop": true,
+      "duration": "indefinite (loops)",
+      "volume_control": "dynamic (complex envelope: 4s fade-in to MASTER_VOL*0.35)",
+      "overlap": "N/A (single continuous loop)",
+      "energy_level": "low",
+      "style": "dark cinematic sci-fi",
+      "fade_in_duration_ms": 4000,
+      "notes": "Respects localStorage toggle (STORAGE_KEY: 'tp-sound'). Can be stopped via stopAmbient().",
+      "replacement_guidelines": {
+        "style": "ambient drone - dark sci-fi atmosphere",
+        "duration": "indefinite loop",
+        "energy": "low",
+        "intensity": "immersive background",
+        "notes": "Creates dark, professional sci-fi atmosphere. Should feel like spacecraft life support systems, not intrusive"
+      }
+    },
+    {
+      "id": 12,
+      "sound_name": "whoosh",
+      "file_type": "Procedural (Web Audio API - Cinema Sweep)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 350,
+      "used_in_files": [
+        "Not currently mapped in grep results - likely unused but integrated in 'transition' sound"
+      ],
+      "trigger_event": "Potential: Page transitions, modal opens (PARTIAL - may be called by 'transition')",
+      "trigger_code": "playSound('whoosh') - Component of 'transition'",
+      "sound_type": "Navigation Transition - Whoosh Effect",
+      "waveform_composition": "3-layer noise sweep: (1) Low freq whoosh (200→600Hz, 0-0.35s), (2) High freq shimmer (2000→6000Hz, delayed 40ms), (3) Sub tail thump (80→30Hz sine, 0-120ms)",
+      "description": "Cinema quality sweep with three layers and doppler feel. Cinematic but subtle.",
+      "frequency": "infrequent (transition events only)",
+      "importance": "high (transition signal)",
+      "loop": false,
+      "duration": "medium",
+      "volume_control": "dynamic (layered: low 0.32, high 0.18, sub 0.16)",
+      "overlap": "not allowed (transitions)",
+      "energy_level": "high",
+      "style": "cinematic sci-fi",
+      "replacement_guidelines": {
+        "style": "cinema whoosh - space transition",
+        "duration": "~350ms",
+        "energy": "high",
+        "intensity": "cinematic",
+        "notes": "Should feel like spaceship acceleration or portal transit, professional and polished"
+      }
+    },
+    {
+      "id": 13,
+      "sound_name": "alert",
+      "file_type": "Procedural (Web Audio API - Military Tonal)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 280,
+      "used_in_files": [
+        "Not currently mapped in grep results - likely unused but available"
+      ],
+      "trigger_event": "Potential: Error states, warnings, important notifications (UNUSED/CANDIDATE)",
+      "trigger_code": "playSound('alert') - NOT TRIGGERED",
+      "sound_type": "System Alert - Warning/Error",
+      "waveform_composition": "Urgent stutter pulse: 3 pulses of dual-tone chord (660Hz fundamental + 928Hz tritone for tension)",
+      "description": "Military tonal alert. Urgent stutter pulse. Not video-gamey. Professional warning.",
+      "frequency": "would be rare (error/alert events)",
+      "importance": "high (alerts demand attention)",
+      "loop": false,
+      "duration": "medium",
+      "volume_control": "dynamic (volume varies per pulse: 0.42, 0.34, 0.34)",
+      "overlap": "not allowed (alerts are discrete)",
+      "energy_level": "high",
+      "style": "military/professional alert",
+      "status": "DEFINED BUT UNUSED - Candidate for error/warning states",
+      "replacement_guidelines": {
+        "style": "urgent alert tone",
+        "duration": "~280ms",
+        "energy": "high",
+        "intensity": "attention-demanding",
+        "notes": "Should signal importance without being harsh - professional alert aesthetic"
+      }
+    },
+    {
+      "id": 14,
+      "sound_name": "quizCorrect",
+      "file_type": "Procedural (Web Audio API - Ascending Tone)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 300,
+      "used_in_files": [
+        "GlobeQuiz.tsx (playSound('quizCorrect') when user answers correctly)"
+      ],
+      "trigger_event": "User answers quiz question correctly in globe quiz",
+      "trigger_code": "playSound('quizCorrect')",
+      "sound_type": "Gamification/Feedback - Positive Quiz Feedback",
+      "waveform_composition": "Clean ascending two-tone: 523Hz (90ms) → 784Hz (100ms), simple and clear",
+      "description": "Clean ascending confirmation. Professional, not gamey. Reinforces positive feedback.",
+      "frequency": "occasional (on each correct answer)",
+      "importance": "high (quiz feedback)",
+      "loop": false,
+      "duration": "short",
+      "volume_control": "dynamic (MASTER_VOL * 0.9 then 1.0)",
+      "overlap": "not typically (one answer at a time)",
+      "energy_level": "low-medium",
+      "style": "clean confirmation",
+      "replacement_guidelines": {
+        "style": "positive confirmation - ascending",
+        "duration": "~300ms",
+        "energy": "low-medium",
+        "intensity": "gentle reward",
+        "notes": "Should feel rewarding but not arcade-like - educational game aesthetic"
+      }
+    },
+    {
+      "id": 15,
+      "sound_name": "quizWrong",
+      "file_type": "Procedural (Web Audio API - Descending Error)",
+      "file_path": "N/A - Generated in lib/sounds.ts",
+      "duration_ms": 250,
+      "used_in_files": [
+        "GlobeQuiz.tsx (playSound('quizWrong') when user answers incorrectly)"
+      ],
+      "trigger_event": "User answers quiz question incorrectly in globe quiz",
+      "trigger_code": "playSound('quizWrong')",
+      "sound_type": "Gamification/Feedback - Negative Quiz Feedback",
+      "waveform_composition": "Descending error: Filtered sawtooth (400→180Hz) + noise burst (600Hz bandpass at start)",
+      "description": "Descending glide with error character. Signals incorrect answer. Not harsh.",
+      "frequency": "occasional (on each wrong answer)",
+      "importance": "high (quiz feedback)",
+      "loop": false,
+      "duration": "short",
+      "volume_control": "dynamic (MASTER_VOL * 0.7 + noise MASTER_VOL * 0.4)",
+      "overlap": "not typically (one answer at a time)",
+      "energy_level": "medium",
+      "style": "error indication",
+      "replacement_guidelines": {
+        "style": "negative feedback - descending",
+        "duration": "~250ms",
+        "energy": "medium",
+        "intensity": "gentle discouragement",
+        "notes": "Should indicate error without being harsh or demotivating - educational game aesthetic"
+      }
+    },
+    {
+      "id": 16,
+      "sound_name": "jupiter-emissions",
+      "file_type": "MP3 Audio File",
+      "file_path": "/public/audio/jove/jupiter-emissions.mp3",
+      "duration_ms": "UNKNOWN (not queried)",
+      "used_in_files": [
+        "NOT MAPPED - File exists but no code references found"
+      ],
+      "trigger_event": "UNKNOWN - Likely unused or dynamically loaded",
+      "trigger_code": "UNKNOWN - No grep match found",
+      "sound_type": "Space Ambient - Planetary Audio",
+      "waveform_composition": "Unknown - Real audio file",
+      "description": "Jupiter radio emissions recording. Space/astronomy context.",
+      "frequency": "UNKNOWN - Appears unused",
+      "importance": "UNKNOWN - Candidate for space features",
+      "loop": "UNKNOWN",
+      "duration": "unknown",
+      "volume_control": "unknown",
+      "overlap": "unknown",
+      "energy_level": "unknown",
+      "style": "space/real-world audio",
+      "status": "FILE EXISTS BUT UNUSED - Orphaned asset",
+      "replacement_guidelines": {
+        "style": "atmospheric planetary sound",
+        "duration": "TBD",
+        "energy": "low-medium",
+        "intensity": "immersive",
+        "notes": "Could be integrated into space tracker for realistic planetary audio context"
+      }
+    },
+    {
+      "id": 17,
+      "sound_name": "solar-type2-burst",
+      "file_type": "MP3 Audio File",
+      "file_path": "/public/audio/jove/solar-type2-burst.mp3",
+      "duration_ms": "UNKNOWN (not queried)",
+      "used_in_files": [
+        "NOT MAPPED - File exists but no code references found"
+      ],
+      "trigger_event": "UNKNOWN - Likely unused or dynamically loaded",
+      "trigger_code": "UNKNOWN - No grep match found",
+      "sound_type": "Space Ambient - Solar Radio Burst",
+      "waveform_composition": "Unknown - Real audio file",
+      "description": "Solar type 2 radio burst recording. Space/astronomy context.",
+      "frequency": "UNKNOWN - Appears unused",
+      "importance": "UNKNOWN - Candidate for space features",
+      "loop": "UNKNOWN",
+      "duration": "unknown",
+      "volume_control": "unknown",
+      "overlap": "unknown",
+      "energy_level": "unknown",
+      "style": "space/real-world audio",
+      "status": "FILE EXISTS BUT UNUSED - Orphaned asset",
+      "replacement_guidelines": {
+        "style": "solar radio burst sound",
+        "duration": "TBD",
+        "energy": "medium",
+        "intensity": "alert/active",
+        "notes": "Could be integrated into space tracker for solar event detection alerts"
+      }
+    },
+    {
+      "id": 18,
+      "sound_name": "solar-type3-burst",
+      "file_type": "MP3 Audio File",
+      "file_path": "/public/audio/jove/solar-type3-burst.mp3",
+      "duration_ms": "UNKNOWN (not queried)",
+      "used_in_files": [
+        "NOT MAPPED - File exists but no code references found"
+      ],
+      "trigger_event": "UNKNOWN - Likely unused or dynamically loaded",
+      "trigger_code": "UNKNOWN - No grep match found",
+      "sound_type": "Space Ambient - Solar Radio Burst",
+      "waveform_composition": "Unknown - Real audio file",
+      "description": "Solar type 3 radio burst recording. Space/astronomy context.",
+      "frequency": "UNKNOWN - Appears unused",
+      "importance": "UNKNOWN - Candidate for space features",
+      "loop": "UNKNOWN",
+      "duration": "unknown",
+      "volume_control": "unknown",
+      "overlap": "unknown",
+      "energy_level": "unknown",
+      "style": "space/real-world audio",
+      "status": "FILE EXISTS BUT UNUSED - Orphaned asset",
+      "replacement_guidelines": {
+        "style": "solar radio burst sound (different frequency)",
+        "duration": "TBD",
+        "energy": "medium",
+        "intensity": "alert/active",
+        "notes": "Could be integrated into space tracker for solar event detection alerts"
+      }
+    }
+  ],
+  "summary": {
+    "total_sounds_mapped": 18,
+    "procedural_sounds": 15,
+    "external_audio_files": 3,
+    "sounds_actively_used": 11,
+    "sounds_defined_but_unused": 4,
+    "sounds_files_orphaned": 3,
+    "coverage_percentage": "61%"
+  },
+  "usage_by_category": {
+    "UI_Interaction": [
+      "hover",
+      "click",
+      "select",
+      "tab"
+    ],
+    "Navigation_Transition": [
+      "glitch",
+      "transition",
+      "whoosh"
+    ],
+    "System_Events": [
+      "boot",
+      "success"
+    ],
+    "Space_Specific": [
+      "ping"
+    ],
+    "Background_Ambient": [
+      "ambient"
+    ],
+    "Gamification": [
+      "quizCorrect",
+      "quizWrong"
+    ],
+    "Data_Events": [
+      "dataStream"
+    ],
+    "Alerts_Warnings": [
+      "alert"
+    ],
+    "Orphaned_Assets": [
+      "jupiter-emissions",
+      "solar-type2-burst",
+      "solar-type3-burst"
+    ]
+  },
+  "frequency_distribution": {
+    "extremely_frequent": [
+      "click"
+    ],
+    "very_frequent": [
+      "hover"
+    ],
+    "frequent": [
+      "select",
+      "quizCorrect",
+      "quizWrong"
+    ],
+    "occasional": [
+      "tab",
+      "ping"
+    ],
+    "infrequent": [
+      "glitch",
+      "transition",
+      "whoosh",
+      "boot",
+      "dataStream",
+      "alert"
+    ],
+    "rare": [
+      "success"
+    ],
+    "continuous": [
+      "ambient"
+    ]
+  },
+  "ux_issues_and_gaps": {
+    "missing_opportunities": [
+      {
+        "feature": "Article hover transitions",
+        "current": "No sound on article card image hover",
+        "suggested_sound": "soft hover or transition sound"
+      },
+      {
+        "feature": "Like button feedback",
+        "current": "Only click sound, no confirm",
+        "suggested_sound": "quizCorrect or success after like completes"
+      },
+      {
+        "feature": "Data loading states",
+        "current": "No sound for data load/fetch",
+        "suggested_sound": "dataStream (currently unused)"
+      },
+      {
+        "feature": "Error/warning states",
+        "current": "No sound for errors",
+        "suggested_sound": "alert (currently unused)"
+      },
+      {
+        "feature": "Space tracker timescale changes",
+        "current": "No sound feedback on 0x/1x/10x/100x/1000x changes",
+        "suggested_sound": "select or dataStream"
+      },
+      {
+        "feature": "Celestial body detection",
+        "current": "Ping only on sun focus",
+        "suggested_sound": "Could ping on any body focus or detection"
+      }
+    ],
+    "redundancies": [
+      {
+        "issue": "Both 'click' and 'select' are similar",
+        "context": "click is overused for all buttons, select only used for specific modes",
+        "recommendation": "Differentiate usage more clearly or unify"
+      }
+    ],
+    "unused_assets": [
+      {
+        "sound": "transition",
+        "definition": "Complex 420ms multi-layer effect",
+        "recommendation": "Implement for major modal opens or state changes"
+      },
+      {
+        "sound": "dataStream",
+        "definition": "120ms digital packet burst",
+        "recommendation": "Use for telemetry updates or data loads in space tracker"
+      },
+      {
+        "sound": "alert",
+        "definition": "280ms military tonal warning",
+        "recommendation": "Implement for error states and validation failures"
+      },
+      {
+        "sound": "whoosh",
+        "definition": "350ms cinematic sweep",
+        "recommendation": "Use for major transitions (currently included in 'transition')"
+      },
+      {
+        "file": "jupiter-emissions.mp3",
+        "status": "Orphaned - file exists, not referenced",
+        "recommendation": "Remove if unused, or integrate into space features"
+      },
+      {
+        "file": "solar-type2-burst.mp3",
+        "status": "Orphaned - file exists, not referenced",
+        "recommendation": "Remove if unused, or integrate into space features"
+      },
+      {
+        "file": "solar-type3-burst.mp3",
+        "status": "Orphaned - file exists, not referenced",
+        "recommendation": "Remove if unused, or integrate into space features"
+      }
+    ]
+  },
+  "professional_audio_redesign_notes": {
+    "current_state": "Professional procedural Web Audio API system. Dark cinematic aesthetic. No external dependencies.",
+    "strengths": [
+      "Lightweight - no audio files needed for core sounds",
+      "Responsive - true Web Audio API with real-time synthesis",
+      "Themetically consistent - sci-fi/NASA control room aesthetic",
+      "Customizable - each sound can be tweaked in code",
+      "Accessibility - sounds can be toggled via localStorage"
+    ],
+    "improvement_opportunities": [
+      "Replace procedural sounds with high-quality AI-generated audio (maintain same timings + contexts)",
+      "Implement the 4 unused but defined sounds (transition, dataStream, alert, whoosh)",
+      "Integrate orphaned Jupiter/Solar audio files or remove them",
+      "Add sound feedback to currently silent interactions (article hovers, data loads, errors)",
+      "Create better differentiation between similar sounds (click vs select)",
+      "Implement volume ducking for ambient when other sounds play",
+      "Add sound preference profiles (minimal, normal, theatrical)",
+      "Consider spatial audio for space tracker context"
+    ],
+    "replacement_strategy": {
+      "approach": "1:1 replacement - maintain exact timings and triggers, replace waveforms with AI-generated audio",
+      "audio_generation": "Use text-to-speech or AI audio generation to create high-quality sci-fi sounds",
+      "testing": "Ensure trigger timing and overlap handling remains identical",
+      "rollback": "Simple - revert to sounds.ts if needed"
+    }
+  }
+}

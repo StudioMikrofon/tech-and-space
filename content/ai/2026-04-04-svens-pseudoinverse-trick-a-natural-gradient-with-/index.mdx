@@ -34,6 +34,7 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
+title_en: "Sven’s pseudoinverse trick: A natural gradient with less hype"
 ---
 
 Optimization algorithms in deep learning rarely escape the gravity of backpropagation—until someone claims to have built a better mousetrap. Enter **Sven**, a method that swaps scalar loss reduction for a [Moore-Penrose pseudoinverse](https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse) of the loss Jacobian, treating each data point’s residual as a separate equation to solve *simultaneously*. The math is tidy: by approximating the pseudoinverse via truncated SVD (keeping only the top-*k* singular vectors), the authors argue they retain the benefits of natural gradients without the computational meltdown.
@@ -53,5 +54,3 @@ The **hype filter** triggers on two claims: first, that Sven is ‘computational
 
 
 The **reality gap** yawns wide: synthetic benchmarks (e.g., quadratic losses) ≠ ImageNet. The paper’s experiments max out at MNIST and small CNNs. Until someone runs this on a 1B-parameter model, ‘efficient’ is a placeholder for ‘unproven.’
-
-The real signal here isn’t Sven itself, but the hunger for alternatives to backprop’s brute-force averaging. If truncated SVD sticks, expect it as a PyTorch optimizer by 2025—with a warning label for *k* selection.

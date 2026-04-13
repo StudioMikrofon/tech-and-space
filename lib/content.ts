@@ -54,6 +54,18 @@ function parseMdxFile(filePath: string): Article | null {
   try {
     const raw = fs.readFileSync(filePath, "utf-8");
     const { data, content } = matter(raw);
+    const parseList = (value: unknown): string[] | undefined => {
+      if (Array.isArray(value)) return value.map(String).filter(Boolean);
+      if (typeof value === "string" && value.trim()) {
+        try {
+          const parsed = JSON.parse(value);
+          if (Array.isArray(parsed)) return parsed.map(String).filter(Boolean);
+        } catch {
+          return value.split("\n").map((line) => line.replace(/^-\s*/, "").trim()).filter(Boolean);
+        }
+      }
+      return undefined;
+    };
 
     // DEBUG: Log articles from 2026-04-08 that fail to parse
     if (filePath.includes("2026-04-08") && !data.approved) {
@@ -75,10 +87,10 @@ function parseMdxFile(filePath: string): Article | null {
       excerpt: data.excerpt,
       excerptEn: data.excerpt_en,
       execSummary: data.exec_summary,
-      summaryBlock: data.summary_block, // PREMIUM SPEC: 3-4 sentence summary (HR)
-      summaryBlockEn: data.summary_block_en, // PREMIUM SPEC: 3-4 sentence summary (EN)
-      keyPoints: Array.isArray(data.key_points) ? data.key_points : undefined,
-      keyPointsEn: Array.isArray(data.key_points_en) ? data.key_points_en : undefined,
+      summaryBlock: data.summary_block || data.summary_block_hr, // PREMIUM SPEC: 3-4 sentence summary (HR)
+      summaryBlockEn: data.summary_block_en || data.summary_block_hr, // PREMIUM SPEC: 3-4 sentence summary (EN)
+      keyPoints: parseList(data.key_points) || parseList(data.key_points_hr),
+      keyPointsEn: parseList(data.key_points_en) || parseList(data.key_points_hr),
       source: data.source,
       image: data.image,
       subtitle: data.subtitle,

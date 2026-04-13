@@ -1,0 +1,53 @@
+---
+id: "2026-04-10-byte-level-distillation-cuts-through-llm-tokenizer"
+db_id: 2206
+title: "Bajtovi umjesto rječnika: jednostavna distilacija koja radi"
+lang: "hr"
+category: "ai"
+date: "2026-04-10T04:30:12Z"
+excerpt: "Istraživači s [arXiv-a](https://arxiv."
+exec_summary: "Byte-Level Distillation (BLD) simplifies cross-tokenizer knowledge transfer by using raw bytes as a common interface, achieving competitive results without the complexity of heuristic alignment. The method’s real-world scalability—especially with non-Latin scripts or proprietary tokenizers—remains the critical untested variable."
+key_points:
+  - "BLD preskače složene heuristike za poravnavanje tokenizera"
+  - "Byte-level dekoder kao zajednički jezik između modela"
+  - "Konkurentski rezultati bez dodatne kompleksnosti"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.07466"
+image:
+  url: "/images/articles/byte-level-distillation-cuts-through-llm-tokenizer/main.jpg"
+  alt: "Bajtovi umjesto rječnika: jednostavna distilacija koja radi"
+subtitle: "Demo nasuprot deploymenta: zašto bajtovi mogu biti bolji od pametnih algoritama"
+subtitleImage:
+  url: "/images/articles/byte-level-distillation-cuts-through-llm-tokenizer/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: zašto bajtovi mogu biti bolji od pametnih algoritama"
+tags: ["Byte-Level Distillation", "Model Deployment", "Efficient Inference"]
+lead_sentence: "Novi pristup [Byte-Level Distillation](https://arxiv.org/abs/2604.07466v1) postavlja bajtove kao univerzalni 'jezik' između modela s nekompatibilnim tokenizerima, bez potrebe za kompleksnim heuristikama."
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači s [arXiv-a](https://arxiv.org/abs/2604.07466v1) predlažu rješenje za jedan od najdosadnijih problema u treniranju jezgra: kako prenijeti znanje između modela koji koriste potpuno različite tokenizere. Umjesto da se muče s kompleksnim heuristikama za poravnavanje rječnika — što je do sada bila standardna praksa — tim predlaže **Byte-Level Distillation (BLD)**, metodu koja jednostavno pretvara izlaz učiteljske distribucije u **vjerojatnosti na razini bajtova**.
+
+To nije samo teorijska igrica. BLD radi tako što na student-model dodaje **lagani bajt-level dekoder**, koji omogućuje distilaciju kroz zajednički bajt-interfejs.
+
+Ključna prednost? **Nema potrebe za ručnim poravnavanjem tokenizera** — bajtovi su univerzalni, i metoda radi čak i kada modeli koriste potpuno različite podjele teksta. Prema dostupnim podacima, BLD ostvaruje **konkurentske rezultate** s modelima od 1B do 8B parametara, bez dodatne kompleksnosti u implementaciji.
+
+To je rijetka situacija u kojoj 'jednostavnije' zapravo *radi* — barem u kontroliranim uvjetima benchmarka. Ali, kao i uvijek, **demo nije produkt**.
+
+Pitanje je koliko će ova metoda skalirati u stvarnim uvjetima, gdje tokenizeri nisu samo 'različiti', već često i **namjerno nekompatibilni** (npr. kod zatvorenih modela).
+
+<ArticleBreak />
+
+Glavna prednost BLD-a je u tome što **eliminira potrebu za 'pametnim' algoritmima** koji pokušavaju pogoditi kako bi dva tokenizera trebala 'razumjeti' isti tekst. Umjesto toga, radi se s sirovim bajtovima — što je, ironično, **povratak korijenima računarstva**, ali u kontekstu najnaprednijih jezika.
+
+Zanimljivo je da metoda ne zahtijeva promjene u postojećoj arhitekturi modela, osim dodavanja laganog dekodera. To je bitno za industriju, jer **smanjuje troškove adaptacije** — posebno za manja istraživačka timova ili startupe koji nemaju resurse za razvoj vlastitih tokenizera.
+
+Međutim, postoji i **realnost gap**: benchmarkovi često koriste 'čiste' usporedbe, dok u praksi modeli rade s **prljavim podacima**, nestandardnim kodiranjima i tokenizerima koji nisu dizajnirani za međusobnu kompatibilnost. Ako BLD uspije i tu, možda smo pronašli **prvi univerzalni adapter** za distilaciju znanja.
+
+Pravi test će biti kada netko pokuša implementirati BLD na, recimo, **mješavini latiničnih i ne-latiničnih jezika**, gdje bajtovi mogu biti manje 'univerzalni' nego što se čini. To će pokazati koliko je ova metoda otporna na različite uvjete. Također, bit će zanimljivo vidjeti kako će se BLD nositi s kompleksnijim tekstovima i kako će se njegove performanse mijenjati u različitim scenarijima.

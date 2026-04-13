@@ -34,6 +34,7 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
+title_en: "The 140K-parameter trick to unify curve subdivision"
 ---
 
 A 140,000-parameter network now does the work of three separate subdivision schemes, and the research community is paying attention. The [arXiv paper](https://arxiv.org/abs/2603.28937) from this month replaces the clunky global tension parameter in classical interpolatory subdivision with per-edge insertion angles, predicted dynamically by a neural operator. No architectural tweaks needed—just feed it local intrinsic features and a trainable geometry embedding, and it spits out curves for Euclidean, spherical, or hyperbolic spaces alike.
@@ -53,5 +54,3 @@ The paper’s most interesting claim—that the network’s geometry embedding l
 
 
 For now, this is a researcher’s tool, not a production-ready feature. The gap between ‘works on paper’ and ‘works on Tuesday’ remains wide, especially in geometry processing where numerical stability is non-negotiable. Still, the fact that a 140K-parameter network can outperform hand-tuned schemes in three distinct geometries is worth watching. Just don’t mistake it for a revolution—yet.
-
-In other words, we’ve seen ‘unified frameworks’ before. They usually end up being unified in name only, with a tangle of conditionals under the hood. This one might be different. Or it might just be the latest entry in the long tradition of ‘look, our neural net can do *this* too!’

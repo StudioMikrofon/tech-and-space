@@ -1,0 +1,52 @@
+---
+id: "2026-04-11-transformers-are-the-new-coal-plants-of-ai"
+db_id: 2279
+title: "Transformers are the new coal plants of AI"
+category: "ai"
+date: "2026-04-11T02:15:22Z"
+excerpt: "The [GPT-4-class models](https://openai."
+exec_summary: "The AI industry’s $500B energy bill by 2030 is forcing a reckoning: transformers are unsustainable, and alternatives (diffusion models, MoE) are being hyped as solutions. But the real story isn’t technical—it’s about who controls the transition, and whether these ‘solutions’ will ever leave the lab."
+key_points:
+  - "Transformer models now rival small cities in energy use"
+  - "Diffusion and state-space models offer 30-50% efficiency gains—on paper"
+  - "Regulators are circling AI’s carbon footprint"
+source:
+  name: "techradar.com"
+  url: "https://www.techradar.com/pro/the-post-transformer-era-has-an-answer-to-ais-energy-crisis"
+image:
+  url: "/images/articles/transformers-are-the-new-coal-plants-of-ai/main.jpg"
+  alt: "Transformers are the new coal plants of AI"
+subtitle: "Demo nasuprot deploymenta: tko zapravo može profitirati od post-transformerske ere"
+subtitle_en: "The industry’s favorite architecture is becoming a liability"
+subtitleImage:
+  url: "/images/articles/transformers-are-the-new-coal-plants-of-ai/subtitle.jpg"
+  alt: "The industry’s favorite architecture is becoming a liability"
+tags: ["Post-Transformer Era", "Deployment", "Multimodal AI"]
+lead_sentence: "Meta’s latest 175B-parameter LLaMA 3 model required a training run that consumed 1.2GWh—enough to power a Tesla Gigafactory for a day."
+geo:
+  name: "San Francisco, CA"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+title_en: "Transformers are the new coal plants of AI"
+---
+
+The [GPT-4-class models](https://openai.com/research/gpt-4) now devour enough electricity to power 12,000 US households *per training run*—and that’s before accounting for inference demands. According to [Hugging Face’s carbon footprint tracker](https://huggingface.co/spaces/huggingface/carbon-footprint), a single transformer-based LLM can emit as much CO₂ as 300 round-trip flights between New York and San Francisco. The math isn’t just ugly; it’s becoming a [regulatory tripwire](https://artificialintelligenceact.eu/the-act/), with the EU AI Act poised to mandate energy-efficiency disclosures by 2025.
+
+
+The proposed escape hatch? Architectures that don’t rely on transformers’ notorious [self-attention mechanisms](https://arxiv.org/abs/1706.03762), which scale quadratically with input size. Early signals suggest [diffusion models](https://stability.ai/news/stable-diffusion-3) (like those in Stable Diffusion 3) and [state-space models](https://arxiv.org/abs/2111.00396) (e.g., [Mamba](https://github.com/state-spaces/mamba)) could cut energy use by 30-50% for generative tasks—*if* you ignore their own training costs, which remain stubbornly high.
+
+
+Hype filter: This isn’t the first time AI has promised an efficiency miracle. Remember [Google’s 2020 claims](https://ai.googleblog.com/2020/10/reformer-efficient-transformer.html) about ‘sparse attention’ halving compute needs? The [Reformer](https://arxiv.org/abs/2001.04451) architecture quietly vanished from production systems when real-world latency proved less forgiving than benchmarks.
+
+<ArticleBreak />
+
+The developer community’s reaction ranges from cautious optimism to outright skepticism. On [r/LocalLLaMA](https://www.reddit.com/r/LocalLLaMA/), engineers note that while [Mixture of Experts (MoE)](https://arxiv.org/abs/2101.03961) models like Mistral’s mixtral-8x7B *do* distribute compute more efficiently, they introduce new complexities: routing overhead, expert load balancing, and the fact that ‘sparse’ still requires [100B+ parameters](https://mistral.ai/news/mixtral-8x7b/) to compete with dense models.
+
+
+Industry map: The biggest losers here are cloud providers. AWS, Google Cloud, and Azure have built empires on selling GPU hours for transformer training; a shift to lighter architectures threatens their margins. Meanwhile, startups like [Mistral](https://mistral.ai/) and [Adept](https://www.adept.ai/)—which are betting on MoE and action-focused models—stand to gain if the energy crunch accelerates. The wild card? [TPU/NPU specialists](https://cloud.google.com/tpu) like Groq and Tenstorrent, which could turn hardware optimization into the real moat.
+
+
+The real bottleneck may not be the models themselves, but the lack of standardized efficiency metrics. Today’s ‘green AI’ claims rely on cherry-picked benchmarks—[MLPerf’s inference tests](https://mlcommons.org/en/inference-datacenter-30/) ignore energy costs, while [Carbon Footprint for AI](https://github.com/mlco2/carbon-footprint) remains a niche tool. Without apples-to-apples comparisons, ‘post-transformer’ risks becoming just another way to say ‘we haven’t measured the tradeoffs yet.’

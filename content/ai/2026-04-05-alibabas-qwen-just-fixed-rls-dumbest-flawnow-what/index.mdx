@@ -5,7 +5,7 @@ title: "Alibaba’s Qwen just fixed RL’s dumbest flaw—now what?"
 category: "ai"
 date: "2026-04-05T08:17:01Z"
 excerpt: "Alibaba’s Qwen team didn’t invent a new AI religion."
-exec_summary: "Alibaba’s Qwen team introduced FIPO, an RL algorithm that dynamically weights tokens by their downstream impact, doubling reasoning chain length in math tasks without external value models. The real story isn’t the benchmark win but whether this open-source-friendly approach can generalize beyond controlled settings—and who stands to gain from its adoption.  The competitive angle? Alibaba is betting on developer uptake to shift the balance in the open-source AI infrastructure race, where transparency and cost efficiency matter more than headline-grabbing demos."
+exec_summary: "Alibaba’s Qwen team introduced FIPO, an RL algorithm that dynamically weights tokens by their downstream impact, doubling reasoning chain length in math tasks without external value models. The real story isn’t the benchmark win but whether this open-source-friendly approach can generalize beyond controlled settings—and who stands to gain from its adoption.\n\nThe competitive angle? Alibaba is betting on developer uptake to shift the balance in the open-source AI infrastructure race, where transparency and cost efficiency matter more than headline-grabbing demos."
 key_points:
   - "Reinforcement learning’s equal-reward bug finally patched"
   - "Doubled reasoning depth—but only in synthetic benchmarks"
@@ -34,6 +34,7 @@ geo:
   countryCode: "CN"
 featured: false
 approved: true
+title_en: "Alibaba’s Qwen just fixed RL’s dumbest flaw—now what?"
 ---
 
 Alibaba’s Qwen team didn’t invent a new AI religion. They just fixed a glaringly stupid oversight in reinforcement learning: treating every token’s contribution to reasoning as equally valuable. The team’s [new algorithm](https://the-decoder.com/alibabas-qwen-team-makes-ai-models-think-deeper-with-new-algorithm/) weights rewards by how much each step shapes the final output—a tweak so obvious in hindsight that its absence speaks volumes about RL’s growing pains.
@@ -59,5 +60,3 @@ The open-source community’s reaction is telling. No breathless forks yet, just
 
 
 In the grand scheme, this is RL catching up to what symbolic AI figured out decades ago—**not all steps are equal**. The novelty isn’t the insight; it’s that someone finally coded it into a neural net.
-
-The real signal here is for RL-heavy shops like Wayve or Covariant. If Qwen’s weighting scheme holds, it’s a free lunch for robotic planning and automated theorem-proving. Everyone else? Wait for the replication studies.

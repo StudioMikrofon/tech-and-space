@@ -30,6 +30,7 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
+title_en: "Nvidia’s NTC demo: 85% VRAM cut or just clever repackaging?"
 ---
 
 Nvidia’s [Neural Texture Compression (NTC)](https://www.nvidia.com/en-us/gtc/) demo at GTC didn’t just promise incremental gains—it claimed an **85% VRAM reduction** while maintaining visual parity. The numbers are undeniably flashy: a scene that once demanded **6.5GB of memory** now runs on **970MB**, all thanks to a neural network handling decompression instead of traditional block-based methods.
@@ -55,5 +56,3 @@ The developer signal is cautious optimism. GitHub threads and [Polycount forums]
 
 
 For all the noise, the actual story is simpler: Nvidia just moved the bottleneck. VRAM constraints might ease, but if NTC shifts the load to compute, we’re trading one limitation for another. The real question isn’t whether the demo is impressive—it’s whether the tradeoffs are worth it in production.
-
-In other words, Nvidia didn’t solve compression—it just gave us a new way to argue about where the performance tax should live. The hype cycle demands we call this a breakthrough; the fine print suggests it’s a very clever workaround.

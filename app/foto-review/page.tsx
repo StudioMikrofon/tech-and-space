@@ -1678,11 +1678,11 @@ export default function FotoReviewPage() {
           </div>
         )}
 
-      {/* Main layout: articles full width, queue below */}
-      <div className="flex flex-col flex-1 overflow-hidden">
-        {/* Articles list - full width */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="max-w-screen-2xl mx-auto px-4 py-5 space-y-4">
+      {/* Main layout: articles left, fixed queue right */}
+      <div className="flex flex-1 gap-6 relative overflow-hidden">
+        {/* Articles list - scrollable */}
+        <div className="flex-1 overflow-y-auto pr-0">
+          <div className={`max-w-screen-2xl mx-auto px-4 py-5 space-y-4 ${queueOpen ? "mr-72" : ""}`}>
         {filtered.length === 0 && <div className="text-center text-white/20 py-24 text-sm">Nema članaka</div>}
 
         {filtered.map((article) => {
@@ -2248,6 +2248,80 @@ export default function FotoReviewPage() {
           </div>
         </div>
 
+        {/* Fixed Queue Panel - right sidebar */}
+        {queueOpen && (
+          <div className="fixed right-6 top-32 bottom-6 w-72 bg-[#0a0a18]/95 backdrop-blur-sm rounded-lg border border-indigo-500/20 flex flex-col overflow-hidden shadow-2xl z-30">
+            {/* Queue header */}
+            <div className="px-4 py-3 border-b border-indigo-500/20 flex items-center justify-between gap-2 shrink-0">
+              <div className="text-[10px] text-indigo-400/70 tracking-widest font-bold">
+                📋 REDOSLED
+              </div>
+              <button onClick={() => setQueueOpen(false)}
+                className="text-[10px] text-white/40 hover:text-white/70 transition-colors"
+                title="Zatvori"
+              >✕</button>
+            </div>
+
+            {/* Queue stats */}
+            <div className="px-4 py-2 border-b border-indigo-500/10 text-[9px] text-white/50 shrink-0">
+              <div>{queueTasks.filter(t => t.status === 'pending').length} čeka</div>
+              <div>{queueTasks.filter(t => t.status === 'running').length} radi</div>
+            </div>
+
+            {/* Queue tasks list - scrollable */}
+            <div className="flex-1 overflow-y-auto space-y-2 p-4">
+              {queueTasks.length === 0 ? (
+                <div className="text-center text-white/30 text-[9px] py-8">Nema zadataka u redu</div>
+              ) : (
+                queueTasks.map((t, idx) => (
+                  <div
+                    key={t.id}
+                    className={`flex flex-col gap-1 px-2 py-2 rounded border text-[9px] font-mono ${
+                      t.status === "running"
+                        ? "border-indigo-500/50 bg-indigo-900/30 text-indigo-300"
+                        : t.status === "pending"
+                        ? "border-yellow-500/30 bg-yellow-900/20 text-yellow-300"
+                        : t.status === "done"
+                        ? "border-green-500/30 bg-green-900/20 text-green-400/60 line-through opacity-50"
+                        : "border-red-500/30 bg-red-900/20 text-red-400/60"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-white/50">#{idx + 1}.</span>
+                      <span className={`w-1.5 h-1.5 rounded-full ${
+                        t.status === "running" ? "bg-indigo-400 animate-pulse" :
+                        t.status === "pending" ? "bg-yellow-400" :
+                        t.status === "done" ? "bg-green-400" :
+                        "bg-red-400"
+                      }`}></span>
+                      <span className="text-white/70">#{t.article_id}</span>
+                    </div>
+                    <div className="text-[8px] text-white/40">{t.task_type}{t.model ? ` [${t.model}]` : ""}</div>
+                    {["pending", "running"].includes(t.status) && (
+                      <button
+                        onClick={() => handleTaskCancel(t.id, t.article_id)}
+                        disabled={canceling[t.id]}
+                        className="text-[8px] text-red-400/50 hover:text-red-300 disabled:opacity-30 text-left mt-1"
+                        title="Otkaži"
+                      >
+                        ✕ Otkaži
+                      </button>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+
+            {/* Queue actions */}
+            {queueTasks.length > 0 && (
+              <div className="px-4 py-2 border-t border-indigo-500/10 shrink-0">
+                <button onClick={handleQueueClear}
+                  className="w-full text-[8px] px-2 py-1 rounded border border-red-500/20 text-red-400/70 hover:text-red-300 hover:border-red-500/40 transition-colors"
+                >Očisti sve</button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Image Generation Activity - šta se generiše SADA */}
@@ -2290,60 +2364,6 @@ export default function FotoReviewPage() {
         </div>
       )}
 
-      {/* Task Queue List - at bottom as redosled */}
-      {queueTasks.length > 0 && (
-        <div className="border-t border-indigo-500/20 bg-[#0a0a18] px-4 py-3">
-          <div className="max-w-screen-2xl mx-auto">
-            <div className="flex items-center justify-between gap-3 mb-2">
-              <div className="text-[10px] text-indigo-400/70 tracking-widest font-bold">
-                📋 REDOSLED ZADATAKA: {queueTasks.filter(t => t.status === 'pending').length} čeka | {queueTasks.filter(t => t.status === 'running').length} radi
-              </div>
-              <button onClick={handleQueueClear} className="text-[8px] px-2 py-1 rounded border border-white/10 text-white/30 hover:text-white/50 transition-colors">Očisti</button>
-            </div>
-
-            {/* Task queue as horizontal list */}
-            <div className="flex gap-2 overflow-x-auto pb-2 flex-wrap">
-              {queueTasks.map((t, idx) => (
-                <div
-                  key={t.id}
-                  className={`flex-shrink-0 px-3 py-2 rounded border text-[9px] font-mono ${
-                    t.status === "running"
-                      ? "border-indigo-500/50 bg-indigo-900/40 text-indigo-300 animate-pulse"
-                      : t.status === "pending"
-                      ? "border-yellow-500/30 bg-yellow-900/20 text-yellow-300"
-                      : t.status === "done"
-                      ? "border-green-500/30 bg-green-900/20 text-green-400/70 line-through opacity-60"
-                      : "border-red-500/30 bg-red-900/20 text-red-400/70"
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold text-white/70">#{idx + 1}.</span>
-                    <span className={`w-2 h-2 rounded-full ${
-                      t.status === "running" ? "bg-indigo-400 animate-pulse" :
-                      t.status === "pending" ? "bg-yellow-400" :
-                      t.status === "done" ? "bg-green-400" :
-                      "bg-red-400"
-                    }`}></span>
-                    <span>#{t.article_id}</span>
-                    <span className="opacity-60 text-white/60">{t.task_type}</span>
-                    {t.model && <span className="text-white/40">[{t.model}]</span>}
-                    {["pending", "running"].includes(t.status) && (
-                      <button
-                        onClick={() => handleTaskCancel(t.id, t.article_id)}
-                        disabled={canceling[t.id]}
-                        className="ml-1 text-red-400/50 hover:text-red-300 disabled:opacity-30"
-                        title="Otkaži"
-                      >
-                        ✕
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {previewImage && (
         <div

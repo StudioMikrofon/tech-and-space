@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="850px" height="750px" viewBox="0 0 850 750"	id="svg2"
+xml:space="preserve" style="writing-mode: lr-tb;font-family: Arial, sans-serif;font-stretch: normal;font-variant: normal; font-weight: normal; fill-opacity: 1;">
+	<defs>
+		<marker orient="auto" style="overflow:visible" id="ArrowRed" refX="-5.9" refY="0" markerUnits="userSpaceOnUse">
+			<path style="fill:#ff0000; stroke:none;" d="M 0,0 L -6,-2.5 L -6,2.5 z" />
+		</marker>
+		<marker orient="auto" style="overflow:visible" id="ArrowGreen" refX="-5.9" refY="0" markerUnits="userSpaceOnUse">
+			<path style="fill:#00CC00; stroke:none;" d="M 0,0 L -6,-2.5 L -6,2.5 z" />
+		</marker>
+	</defs>
+	<rect x="0" y="0" width="850" height="750" style="fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+	<g transform="matrix(1.3,0,0,-1.3,-80,1040)">
+		<path id="body" style="fill:#ffff00;fill-rule:nonzero;stroke:none;" transform="translate(20,276)" d="M 0,0 C -2.417,-7.25 14.27,-24.55 12.47,-44.73 H -58.53 C -58.99,-43.13 -59.42,-40.09 -59.82,-38.75 -64.71,-22.02 -66.49,29.06 -67.38,57.24 -68.27,85.42 -52.87,114.2 -51.65,125.1 -48.14,156.4 -56.7,233.4 -56.7,233.4 -56.7,233.4 -65.15,195.5 -62.93,169.1 -60.7,142.7 -70.05,104.5 -76.58,86.45 -83.11,68.4 -81.92,55.92 -75.39,44.47 -68.86,33.02 -73.91,24.8 -70.64,13.65 -67.38,2.494 -69.13,0.725 -71.51,0.447 -75.5,-0.017 -78.51,8.804 -79.4,12.62 -80.29,16.44 -84.44,16.29 -84.44,16.29 -84.44,-4.259 -74.48,-12.34 -70.03,-17.18 -65.58,-22.02 -69.17,-29.22 -69.17,-29.22 -69.17,-29.22 -90.26,-14.16 -99.63,-0.248 -102.9,13.89 -100.2,67.37 -100.2,83.22 -100.2,104.9 -107.6,135.2 -100.2,162.5 -93.81,185.9 -95.77,194.2 -96.09,218 -96.28,231.5 -97.65,267.3 -95.42,295 -93.2,322.8 -70.94,331.1 -61.59,332.9 -52.25,334.6 -16.89,354.2 -15.21,355.9 -14.6,357 -3.935,377.2 -11.97,389 -20.24,401.1 -45.04,430.3 -17.78,460.2 5.659,485.9 41.22,469.1 47.99,463.5 53.99,458.6 61.68,447 62.31,436 62.56,431.6 61.46,428.7 67.8,421.7 74.15,414.7 76.76,411.9 74.4,409 72.03,406.1 67.71,404.9 69.83,401.5 L 68.95,398.6 C 68.95,398.6 71.35,395.8 68.28,392.7 65.22,389.7 68.57,385.7 69.28,384.2 70,382.8 70.57,377.3 61.58,375.1 52.59,372.9 47.77,372.3 47.77,372.3 47.77,372.3 47.68,370.7 47.71,368.1 H 47.77 C 47.77,368.1 48.22,360 56.6,353.6 66.31,347.9 91.77,334.3 99.44,332.9 108.8,331.1 131,322.8 133.3,295 135.5,267.3 134.1,231.5 133.9,218 133.6,194.2 131.7,185.9 138,162.5 145.4,135.2 138,104.9 138,83.22 138,67.37 140.8,13.89 137.5,-0.248 128.1,-14.16 107,-29.22 107,-29.22 107,-29.22 103.4,-22.02 107.9,-17.18 112.3,-12.34 122.3,-4.259 122.3,16.29 122.3,16.29 118.1,16.44 117.2,12.62 116.4,8.804 113.3,-0.017 109.4,0.447 107,0.725 105.2,2.494 108.5,13.65 111.8,24.8 106.7,33.02 113.2,44.47 119.8,55.92 121,68.4 114.4,86.45 107.9,104.5 98.55,142.7 100.8,169.1 103,195.5 94.55,233.4 94.55,233.4 94.55,233.4 85.98,156.4 89.5,125.1 90.72,114.2 106.1,85.42 105.2,57.24 104.3,29.06 102.6,-22.02 97.66,-38.75 97.27,-40.09 96.84,-43.13 96.38,-44.73 H 25.38 C 23.58,-24.55 -18.84,-41.97 -21.26,-34.72" />
+		<g transform="translate(170,0)">
+			<polygon points="0,400 170,400 170,390 540,390 540,405 0,405" style="fill:#CCCCCC;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+			<polygon points="0,740 170,740 170,730 540,730 540,745 0,745" style="fill:#CCCCCC;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+			<line x1="0" y1="650" x2="540" y2="650" style="fill:none;stroke:#CCCCCC;stroke-width:3;" />
+			<line x1="0" y1="568" x2="540" y2="568" style="fill:none;stroke:#CCCCCC;stroke-width:3;" />
+			<line x1="0" y1="486" x2="540" y2="486" style="fill:none;stroke:#CCCCCC;stroke-width:3;" />
+		</g>
+		<g style="fill:#000000;fill-rule: nonzero;stroke:none;">
+			<text transform="matrix(0,1,1,0,710,230)"  style="font-size:10px;">© PLASTIC ATLAS 2019 / CIEL</text>
+			<text transform="matrix(1,0,0,-1,170,780)" style="font-size:11px;">NO WAY TO AVOID IT</text>
+			<text transform="matrix(1,0,0,-1,170,768)" style="font-size:11px;">We are exposed to toxic chemicals and microplastics at all stages in the plastics life cycle.</text>
+			<text transform="matrix(1,0,0,-1,170,756)" style="font-size:11px;">The pollutants can get into our bodies in many ways.</text>
+			<text transform="matrix(1,0,0,-1,345,733)" style="font-size:12px;font-weight:bold;">Direct contact</text>
+			<text transform="matrix(1,0,0,-1,345,393)" style="font-size:12px;font-weight:bold;">Environmental exposure</text>
+		</g>
+		<g id="legende" transform="translate(400,240)" style="stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;">
+			<g>
+				<text transform="matrix(1,0,0,-1,40,43)" style="stroke:none;font-size:10px;text-anchor: middle;">Microplastics</text>
+				<text transform="matrix(1,0,0,-1,120,43)" style="stroke:none;font-size:10px;text-anchor: middle;">Chemicals</text>
+				<text transform="matrix(1,0,0,-1,0,30)"   style="stroke:none;text-anchor: end;font-size:10px;"><!--
+				--><tspan x="0" y="0">Inhalation</tspan><!--
+				--><tspan x="0" y="12">Ingestion</tspan><!--
+				--><tspan x="0" y="24">Skin contact</tspan></text>
+			</g>
+			<g transform="translate(10,32)" style="fill:#FF0000;stroke:#FF0000; stroke-dasharray:2 1;stroke-dashoffset:0">
+				<path d="M 0,0 6,2.5 V -2.5 z" style="stroke:none;" />
+				<path d="M 5,0 H 60"           style="fill:none;" />
+			</g>
+			<g transform="translate(10,20)" style="fill:#FF0000;stroke:#FF0000; stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0 3;stroke-dashoffset:0" >
+				<path d="M 0,0 6,2.5 V -2.5 z" style="stroke:none;" />
+				<path d="M 5,0 H 60"           style="fill:none;" />
+			</g>
+			<g transform="translate(10,8)" style="fill:#FF0000;stroke:#FF0000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:4, 2;stroke-dashoffset:0">
+				<path d="M 0,0 6,2.5 V -2.5 z" style="stroke:none;" />
+				<path d="M 5,0 H 60"           style="fill:none;" />
+			</g>
+
+			<g transform="translate(90,32)" style="fill:#00CC00;stroke:#00CC00;stroke-dasharray:2 1;stroke-dashoffset:0">
+				<path d="M 0,0 6,2.5 V -2.5 z" style="stroke:none;" />
+				<path d="M 5,0 H 60"           style="fill:none;" />
+			</g>
+			<g transform="translate(90,20)" style="fill:#00CC00;stroke:#00CC00; stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0 3;stroke-dashoffset:0" >
+				<path d="M 0,0 6,2.5 V -2.5 z" style="stroke:none;" />
+				<path d="M 5,0 H 60"           style="fill:none;" />
+			</g>
+			<g transform="translate(90,8)" style="fill:#00CC00;stroke:#00CC00;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:4, 2;stroke-dashoffset:0">
+				<path d="M 0,0 6,2.5 V -2.5 z" style="stroke:none;" />
+				<path d="M 5,0 H 60"           style="fill:none;" />
+			</g>
+		</g>
+		<g style="font-size:10px;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Arial, sans-serif;">
+			<g transform="translate(345,380)" id="maintext">
+				<text transform="matrix(1,0,0,-1,0,338)"><!--
+				--><tspan x="0" y="0" ><tspan style="font-weight:bold;">Emissions:</tspan> include benzene, volatile organic compounds</tspan><!--
+				--><tspan x="0" y="12">and 170+ toxic chemicals in fracking fuid</tspan><!--
+				--><tspan x="0" y="30"><tspan style="font-weight:bold;">Possible health efects:</tspan> afect the immune system, sensory</tspan><!--
+				--><tspan x="0" y="42">organs, liver and kidney; cancers, neurotoxicity, reproductive </tspan><!--
+				--><tspan x="0" y="54">and developmental toxicity</tspan><!--
+				--></text>
+				<text transform="matrix(1,0,0,-1,0,256)"><!--
+				--><tspan x="0" y="0" ><tspan style="font-weight:bold;">Emissions:</tspan> include benzene, polycyclic aromatic hydrocarbons</tspan><!--
+				--><tspan x="0" y="12">and styrene</tspan><!--
+				--><tspan x="0" y="30"><tspan style="font-weight:bold;">Possible health efects:</tspan> cancers, neurotoxicity, reproductive</tspan><!--
+				--><tspan x="0" y="44">toxicity, low birthweight, eye and skin irritation</tspan><!--
+				--><tspan x="0" y="54"></tspan><!--
+				--></text>
+				<text transform="matrix(1,0,0,-1,0,174)"><!--
+				--><tspan x="0" y="0" ><tspan style="font-weight:bold;">Emissions:</tspan>  include heavy metals, persistent organic pollutants, </tspan><!--
+				--><tspan x="0" y="12">carcinogens, endocrine-disrupting chemicals, microplastics</tspan><!--
+				--><tspan x="0" y="30"><tspan style="font-weight:bold;">Possible health efects:</tspan> afect renal, cardiovascular, gastro-</tspan><!--
+				--><tspan x="0" y="42">intestinal, neurological, reproductive, and respiratory systems; </tspan><!--
+				--><tspan x="0" y="54">cancers, diabetes, and developmental toxicity</tspan><!--
+				--></text>
+				<text transform="matrix(1,0,0,-1,0,92)"><!--
+				--><tspan x="0" y="0" ><tspan style="font-weight:bold;">Emissions:</tspan> include heavy metals, dioxins and furans, polycyclic </tspan><!--
+				--><tspan x="0" y="12">aromatic hydrocarbons, toxic recycling</tspan><!--
+				--><tspan x="0" y="30"><tspan style="font-weight:bold;">Possible health efects:</tspan> cancers, neurological damages, </tspan><!--
+				--><tspan x="0" y="42">damages to immune, reproductive, nervous, and endocrine </tspan><!--
+				--><tspan x="0" y="54">systems</tspan><!--
+				--></text>
+				<text transform="matrix(1,0,0,-1,0,0)"><!--
+				--><tspan x="0" y="0" ><tspan style="font-weight:bold;">Emissions: </tspan>microplastics (e.g., tire dust, textile fibers) and toxic </tspan><!--
+				--><tspan x="0" y="12">additives, including persistent organic pollutants, endocrine-</tspan><!--
+				--><tspan x="0" y="24">disrupting chemicals, carcinogens, heavy metals</tspan><!--
+				--><tspan x="0" y="40"><tspan style="font-weight:bold;">Possible health efects:</tspan> afect cardiovascular, renal, gastro-</tspan><!--
+				--><tspan x="0" y="52">intestinal, neurological, reproductive, and respiratory systems; </tspan><!--
+				--><tspan x="0" y="64">cancers, diabetes, neuro-, reproductive, and developmental </tspan><!--
+				--><tspan x="0" y="76">toxicity</tspan><!--
+				--></text>
+			</g>
+			<g style="font-size:8px;text-anchor: middle;">
+				<g id="Circled_button_1" transform="translate(250,700)">
+					<circle cx="0" cy="0" r="29" style="fill:#0000FF; stroke:none;" />
+					<path d="M 9.6,-21.9 H -9.2 V -17.5 H 9.6 z" style="fill:#efece7;fill-rule:nonzero;stroke:none" />
+					<path transform="translate( 4.7,8.9)" d="M 0,0 C -0.019,0.185 -0.149,0.33 -0.319,0.384 V 0.444 H -8.707 V 0.366 C -8.851,0.301 -8.959,0.167 -8.976,0 L -11.85,-27.34 C -11.87,-27.55 -11.75,-27.75 -11.55,-27.82 -11.5,-27.84 -11.45,-27.85 -11.39,-27.85 -11.25,-27.85 -11.1,-27.78 -11.02,-27.65 L -4.513,-18.51 1.991,-27.65 C 2.112,-27.82 2.333,-27.89 2.528,-27.82 2.724,-27.75 2.845,-27.55 2.824,-27.34 z M -8.527,-17.26 -4.436,-15.04 -0.459,-17.26 z M -9.345,-12.31 -5.145,-14.65 -9.86,-17.2 z M -8.206,-12.16 H -0.546 L -4.431,-14.26 z M -8.659,-11.47 -4.516,-8.927 -0.379,-11.47 z M 0.362,-12.45 0.853,-17.21 -3.721,-14.66 z M -3.862,-8.525 -0.271,-6.318 0.216,-11.03 z M -1.479,-6.256 -4.516,-8.122 -7.549,-6.256 z M -7.682,-5.571 -4.502,-3.318 -1.339,-5.571 z M -3.909,-2.898 -0.848,-0.73 -0.364,-5.424 z M -1.714,-0.503 -4.501,-2.477 -7.272,-0.503 z M -5.094,-2.897 -8.619,-5.394 -8.129,-0.734 z M -8.718,-6.341 -5.171,-8.525 -9.209,-11.01 z M -9.962,-18.17 H -5.4 L -10.75,-25.7 z M -3.626,-18.17 H 0.953 L 1.731,-25.71 z" style="fill:#efece7;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+					<path transform="translate( 2.1,-21.3)" d="M 0,0 H -0.977 -2.931 -3.908 C -4.098,0 -4.252,-0.153 -4.252,-0.342 V -6.82 H -3.563 -3.275 -2.586 V -0.684 H -1.322 V -6.82 H -0.632 -0.345 0.345 V -0.342 C 0.345,-0.153 0.19,0 0,0" style="fill:#efece7;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+					<path transform="translate( 3.2,15.7)" d="M 0,0 C 0,-2.263 -1.848,-4.097 -4.127,-4.097 -6.407,-4.097 -8.255,-2.263 -8.255,0 -8.255,2.263 -6.407,4.097 -4.127,4.097 -1.848,4.097 0,2.263 0,0" style="fill:#efece7;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+					<path transform="translate( 1.2,18.5)" d="M 0,0 C -0.737,-0.731 -1.931,-0.731 -2.668,0 -3.405,0.732 -3.405,1.917 -2.668,2.649 -1.931,3.38 -0.737,3.38 0,2.649 0.737,1.917 0.737,0.732 0,0" style="fill:#efece7;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+					<path transform="translate(-1.6,17.4)" d="M 0,0 C 0,-1.907 1.557,-3.453 3.479,-3.453 5.4,-3.453 6.958,-1.907 6.958,0 6.958,1.907 5.4,3.454 3.479,3.454 1.557,3.454 0,1.907 0,0" style="fill:#efece7;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+					<path transform="translate( 3.7,12.7)" d="M 0,0 C 0,0.55 0.449,0.995 1.002,0.995 1.556,0.995 2.005,0.55 2.005,0 2.005,-0.55 1.556,-0.995 1.002,-0.995 0.449,-0.995 0,-0.55 0,0" style="fill:#efece7;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+					<text transform="matrix(1,0,0,-1,0,-38)">Extraction and transport</text>
+				</g>
+				<g id="Circled_button_2" transform="translate(250,616)">
+					<circle cx="0" cy="" r="29" style="fill:#0000FF; stroke:none;" />
+					<path transform="translate(-13.1,-1.0)" d="M 0,0 -3.8,-2.5 H 1.1 z" style="fill:#efece7;stroke:none" />
+					<path transform="translate( -8.2,-1.1)" d="M 0,0 -3.8,-2.5 H 1.1 z" style="fill:#efece7;stroke:none" />
+					<path transform="translate( -3.2,-1.1)" d="M 0,0 -3.8,-2.5 H 1.1 z" style="fill:#efece7;stroke:none" />
+					<path transform="translate(  2.5,15.7)" d="M 0,0 H 2.3 L 3.0,-14.5 H -0.7 z" style="fill:#efece7;stroke:none" />
+					<path transform="translate(  8.1,19.6)" d="M 0,0 H 2.3 L 3.0,-18.5 H -0.7 z" style="fill:#efece7;stroke:none" />
+					<path d="M -16.9,-16.7 H 0 V -3.6 H -16.9 z M -10.6,-11.6 H -15 V -7 H -10.6 z M -4.3,-11.6 H -8.4 V -7 H -4.3 z" style="fill:#efece7; stroke:none" />
+					<path d="M 0,-16.7 H 17.3 V 1.1 H 0 z M 14.6,-11.6 H 10.2 V -7 H 14.6 z M 14.6,-5.4 H 10.2 V -0.9 H 14.6 z" style="fill:#efece7; stroke:none" />
+					<text transform="matrix(1,0,0,-1,0,-38)">Refining and manufacture</text>
+				</g>
+				<g transform="translate(250,534)"  id="Circled_button_3">
+					<circle cx="0" cy="0" r="29" style="fill:#0000FF; stroke:none;" />
+					<path transform="translate(3,17.2)" d="M 0,0 0,-1.054 C 0,-1.054 3.802,-5.002 3.803,-5.582 3.803,-6.161 3.803,-7.215 3.803,-7.215 L 3.263,-7.506 V -19.39 L 3.846,-19.6 C 3.846,-19.6 3.845,-36.94 3.846,-37.36 3.848,-38.84 2.874,-39.55 1.424,-39.55 -0.025,-39.56 0.106,-39.05 -0.79,-39.06 -1.686,-39.06 -1.618,-39.56 -2.83,-39.56 -4.042,-39.56 -3.976,-39.06 -4.871,-39.06 -5.768,-39.06 -5.635,-39.56 -7.085,-39.57 -8.534,-39.57 -9.51,-38.86 -9.512,-37.38 -9.512,-36.96 -9.512,-19.62 -9.512,-19.62 L -8.994,-19.41 V -7.523 L -9.553,-7.233 C -9.553,-7.233 -9.554,-6.18 -9.555,-5.6 -9.556,-5.02 -5.767,-1.062 -5.767,-1.062 L -5.768,0 z" style="fill:#efece7;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+					<path transform="translate(3,18.4)" d="M 0,0 -0.443,0 V 3.62 H -6.161 L -6.156,0 -6.595,0 V -0.777 L 0,-0.768 z" style="fill:#efece7;stroke:none" />
+					<text transform="matrix(1,0,0,-1,0,-38)">Consumer use</text>
+				</g>
+				<g transform="translate(250,452)" id="Circled_button_4">
+					<circle cx="0" cy="0" r="29" style="fill:#0000FF; stroke:none;" />
+					<path transform="translate(-2.1,12.1)" d="M 0,0 C 0,0 -7.736,-1.517 -9.86,-6.27 -11.84,-10.71 -10.67,-15.17 -10.67,-15.17 -10.67,-15.17 -11.98,-17.8 -12.29,-21.24 -12.53,-23.96 -12.08,-26.7 -12.08,-26.7 L -14.92,-28.52 C -14.92,-28.52 -13.6,-29.63 -10.77,-29.53 -7.938,-29.43 -5.916,-28.72 -5.916,-28.72 -5.916,-28.72 -3.994,-30.74 2.68,-29.93 9.355,-29.12 10.47,-28.42 13.3,-28.52 16.13,-28.62 19.57,-29.43 19.57,-29.43 L 17.65,-26.9 C 17.65,-26.9 16.54,-24.88 17.24,-21.34 17.82,-18.48 18.46,-13.15 15.22,-6.978 12.09,-1.009 5.562,0 5.562,0 z" style="fill:#efece7;" />
+					<path transform="translate( 3.4,13.1)" d="M 0,0 V 0.466 C 0,0.466 0.607,1.679 2.528,2.286 4.45,2.893 6.675,2.792 6.675,2.792 6.675,2.792 7.231,4.106 5.815,5.32 4.853,6.145 3.641,5.927 3.641,5.927 V 7.343 L -1.517,8.961 -2.427,7.545 -3.135,8.354 C -3.135,8.354 -5.208,7.343 -7.635,7.14 -9.449,6.989 -11.02,7.343 -11.02,7.343 -11.02,7.343 -11.17,5.421 -9.557,3.702 -7.938,1.983 -5.562,0.769 -5.562,0.769 V 0 z" style="fill:#efece7;" />
+					<text transform="matrix(1,0,0,-1,0,-38)">Waste management</text>
+				</g>
+				<g transform="translate(250,350)" id="waterimage" style="fill:#0000FF; stroke:none;">
+					<path transform="translate(20,36)" d="M 0,0 C -2.386,0 -3.681,0.602 -4.721,1.086 -5.64,1.513 -6.366,1.851 -7.959,1.851 -9.55,1.851 -10.28,1.514 -11.19,1.087 -12.23,0.602 -13.53,0 -15.91,0 -18.3,0 -19.6,0.602 -20.64,1.087 -21.55,1.514 -22.28,1.851 -23.87,1.851 -25.46,1.851 -26.19,1.514 -27.1,1.087 -28.14,0.603 -29.44,0 -31.83,0 -34.21,0 -35.51,0.602 -36.55,1.086 -37.46,1.514 -38.19,1.851 -39.78,1.851 V 4.3 C -37.39,4.3 -36.1,3.698 -35.06,3.214 -34.14,2.786 -33.42,2.449 -31.83,2.449 -30.23,2.449 -29.51,2.786 -28.59,3.214 -27.55,3.698 -26.26,4.3 -23.87,4.3 -21.48,4.3 -20.19,3.698 -19.15,3.214 -18.23,2.786 -17.51,2.449 -15.91,2.449 -14.32,2.449 -13.6,2.786 -12.68,3.214 -11.64,3.698 -10.34,4.3 -7.959,4.3 -5.572,4.3 -4.277,3.698 -3.237,3.214 -2.318,2.786 -1.593,2.449 0,2.449 z" />
+					<path transform="translate(20,30)" d="M 0,0 C -2.386,0 -3.681,0.602 -4.721,1.086 -5.64,1.513 -6.366,1.851 -7.959,1.851 -9.55,1.851 -10.28,1.514 -11.19,1.087 -12.23,0.602 -13.53,0 -15.91,0 -18.3,0 -19.6,0.602 -20.64,1.087 -21.55,1.514 -22.28,1.851 -23.87,1.851 -25.46,1.851 -26.19,1.514 -27.1,1.087 -28.14,0.603 -29.44,0 -31.83,0 -34.21,0 -35.51,0.602 -36.55,1.086 -37.46,1.514 -38.19,1.851 -39.78,1.851 V 4.3 C -37.39,4.3 -36.1,3.698 -35.06,3.214 -34.14,2.786 -33.42,2.449 -31.83,2.449 -30.23,2.449 -29.51,2.786 -28.59,3.214 -27.55,3.698 -26.26,4.3 -23.87,4.3 -21.48,4.3 -20.19,3.698 -19.15,3.214 -18.23,2.786 -17.51,2.449 -15.91,2.449 -14.32,2.449 -13.6,2.786 -12.68,3.214 -11.64,3.698 -10.34,4.3 -7.959,4.3 -5.572,4.3 -4.277,3.698 -3.237,3.214 -2.318,2.786 -1.593,2.449 0,2.449 z" />
+					<path transform="translate(20,24)" d="M 0,0 C -2.386,0 -3.681,0.602 -4.721,1.086 -5.64,1.513 -6.366,1.851 -7.959,1.851 -9.55,1.851 -10.28,1.514 -11.19,1.087 -12.23,0.602 -13.53,0 -15.91,0 -18.3,0 -19.6,0.602 -20.64,1.087 -21.55,1.514 -22.28,1.851 -23.87,1.851 -25.46,1.851 -26.19,1.514 -27.1,1.087 -28.14,0.603 -29.44,0 -31.83,0 -34.21,0 -35.51,0.602 -36.55,1.086 -37.46,1.514 -38.19,1.851 -39.78,1.851 V 4.3 C -37.39,4.3 -36.1,3.698 -35.06,3.214 -34.14,2.786 -33.42,2.449 -31.83,2.449 -30.23,2.449 -29.51,2.786 -28.59,3.214 -27.55,3.698 -26.26,4.3 -23.87,4.3 -21.48,4.3 -20.19,3.698 -19.15,3.214 -18.23,2.786 -17.51,2.449 -15.91,2.449 -14.32,2.449 -13.6,2.786 -12.68,3.214 -11.64,3.698 -10.34,4.3 -7.959,4.3 -5.572,4.3 -4.277,3.698 -3.237,3.214 -2.318,2.786 -1.593,2.449 0,2.449 z" />
+					<path transform="translate(20,18)" d="M 0,0 C -2.386,0 -3.681,0.602 -4.721,1.086 -5.64,1.513 -6.366,1.851 -7.959,1.851 -9.55,1.851 -10.28,1.514 -11.19,1.087 -12.23,0.602 -13.53,0 -15.91,0 -18.3,0 -19.6,0.602 -20.64,1.087 -21.55,1.514 -22.28,1.851 -23.87,1.851 -25.46,1.851 -26.19,1.514 -27.1,1.087 -28.14,0.603 -29.44,0 -31.83,0 -34.21,0 -35.51,0.602 -36.55,1.086 -37.46,1.514 -38.19,1.851 -39.78,1.851 V 4.3 C -37.39,4.3 -36.1,3.698 -35.06,3.214 -34.14,2.786 -33.42,2.449 -31.83,2.449 -30.23,2.449 -29.51,2.786 -28.59,3.214 -27.55,3.698 -26.26,4.3 -23.87,4.3 -21.48,4.3 -20.19,3.698 -19.15,3.214 -18.23,2.786 -17.51,2.449 -15.91,2.449 -14.32,2.449 -13.6,2.786 -12.68,3.214 -11.64,3.698 -10.34,4.3 -7.959,4.3 -5.572,4.3 -4.277,3.698 -3.237,3.214 -2.318,2.786 -1.593,2.449 0,2.449 z" />
+					<path transform="translate(20,12)" d="M 0,0 C -2.386,0 -3.681,0.602 -4.721,1.086 -5.64,1.513 -6.366,1.851 -7.959,1.851 -9.55,1.851 -10.28,1.514 -11.19,1.087 -12.23,0.602 -13.53,0 -15.91,0 -18.3,0 -19.6,0.602 -20.64,1.087 -21.55,1.514 -22.28,1.851 -23.87,1.851 -25.46,1.851 -26.19,1.514 -27.1,1.087 -28.14,0.603 -29.44,0 -31.83,0 -34.21,0 -35.51,0.602 -36.55,1.086 -37.46,1.514 -38.19,1.851 -39.78,1.851 V 4.3 C -37.39,4.3 -36.1,3.698 -35.06,3.214 -34.14,2.786 -33.42,2.449 -31.83,2.449 -30.23,2.449 -29.51,2.786 -28.59,3.214 -27.55,3.698 -26.26,4.3 -23.87,4.3 -21.48,4.3 -20.19,3.698 -19.15,3.214 -18.23,2.786 -17.51,2.449 -15.91,2.449 -14.32,2.449 -13.6,2.786 -12.68,3.214 -11.64,3.698 -10.34,4.3 -7.959,4.3 -5.572,4.3 -4.277,3.698 -3.237,3.214 -2.318,2.786 -1.593,2.449 0,2.449 z" />
+					<text transform="matrix(1,0,0,-1, 0,0)" style="fill:#000000;">Freshwater and oceans</text>
+				</g>
+				<g transform="translate(250,300)" id="airimage">
+					<path style="fill:#0000FF;stroke:none;" transform="translate( 0,20)" d="M 0,0 C 0.364,0.665 0.573,1.411 0.573,2.202 0.573,4.966 -1.917,7.207 -4.99,7.207 -6.612,7.207 -8.067,6.578 -9.084,5.582 -9.821,9.126 -13.27,11.81 -17.43,11.81 -22.12,11.81 -25.92,8.39 -25.92,4.171 -25.92,3.807 -25.88,3.452 -25.83,3.102 -29.64,2.344 -32.49,-0.71 -32.49,-4.368 -32.49,-8.596 -28.68,-12.02 -23.98,-12.02 H -12.48 -0.514 C 3.184,-12.02 6.181,-9.326 6.181,-6 6.181,-2.829 3.456,-0.237 0,0" />
+					<path style="fill:#0000FF;stroke:none;" transform="translate(23,35)" d="M 0,0 C 0.267,0.488 0.421,1.036 0.421,1.616 0.421,3.645 -1.407,5.29 -3.662,5.29 -4.853,5.29 -5.921,4.828 -6.667,4.097 -7.208,6.698 -9.741,8.669 -12.79,8.669 -16.23,8.669 -19.02,6.158 -19.02,3.061 -19.02,2.794 -19,2.534 -18.95,2.277 -21.75,1.721 -23.85,-0.521 -23.85,-3.206 -23.85,-6.309 -21.05,-8.824 -17.6,-8.824 H -9.162 -0.377 C 2.337,-8.824 4.536,-6.845 4.536,-4.404 4.536,-2.077 2.537,-0.174 0,0" />
+					<path style="fill:#0000FF;stroke:none;" transform="translate(22,18)" d="M 0,0 C 0.155,0.283 0.244,0.601 0.244,0.938 0.244,2.115 -0.817,3.07 -2.125,3.07 -2.816,3.07 -3.436,2.802 -3.869,2.377 -4.183,3.887 -5.653,5.031 -7.422,5.031 -9.42,5.031 -11.04,3.574 -11.04,1.776 -11.04,1.622 -11.02,1.47 -11,1.321 -12.62,0.999 -13.84,-0.302 -13.84,-1.861 -13.84,-3.661 -12.22,-5.121 -10.22,-5.121 H -5.317 -0.219 C 1.356,-5.121 2.633,-3.972 2.633,-2.556 2.633,-1.205 1.472,-0.101 0,0" />
+					<text transform="matrix(1,0,0,-1,0,0)" style="font-size:8px;fill:#000000;"><tspan x="0" y="0">Air</tspan></text>
+				</g>
+				<g transform="translate(250,253)" id="farmlandimage" style="fill:#0000FF;fill-opacity:1;fill-rule:nonzero;stroke:none;">
+					<g id="plantM">
+						<path d="M 0.7,0 H -0.7 V 18 H 0.7 z" />
+						<path transform="translate( 3.2,23.5)" d="M 0,0 C 0,-2.568 -3.206,-3.364 -3.206,-3.364 -3.206,-3.364 -6.412,-2.568 -6.412,0 -6.412,2.568 -3.206,5.937 -3.206,5.937 -3.206,5.937 0,2.568 0,0" />
+						<path transform="translate( 7.1,13  )" d="M 0,0 C -2.106,-1.816 -5.025,-0.423 -5.025,-0.423 -5.025,-0.423 -6.64,2.094 -4.534,3.911 -2.429,5.727  2.6,6.153  2.6,6.153  2.6,6.153  2.106,1.816 0,0" />
+						<path transform="translate(-7.1,13  )" d="M 0,0 C  2.106,-1.816  5.025,-0.423  5.025,-0.423  5.025,-0.423  6.64,2.094  4.534,3.911  2.428,5.727 -2.6,6.153 -2.6,6.153 -2.6,6.153 -2.106,1.816 0,0" />
+					</g>
+					<g id="plantL" transform="translate(-23,0)">
+						<path d="M 0.7,0 H -0.7 V 18 H 0.7 z" />
+						<path transform="translate( 3.2,23.5)" d="M 0,0 C 0,-2.568 -3.206,-3.364 -3.206,-3.364 -3.206,-3.364 -6.412,-2.568 -6.412,0 -6.412,2.568 -3.206,5.937 -3.206,5.937 -3.206,5.937 0,2.568 0,0" />
+						<path transform="translate( 7.1,13  )" d="M 0,0 C -2.106,-1.816 -5.025,-0.423 -5.025,-0.423 -5.025,-0.423 -6.64,2.094 -4.534,3.911 -2.429,5.727  2.6,6.153  2.6,6.153  2.6,6.153  2.106,1.816 0,0" />
+						<path transform="translate(-7.1,13  )" d="M 0,0 C  2.106,-1.816  5.025,-0.423  5.025,-0.423  5.025,-0.423  6.64,2.094  4.534,3.911  2.428,5.727 -2.6,6.153 -2.6,6.153 -2.6,6.153 -2.106,1.816 0,0" />
+					</g>
+					<g id="plantR" transform="translate(23,0)">
+						<path d="M 0.7,0 H -0.7 V 18 H 0.7 z" />
+						<path transform="translate( 3.2,23.5)" d="M 0,0 C 0,-2.568 -3.206,-3.364 -3.206,-3.364 -3.206,-3.364 -6.412,-2.568 -6.412,0 -6.412,2.568 -3.206,5.937 -3.206,5.937 -3.206,5.937 0,2.568 0,0" />
+						<path transform="translate( 7.1,13  )" d="M 0,0 C -2.106,-1.816 -5.025,-0.423 -5.025,-0.423 -5.025,-0.423 -6.64,2.094 -4.534,3.911 -2.429,5.727  2.6,6.153  2.6,6.153  2.6,6.153  2.106,1.816 0,0" />
+						<path transform="translate(-7.1,13  )" d="M 0,0 C  2.106,-1.816  5.025,-0.423  5.025,-0.423  5.025,-0.423  6.64,2.094  4.534,3.911  2.428,5.727 -2.6,6.153 -2.6,6.153 -2.6,6.153 -2.106,1.816 0,0" />
+					</g>
+					<text transform="matrix(1,0,0,-1,0,-10)" style="font-size:8px;fill:#000000;">Farmland</text>
+				</g>
+			</g>
+			<g>
+				<line transform="translate(180,703)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;stroke-width:1.5; stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:2, 1;stroke-dashoffset:1;" />
+				<line transform="translate(180,695)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0, 3;stroke-dashoffset:2.2;" />
+				<line transform="translate(180,623)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;stroke-width:1.5; stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:2, 1;stroke-dashoffset:1;" />
+				<line transform="translate(180,615)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0, 3;stroke-dashoffset:2.2;" />
+				<line transform="translate(180,607)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:4, 2;stroke-dashoffset:2;" />
+				<line transform="translate(180,548)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;stroke-width:1.5; stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:2, 1;stroke-dashoffset:1;" />
+				<line transform="translate(180,540)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0, 3;stroke-dashoffset:2.2;" />
+				<line transform="translate(180,532)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:4, 2;stroke-dashoffset:2;" />
+				<line transform="translate(180,524)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowRed)"   style="stroke:#FF0000;stroke-width:1.5; stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:2, 1;stroke-dashoffset:1;" />
+				<line transform="translate(180,516)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowRed)"   style="stroke:#FF0000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0, 3;stroke-dashoffset:2.2;" />
+				<line transform="translate(180,460)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;stroke-width:1.5; stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:2, 1;" />
+				<line transform="translate(180,452)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0, 3;stroke-dashoffset:2.2;" />
+				<line transform="translate(180,444)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:4, 2;stroke-dashoffset:2;" />
+				<line transform="translate(180,378)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0, 3;stroke-dashoffset:2.2;" />
+				<line transform="translate(180,370)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowRed)"   style="stroke:#FF0000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0, 3;stroke-dashoffset:2.2;" />
+				<line transform="translate(180,320)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowRed)"   style="stroke:#FF0000;stroke-width:1.5; stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:2, 1;" />
+				<line transform="translate(180,260)"  x1="30" y1="0" x2="0" y2="0" marker-end="url(#ArrowRed)"   style="stroke:#FF0000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0, 3;stroke-dashoffset:2.2;" />
+			</g>
+			<g>
+				<g transform="translate(285,0)" style="fill:none; stroke-width:1.5; stroke-linecap:butt; stroke-linejoin:miter;">
+					<path transform="translate(0,450)" d="M 0,0 L 14,0 14,-59 6,-59"   marker-end="url(#ArrowRed)"   style="stroke:#FF0000;" />
+					<path transform="translate(0,457)" d="M 0,0 L 21,0 21,-73 6,-73"   marker-end="url(#ArrowGreen)" style="stroke:#00CC00;" />
+					<path transform="translate(0,533)" d="M 0,0 L 28,0 28,-210 6,-210" marker-end="url(#ArrowRed)"   style="stroke:#FF0000;" />
+					<path transform="translate(0,533)" d="M 28,-156 L 6,-156"          marker-end="url(#ArrowRed)"   style="stroke:#FF0000;" />
+					<path transform="translate(0,540)" d="M 0,0 L 35,0 35,-225 6,-225" marker-end="url(#ArrowGreen)" style="stroke:#00CC00;" />
+					<path transform="translate(0,540)" d="M 35,-170 L 6,-170"          marker-end="url(#ArrowGreen)" style="stroke:#00CC00;" />
+					<path transform="translate(0,620)" d="M 0,0 L 42,0 42,-257 6,-257" marker-end="url(#ArrowRed)"   style="stroke:#FF0000;" />
+				</g>
+			</g>
+		</g>
+	</g>
+</svg>

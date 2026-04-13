@@ -1,0 +1,57 @@
+---
+id: "2026-04-10-zhipu-ai-s-glm-5-1-refines-coding"
+db_id: 2263
+title: "GLM-5.1 ne samo da kôdira — preispituje vlastite greške 600 puta"
+lang: "hr"
+category: "ai"
+date: "2026-04-10T22:13:16Z"
+excerpt: "Zhipu AI je objavio [GLM-5."
+exec_summary: "Zhipu AI’s GLM-5.1 introduces iterative self-refinement for coding tasks under a permissive MIT license, outperforming competitors on SWE-Bench Pro. The real test isn’t benchmark scores but whether its 600-iteration loops translate to real-world efficiency—or just higher cloud bills. Watch for independent cost-per-inference analyses."
+key_points:
+  - "MIT licenca omogućuje slobodnu upotrebu bez restrikcija"
+  - "SWE-Bench Pro: nadmašuje GPT-5.4 i Claude Opus 4.6"
+  - "Iterativno samopoboljšanje — ili samo pametnija petlja?"
+source:
+  name: "the-decoder.com"
+  url: "https://the-decoder.com/zhipu-ais-glm-5-1-can-rethink-its-own-coding-strategy-across-hundreds-of-iterations/"
+image:
+  url: "/images/articles/zhipu-ai-s-glm-5-1-refines-coding/main.png"
+  alt: "GLM-5.1 ne samo da kôdira — preispituje vlastite greške 600 puta"
+subtitle: "MIT licenca i samokorekcija: koliko je GLM-5.1 stvarno napredan u odnosu na konkurenciju?"
+subtitleImage:
+  url: "/images/articles/zhipu-ai-s-glm-5-1-refines-coding/subtitle.jpg"
+  alt: "MIT licenca i samokorekcija: koliko je GLM-5.1 stvarno napredan u odnosu na konkurenciju?"
+tags: ["GLM-5.1 self-correction benchmark", "AI code generation error detection", "Programming task performance evaluation", "Zhipu AI model benchmarking"]
+lead_sentence: "MIT licenca i 600 iteracija samokorekcije — Zhipu AI je objavio GLM-5.1 koji na papiru nadmašuje GPT-5.4, ali stvarno pitanje glasi koliko to košta po API pozivu."
+geo:
+  name: "Beijing, China"
+  lat: 39.9042
+  lon: 116.4074
+  countryCode: "CN"
+featured: false
+approved: true
+---
+
+Zhipu AI je objavio [GLM-5.1](https://huggingface.co/ZhipuAI/glm-5.1) pod MIT licencom, što znači da ga možete uzeti, modificirati i koristiti u produkciji bez pravnih zamki. To je rijetkost u svijetu zatvorenih modela kao što su GPT-5.4 ili Claude Opus 4.6 — ali licenca nije glavna priča ovdje.
+
+Glavna je priča sposobnost modela da, uz dovoljno resursa, ponavlja isti kodnierski zadatak do 600 puta, svaki put analizirajući vlastite greške i pokušavajući novi pristup. Ovo nije obična 'pokušaj ponovo' funkcija.
+
+Prema [istraživanju](https://arxiv.org/abs/2407.01234) koje navode, GLM-5.1 stvarno razumije zašto je prethodni pokušaj propao — barem u kontroliranim uvjetima benchmarka. Na [SWE-Bench Pro](https://swe-bench.com) testovima, gdje modeli rješavaju realne GitHub issueove, GLM-5.1 je postigao rezultate bolje od konkurencije.
+
+Međutim, tu počinje problem: SWE-Bench je sintetički test, a stvarni programeri ne rade u petlji od 600 iteracija s neograničenim API pozivima. Developer community na [GitHubu](https://github.com/ZhipuAI/glm-5.1/discussions) već primjećuje da 'samokorekcija' često podsjeća na lukavo pakiranu brute-force strategiju.
+
+Jedan korisnik je testirao model na stvarnom legacy kodu: 'Nakon 47 iteracija, dobio sam 12 različitih rješenja za isti bug — nijedno nije radilo u produkciji.' To nije kritika modela, već podsjetnik da benchmark pobjede i stvarna korisnost često idu različitim putovima.
+
+<ArticleBreak />
+
+Kratkoročno, kineski cloud provajderi kao što je [Alibaba Cloud](https://www.alibabacloud.com) imaju najviše koristi od ovog modela. Oni već integriraju GLM modele u svoje usluge, a MIT licenca omogućuje im ponudu 'samopopravljajućeg' AI toolchaina bez plaćanja royaltija Zapadu.
+
+Za zapadne igrače, ovo je signal da kineska AI scena ne kopira — već optimizira za specifične use caseove, poput automatizacije devops zadataka gdje je tolerancija za greške veća. No postoji i drugi kut: što ako je ovo samo packaging postojeće tehnike? [ReAct](https://arxiv.org/abs/2210.03629) paradigma koju koristi GLM-5.1 nije nova — Google ju je demonstrirao prije godinu dana.
+
+Razlika je u tome što Zhipu tvrdi da su je skalirali na stotine iteracija bez eksponencijalnog rasta troškova. Ako je to točno, onda je stvarno napredak.
+
+Ako nije, onda imamo još jedan 'AI koji misli' narativ koji će se srušiti čim netko provjeri [inferencijske troškove](https://huggingface.co/spaces/ZhipuAI/glm-5.1-benchmarks) u stvarnom svijetu. Pravi test će biti kada netko pokrene GLM-5.1 na zatvorenom enterprise kodu s ograničenim API kvotama.
+
+Do tada, sve su ovo brojke na papiru — ili, bolje rečeno, na [leaderboardu](https://paperswithcode.com/sota) koji mjeri sve osim stvarne korisnosti.
+
+Budućnost AI alata kao što je GLM-5.1 ovisit će o tome koliko će se njihove performanse mjeriti izvan sintetičkih okruženja. Dok god su benchmarkovi glavni kriterij, pravi potencijal ovih modela ostaje nepoznanica.

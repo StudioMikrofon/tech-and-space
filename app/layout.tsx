@@ -33,6 +33,7 @@ import SpaceProSidebarWrapper from "@/components/SpaceProSidebarWrapper";
 import MainShell from "@/components/MainShell";
 import AgentPanel from "@/components/AgentPanel";
 import AmbientSound from "@/components/AmbientSound";
+import { AudioProvider } from "@/components/AudioProvider";
 import { getAllArticles } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -74,33 +75,35 @@ export default function RootLayout({
       <body
         className="font-body antialiased bg-space-bg text-text-primary"
       >
-        <TerminalBoot />
-        <SpaceStage />
-        <PageTransition />
-        <AmbientSound />
-        <KonamiCode />
-        <div className="relative z-10 nebula-bg min-h-screen w-full max-w-full overflow-x-hidden flex flex-col">
-          <Header />
-          <div className="flex flex-1 w-full max-w-full overflow-x-hidden">
-            <MainShell>{children}</MainShell>
-            <SpaceProSidebarWrapper />
+        <AudioProvider>
+          <TerminalBoot />
+          <SpaceStage />
+          <PageTransition />
+          <AmbientSound />
+          <KonamiCode />
+          <div className="relative z-10 nebula-bg min-h-screen w-full max-w-full overflow-x-hidden flex flex-col">
+            <Header />
+            <div className="flex flex-1 w-full max-w-full overflow-x-hidden">
+              <MainShell>{children}</MainShell>
+              <SpaceProSidebarWrapper />
+            </div>
+            <Footer />
           </div>
-          <Footer />
-        </div>
-        <Ticker articles={articles} compact />
-        {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && (
-          <>
-            <AgentPanel />
-            <a
-              href="/foto-review"
-              title="Foto Review"
-              className="fixed bottom-6 right-[4.5rem] z-[9998] h-12 px-3 rounded-full bg-space-bg border border-white/15 text-text-secondary hover:text-accent-cyan hover:border-accent-cyan/40 text-xs font-mono flex items-center gap-1.5 transition-all"
-              style={{ boxShadow: "0 0 12px rgba(0,0,0,0.4)" }}
-            >
-              ⊞ Foto Review
-            </a>
-          </>
-        )}
+          <Ticker articles={articles} compact />
+          {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && (
+            <>
+              <AgentPanel />
+              <a
+                href="/foto-review"
+                title="Foto Review"
+                className="fixed bottom-6 right-[4.5rem] z-[9998] h-12 px-3 rounded-full bg-space-bg border border-white/15 text-text-secondary hover:text-accent-cyan hover:border-accent-cyan/40 text-xs font-mono flex items-center gap-1.5 transition-all"
+                style={{ boxShadow: "0 0 12px rgba(0,0,0,0.4)" }}
+              >
+                ⊞ Foto Review
+              </a>
+            </>
+          )}
+        </AudioProvider>
       </body>
     </html>
   );

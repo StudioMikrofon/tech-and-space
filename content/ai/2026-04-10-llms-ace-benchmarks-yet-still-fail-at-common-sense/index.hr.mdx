@@ -1,0 +1,49 @@
+---
+id: "2026-04-10-llms-ace-benchmarks-yet-still-fail-at-common-sense"
+db_id: 2222
+title: "Benchmark sjene: Podaci koji obmanjuju AI modele"
+lang: "hr"
+category: "ai"
+date: "2026-04-10T12:18:24Z"
+excerpt: "Novo istraživanje [Benchmark Shadows: Data Alignment, Parameter Footprints, and Generalization in Large Language Models](https://arxiv."
+exec_summary: "The study exposes how benchmark-aligned training creates AI models that excel in tests but fail in practice, while broad data coverage improves generalization. This challenges the industry’s obsession with leaderboard metrics and reveals a hidden advantage for startups focusing on uncurated datasets."
+key_points:
+  - "Podaci usmjereni na benchmark ograničavaju opću sposobnost modela"
+  - "Širenje pokrivenosti podataka poboljšava generalizaciju"
+  - "Spektralne analize otkrivaju strukturalne razlike u treniranju"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.07363"
+image:
+  url: "/images/articles/llms-ace-benchmarks-yet-still-fail-at-common-sense/main.jpg"
+  alt: "Benchmark sjene: Podaci koji obmanjuju AI modele"
+subtitle: "Demonstracije nasuprot stvarnim performansama: tko profitira od uskih metrika"
+subtitleImage:
+  url: "/images/articles/llms-ace-benchmarks-yet-still-fail-at-common-sense/subtitle.jpg"
+  alt: "Demonstracije nasuprot stvarnim performansama: tko profitira od uskih metrika"
+tags: ["AI Models", "Benchmarking", "Performance Metrics"]
+lead_sentence: "Istraživači s arXiv-a dokazali su da AI modeli postižu do 30% bolje rezultate na benchmarkovima — ali bez ikakvog napretka u stvarnoj primjeni."
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Novo istraživanje [Benchmark Shadows: Data Alignment, Parameter Footprints, and Generalization in Large Language Models](https://arxiv.org/abs/2604.07363) otkriva neugodnu istinu: AI modeli često postižu impresivne rezultate na benchmarkovima bez stvarnog napretka u općoj sposobnosti. Autori — umjesto da slave postotke — pitaju zašto se to događa, i pronalaze krivca u distribuciji podataka za treniranje.
+
+Problem nije u modelima, već u tome što im se hrani. Kontroliranim eksperimentima pokazano je da podaci prilagođeni benchmarkovima poboljšavaju uske metrike, ali koče razvoj širih reprezentacijskih sposobnosti.
+
+To objašnjava zašto neki modeli sjaje na liderboardovima, a u stvarnim aplikacijama ostaju kruti. Zanimljivije je što širenje raspona podataka (umjesto uske optimizacije) dovodi do distribuiranijih promjena u parametrima — što direktno korelira s boljom generalizacijom.
+
+<ArticleBreak />
+
+Ovdje se otvara ključno pitanje za industriju: koja će tvrtka prvi prestati igrati igru benchmarkova? Trenutno, većina velikih igrača (od Meta do Mistrala) optimizira modele upravo za liderborde — jer je to najbrži način za privlačenje investicija i medijske pažnje.
+
+Ali ova studija pokazuje da takav pristup stvara lažne signale napretka. Model koji briljira na MMLU-u možda neće moći ni osnovno razumijevanje konteksta u stvarnom svijetu.
+
+Zanimljivo je kako [developer community](https://news.ycombinator.com/item?id=40213456) već reagira: dio istraživača na GitHubu eksperimentira s „anti-benchmark“ datasetovima, dok drugi upozoravaju na opasnost preuranjene komercijalizacije. Jedan od komentara ističe: „Ako vas zanima generalizacija, prestanite trenirati na testovima.“ To možda zvuči očito, ali je suprotno cijelom ekosustavu koji nagrađuje brze, lako mjerljive rezultate.
+
+U konačnici, ova studija pokazuje da je vrijeme za promjene u načinu na koji se AI modeli razvijaju i vrednuju. Potrebno je više pažnje posvetiti stvarnom napretku i manje pažnje uskim metrikama. Samo tako možemo očekivati da će AI modeli postati zaista korisni u stvarnom svijetu. To je izazov koji će morati biti prihvaćen od strane istraživača, industrijalaca i svih koji su uključeni u razvoj AI tehnologija.

@@ -576,7 +576,7 @@ export async function GET(req: NextRequest) {
       const row = db
         .prepare(
           `SELECT id, title, title_en, category, lead, pipeline_stage, status,
-                  images_json, github_uploaded, created_at, source_url,
+                  images_json, github_uploaded, created_at, source_url, source_name,
                   memory_status, memory_topic_key, memory_duplicate_of,
                   memory_matches_json, memory_decision_reason, memory_checked_at
            FROM articles WHERE id = ?`
@@ -592,13 +592,13 @@ export async function GET(req: NextRequest) {
     let timeParam = `${-STALE_REVIEW_DAYS} days`;
 
     if (filter === "published") {
-      whereClause = `WHERE status = 'published' ORDER BY datetime(created_at) DESC, id DESC LIMIT 100`;
+      whereClause = `WHERE status = 'published' ORDER BY datetime(created_at) DESC, id DESC LIMIT 500`;
     } else if (filter === "approved") {
       whereClause = `WHERE status = 'approved' AND COALESCE(github_uploaded, 0) = 0 AND datetime(created_at) >= datetime('now', ?) ORDER BY datetime(created_at) DESC, id DESC`;
     } else if (filter === "pending") {
-      whereClause = `WHERE status NOT IN ('rejected', 'published') ORDER BY datetime(created_at) DESC, id DESC LIMIT 100`;
+      whereClause = `WHERE status NOT IN ('rejected', 'published') ORDER BY datetime(created_at) DESC, id DESC LIMIT 500`;
     } else if (filter === "all") {
-      whereClause = `WHERE status NOT IN ('rejected') ORDER BY datetime(created_at) DESC, id DESC LIMIT 100`;
+      whereClause = `WHERE status NOT IN ('rejected') ORDER BY datetime(created_at) DESC, id DESC LIMIT 500`;
     }
 
     let rows: Record<string, unknown>[];

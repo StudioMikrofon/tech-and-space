@@ -1,18 +1,18 @@
 ---
-id: ""2026-04-08-rowhammer-jumps-to-gpusnvidias-high-end-cards-now-""
+id: "2026-04-08-rowhammer-jumps-to-gpusnvidias-high-end-cards-now-"
 db_id: 2023
-title: ""Rowhammer jumps to GPUs—Nvidia’s high-end cards now exposed""
-category: ""technology""
-date: ""2026-04-08T20:42:33Z""
-excerpt: ""Rowhammer isn’t new, but its leap from CPUs to GPUs marks a turning point.""
-exec_summary: ""New Rowhammer attacks target Nvidia’s Ampere GPUs, enabling full system compromise via memory manipulation—with bit flip rates 64x higher than before. While real-world risk remains limited to shared environments, the discovery forces a reassessment of GPU security assumptions, particularly for cloud and AI workloads. The silence from Nvidia and the potential vulnerability of newer architectures could reshape hardware choices in high-stakes sectors.""
-subtitle: ""Ampere generacija postaje meta — što to znači za cloud i gaming""
-subtitle_en: ""The security assumption that GPUs were safer than CPUs just collapsed""
-lead_sentence: ""Academic researchers [demonstrated full system compromise](https://arxiv.org/abs/2406.00935) on Nvidia A100 GPUs using Rowhammer—no physical access required, just shared memory space.""
+title: "Rowhammer jumps to GPUs—Nvidia’s high-end cards now exposed"
+category: "technology"
+date: "2026-04-08T20:42:33Z"
+excerpt: "Rowhammer isn’t new, but its leap from CPUs to GPUs marks a turning point."
+exec_summary: "New Rowhammer attacks target Nvidia’s Ampere GPUs, enabling full system compromise via memory manipulation—with bit flip rates 64x higher than before. While real-world risk remains limited to shared environments, the discovery forces a reassessment of GPU security assumptions, particularly for cloud and AI workloads. The silence from Nvidia and the potential vulnerability of newer architectures could reshape hardware choices in high-stakes sectors."
+subtitle: "Ampere generacija postaje meta — što to znači za cloud i gaming"
+subtitle_en: "The security assumption that GPUs were safer than CPUs just collapsed"
+lead_sentence: "Academic researchers [demonstrated full system compromise](https://arxiv.org/abs/2406.00935) on Nvidia A100 GPUs using Rowhammer—no physical access required, just shared memory space."
 featured: false
 approved: true
+title_en: "Rowhammer jumps to GPUs—Nvidia’s high-end cards now exposed"
 ---
-
 
 Rowhammer isn’t new, but its leap from CPUs to GPUs marks a turning point. For a decade, this memory-exploit technique has haunted Intel and AMD chips, forcing mitigations like [Target Row Refresh (TRR)](https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/technical-documentation/rowhammer.html). Now, a team from ETH Zurich and Vrije Universiteit Amsterdam proved GPUs—long assumed resistant due to their memory architectures—are vulnerable too. Their attacks successfully flipped bits in Nvidia’s high-end A100 and H100 GPUs, enabling privilege escalation in multi-tenant environments like cloud platforms.
 
@@ -31,5 +31,3 @@ Nvidia’s silence on hardware fixes speaks volumes. Unlike CPUs, GPUs lack matu
 
 
 The bigger question isn’t *if* this will be exploited, but *where*. Cloud gaming services, AI-as-a-service platforms, and even scientific computing clusters now host a new attack surface. The researchers’ work targets Nvidia’s top-tier cards, but mid-range GPUs (like the [RTX 4090](https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4090/)) use similar memory controllers. If the technique scales down, consumer systems in data centers—or even high-end workstations—could be next.
-
-For all the noise, the actual story is about trust erosion. Companies using GPUs for sensitive workloads must now audit their stack like they would a CPU-bound system. That means slower deployments, higher costs, and a new line item in RFPs: ‘Rowhammer mitigation strategy.’

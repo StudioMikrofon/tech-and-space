@@ -34,6 +34,7 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
+title_en: "Unicode attacks turn AI code tools into silent accomplices"
 ---
 
 Unicode isn’t just for emoji anymore. Researchers confirmed hackers are weaponizing [invisible characters](https://www.techradar.com/news/the-invisible-threat-hidden-in-clear-view-how-unicode-characters-are-being-weaponized-to-hide-malicious-commands-from-human-users) like zero-width spaces to smuggle malicious code past both human reviewers and AI assistants. The attack vector is brutally simple: a GitHub branch name containing hidden payloads gets processed by OpenAI’s Codex, which obediently executes the embedded commands—including exfiltrating tokens.
@@ -53,5 +54,3 @@ Benchmarks don’t help here. There’s no synthetic metric for ‘how often inv
 
 
 The real bottleneck isn’t Unicode support—it’s that security was an afterthought in the rush to ship ‘AI pair programmers.’ When your tool’s superpower is *understanding* code, failing to understand *deceptive* code isn’t a bug. It’s a design flaw.
-
-Here’s the unanswered question: if Unicode attacks work on Codex today, what happens when they’re automated at scale? The same techniques could turn Slack bots or cloud CLI tools into silent distributors of malicious payloads—yet no major provider has confirmed they’re even testing for this.

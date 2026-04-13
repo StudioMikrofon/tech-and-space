@@ -1,0 +1,57 @@
+---
+id: "2026-04-09-symptomwise-the-ai-diagnostic-tool-that-actually-a"
+db_id: 2120
+title: "SymptomWise: AI koji ne halucinira u dijagnozama pacijenata"
+lang: "hr"
+category: "medicine"
+date: "2026-04-09T13:14:22Z"
+excerpt: "Na prvi pogled, [SymptomWise](https://arxiv."
+exec_summary: "SymptomWise flips the AI diagnostic script by sidelining LLMs to symptom extraction only, using deterministic reasoning for actual diagnosis. The 88% top-5 accuracy on 42 expert-curated cases is impressive, but the real story is the trade-off: reliability comes at the cost of flexibility and scalability. Watch how regulators and hospitals balance this controlled approach against the chaos of real-world medical data."
+key_points:
+  - "88% točnosti na 42 pedijatrijska slučaja"
+  - "LLM-ovi samo za ekstrakciju, ne za dijagnozu"
+  - "Deterministički kod umjesto 'crne kutije'"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.06375"
+image:
+  url: "/images/articles/symptomwise-the-ai-diagnostic-tool-that-actually-a/main.jpg"
+  alt: "SymptomWise: AI koji ne halucinira u dijagnozama pacijenata"
+subtitle: "Demo nasuprot deploymenta: tko zapravo može koristiti ovaj pristup"
+subtitleImage:
+  url: "/images/articles/symptomwise-the-ai-diagnostic-tool-that-actually-a/subtitle.jpg"
+  alt: "Demo nasuprot deploymenta: tko zapravo može koristiti ovaj pristup"
+tags: ["SymptomWise", "AI Deployment", "Hallucination Prevention"]
+lead_sentence: "Istraživači su ograničili LLM-ove na ulogu simptomskog pretraživača — i time postigli 88% točnosti u dijagnostici teških pedijatrijskih neurolških slučajeva, ali uz cijenu koja će mnoge iznenaditi."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Na prvi pogled, [SymptomWise](https://arxiv.org/abs/2604.06375) zvuči kao još jedan AI-alat koji obećava „interpretabilnost“ — ali ovdje je trik u tome što su istraživači *stvarno* odvojili jezgre od logike. Umjesto da pušte LLM-ove da slobodno asociraju (i haluciniraju) dijagnoze, sustav koristi kurirane medicinske baze znanja i **deterministički kod** za zaključivanje. Free-text ulaz pacijenta pretvara se u validirane simptomne reprezentacije, a tek tada u igru ulazi ograničeni LLM — ali *samo* za ekstrakciju, ne za donošene odluke.
+
+
+To nije samo akademska igrica: testirano je na [42 zahtjevna pedijatrijska neurolška slučaja](https://arxiv.org/pdf/2604.06375), gdje je točna dijagnoza u top 5 bila u **88% slučajeva**. Broj koji zaslužuje pažnju — ali i kontekst. Radi se o *ekspertski napisanim* slučajevima, ne o kaotičnim real-world podacima iz bolničkih zapisa. Drugim riječima, benchmark je kontroliran, što znači da je stvarni test tek pred nama.
+
+
+Zanimljivije od brojeva je što ovdje LLM-ovi **nisu** u središtu. Umjesto toga, oni su degradirani na ulogu „pretraživača simptoma“, dok teška logika ide preko determinističkog modula s ograničenim prostorom hipotaza. To je suprotno od svega što smo navikli čitati o „agentičnim“ AI sustavima — ovdje nema magije, samo kod i kurirana znanja.
+
+
+Ali tu počinje i problem: ako je ove sve toliko *determinističko*, zašto uopće koristiti LLM-ove? Odgovor leži u kompromisu — sustav žrtvuje fleksibilnost radi pouzdanosti, što je u medicini možda pametno, ali i ograničava skalabilnost. A to otvara pitanje: tko će zapravo moći održavati ovakav hibridni sustav u produkciji?
+
+<ArticleBreak />
+
+Najveća ironija u priči? SymptomWise *nije* revolucija — on je **povratak starom**, ali s AI omotačem. Ključna inovacija je u tome što su istraživači formalizirali ono što najbolji liječnici i tako rade: usko grlo nije u generiranju hipoteza, već u **sistematiziranom eliminiranju loših**. To možda zvuči dosadno, ali upravo ta dosada je ono što nedostaje današnjim AI „čudotvorcima“ koji obilato haluciniraju dijagnoze.
+
+
+Praktični izazov? Sustav zahtijeva **ručno održavanje** medicinske baze znanja i kodiranih pravila — što znači da skaliranje na nove specijalizacije ili jezike neće biti brzo ni jeftino. A tu dolazimo do stvarnog uskog grla: SymptomWise nije plug-and-play rješenje, već zahtijeva duboku integraciju s postojećim kliničkim sustavima. To ga čini zanimljivim za [velike bolničke lance](https://www.healthit.gov/) koji mogu investirati u prilagođavanje, ali manjim klinikama gotovo nedostižnim.
+
+
+Developer community već [primjećuje](https://news.ycombinator.com/item?id=40231205) ovaj trend: „deterministički slojevi“ postaju novi *hot topic* za sigurnosno-kritične aplikacije, ali s opaskom da takvi sustavi često postaju *pre* kruti za realne podатke. Pitanje je i koliko će medicinski regulatori biti spremni certificirati hibridne modele gdje LLM-ovi igaju sporednu ulogu — a to je proces koji može trajati godinaма.
+
+
+Na kraju, SymptomWise je možda najzanimljiviji kao **signal** o tome kuda ide AI u medicini: manje „čudotvornog“ generiranja, više kontroliranih, auditabilnih procesa. Ali to također znači da će oni koji očekuju brze, jeftine i univerzalne rješenje ostati razočarani. Pravi signal ovdje je u tome da pouzdanost košta — i da je ta cijena često ručni rad, a ne magija algoritama.

@@ -37,8 +37,8 @@ geo:
 featured: false
 lead_sentence: "LLMs' geometry problem costs 14% semantic accuracy"
 approved: true
+title_en: "LLMs’ geometry problem: When vectors meet Voronoi"
 ---
--
 
 Large language models have a dirty little secret: they think in smooth, continuous vectors but spit out jagged, discrete tokens. That mismatch isn’t just messy—it’s a geometric crisis. A new [arXiv paper](https://arxiv.org/abs/2603.22301v1) from ML theorists finally puts numbers to the distortion, framing LLM hidden states as points on a *latent semantic manifold*—a Riemannian surface where tokens carve out Voronoi regions like territorial claims.
 
@@ -53,5 +53,3 @@ The paper’s timing is delicious. Just as industry races to ship ever-larger mo
     Developer reaction on [r/MachineLearning](https://www.reddit.com/r/MachineLearning/) has been cautiously optimistic, with several commenters noting the framework’s potential to explain why some prompts ‘feel’ semantically brittle. But the reality gap looms: these are theoretical bounds, not deployment-ready fixes. The paper doesn’t (yet) tell us how to *reduce* distortion—just how to measure it.
 
     Watch for two signals. First, whether [OpenAI](https://openai.com/) or [Anthropic](https://www.anthropic.com/) cite this work in future tokenizer updates. Second, if the [EleutherAI](https://www.eleuther.ai/) crowd starts baking these metrics into evaluation suites. For now, it’s a mathematical dare: *Prove you can do better than this lower bound.*
-
-In other words, the next time an LLM startup claims their model ‘understands meaning,’ ask them about their manifold’s Ricci curvature. The answer will be telling—if you get one at all.

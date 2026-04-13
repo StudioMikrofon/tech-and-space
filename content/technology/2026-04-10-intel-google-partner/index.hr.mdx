@@ -1,0 +1,55 @@
+---
+id: "2026-04-10-intel-google-partner"
+db_id: 2220
+title: "Google i Intel: x86 ostaje kraljem u oblaku unatoč Axionu"
+lang: "hr"
+category: "technology"
+date: "2026-04-10T12:11:17Z"
+excerpt: "Google je potpisao višegodišnji ugovor s intelom o isporuci Xeon procesora s prilagođenim IPU (Intelligence Processing Unit) jedinicama za svoju sljedeću generaciju AI i cloud infrastrukture."
+exec_summary: "Google and Intel's multi-year deal confirms x86's continued relevance in AI/cloud infrastructure, despite Arm's growing dominance. The partnership highlights the need for balanced systems in AI workloads, with custom IPUs offloading critical tasks from CPUs. This move signals stability for developers but raises questions about long-term architectural strategy."
+key_points:
+  - "Višeгodišnji ugovor o Xeon procesorima"
+  - "IPU jedinice rasterećuju CPU za AI workloads"
+  - "90% AI servera već koristi Arm, ali x86 opstaje"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/pc-components/cpus/intel-and-google-announce-multi-year-chip-deal-google-will-deploy-intel-xeon-with-custom-ipus-for-next-gen-ai-cloud-infrastructure"
+image:
+  url: "/images/articles/intel-google-partner/main.jpg"
+  alt: "Google i Intel: x86 ostaje kraljem u oblaku unatoč Axionu"
+subtitle: "Stvarna cijena koegzistencije dvaju arhitektura u Googleovim podatkovnim centrima"
+subtitleImage:
+  url: "/images/articles/intel-google-partner/subtitle.jpg"
+  alt: "Stvarna cijena koegzistencije dvaju arhitektura u Googleovim podatkovnim centrima"
+tags: ["Google Cloud x86 vs. ARM (Axion) cost analysis", "Cloud infrastructure architecture trade-offs", "Data center hardware migration strategies", "ARM server adoption challenges", "Enterprise cloud cost optimization"]
+lead_sentence: "Google će i dalje koristiti Intelove Xeon procesore s prilagođenim IPU jedinicama unatoč vlastitim Arm-based Axion CPU-ovima."
+geo:
+  name: "Mountain View, United States"
+  lat: 37.386052
+  lon: -122.083851
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Google je potpisao višegodišnji ugovor s intelom o isporuci Xeon procesora s prilagođenim IPU (Intelligence Processing Unit) jedinicama za svoju sljedeću generaciju AI i cloud infrastrukture. Iako je tech div već lansirao vlastite Arm-based axion CPU-ove, intelovi Xeoni i dalje će pokretati najzahtjevnije workloads u Googleovim podatkovnim centrima [Tom's Hardware](https://www.tomshardware.com).
+
+Riječ je o jasnom signalu da x86 arhitektura, unatoč rastućoj dominaciji Arma u AI segmentu, zadržava ključnu ulogu tamo gdje je potrebna kompatibilnost ili single-thread performansa. Prema dostupnim informacijama, prilagođene IPU jedinice trebale bi rasteretiti glavne procesore od mrežnih, sigurnosnih i storage zadataka, čime bi se poboljšala ukupna efikasnost sustava.
+
+To nije samo tehnička optimizacija – riječ je o strategijskom pomaku koji potvrđuje da AI workloads zahtijevaju više od samih akceleratora. Lip-Bu Tan, CEO intela, naglasio je da "skaliranje AI zahtijeva uravnotežene sustave" [Intel Newsroom](https://www.intel.com).
+
+Zanimljivo je da Google i dalje koristi Xeon 5 i Xeon 6 procesore za treniranje, inferenciju i općenito računanje, dok se axion fokusira na efikasnost i kontrolu troškova. Ta podjela zadataka otkriva dublju istinu: premda 90% AI servera s custom silicijem danas koristi Arm ISA, x86 i dalje dominira tamo gdje je potrebna robusnost ili kompatibilnost s postojećim softverom [Research Brief].
+
+<ArticleBreak />
+
+Za korisnike i developere, ova vijest znači jedno: stabilnost i predvidljivost. Iako se puno priča o Arm ekosustavu, Googleov izbor intela pokazuje da se x86 neće tako brzo povući iz enterprise segmenta.
+
+To je posebno važno za legacy aplikacije i workloads koji ovise o x86 instrukcijskom setu. Amin Vahdat, SVP Googlea, potvrdio je da su "CPU-i i infrastrukturna akceleracija kamen temeljac AI sustava" [Google Cloud Blog](https://cloud.google.com/blog).
+
+No, postoji i druga strana medalje. Dok intel slavi pobjedu, ostaje pitanje koliko će ovaj ugovor zapravo utjecati na dugoročnu strategiju Googlea.
+
+Ako axion CPU-ovi postanu dovoljno zreli, mogli bi postupno preuzeti većinu workloadsa, ostavljajući intelu samo specifične scenarije. Trenutno je jasno da Google ne želi staviti sve na jednu kartu – što je pametno, ali i skupo rješenje.
+
+Pravi test dolazi kada se pokaže koliko su IPU jedinice učinkovite u stvarnim scenarijima. Ako uspiju značajno poboljšati performanse bez povećanja troškova, mogli bismo vidjeti širu adopciju sličnih rješenja i kod drugih cloud providera.
+
+Ako ne, riječ je samo o još jednom kompromisu u industriji koja se bori s balansom između inovacija i kompatibilnosti.

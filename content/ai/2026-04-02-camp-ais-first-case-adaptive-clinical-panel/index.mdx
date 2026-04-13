@@ -34,6 +34,7 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
+title_en: "CAMP: AI’s First Case-Adaptive Clinical Panel"
 ---
 
 Large language models applied to clinical prediction have a dirty little consistency problem: swap a comma in the prompt, and a complex case can flip from sepsis to gastritis. Most multi-agent frameworks paper over this by slapping fixed roles together and calling it deliberation—then averaging away the very disagreements that should signal diagnostic uncertainty. The team behind arXiv 2604.00085v1 proposes CAMP (Case-Adaptive Multi-agent Panel), an attending-physician agent that dynamically assembles a specialist panel sized to the case’s specific entropy. 
@@ -47,5 +48,3 @@ That 12-point lift isn’t just another synthetic benchmark; it’s the first ti
 
 
 Who wins here? EHR vendors suddenly have a new technical moat, but the real competitive pressure lands on single-agent diagnostic startups who’ve been selling consistency as a feature. Their ‘reliable’ outputs now look brittle next to a framework that can quantify when it’s unsure. For clinicians, CAMP flips the script: instead of forcing a black-box model to give one answer, it surfaces the edges of the model’s expertise in real time. That’s not a feature—it’s a fundamental rethink of what clinical AI should deliver.
-
-The hybrid router description cuts off mid-sentence in the abstract; if it’s truly ontology-aware, what happens when the EHR ontology updates? Does the panel reconfigure overnight—or does it become another static map that lags behind clinical reality?

@@ -1,18 +1,18 @@
 ---
-id: ""2026-04-08-llms-still-tripped-up-by-does-this-work-vs-will-th""
+id: "2026-04-08-llms-still-tripped-up-by-does-this-work-vs-will-th"
 db_id: 1961
-title: ""LLMs Still Tripped Up by ‘Does This Work?’ vs ‘Will This Fail?’""
-category: ""medicine""
-date: ""2026-04-08T06:41:47Z""
-excerpt: ""A new [arXiv study](https://arxiv.""
-exec_summary: ""This research highlights the importance of reliable and consistent LLM responses in medicine, where accuracy and reliability are critical. The study found that LLMs are sensitive to question formulation and language style, which can lead to inconsistent responses.""
-subtitle: ""Stvarna priča iza LLM-a u medicini""
-subtitle_en: ""Expert documents don’t save LLMs from their own prompt fragility""
-lead_sentence: ""Swapping *“Does this treatment work?”* for *“Will this treatment fail?”* made LLMs reverse their answers 30% of the time—even with identical underlying evidence.""
+title: "LLMs Still Tripped Up by ‘Does This Work?’ vs ‘Will This Fail?’"
+category: "medicine"
+date: "2026-04-08T06:41:47Z"
+excerpt: "A new [arXiv study](https://arxiv."
+exec_summary: "This research highlights the importance of reliable and consistent LLM responses in medicine, where accuracy and reliability are critical. The study found that LLMs are sensitive to question formulation and language style, which can lead to inconsistent responses."
+subtitle: "Stvarna priča iza LLM-a u medicini"
+subtitle_en: "Expert documents don’t save LLMs from their own prompt fragility"
+lead_sentence: "Swapping *“Does this treatment work?”* for *“Will this treatment fail?”* made LLMs reverse their answers 30% of the time—even with identical underlying evidence."
 featured: false
 approved: true
+title_en: "LLMs Still Tripped Up by ‘Does This Work?’ vs ‘Will This Fail?’"
 ---
-
 
 A new [arXiv study](https://arxiv.org/abs/2604.05051) confirms what clinicians already suspected: large language models give wildly different medical advice depending on *how* you ask. Researchers fed the same underlying evidence to models but framed questions as positive (*“Does this treatment work?”*) or negative (*“Will this treatment fail?”*), then measured the inconsistency. Even with retrieval-augmented generation (RAG) grounded in expert-selected documents—not scraped web results—the models’ answers varied significantly.
 
@@ -31,5 +31,3 @@ Industry players are already scrambling. [Epic’s Deterrence AI](https://www.ep
 
 
 The real bottleneck isn’t retrieval. It’s the assumption that language is stable enough for models to parse intent consistently. Until that’s addressed, deploying these systems in high-stakes settings remains a liability play. As one [r/MachineLearning](https://www.reddit.com/r/MachineLearning/) commenter put it: *“We’re building skyscrapers on quicksand and calling it progress.”*
-
-Hospitals integrating LLM assistants will now face a choice: spend cycles sanitizing patient queries before they hit the model, or disclaim their way out of liability. Neither scales. The first vendor to bake in robust intent-normalization—without adding latency—gains a moat.

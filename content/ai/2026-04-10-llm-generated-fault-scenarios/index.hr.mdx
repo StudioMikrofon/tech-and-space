@@ -1,0 +1,53 @@
+---
+id: "2026-04-10-llm-generated-fault-scenarios"
+db_id: 2215
+title: "LLM-ovi generiraju greške koje robotačari ne vide"
+lang: "hr"
+category: "ai"
+date: "2026-04-10T06:28:56Z"
+excerpt: "Istraživači s [arXiv:2604."
+exec_summary: "Researchers propose a decoupled offline-online framework to stress-test autonomous vision systems with LLM-generated faults, addressing the gap between static datasets and real-world hazards. The 99% RMSE jump suggests synthetic scenarios push limits—but deployment reality remains unproven. Watch for cloud providers leveraging the *offline* compute demand and regulatory blind spots around LLM-bias in safety validation."
+key_points:
+  - "460 sintetičkih scenarija za testiranje autonomnih sustava"
+  - "Offline faze žderu računsku moć, online štede resurse"
+  - "Benchmark vs. stvarni svijet: 99% porast RMSE otkriva jaz"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.07362"
+image:
+  url: "/images/articles/llm-generated-fault-scenarios/main.jpg"
+  alt: "LLM-ovi generiraju greške koje robotačari ne vide"
+subtitle: "Decoupled framework ili samo nova ambalaža za stari problem?"
+subtitleImage:
+  url: "/images/articles/llm-generated-fault-scenarios/subtitle.jpg"
+  alt: "Decoupled framework ili samo nova ambalaža za stari problem?"
+tags: ["LLM", "Decoupled Framework", "Robotic Errors"]
+lead_sentence: "Novi framework koristi LLM-ove za generiranje 460 sintetičkih grešaka u autonomnim sustavima, ali 99% porast RMSE otkriva koliko su stari benchmarkovi bili nedovoljni."
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači s [arXiv:2604.07362v1](https://arxiv.org/abs/2604.07362) predlažu rješenje za kronični problem autonomnih vizijskih sustava: **460 LLM-generiranih grešaka** koje stari datasetovi ne pokrivaju. Ključna inovacija? **Dvofazni pristup** gdje se teški izračuni — generiranje scenarija pomoću Large Language Modela i sintetičke slike Latent Diffusion Modelima — prebacuju u *offline* fazu, dok *online* ostaje lagan za edge uređaje.
+
+To zvuči kao pametan kompromis, ali brojke otkrivaju **99% porast RMSE** (root mean square error) u usporedbi s baznim modelom — što upućuje na to da sintetički scenariji *doista* testiraju granice sustava. Problem je što **31,0% točnosti lokalizacije** (ako je to uopće relevantna metrika) ne govori puno o stvarnom ponašanju na cesti.
+
+Benchmarkovi su korisni, ali **jaz između laboratorija i asfalta** ostaje neizmjeren. Dok marketing naglašava 'real-world hazards', stvarno pitanje glasi: koliko ovih 460 scenarija zapravo odgovara **nepredvidivim situacijama** — poput iznenadne magle, refleksija sunca ili pijane šetnje po kolniku?
+
+Pretpostavka da LLM-ovi mogu *simulirati* kaos stvarnog svijeta još je uvijek **nepotkrijepljena tvrdnja**.
+
+<ArticleBreak />
+
+Industrijski kontekst ovdje je ključan: kompanije kao što su [NVIDIA](https://www.nvidia.com/en-us/autonomous-vehicles/) i [Mobileye](https://www.mobileye.com/) već godinama prodaju rješenja za validaciju autonomnih sustava, ali **resursna ograničenja na edge uređajima** ostaju bolna točka. Ovaj framework bi mogao biti **trojanac za cloud provajdere** — jer *offline* faza zahtijeva značajnu računsku moć, što otvara vrata Amazonu, Googleu ili lokalnim igračima poput [GEN-I](https://www.gen-i.eu/hr) za poslovne modele 'validacija kao usluga'.
+
+Developer signal je za sada **umjereno optimističan**: na [GitHubu](https://github.com/) i [Hacker News](https://news.ycombinator.com/) se pojavljuju komentari o potencijalu metoda, ali i skepsa prema **crnoj kutiji LLM-generiranih grešaka**. Ko kontrolira ulazne podatke za LLM? pitaju neki, upućujući na rizik **pristranosti u sintetičkim scenarijima**.
+
+To nije samo tehnički detalj — ako se sustav trenira uglavnom na 'sigurnim' greškama, **realni edge cases** mogu ostati neotkriveni. Najzanimljivije je što autori ne spominju **regulatorne implikacije**.
+
+Ako sintetički testovi postanu standard, tko odgovara kada autonomni auto *ne* prepozna scenarij koji nije bio u LLM-obučenom setu? To možda zvuči kao pravni detalj, ali je upravo tamo gdje **stvarna inovacija** počinje — ili propada.
+
+Stoga je važno da se razmotre sve aspekte ovog rješenja i njegove moguće implikacije. To uključuje i potencijalne rizike i pogreške koji se mogu pojaviti. Na kraju, cilj je stvoriti sustav koji će biti siguran i pouzdan za sve učesnike u prometu. Razvoj takvog sustava zahtijeva suradnju između stručnjaka iz različitih oblasti i kontinuirano testiranje i poboljšanje.

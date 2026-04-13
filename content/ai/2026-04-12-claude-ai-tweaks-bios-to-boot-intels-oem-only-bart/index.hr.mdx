@@ -1,0 +1,49 @@
+---
+id: "2026-04-12-claude-ai-tweaks-bios-to-boot-intels-oem-only-bart"
+db_id: 2380
+title: "Claude AI je modificirao BIOS koji pokreće Intelov tajni CPU"
+lang: "hr"
+category: "ai"
+date: "2026-04-12T10:15:40Z"
+excerpt: "Modder je uspio pokrenuti Intelov **OEM-only** procesor **Core Ultra 9 273QPE** (12 jezgri, 5,3 GHz) na standardnoj **Asus Z790** ploči — uz pomoć **Claude AI**-ja koji je preradio BIOS."
+exec_summary: "A modder leveraged Claude AI to modify an Asus Z790 BIOS, enabling Intel’s embedded-only Bartlett Lake CPU to post—but the system fails to boot further. The experiment highlights both the potential and limits of AI-assisted low-level hacking, while raising questions about hardware control and OEM restrictions."
+key_points:
+  - "Claude AI modirao BIOS za nepodržani Intelov procesor"
+  - "Core Ultra 9 273QPE staje na POST-u, ali ne ide dalje"
+  - "Modderska zajednica testira granice OEM restrikcija"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/pc-components/cpus/modder-gets-intels-oem-only-bartlett-lake-cpu-to-post-on-a-regular-asus-z790-motherboard-bios-was-edited-by-claude-ai-to-make-core-ultra-9-273qpe-boot"
+image:
+  url: "/images/articles/claude-ai-tweaks-bios-to-boot-intels-oem-only-bart/main.jpg"
+  alt: "Claude AI je modificirao BIOS koji pokreće Intelov tajni CPU"
+subtitle: "Dokaz koncepta ili samo trik sa starijim silikonom?"
+subtitleImage:
+  url: "/images/articles/claude-ai-tweaks-bios-to-boot-intels-oem-only-bart/subtitle.jpg"
+  alt: "Dokaz koncepta ili samo trik sa starijim silikonom?"
+tags: ["Claude AI", "BIOS", "Intelov"]
+lead_sentence: "Modder je uz pomoć Claude AI modificirao Asusov BIOS kako bi na Z790 ploči pokrenuo Intelov **OEM-only Core Ultra 9 273QPE** — ali sustav se zaustavlja na POST-u s neidentificiranim greškama."
+geo:
+  name: "Santa Clara, CA"
+  lat: 37.3875
+  lon: -122.0575
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Modder je uspio pokrenuti Intelov **OEM-only** procesor **Core Ultra 9 273QPE** (12 jezgri, 5,3 GHz) na standardnoj **Asus Z790** ploči — uz pomoć **Claude AI**-ja koji je preradio BIOS. Problem? Sustav se zaustavlja na **POST ekranu**, a modder se suočava s nepoznatim [error kodovima](https://www.tomshardware.com/news/intel-bartlett-lake-core-ultra-9-273qpe-asus-z790-bios-mod-claude-ai), što ukazuje na duboke kompatibilnostne prepreke.
+
+Intelove **Bartlett Lake** CPU-je, zasnovane na **Raptor Lake** arhitekturi, namijenjene su **embedded** i industrijskim tržištima, ne potrošačkim pločama. Međutim, ovo nije prvi pokušaj obilaska takvih ograničenja — zajednica već godina eksperimentira s [BIOS modovima](https://win-raid.com/) za nepodržane hardvere. Razlika? Ovoga puta je u igri **AI-generirani kod**, što otvara pitanja o pouzdanosti i skalabilnosti takvih rješenja.
+
+Činjenica da je **Claude AI** uspio generirati funkcionalne BIOS izmjene — makar djelomične — pokazuje kako se alati za automatizaciju kreću u domene koje su prije bile rezervirane za ručne hakerke obrade. No, **POST blokada** podsjeća da je razlika između *detektiranja* procesora i njegovog *stabilnog rada* još uvijek ogromna. Intel ovakve modove ne podržava, a rizik od **brickanja hardvera** ostaje realan.
+
+<ArticleBreak />
+
+Tehnički podaci o **Core Ultra 9 273QPE** — 12 jezgri/24 threadova, **36 MB L3 keša**, podrška za **DDR5-5600** — zvuče impresivno, ali su **embedded** CPU-i često optimizirani za drugačije use case-ove. Njihovo **pogonsko okruženje** (firmware, power delivery) razlikuje se od potrošačkih ploča, što objašnjava zašto mod ne funkcionira puno dalje od POST-a.
+
+[Tom’s Hardware](https://www.tomshardware.com/) ističe da je riječ o **proof-of-concept** projektu, ne o spremnom rješenju. Zanimljivije od samog uspjeha je **kako je zajednica reagirala**: dio korisnika na forumima poput [Overclock.net](https://www.overclock.net/) već razmatra slične eksperimente s drugim OEM CPU-ima, dok drugi upozoravaju na rizike — od **nestabilnosti** do potencijalnog **gubitka garancije**. Intel, naravno, ne komentira takve inicijative, ali ako se trend nastavi, kompanija bi mogla biti prisiljena reagirati s dodatnim **hardverskim zaključavanjem**.
+
+Pravi signal ovdje nije u tome hoće li **Bartlett Lake** ikad raditi na Z790 pločama, već u **brzini s kojom AI alati ulaze u low-level engineering**. Ako Claude može modificirati BIOS, što sprečava slične alate da u budućnosti **automatiziraju obilazak DRM-a** ili drugih restrikcija? To možda zvuči kao tehnički detalj, ali implicira puno širi pomak u tome **tko kontrolira hardver** — proizvođači ili krajnji korisnici.
+
+Ovo otkriće pokazuje kako AI može biti koristan alat u low-level inženjeringu, ali i kako postoje rizici i ograničenja koja treba uzeti u obzir. Krajnji korisnici morat će biti svjesni tih rizika i ograničenja, kao i proizvođači koji će morati reagirati na nove izazove. U svakom slučaju, ovo je samo početak nove ere u low-level inženjeringu.

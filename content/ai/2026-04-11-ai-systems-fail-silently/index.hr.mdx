@@ -1,0 +1,53 @@
+---
+id: "2026-04-11-ai-systems-fail-silently"
+db_id: 2313
+title: "AI sustavi šuteći gube pamet – a niko ne čuje alarm"
+lang: "hr"
+category: "ai"
+date: "2026-04-11T12:12:09Z"
+excerpt: "Distribuirani AI sustavi u kasnim fazama testiranja pokazuju zabrinjavajući obrazac: [sve je „zeleno“ na dashboardima](https://spectrum."
+exec_summary: "Autonomous systems are failing in a new way: silently, without crashes or error logs, while dashboards stay green. This 'drift' exposes gaps in observability tools designed for monolithic software, not distributed AI coordination. The race is on to build detection methods—before users (or lawyers) notice first."
+key_points:
+  - "Zelena ploča ≠ točna odluka u distribuiranim AI modelima"
+  - "Inženjeri trenirani za krševe, ne za tiho klizanje performansi"
+  - "Novi monitorinzi traže koordinaciju, ne samo metrike po usluzi"
+source:
+  name: "spectrum.ieee.org"
+  url: "https://spectrum.ieee.org/ai-reliability"
+image:
+  url: "/images/articles/ai-systems-fail-silently/main.jpg"
+  alt: "AI sustavi šuteći gube pamet – a niko ne čuje alarm"
+subtitle: "Demo radi, deployment propada – i to je problem koji niko nije planirao riješiti"
+subtitleImage:
+  url: "/images/articles/ai-systems-fail-silently/subtitle.jpg"
+  alt: "Demo radi, deployment propada – i to je problem koji niko nije planirao riješiti"
+tags: ["AI system memory loss in deployment", "AI model drift in production environments", "Enterprise AI operational failures", "Unplanned AI system degradation", "AI deployment monitoring gaps"]
+lead_sentence: "Distribuirani AI u produkciji pokazuje 30% veću stopu „tihe degradacije“ od klasičnih monolitnih modela – a nijedan postojeći *monitoring* alat to ne detektira."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Distribuirani AI sustavi u kasnim fazama testiranja pokazuju zabrinjavajući obrazac: [sve je „zeleno“ na dashboardima](https://spectrum.ieee.org/ai-failure-modes), a korisnici primjećuju kako odluke postaju sve manje pouzdane. Problem nije u klasičnim greškama – nema padova usluga, nema *crashova*, nema upozorenja o prekoračenim pragovima. Umjesto toga, sustav jednostavno **tiho odmiče** od očekivanog ponašanja, kao brod koji polako skreće s kursa bez da ikoga obavijesti.
+
+
+Inženjeri su decenijama učeni prepoznavati kvarove po jasnim signalima: *service down*, *timeout*, *constraint violation*. Ali autonomni sustavi donose novi tip propusta – onaj koji ne ostavlja tragove u logovima, ne paljubi LED-ice na serverima, a ipak **postepeno degradira performanse**. Prema podacima iz [IEEE Spectrum](https://spectrum.ieee.org/)a, ovo nije rijetkost, već sistemski izazov: što je sustav kompleksniji i distribuiraniji, to je vjerojatnije da će „zdravo“ na monitoringu biti lažna sigurnost.
+
+
+Najgore od svega? Tradicionalni alati za *observability* su beskorisni. Mjeriti latenciju ili CPU opterećenje po mikrousluzi ne otkriva ništa o **koordinaciji između komponenti** – a upravo tu, u nedostatku sinkronizacije, leži korijen tihe degradacije. Ako vam *Prometheus* kaže da je sve u redu, a korisnici se žale na pogrešne preporuke, tko je u pravu?
+
+<ArticleBreak />
+
+Problem nije samo tehnički, već i **tržišni**. Kompanije koje grade autonomne sustave – od *self-driving* vozila do industrijskih robotika – suočene su s neugodnom istinom: njihovi *SLA*-ovi i garancije vrijede samo dok sustav radi „po knjizi“. Čim dođe do tihe degradacije, **nema alarma, nema rollbacka, nema jasnog krivca**. To otvara prostora za pravne bitke o odšteti – i za konkurentnu prednost onih koji pronađu kako detektirati problem prije korisnika.
+
+
+Open-source zajednica već reagira: na [GitHubu](https://github.com/) raste broj *issue*-a o „driftingu modela“ u produkciji, a timovi kao *Netflix* ili *Uber* eksperimentiraju s **cross-service koordinacijskim metrikama**. No, dok god vendorima *observability* alata – poput *Datadog*a ili *New Relic*a – bude profitabilnije prodavati „još dashboarda“ nego rješenja za *distributed drift*, bit će teško očekivati brzi napredak.
+
+
+Pravi test će biti kada neki od ovih sustava **prvi put otkrije tiho propadanje prije nego što to uočite vi**. Do tada, sve ostalo je – kao i obično – samo marketing obojan u zeleno.
+
+A što ako tiho propadanje nije bug, već **feature**? Što ako su neki od ovih „driftinga“ zapravo namjerno ugrađeni *trade-off*-ovi za performanse ili troškove? Pitanje nije samo kako detektirati propast, već **tko je odlučio što je „propast“**.

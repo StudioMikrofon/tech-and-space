@@ -1,0 +1,57 @@
+---
+id: "2026-04-10-attention-misalignment-a-cheap-fix-for-ai-translat"
+db_id: 2260
+title: "Pametni prevoditelji dobivaju detektor laži – ali je li dovoljno?"
+lang: "hr"
+category: "ai"
+date: "2026-04-10T22:04:50Z"
+excerpt: "Neuralni strojni prijevodi godinama pate od istog problema: ponekad jednostavno izmišljaju."
+exec_summary: "A new low-cost method uses attention misalignment to detect hallucinations in neural machine translations, offering a potential solution to unreliable outputs. While technically promising, its real-world impact depends on adoption by commercial players who currently lack transparency about translation confidence. The approach highlights a broader tension between AI innovation and market incentives."
+key_points:
+  - "Novi pristup otkriva hallucinacije u prijevodima"
+  - "Metoda koristi pažnju umjesto skupih resursa"
+  - "Google Translate i dalje šuti o nesigurnosti"
+source:
+  name: "towardsdatascience.com"
+  url: "https://towardsdatascience.com/detecting-translation-hallucinations-with-attention-misalignment/"
+image:
+  url: "/images/articles/attention-misalignment-a-cheap-fix-for-ai-translat/main.jpg"
+  alt: "Pametni prevoditelji dobivaju detektor laži – ali je li dovoljno?"
+subtitle: "Pažnja kao jeftin nadomjestak za pouzdanost"
+subtitleImage:
+  url: "/images/articles/attention-misalignment-a-cheap-fix-for-ai-translat/subtitle.jpg"
+  alt: "Pažnja kao jeftin nadomjestak za pouzdanost"
+tags: ["AI-generated content detection", "Deepfake and synthetic text verification", "Attention mechanisms in AI trustworthiness", "Linguistic deception detection systems", "AI hallucination mitigation"]
+lead_sentence: "Istraživači s Towards Data Science predlažu metodu koja otkriva kada neuralni prevoditelji izmišljaju, a da pritom ne troše dodatne resurse."
+geo:
+  name: "Mountain View, CA"
+  lat: 37.3861
+  lon: -122.0839
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Neuralni strojni prijevodi godinama pate od istog problema: ponekad jednostavno izmišljaju. I to ne samo riječi, već čitave rečenice koje nemaju veze s izvornim tekstom.
+
+Novi pristup, objavljen na Towards Data Science [1], nudi rješenje koje ne zahtijeva skupa ponovna treniranja modela niti dodatne skupove podataka. Umjesto toga, koristi pažnju – mehanizam koji već postoji u transformerima – kako bi otkrio neslaganja između izvornog i prevedenog teksta.
+
+Metoda se fokusira na tzv. *attention misalignment*, odnosno situacije u kojima model ne usmjerava dovoljno pažnje na relevantne dijelove izvornog teksta. To je kao da prevoditelj gleda u pogrešan redak dok piše prijevod.
+
+Istraživači tvrde da takva neslaganja često ukazuju na hallucinacije – dijelove prijevoda koji su ili besmisleni ili potpuno izmišljeni. Za razliku od postojećih pristupa poput Semantic Entropy [2] ili xCOMET [3], koji zahtijevaju višestruke prolaze ili dodatne modele s milijardama parametara, ova metoda radi s postojećom arhitekturom.
+
+Problem je što Google Translate, DeepL i drugi komercijalni prevoditelji nikada ne otkrivaju koliko su sigurni u svoje prijevode. Korisnici dobivaju rezultat, ali bez ikakve naznake je li riječ o pouzdanom prijevodu ili pukom nagađanju modela.
+
+<ArticleBreak />
+
+Riječ je o tipičnom primjeru AI inovacije koja zvuči obećavajuće, ali se suočava s realnošću tržišta. Istraživači često razvijaju metode koje poboljšavaju tehničke metrike, ali komercijalni igrači imaju malo poticaja za njihovu implementaciju.
+
+Na kraju krajeva, korisnici rijetko znaju da su dobili loš prijevod – jednostavno ga koriste, često bez provjere. Metoda s pažnjom mogla bi biti korisna za interne procjene kvalitete, ali bez vidljivog pokazatelja nesigurnosti za krajnje korisnike, njezin utjecaj ostaje ograničen.
+
+Ipak, postoji jedna grupa koja bi mogla imati koristi: programeri i istraživači koji rade na vlastitim prijevodnim sustavima. Otvoreni kod i jednostavna implementacija mogli bi potaknuti širu primjenu u akademskim i open-source projektima [4].
+
+Ako se metoda pokaže pouzdanom, mogla bi postati standardni dio alata za evaluaciju NMT modela – barem dok netko ne smisli nešto bolje. Ono što je zanimljivo jest da metoda ne zahtijeva dodatne resurse.
+
+Umjesto da se oslanja na skupa ponovna treniranja ili dodatne modele, koristi ono što već postoji. To je rijetkost u svijetu AI, gdje svako poboljšanje obično dolazi s cijenom.
+
+No, kao i uvijek, pravo pitanje nije može li nešto raditi, već hoće li itko to koristiti. Metoda s pažnjom mogla bi biti korak u pravom smjeru, ali još uvijek je rano za donositi zaključke. Potencijal je velik, ali realizacija ovog potencijala ovisi o mnogim čimbenicima.

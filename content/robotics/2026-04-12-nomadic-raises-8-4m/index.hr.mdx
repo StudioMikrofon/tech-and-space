@@ -1,0 +1,55 @@
+---
+id: "2026-04-12-nomadic-raises-8-4m"
+db_id: 2359
+title: "NomadicML pretvara kaos AV podataka u pretraživu bazu "
+lang: "hr"
+category: "robotics"
+date: "2026-04-12T06:12:50Z"
+excerpt: "NomadicML je prikupio **8,4 milijuna** dolara u *seed* rundi za platformu koja pretvara tisuće sati neobrađenog videozapisa autonomnih vozila u **strukturirane, pretražive podatke** — bez ljudske intervencije."
+exec_summary: "NomadicML raised $8.4M to turn autonomous vehicle footage into structured datasets using vision-language models, with early adopters like Zoox and Mitsubishi. The real test isn’t whether it works in demos, but how it handles real-world sensor noise, scaling costs, and safety-critical certification—gaps that separate hype from industrial deployment."
+key_points:
+  - "$8,4 milijuna za strukturiranje video-podataka autonomnih vozila"
+  - "Zoox i Mitsubishi već koriste platformu za treniranje modela"
+  - "Demo vs. deployment: koliko ova tehnologija izdrži stvarne uvjete?"
+source:
+  name: "techcrunch.com"
+  url: "https://techcrunch.com/2026/03/31/nomadic-raises-8-4-million-to-wrangle-the-data-pouring-off-avs/"
+image:
+  url: "/images/articles/nomadic-raises-8-4m/main.jpg"
+  alt: "NomadicML pretvara kaos AV podataka u pretraživu bazu "
+subtitle: "Od labsa do prakse: jaz koji ostaje kada algoritmi susreću prljave senzore i nepredvidive okoline"
+subtitleImage:
+  url: "/images/articles/nomadic-raises-8-4m/subtitle.jpg"
+  alt: "Od labsa do prakse: jaz koji ostaje kada algoritmi susreću prljave senzore i nepredvidive okoline"
+tags: ["NomadicML", "data chaos management", "sensor noise handling", "autonomous systems data pipelines", "edge computing for robotics"]
+lead_sentence: "Platforma NomadicML-a već procesuira snimke za Zoox i Mitsubishi Electric, ali nijedan demo ne pokazuje kako će se nositi s prljavim senzorima ili neočekivanim vremenskim uvjetima."
+geo:
+  name: "Seattle, WA"
+  lat: 47.6062
+  lon: -122.3321
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+NomadicML je prikupio **8,4 milijuna** dolara u *seed* rundi za platformu koja pretvara tisuće sati neobrađenog videozapisa autonomnih vozila u **strukturirane, pretražive podatke** — bez ljudske intervencije. Tehnologija se oslanja na *vision-language modele* (VLM) koji automatski katalogiziraju i označavaju scene, objekte i događaje, što tvrtkama kao što su [Zoox](https://zoox.com) (Amazonova podružnica) ili [Mitsubishi Electric](https://www.mitsubishielectric.com) omogućuje brže iteracije u razvoju autonomnih sustava.
+
+Ključna razlika od konkurencije? Nomadic ne nudi samo „pametne“ alate za označavanje, već **cjeloviti *pipeline*** od sirovog snimka do gotovog *dataset*-a za *reinforcement learning*.
+
+Iza projekta stoje **Mustafa Bal** (izvršni direktor) i **Varun Krishnan** (CTO), čija je platforma već osvojila prvo mjesto na [Nvidijinom GTC pitch natjecanju](https://www.nvidia.com/gtc) — što signalizira povjerenje u njihovu sposobnost rješavanja jednog od najvećih *bottleneck*-ova u autonomnoj industriji: **ručno katalogiziranje podataka**. Problem je toliko akutan da tvrtke troše milijune na ljudske timove koji označavaju snimke, dok Nomadic obećava **95 % smanjenje troškova** (prema njihovim internim procjenama).
+
+Ali koliko je ta ušteda realna kada se suoči s **prljavim lećama, lošim osvjetljenjem ili neočekivanim scenarijima** na terenu? Pitanje nije *hoće li* ovo funkcionirati u kontroliranim uvjetima — demo videi to već pokazuju. Pitanje je **kako će se ponašati kada autonomno vozilo naiđe na kišu, maglu ili neoznačeni radarski reflektor** koji algoritam nikad prije nije ‚vidio‘. Jer dok marketing govori o ‚bržem razvoju‘, inženjeri znaju da pravi test dolazi kada sustav mora raditi **24/7 u promjenjivim uvjetima**, a ne u pažljivo odabranim *edge case*-ovima za investitore.
+
+<ArticleBreak />
+
+Nomadicove tvrdnje o ‚univerzalnoj‘ primjenjivosti — od autonomnih kamiona do robota u skladištima — **zvuče privlačno**, ali stvarni *deployment* otkriva drugačiju priču. Na primjer, [Natix Networks](https://natix.net) (još jedan njihov klijent) koristi platformu za poboljšanje *3D percepcije* u urbanim okruženjima, no **koliko je ta preciznost održiva** kada se senzori zakrče prašinom ili kada kamere zabilježe refleksije koje algoritam klasificira kao ‚nepoznate objekte‘?
+
+Slično, [Zendar](https://zendar.io) — koji radi na *radar-vision fusion* tehnologiji — možda cjeni Nomadicovu sposobnost filtriranja šuma, ali **stvarno usko grlo** možda nije u softveru, već u **hardverskim ograničenjima** samih senzora koje platforma obrađuje. Još jedna kritična točka: **skalabilnost**.
+
+Nomadic tvrdi da njihova rješenja mogu obraditi ‚terabajte podataka dnevno‘, ali što se događa kada klijenti kao što je Mitsubishi počnu slati snimke iz **stotina vozila istovremeno**? Obrada u *real time*-u zahtijeva ne samo robusne modele, već i infrastrukturu koja može podnijeti **latenciju, troškove pohrane i energetsku potrošnju** — stvarnost koju demo videi rijetko spomenu.
+
+Također, dok tvrtka ističe da njihovi *datasets* ubrzavaju razvoj, **nijedan od klijenata još nije potvrdio** da su zahvaljujući Nomadicu postigli značajan napredak u *safety-critical* scenarijima, poput izbjegavanja sudara u gužvi. Zanimljivo je da Nomadic **ne spominje certifikacije** — ključni korak za masovnu upotrebu u autonomnoj industriji. Bez ISO 26262 ili sličnih standarda, njihova platforma ostaje alatom za **razvoj i testiranje**, a ne za produkcijske sustave. To znači da, iako su 8,4 milijuna dolara impresivan početak, **put do stvarne industrijske adopcije** možda tek počinje.
+
+Jer u robotici, udaljenost između dema i deploymenta obično se mjeri **baterijama, održavanjem i ljudskim nadzorom** — a ne brojem obrađenih videozapisa.
+
+NomadicML je samo jedan od brojnih startupa koji se bave razvojem autonomnih vozila i robota. Međutim, njihova platforma ima veliki potencijal za revoluciju u autonomnoj industriji. S pravilnim razvojem i poboljšanjem, NomadicML može postati vodeći igrač u toj industriji i omogućiti brži i sigurniji razvoj autonomnih vozila i robota. Međutim, mora biti svjestan ograničenja i potencijalnih problema koji se mogu pojaviti u stvarnim uvjetima.
