@@ -69,7 +69,7 @@ export default function HomePage() {
       <div className="fixed inset-0 pointer-events-none opacity-[0.15] z-0">
         <SolarSystem interactive />
       </div>
-      <HeroSection featured={featured} headlines={headlines} latestPerCategory={latestPerCategory} latestPerCategoryMultiple={latestPerCategoryMultiple} />
+      <HeroSection featured={featured} headlines={headlines} latestPerCategory={latestPerCategory} latestPerCategoryMultiple={latestPerCategoryMultiple} lang="en" />
       <SpaceBar />
 
       {/* Gaming Hub widget */}

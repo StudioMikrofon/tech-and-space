@@ -14,6 +14,7 @@ interface ArticleCardProps {
   article: Article;
   onGeoClick?: (article: Article) => void;
   basePath?: string;
+  lang?: "en" | "hr";
 }
 
 const LOADING_LINES = [
@@ -22,7 +23,7 @@ const LOADING_LINES = [
   "> LOADING ARTICLE",
 ];
 
-export default function ArticleCard({ article, onGeoClick, basePath = "" }: ArticleCardProps) {
+export default function ArticleCard({ article, onGeoClick, basePath = "", lang = "en" }: ArticleCardProps) {
   const router = useRouter();
   const cardRef = useRef<HTMLDivElement>(null);
   const [isWarping, setIsWarping] = useState(false);
@@ -52,7 +53,12 @@ export default function ArticleCard({ article, onGeoClick, basePath = "" }: Arti
 
     // Navigate after animation
     setTimeout(() => {
-      router.push(`${basePath}/article/${article.category}/${article.id}`);
+      try {
+        router.push(`${basePath}/article/${article.category}/${article.id}`);
+      } catch (error) {
+        console.error("Navigation failed:", error);
+        setIsWarping(false);
+      }
     }, 600);
   };
 
@@ -135,7 +141,7 @@ export default function ArticleCard({ article, onGeoClick, basePath = "" }: Arti
 
         {/* Category badge */}
         <Link
-          href={`/category/${article.category}`}
+          href={`${basePath}/category/${article.category}`}
           className={`absolute top-3 left-3 category-badge category-badge-${article.category} cursor-pointer hover:opacity-80 transition-opacity z-10`}
           onClick={(e) => e.stopPropagation()}
         >
@@ -163,7 +169,7 @@ export default function ArticleCard({ article, onGeoClick, basePath = "" }: Arti
       {/* Content */}
       <div className="p-4 flex-1 flex flex-col">
         <h3 className="font-heading font-bold text-text-primary text-base sm:text-lg leading-snug mb-1 line-clamp-2 group-hover:text-accent-cyan transition-colors duration-300">
-          {article.title}
+          {lang === "en" ? (article.titleEn || article.title) : article.title}
         </h3>
         <p className="text-sm sm:text-[0.9rem] text-text-secondary line-clamp-3 mb-3 flex-1 leading-relaxed">
           {article.leadSentenceEn || article.excerpt}

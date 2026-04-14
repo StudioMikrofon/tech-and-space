@@ -118,7 +118,7 @@ export default function CategorySwimlane({
               className="flex-shrink-0 w-[260px] sm:w-[300px]"
               style={{ animationDelay: `${i * 0.05}s` }}
             >
-              <ArticleCard article={article} onGeoClick={onGeoClick} basePath={basePath} />
+              <ArticleCard article={article} onGeoClick={onGeoClick} basePath={basePath} lang={lang} />
             </div>
           ))}
         </div>

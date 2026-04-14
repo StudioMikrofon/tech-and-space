@@ -1,42 +1,33 @@
 ---
-id: "2026-03-19-transformers-finally-explained-it-was-bayesian-all"
+id: 2026-03-19-transformers-finally-explained-it-was-bayesian-all
 db_id: 512
 title: "Transformers Finally Explained: It Was Bayesian All Along"
-category: "ai"
+category: ai
 date: "2026-03-19T12:00:00Z"
 excerpt: "For years, the AI field has treated transformers as empirical magic—architectures that worked spectacularly well while their inner mechanics remained a black box."
 exec_summary: "A new arXiv paper proves transformers are mathematically equivalent to Bayesian networks, offering a formal explanation for their dominance—but the real question is whether this changes engineering practice or just retroactively justifies existing models. The gap between theory and deployment remains wide, with open-source communities and interpretability startups as the most likely beneficiaries."
-key_points:
-  - "Formal proof links transformers to Bayesian networks"
-  - "One layer equals one belief propagation round"
-  - "Math verification confirms what intuition missed"
-source:
-  name: "arXiv AI"
-  url: "https://arxiv.org/abs/2603.17063"
-image:
-  url: "/images/articles/transformers-finally-explained-it-was-bayesian-all/main.jpg"
-  alt: "Transformers Finally Explained: It Was Bayesian All Along"
-subtitle: "Matematički dokaz ili samo nova ambalaža za staru logiku?"
-subtitleImage:
-  url: "/images/articles/transformers-finally-explained-it-was-bayesian-all/subtitle.jpg"
-  alt: "What changed: precision, not novelty"
-tags: ["Bayesian Networks", "Transformers", "Mathematical Proof"]
-geo:
-  name: "Menlo Park, CA"
-  lat: 37.4529
-  lon: -122.1817
-  countryCode: "US"
+key_points: 
+source: 
+name: "Menlo Park, CA"
+url: /images/articles/transformers-finally-explained-it-was-bayesian-all/subtitle.jpg
+image: 
+alt: "What changed: precision, not novelty"
+subtitle: Matematički dokaz ili samo nova ambalaža za staru logiku?
+subtitleImage: 
+tags: "["Bayesian Networks", "Transformers", "Mathematical Proof"]"
+geo: 
+lat: 37.4529
+lon: -122.1817
+countryCode: US
 featured: false
-lead_sentence: "New proof reveals transformers are just Bayesian belief propagation in disguise—mathematically verified to the core."
+lead_sentence: New proof reveals transformers are just Bayesian belief propagation in disguise—mathematically verified to the core.
 approved: true
 title_en: "Transformers Finally Explained: It Was Bayesian All Along"
 subtitle_en: "What changed: precision, not novelty"
-part1_en: "For years, the AI field has treated transformers as empirical magic—architectures that worked spectacularly well while their inner mechanics remained a black box. A new [arXiv paper](https://arxiv.org/abs/2603.17063v1) finally offers something the field has been desperately missing: mathematical precision. The authors prove that every sigmoid transformer, regardless of whether its weights are trained, random, or constructed, implements weighted loopy belief propagation on an implicit factor graph. One transformer layer equals exactly one round of belief propagation.
-
-This isn't hand-wavy interpretation dressed up in academic language. The proofs are [formally verified](https://arxiv.org/archive/cs.AI) against standard mathematical axioms—twice, actually. The paper doesn't just suggest a theoretical connection; it constructs one through five distinct approaches. That's notable because \"transformers work\" has long been an article of faith backed by benchmark leaderboards, not by fundamental understanding of the mechanism underneath."
-part2_en: "The practical implication cuts through the usual research theater. If transformers are fundamentally Bayesian inference machines, we're not just stacking attention layers—we're running approximate probabilistic reasoning at scale. The [AI research community](https://www.reddit.com/r/MachineLearning/) has long speculated about this connection, but formal verification shifts the conversation from \"interesting hypothesis\" to \"proven architecture.\" Early signals suggest this could reshape how researchers approach interpretability work.
-
-For developers, this matters because understanding each layer as belief propagation might explain why certain training techniques succeed while others fail spectacularly. The paper also provides a constructive proof that transformers can implement exact belief propagation on any declared knowledge base, which has implications for [retrieval-augmented systems](https://arxiv.org/list/cs.AI/recent) and knowledge-grounded generation. According to available information, this may help explain why transformers became the dominant architecture: they weren't just lucky designs, but implementations of a well-established probabilistic framework."
+part1_en: ""For years, the AI field has treated transformers as empirical magic—architectures that worked spectacularly well while their inner mechanics remained a black box. A new [arXiv paper](https://arxiv.org/abs/2603.17063v1) finally offers something the field has been desperately missing: mathematical precision. The authors prove that every sigmoid transformer, regardless of whether its weights are trained, random, or constructed, implements weighted loopy belief propagation on an implicit factor graph. One transformer layer equals exactly one round of belief propagation."
+This isn't hand-wavy interpretation dressed up in academic language. The proofs are [formally verified](https: "//arxiv.org/archive/cs.AI) against standard mathematical axioms—twice, actually. The paper doesn't just suggest a theoretical connection; it constructs one through five distinct approaches. That's notable because \"transformers work\" has long been an article of faith backed by benchmark leaderboards, not by fundamental understanding of the mechanism underneath.""
+part2_en: ""The practical implication cuts through the usual research theater. If transformers are fundamentally Bayesian inference machines, we're not just stacking attention layers—we're running approximate probabilistic reasoning at scale. The [AI research community](https://www.reddit.com/r/MachineLearning/) has long speculated about this connection, but formal verification shifts the conversation from \"interesting hypothesis\" to \"proven architecture.\" Early signals suggest this could reshape how researchers approach interpretability work."
+For developers, this matters because understanding each layer as belief propagation might explain why certain training techniques succeed while others fail spectacularly. The paper also provides a constructive proof that transformers can implement exact belief propagation on any declared knowledge base, which has implications for [retrieval-augmented systems](https: "//arxiv.org/list/cs.AI/recent) and knowledge-grounded generation. According to available information, this may help explain why transformers became the dominant architecture: they weren't just lucky designs, but implementations of a well-established probabilistic framework.""
 ---
 -
 

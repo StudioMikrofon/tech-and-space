@@ -16,6 +16,7 @@ interface HeroSectionProps {
   headlines?: Article[];
   latestPerCategory?: Article[];
   latestPerCategoryMultiple?: Record<string, Article[]>;
+  lang?: "en" | "hr";
 }
 
 /* ── Headline Sequence ─────────────────────────────────────────────────── */
@@ -33,7 +34,7 @@ const SLIDE_VARIANTS = [
 
 function pickVariant() { return Math.floor(Math.random() * SLIDE_VARIANTS.length); }
 
-function HeadlineSequence({ headlines }: { headlines: Article[] }) {
+function HeadlineSequence({ headlines, lang = "en" }: { headlines: Article[], lang?: "en" | "hr" }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
   const [phase, setPhase] = useState<Phase>("in");
@@ -87,7 +88,7 @@ function HeadlineSequence({ headlines }: { headlines: Article[] }) {
   const renderHeadline = (article: Article, cls: string, key: string, isActive = false) => (
     <Link
       key={key}
-      href={`/article/${article.category}/${article.id}`}
+      href={`${lang === "hr" ? "/hr" : ""}/article/${article.category}/${article.id}`}
       className={`absolute inset-0 flex flex-col items-center justify-center text-center px-5 sm:px-10 overflow-hidden ${cls}`}
       style={{
         willChange: "transform, opacity, filter",
@@ -240,6 +241,7 @@ export default function HeroSection({
   featured,
   headlines = [],
   latestPerCategoryMultiple = {},
+  lang = "en",
 }: HeroSectionProps) {
   const globeContainerRef = useRef<HTMLDivElement>(null);
   const globeRef = useRef<GlobeHandle>(null);
@@ -351,14 +353,14 @@ export default function HeroSection({
         </div>
 
         {/* Animated headline sequence */}
-        {headlines.length > 0 && <HeadlineSequence headlines={headlines} />}
+        {headlines.length > 0 && <HeadlineSequence headlines={headlines} lang={lang} />}
 
         {/* Static featured article fallback — no headlines */}
         {headlines.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center z-10 px-6">
             <div className="max-w-3xl mx-auto text-center space-y-5">
               <Link
-                href={`/category/${featured.category}`}
+                href={`${lang === "hr" ? "/hr" : ""}/category/${featured.category}`}
                 className={`category-badge category-badge-${featured.category} inline-block cursor-pointer hover:opacity-80 transition-opacity`}
               >
                 {CATEGORY_LABELS[featured.category]}
@@ -375,7 +377,7 @@ export default function HeroSection({
                 <span>{formatDistanceToNow(featured.date)}</span>
               </div>
               <Link
-                href={`/article/${featured.category}/${featured.id}`}
+                href={`${lang === "hr" ? "/hr" : ""}/article/${featured.category}/${featured.id}`}
                 className="article-link-cta inline-flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-accent-cyan/10 border border-accent-cyan/30 rounded-xl text-accent-cyan font-semibold text-base sm:text-lg hover:bg-accent-cyan/20 transition-all duration-300"
               >
                 Read Article
