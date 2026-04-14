@@ -325,7 +325,7 @@ export const AUDIO_SETTINGS = {
   mobileOptimized: true,
 
   /** Preload all sounds on app start */
-  preloadOnStart: true,
+  preloadOnStart: false, // Audio files missing in /public/audio/ - disable preload to prevent 404 loops
 
   /** Log audio events to console (debug) */
   debug: false,
