@@ -1,6 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { getArticlesByCategory } from "@/lib/content";
 import {
   CATEGORIES,
@@ -11,6 +9,7 @@ import ArticleGrid from "@/components/ArticleGrid";
 import CategoryBanner from "@/components/CategoryBanner";
 import CategoryLoadingTerminal from "@/components/CategoryLoadingTerminal";
 import GamingWidget from "@/components/GamingWidget";
+import HistoryBackButton from "@/components/HistoryBackButton";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -50,13 +49,7 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <Link
-        href="/"
-        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent-cyan transition-colors mb-6"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to Home
-      </Link>
+      <HistoryBackButton fallbackHref="/" label="Back" className="mb-6" />
 
       <CategoryBanner category={category} />
       <CategoryLoadingTerminal category={category} />

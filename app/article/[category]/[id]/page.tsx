@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { ArrowLeft, ExternalLink, Clock, Tag, MapPin } from "lucide-react";
+import { ExternalLink, Clock, Tag, MapPin } from "lucide-react";
 import Link from "next/link";
 import {
   getAllArticles,
@@ -18,11 +18,13 @@ import Comments from "@/components/Comments";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import GlobeModal from "@/components/GlobeModal";
 import LangSwitcher from "@/components/LangSwitcher";
+import HistoryBackButton from "@/components/HistoryBackButton";
 import RelatedArticles from "@/components/RelatedArticles";
 import ArticleDeleteButton from "@/components/ArticleDeleteButton";
 import GlitchEffect from "@/components/GlitchEffect";
 import GlobeWithQuiz from "@/components/GlobeWithQuiz";
 import LikeButton from "@/components/LikeButton";
+import { getPersonaDisplay } from "@/lib/personaDisplay";
 import type { Metadata } from "next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://techand.space";
@@ -109,6 +111,15 @@ export default async function ArticlePage({ params }: PageProps) {
   // Use English version if available
   const displayTitle = article.titleEn || article.title;
   const displayExcerpt = article.excerptEn || article.excerpt;
+  const rewrittenBy = article.rewrittenBy || article.author || "";
+  const rewrittenAvatar = article.rewrittenAvatar || "";
+  const personaDisplay = getPersonaDisplay(
+    article.rewrittenPersona,
+    article.id,
+    "en",
+  );
+  const rewrittenRole = article.rewrittenRole || personaDisplay?.role || "";
+  const rewrittenTagline = personaDisplay?.tagline || "";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -163,13 +174,7 @@ export default async function ArticlePage({ params }: PageProps) {
       >
         {/* Back link + lang switch */}
         <div className="article-enter flex items-center justify-between mb-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent-cyan transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
+          <HistoryBackButton fallbackHref="/" label="Back" />
           <LangSwitcher lang="en" href={`/hr/article/${category}/${id}`} />
         </div>
 
@@ -185,6 +190,11 @@ export default async function ArticlePage({ params }: PageProps) {
                 >
                   {CATEGORY_LABELS[article.category]}
                 </Link>
+                {article.rewritten && (
+                  <span className="text-[10px] font-mono border rounded px-2 py-0.5 border-cyan-400/30 text-cyan-300 bg-cyan-950/25">
+                    REWRITTEN
+                  </span>
+                )}
                 {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && (
                   <>
                     <span className={`text-[10px] font-mono border rounded px-1.5 py-0.5 ${article.dbId ? "text-accent-cyan/60 border-accent-cyan/20" : "text-red-400/50 border-red-400/20"}`}>
@@ -277,6 +287,56 @@ export default async function ArticlePage({ params }: PageProps) {
                     </li>
                   ))}
                 </ul>
+                {article.rewritten && rewrittenBy && (
+                  <div className="mt-4 flex items-center gap-3 border-t border-cyan-400/10 pt-4">
+                    {rewrittenAvatar ? (
+                      <img
+                        src={rewrittenAvatar}
+                        alt={rewrittenBy}
+                        className="w-8 h-8 rounded-full border border-cyan-300/20 object-cover"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full border border-cyan-300/20 bg-transparent flex items-center justify-center text-[10px] text-cyan-200/80 font-semibold">
+                        {rewrittenBy.slice(0, 2).toUpperCase()}
+                      </div>
+                    )}
+                    <div className="flex flex-col leading-tight">
+                      <span className="text-[9px] uppercase tracking-[0.22em] text-cyan-300/55">Author</span>
+                      <span className="text-[12px] sm:text-[13px] text-text-primary font-medium">{rewrittenBy}</span>
+                      {rewrittenRole && (
+                        <span className="text-[10px] text-text-secondary/70">{rewrittenRole}</span>
+                      )}
+                      {rewrittenTagline && (
+                        <span className="text-[10px] italic text-text-secondary/55">"{rewrittenTagline}"</span>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+            {article.rewritten && rewrittenBy && !(article.keyPointsEn || article.keyPoints) && (
+              <div className="article-enter-delay-3 mb-6 flex items-center gap-3 border-t border-cyan-400/10 pt-4">
+                {rewrittenAvatar ? (
+                  <img
+                    src={rewrittenAvatar}
+                    alt={rewrittenBy}
+                    className="w-8 h-8 rounded-full border border-cyan-300/20 object-cover"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full border border-cyan-300/20 bg-transparent flex items-center justify-center text-[10px] text-cyan-200/80 font-semibold">
+                    {rewrittenBy.slice(0, 2).toUpperCase()}
+                  </div>
+                )}
+                <div className="flex flex-col leading-tight">
+                  <span className="text-[9px] uppercase tracking-[0.22em] text-cyan-300/55">Author</span>
+                  <span className="text-[12px] sm:text-[13px] text-text-primary font-medium">{rewrittenBy}</span>
+                  {rewrittenRole && (
+                    <span className="text-[10px] text-text-secondary/70">{rewrittenRole}</span>
+                  )}
+                  {rewrittenTagline && (
+                    <span className="text-[10px] italic text-text-secondary/55">"{rewrittenTagline}"</span>
+                  )}
+                </div>
               </div>
             )}
 
@@ -369,7 +429,7 @@ export default async function ArticlePage({ params }: PageProps) {
             {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && article.dbId && (
               <div className="mt-6 flex justify-end">
                 <a
-                  href={`/foto-review?id=${article.dbId}`}
+                  href={`/foto-review?id=${article.dbId}&single=1`}
                   className="text-xs px-3 py-1.5 rounded border border-white/15 text-white/35 hover:border-cyan-500/50 hover:text-cyan-300 transition-colors"
                 >
                   Uredi u foto-review →

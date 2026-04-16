@@ -1,0 +1,47 @@
+---
+id: "2026-04-14-ai-proxy-hack-exposes-new-attack-vector-on-cloud-a"
+db_id: 2533
+title: "LiteLLM malware: Kubernetes klasteri postali meta AI napada"
+lang: "hr"
+category: "ai"
+date: "2026-04-14T06:12:35Z"
+excerpt: "Dvije zaražene verzije LiteLLM-a (1."
+exec_summary: "The compromise of LiteLLM reveals a shift in attack vectors: malware now targets AI infrastructure itself, not just data. By spreading through Kubernetes clusters and stealing credentials silently, it exposes how deployment pipelines—often treated as secondary to model performance—are the real security gap. Watch for how cloud providers respond, and whether this becomes the new normal for AI supply-chain attacks."
+key_points:
+  - "Zaražene verzije 1.82.7 i 1.82.8 na PyPI-u 24. ožujka"
+  - "Krade SSH ključeve, cloud vjerodajnice i Kubernetes konfiguracije"
+  - "NVIDIA-in Jim Fan upozorava na novu klasu napada na AI agente"
+source:
+  name: "the-decoder.com"
+  url: "https://the-decoder.com/popular-ai-proxy-litellm-got-hacked-with-malware-that-spreads-through-kubernetes-clusters/"
+image:
+  url: "/images/articles/ai-proxy-hack-exposes-new-attack-vector-on-cloud-a/main.jpg"
+  alt: "LiteLLM malware: Kubernetes klasteri postali meta AI napada"
+subtitle: "Demo nasuprot deploymenta: zašto je ovo više od još jednog supply-chain incidenata"
+subtitleImage:
+  url: "/images/articles/ai-proxy-hack-exposes-new-attack-vector-on-cloud-a/subtitle.jpg"
+  alt: ""
+tags: ["LiteLLM", "Kubernetes", "Malware", "Supply Chain Attack"]
+lead_sentence: "Malware u LiteLLM-u ne krađe podatke za otkupninu — **instalira backdoor-e koji čekaju na naredbu da preuzmu kontrolu nad Kubernetes klasterima**."
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Dvije zaražene verzije LiteLLM-a (1.82.7 i 1.82.8), objavljene 24. ožujka 2026. preko PyPI-a, nisu bile običan bug već namjerno umetnuti malware koji sustavno krade SSH ključeve, cloud vjerodajnice i Kubernetes konfiguracije. Razlika između „još jednog kompromitiranog paketa“ i ovoga? Malware se ne zadovoljava lokalnom štetom — autonomno se širi kroz Kubernetes klastere, pretvarajući ih u odskočnu dasku za daljnje infekcije. To nije samo kršenje sigurnosti, već dizajnirani upad u infrastrukturu koja pokreće AI modele.
+
+Sigurnosni istraživač Callum McMahon, koji je otkrio incident, opisao ga je kao *„pure nightmare fuel“* — ne zbog spektakularnosti, već zbog tihe učinkovitosti. Malware ne traži pažnju: ne enkriptira podatke za otkupninu, ne gasi sustave, ne ostavlja tragove koji bi aktivirali alarme. Umjesto toga, mirno kopira vjerodajnice i instalira backdoor-e koji čekaju na aktivaciju.
+
+Za razliku od tipičnih ransomware napada, ovdje meta nije novac, već kontrola nad AI agentima. Čemu sve to služi? NVIDIA-in direktor za AI Jim Fan već je nazvao ovaj slučaj *„novom klasom napada“* usmjerenom na manipulaciju AI sustava. Ako malware može preuzeti vjerodajnice za pristup cloud API-jima, kompromitirani agenti mogu oponašati korisnike na svim računima — od chatbota do automatiziranih odlučivačkih sustava.
+
+<ArticleBreak />
+
+LiteLLM je proxy koji upravlja pristupom modelima kao što su GPT-4, Claude i Gemini. Ako je napadač unutar tog toka, sve što prolazi kroz proxy postaje potencijalno kompromitirano. Zašto je ovo gore od prosječnog supply-chain napada? Jer LiteLLM nije neka marginalna biblioteka — koristi ga tisuće tvrtki za upravljanje troškovima i rutiranjem AI zahtjeva.
+
+Kompromitirane verzije bile su dostupne punih 24 sata prije nego što je problem uočen, što znači da je malware već mogao biti deployan u produkcijska okruženja. Autor biblioteke, prema dostupnim informacijama, čini se potpuno kompromitiran — što otvara pitanje koliko je duboko infekcija prošla. Pravi signal ovdje nije samo malware, već što je uspio iskoristiti: Kubernetes klasteri postali su kritična točka za širenje jer većina korisnika ne provjerava integritet svake zavisne biblioteke u realnom vremenu.
+
+Dok se GitHub repository nadopunjava upozorenjima i zakrpama, stvarno usko grlo možda uopće nije u kodu, već u načinima kako organizacije provjeravaju što pokreću u svojim klasterima. Preporuka za sada? Rotirati sve vjerodajnice, čak i one za koje mislite da nisu izložene — jer je malware dizajniran da pronalazi i ekstrahira ono što korisnici često zaborave.

@@ -17,9 +17,11 @@ function getDb(readonly = false) {
   return db;
 }
 
-const FIELDS = `id, title, title_en, subtitle, subtitle_en, category, status, chosen_ending,
+const FIELDS = `id, title, author, title_en, subtitle, subtitle_en, category, status, chosen_ending,
                 endings_json, endings_en, part1, part1_en, part2, part2_en, images_json, body_md,
-                source_url, source_name, source_published_at, github_uploaded, lead_sentence, lead_sentence_en, exec_summary, exec_summary_en, key_points_hr, key_points_en`;
+                source_url, source_name, source_published_at, github_uploaded, lead_sentence, lead_sentence_en,
+                exec_summary, exec_summary_en, key_points_hr, key_points_en,
+                rewritten, rewritten_at, rewritten_by, rewritten_persona, rewritten_avatar, pipeline_stage`;
 
 // GET /api/editorial?id=150  OR  /api/editorial?slug=2026-03-07-some-article-slug
 export async function GET(req: NextRequest) {

@@ -595,7 +595,7 @@ export default function SpaceProDrawer({ open, onClose, persistent = false }: Sp
 
       <div
         ref={drawerRef}
-        className="fixed top-0 right-0 z-[60] h-full w-full sm:w-[400px] bg-space-bg/95 backdrop-blur-xl border-l border-white/10 overflow-y-auto drawer-slide-in"
+        className="fixed top-0 right-0 z-[60] h-full w-full sm:w-[400px] bg-space-bg/95 backdrop-blur-xl border-l border-cyan-400/10 overflow-y-auto drawer-slide-in"
       >
         {/* Header */}
         <div className="sticky top-0 z-10 bg-space-bg/90 backdrop-blur-md border-b border-white/10 px-5 py-4 flex items-center justify-between">

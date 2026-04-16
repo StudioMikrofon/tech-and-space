@@ -15,7 +15,7 @@ source:
   name: "arxiv.org"
   url: "https://arxiv.org/abs/2603.09983"
 image:
-  url: "/images/articles/moe-spacs-speculative-bet-lookahead-or-just-more-h/main.jpg"
+  url: "/images/articles/moe-spacs-speculative-bet-lookahead-or-just-more-h/main.png"
   alt: "MoE-SpAc: Spekulativna pamet protiv edge stiske"
 subtitle: "Demo performanse nasuprot stvarnoj upotrebi: Tko doista rješava izazov edge računarstva"
 subtitleImage:
@@ -45,5 +45,3 @@ Brojke iz rada (sedam benchmarkova, 4,04x prosječno ubrzanje) su impresivne, al
 Tko ovdje dobiva prednost? Prvo, igrači koji već imaju MoE modele u produkciji (npr. [Mistral](https://mistral.ai/) ili [Databricks](https://www.databricks.com/)) i traže način da ih guraju na slabiji hardware. Drugo, proizvođači edge čipova koji sada mogu reklamirati „podršku za MoE-SpAc“ bez potrebe za promjenom arhitekture. Treće — i ovdje postaje zanimljivo — cloud provajderi koji nude *edge-as-a-service*: ako ovo zaista radi na heterogenom hardveru, njihovi „inteligentni“ load balanceri dobivaju novi layer optimizacije.
 
 Developer signal? Kod je [dostupan na GitHub-u](https://github.com/...), ali za sada više izgleda kao akademski proof-of-concept nego kao production-ready biblioteka. Community reagira s oprezom: na [Hacker News](https://news.ycombinator.com/) i [r/MachineLearning](https://www.reddit.com/r/MachineLearning/) ističe se da je **asinkroni engine** potencijalno nestabilan na stvarnom hardveru, a neki upozoravaju na *optimization overhead* kod online integer solversa. Pravi test će biti kada netko pokuša deployati ovo na, recimo, Raspberry Pi klasteru s realnim podacima — a ne na simuliranom „edge“ okruženju s idealnim uvjetima.
-
-MoE-SpAc nudi obećavajuću perspektivu, ali samo ako se demonstrira stabilnost na realnom hardveru. Trenutno je to još uvijek akademski eksperiment, a ne rješenje za proizvodnju. Bez takvih provjera, brojke iz papira ostaju samo teoretski potencijal.

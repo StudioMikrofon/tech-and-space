@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { getPersonaDisplay } from "@/lib/personaDisplay";
 
 interface QueueTask {
   id: number;
@@ -47,6 +48,7 @@ interface Article {
   id: number;
   title: string;
   title_en: string | null;
+  author: string | null;
   category: string;
   lead: string;
   pipeline_stage: string;
@@ -56,6 +58,11 @@ interface Article {
   source_url: string | null;
   source_name: string | null;
   source_published_at: string | null;
+  rewritten: boolean;
+  rewritten_at: string | null;
+  rewritten_by: string | null;
+  rewritten_persona: string | null;
+  rewritten_avatar: string | null;
   memoryAlert: MemoryAlert | null;
   images: ArticleImage[];
   folderName: string | null;
@@ -86,6 +93,12 @@ interface FullArticle {
   exec_summary_en: string | null;
   key_points_hr: string | null;
   key_points_en: string | null;
+  author: string | null;
+  rewritten: number | null;
+  rewritten_at: string | null;
+  rewritten_by: string | null;
+  rewritten_persona: string | null;
+  rewritten_avatar: string | null;
 }
 
 interface EditFields {
@@ -132,6 +145,39 @@ const STATUS_COLORS: Record<string, string> = {
 function parseEndings(json: string | null): Record<string, string> {
   if (!json) return {};
   try { return JSON.parse(json) as Record<string, string>; } catch { return {}; }
+}
+
+async function fetchJsonOrText(url: string): Promise<{ data: any; rawText: string; ok: boolean }> {
+  const res = await fetch(url);
+  const rawText = await res.text();
+  try {
+    return { data: rawText ? JSON.parse(rawText) : {}, rawText, ok: res.ok };
+  } catch {
+    return { data: { error: rawText || `HTTP ${res.status}` }, rawText, ok: res.ok };
+  }
+}
+
+function isTransientFotoReviewError(payload: { data: any; rawText: string; ok: boolean }): boolean {
+  const text = `${payload.rawText || ""} ${payload.data?.error || ""}`.toLowerCase();
+  return (
+    !payload.ok ||
+    text.includes("no available server") ||
+    text.includes("server error") ||
+    text.includes("econnrefused") ||
+    text.includes("timed out")
+  );
+}
+
+async function fetchFotoReviewWithRetry(url: string, retries = 4, delayMs = 700) {
+  let last: { data: any; rawText: string; ok: boolean } | null = null;
+  for (let attempt = 0; attempt < retries; attempt++) {
+    last = await fetchJsonOrText(url);
+    if (!isTransientFotoReviewError(last)) return last;
+    if (attempt < retries - 1) {
+      await new Promise((resolve) => setTimeout(resolve, delayMs * (attempt + 1)));
+    }
+  }
+  return last!;
 }
 
 export default function FotoReviewPage() {
@@ -215,6 +261,10 @@ export default function FotoReviewPage() {
   // Per-article model override (falls back to genModel)
   const [articleModels, setArticleModels] = useState<Record<number, "qwen" | "openai">>({});
   const getArticleModel = (id: number) => articleModels[id] ?? genModel;
+  const getRewrittenDisplay = useCallback((article: Article) => {
+    if (!article.rewritten || !article.rewritten_persona) return null;
+    return getPersonaDisplay(article.rewritten_persona, String(article.id), "en");
+  }, []);
 
   // Manual scrape
   const [manualUrl, setManualUrl] = useState("");
@@ -337,15 +387,36 @@ export default function FotoReviewPage() {
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [batchBusy, setBatchBusy] = useState<"save" | "publish" | "press" | "pull" | null>(null);
   const [batchResult, setBatchResult] = useState<string | null>(null);
+  const singleReviewMode = Boolean(deepLinkId);
 
   useEffect(() => {
+    if (singleReviewMode && deepLinkId) {
+      setLoading(true);
+      fetchFotoReviewWithRetry(`/api/foto-review?id=${deepLinkId}`)
+        .then(({ data }) => {
+          if (data.article) {
+            setArticles([data.article]);
+            setFilterStatus(data.article.status === "published" ? "objavljeni" : "neobjavljeni");
+            setExpandedIds((prev) => {
+              const next = new Set(prev);
+              next.add(deepLinkId);
+              return next;
+            });
+          } else {
+            setError(data.error || "API error");
+          }
+        })
+        .catch((e) => setError(e.message))
+        .finally(() => setLoading(false));
+      return;
+    }
+
     setLoading(true);
     // Simple mapping: neobjavljeni=pending, objavljeni=published
     const apiFilter = filterStatus === "neobjavljeni" ? "pending" : "published";
 
-    fetch(`/api/foto-review?filter=${apiFilter}`)
-      .then((r) => r.json())
-      .then((data) => {
+    fetchFotoReviewWithRetry(`/api/foto-review?filter=${apiFilter}`)
+      .then(({ data }) => {
         if (data.articles) {
           setArticles(data.articles);
 
@@ -368,34 +439,7 @@ export default function FotoReviewPage() {
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-  }, [filterStatus]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Deep-link handler: Load article directly by ID (independent of filter)
-  useEffect(() => {
-    if (!deepLinkId) return;
-
-    // Load the specific article by ID without filter
-    fetch(`/api/foto-review?id=${deepLinkId}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.article) {
-          // Add article to current list if not already present
-          setArticles((prev) => {
-            const exists = prev.some((a) => a.id === deepLinkId);
-            return exists ? prev : [...prev, data.article];
-          });
-          // Auto-expand the deep-linked article
-          setExpandedIds((prev) => {
-            const s = new Set(prev);
-            s.add(deepLinkId);
-            return s;
-          });
-        }
-      })
-      .catch(() => {
-        // Silently fail if article can't be loaded
-      });
-  }, [deepLinkId]);
+  }, [filterStatus, deepLinkId, singleReviewMode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Scroll to deep-link article after render
   useEffect(() => {
@@ -407,15 +451,15 @@ export default function FotoReviewPage() {
   const refreshArticle = useCallback(async (articleId: number, retries = 3) => {
     for (let attempt = 0; attempt < retries; attempt++) {
       try {
-        const res = await fetch(`/api/foto-review?id=${articleId}`);
-        if (!res.ok) {
+        const payload = await fetchFotoReviewWithRetry(`/api/foto-review?id=${articleId}`, 2, 500);
+        const { data, ok } = payload;
+        if (!ok && isTransientFotoReviewError(payload)) {
           if (attempt < retries - 1) {
-            await new Promise(r => setTimeout(r, 1000 * (attempt + 1))); // Exponential backoff
+            await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
             continue;
           }
-          throw new Error(`HTTP ${res.status}`);
+          throw new Error(data.error || `HTTP error`);
         }
-        const data = await res.json();
         if (data.article) {
           setArticles((prev) =>
             prev.map((a) => (a.id === articleId ? data.article : a))
@@ -1722,6 +1766,11 @@ export default function FotoReviewPage() {
                 <span className={`text-[10px] px-1.5 py-0.5 rounded border shrink-0 ${catCls}`}>
                   {article.category.toUpperCase()}
                 </span>
+                {article.rewritten && (
+                  <span className="text-[10px] px-1.5 py-0.5 rounded border border-cyan-500/30 text-cyan-300 bg-cyan-950/25 shrink-0">
+                    REWRITTEN
+                  </span>
+                )}
                 <h2 className="text-sm font-semibold text-white/90 flex-1 min-w-0 leading-snug">
                   {article.title}
                 </h2>
@@ -1750,9 +1799,9 @@ export default function FotoReviewPage() {
                   {article.source_name && (
                     <div>📰 Izvor: <span className="text-white/60 font-mono">{article.source_name}</span></div>
                   )}
-                  {article.created_at && (
-                    <div>
-                      🕒 Skrejpano:{" "}
+                {article.created_at && (
+                  <div>
+                    🕒 Skrejpano:{" "}
                       {new Date(article.created_at).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
@@ -1763,6 +1812,37 @@ export default function FotoReviewPage() {
                       })}
                       {" UTC"}
                     </div>
+                  )}
+                  {article.rewritten && article.rewritten_by && (
+                    (() => {
+                      const display = getRewrittenDisplay(article);
+                      return (
+                        <div className="flex items-start gap-2 pt-1">
+                          {article.rewritten_avatar ? (
+                            <img
+                              src={article.rewritten_avatar}
+                              alt={article.rewritten_by}
+                              className="mt-0.5 h-5 w-5 rounded-full border border-white/10 object-cover"
+                            />
+                          ) : (
+                            <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[8px] text-white/50">
+                              {article.rewritten_by.slice(0, 2).toUpperCase()}
+                            </div>
+                          )}
+                          <div className="flex flex-col leading-tight">
+                            <span className="text-white/55 text-[11px]">
+                              Author: <span className="text-white/80">{article.rewritten_by}</span>
+                            </span>
+                            {display?.role && (
+                              <span className="text-white/35 text-[10px]">{display.role}</span>
+                            )}
+                            {display?.tagline && (
+                              <span className="text-white/30 text-[10px] italic">"{display.tagline}"</span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })()
                   )}
                 </div>
               )}

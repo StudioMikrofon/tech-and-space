@@ -34,6 +34,11 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
+title_en: "Know3D’s backside problem: Fixing 3D’s blind spot with LLM guesswork"
+key_points_en:
+  - "LLMs infer hidden 3D surfaces from text prompts"
+  - "Single-image 3D’s ‘backside gap’ gets a patch, not a fix"
+  - "Researchers lean on world knowledge, not geometry"
 ---
 
 Researchers just dropped [Know3D](https://the-decoder.com/know3d-lets-users-control-the-hidden-back-side-of-3d-objects-with-text-prompts/), a system that lets users dictate the unseen backside of 3D objects via text prompts—because apparently, even AI now has opinions about what your couch *should* look like from behind. The trick? Offloading the heavy lifting to large language models, which tap into their vast (if occasionally hallucinatory) world knowledge to infer textures, shapes, and details occluded in single-image 3D generation.
@@ -53,5 +58,3 @@ Developer reaction on [GitHub](https://github.com/know3d/know3d) and [Hugging Fa
 
 
 For all the noise, the actual story isn’t about ‘solving’ 3D’s backside problem—it’s about shifting the bottleneck. Instead of artists guessing at hidden geometry, now we’re trusting LLMs to guess for us. Whether that’s progress or just another layer of abstraction remains to be seen.
-
-In other words, we’ve replaced one kind of magic with another. The hype cycle demands we call this a breakthrough, but let’s be honest: it’s a clever patch on a fundamentally broken pipeline. Next up: LLMs that argue with your 3D printer about structural integrity.

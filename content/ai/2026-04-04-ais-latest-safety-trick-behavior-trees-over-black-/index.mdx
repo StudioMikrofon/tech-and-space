@@ -34,6 +34,11 @@ geo:
   countryCode: "XX"
 featured: false
 approved: true
+title_en: "AI’s latest safety trick: Behavior trees over black-box hype"
+key_points_en:
+  - "Sandboxed logs distilled into executable behavior trees"
+  - "Deterministic gates replace post-hoc safety retrofits"
+  - "OpenHands integration tests real-world tool constraints"
 ---
 
 The [arXiv paper](https://arxiv.org/abs/2603.05517) from OpenHands’ team cuts through the usual LLM agent noise by admitting what everyone knows: long-horizon tasks break because policies hide in model weights, and safety gets duct-taped on later. Their fix? **Traversal-as-Policy**, where sandboxed execution logs become a [Gated Behavior Tree (GBT)](https://en.wikipedia.org/wiki/Behavior_tree_(artificial_intelligence%2C_robotics_and_control))—a structured, verifiable alternative to unconstrained generation.
@@ -53,5 +58,3 @@ Developer reaction on [GitHub](https://github.com/OpenHands) and [Hacker News](h
 
 
 The real bottleneck may not be the trees themselves, but the [tool ecosystems](https://www.techand.ai/2024/01/ai-tool-fragmentation) they’re meant to govern. A GBT is only as good as the APIs it gates—and most real-world tools still treat AI as an afterthought.
-
-For all the noise about ‘agentic AI,’ the actual story is simpler: someone finally admitted that implicit policies are a liability. The irony? The fix involves borrowing a decades-old game-AI trick—behavior trees—and calling it innovation.

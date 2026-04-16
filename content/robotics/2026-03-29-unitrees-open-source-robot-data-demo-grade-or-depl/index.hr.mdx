@@ -5,20 +5,20 @@ title: "Unitreeovi podaci: humanoidi izvan dema, u stvarnom svijetu"
 lang: "hr"
 category: "robotics"
 date: "2026-03-29T21:35:23Z"
-excerpt: "Unitree Robotics je objavio [open-source dataset](https://www."
-exec_summary: "Unitree Robotics released a real-robot dataset for humanoids, but the gap between demo conditions and real-world deployment remains wide. While the data is a step forward for research, its practical use is limited by hardware constraints (battery life, payload) and the lack of long-term reliability testing. The key question isn’t whether the dataset is high-quality, but whether it can be applied outside carefully staged environments."
+excerpt: "Open-source dataset za humanoide je koristan samo ako preživi sudar s baterijama, prašinom i mokrim podom."
+exec_summary: "Unitree has released a real-robot humanoid dataset, which is useful for research but still far from proof of deployment value. The key question is whether these data help robots operate in messy environments or simply make staged demos look more convincing."
 key_points:
-  - "Real-robot dataset za humanoide — bez marketing filtera"
-  - "85 bodova na r/singularity, 10 na r/Sino: signal ili šum?"
-  - "Baterije, senzori i mokri utorci: granice koje demo ne prikazuje"
+  - "Real-robot podaci su bolji od simulacije"
+  - "Skaliranje traži više od dobrog videa"
+  - "Korisnost se mjeri u stvarnoj smjeni"
 source:
   name: "youtube.com"
-  url: "https://www.youtube.com/watch?v=pN_bj5-QyW8&pp=ygUIcm9ib3RpY3M%3D"
+  url: "https://www.youtube.com/watch?v=pN_bj5-QyW8"
 image:
   url: "/images/articles/unitrees-open-source-robot-data-demo-grade-or-depl/main.jpg"
   credit: "© Tech&Space"
   alt: "Unitreeovi podaci: humanoidi izvan dema, u stvarnom svijetu"
-subtitle: "Od labsa do prakse: jaz koji ostaje između podataka i deploymenta"
+subtitle: "Podaci su korisni tek kad prežive nered"
 videoUrl: "https://www.youtube.com/watch?v=pN_bj5-QyW8"
 tags: ["Humanoid Robotics", "Deployment", "Autonomy"]
 lead_sentence: "Unitreeov novi open-source dataset za humanoide prikupljen je na realnim robotima, ali njegova stvarna vrijednost ovisit će o tome može li premostiti jaz između laboratorija i skladišta s mokrim podom."
@@ -31,22 +31,16 @@ featured: false
 approved: true
 ---
 
-Unitree Robotics je objavio [open-source dataset](https://www.youtube.com/watch?v=pN_bj5-QyW8) za humanoidne robote — ali što to zapravo znači izvan pažljivo kontroliranih uvjeta? Podaci su prikupljeni na *realnim* robotima, ne simulacijama, što je korak naprijed u odnosu na veći dio istraživanja koje se oslanja na virtualne modele. Međutim, razlika između *demonstracije* i *stvarne primjene* ostaje ključno pitanje: koliko je ovaj dataset koristan za robote koji moraju funkcionirati u nepredvidljivim industrijskim okruženjima, a ne na sceni s precizno postavljenim objektima?
+Unitree Robotics objavio je open-source dataset za humanoidne robote i to je zanimljivo upravo zato što dolazi s realnih strojeva, a ne iz simulacije. To je važan pomak za istraživače koji žele učiti modele na stvarnim pokretima, kontaktima i senzorskim signalima. [Video](https://www.youtube.com/watch?v=pN_bj5-QyW8) pokazuje da podaci dolaze iz stvarnog hardvera, a ne samo iz lijepog rendera.
 
+Ali open-source dataset nije isto što i spreman proizvod. Da bi imao pravu vrijednost, mora pokriti različite uvjete: osvjetljenje, podloge, greške, ponavljanja i ono što se dogodi kada robot izgubi ravnotežu usred zadatka. Ako je skup podataka previše čist, onda služi više kao showcase nego kao baza za robustan razvoj.
 
-Razlika u reakcijama zajednice — [85 bodova na r/singularity](https://www.reddit.com/r/singularity) nasuprot [10 na r/Sino](https://www.reddit.com/r/Sino) — govori više o očekivanjima nego o stvarnoj vrijednosti podataka. Entuzijasti za AI i robotiku vide potencijal, dok skeptici upućuju na to da su slični dataseti često previše *čisti* za pravi svijet, gdje roboti moraju raditi s nepotpunim senzorskim podacima, trošenjem hardvera i ljudskom greškom. Unitreeov pristup je koristan, ali pitanje ostaje: koliko je ovih podataka primjenjivo na robote koji nisu dizajnirani u njihovim laboratorijima?
-
-
-Marketing naglašava *high-quality*, ali što to konkretno znači? Prema dostupnim informacijama, dataset sadrži podatke o pokretu, interakciji s objektima i senzorskim ulazima — no detalji o varijacijama u okruženju, kao što su promjenjna rasvjeta, neočekivani prepreke ili dugoročna pouzdanost, ostaju nejasni. To su upravo parametri koji određuju razliku između robota koji može [složiti košulju na pozornici](https://www.youtube.com/watch?v=example) i onog koji može raditi osam sati u skladištu bez ljudske intervencije.
+Zato je glavno pitanje koliko će ovaj dataset pomoći da se humanoidi približe skladištu, a ne koliko je dobro izgledao na snimci. [Unitree](https://www.unitree.com/) može ubrzati iteraciju ako podaci zaista nose dovoljno varijacija, ali industrija će i dalje tražiti dokaz da se naučeno može prenijeti na različite robote i različite scenarije.
 
 <ArticleBreak />
 
-Glavno ograničenje ovog i sličnih datasetova leži u hardveru: baterije, nosivost i brzina reakcije još uvijek nisu na razini koja omogućava masovnu primjenu. Unitreeovi roboti, kao i većina humanoida na tržištu, imaju ograničenu autonomiju — obično manje od sat vremena neprekidnog rada pri punom opterećenju. To znači da su, bez obzira na kvalitetu podataka, praktične primjene još uvijek ograničene na kratke, kontrolirane zadatke, kao što su demonstracije u trgovinama ili edukacijski scenariji.
+Hardverska ograničenja i dalje upravljaju igrom. Baterija, toplina, nosivost i osjetljivost senzora ostaju problemi koje dataset ne može sam riješiti. Ako humanoid traje premalo ili zahtijeva previše nadzora, onda mu ni najbolji podaci ne mogu pomoći da postane stvarno koristan.
 
+Skaliranje je također bolna točka. Podaci se mogu dijeliti brzo, ali prilagodba na različite platforme i radne uvjete i dalje košta vrijeme i novac. To znači da će najveću korist imati timovi koji već imaju robotsku infrastrukturu i znaju što žele izvesti na teren.
 
-Još jedna prepreka je skaliranje: podatci su korisni, ali njihova primjena zahtijeva prilagodbu za različite modele robota, što povećava troškove i vrijeme razvoja. Industrija traži rješenja koja mogu raditi *sada*, a ne za pet godina — a tu se često sudaraju akademski pristup (koji traži savršene podatke) i industrijska stvarnost (koja zahtijeva brze, pouzdane rezultate). Unitreeov dataset je koristan alat, ali njegov utjecaj ovisit će o tome koliko će razvijači moći prevladati jaz između laboratorijskih uvjeta i stvarnih radnih okruženja.
-
-
-Na kraju, stvarno usko grlo možda uopće nije u podacima, već u infrastrukturi: koliko tvrtki ima pristup robotima koji mogu iskoristiti ove podatke, a kamoli održavati ih u dugom roku? Bez jasnog putokaza za certifikaciju, održavanje i skaliranje, čak i najkvalitetniji dataset ostaje — samo dataset.
-
-Ako je cilj masovna primjena, trebamo manje demoa na YouTubeu i više podataka o tome kako se ovi sustavi ponašaju nakon tjedan dana neprekidnog rada. Do tada, ostaje pitanje: je li ovo alat za istraživanje ili samo još jedan sjajan prototip?
+Ako ništa drugo, Unitree je pokazao da otvorenost može biti korisna kada uključuje stvarne robote, a ne samo promotivne renderinge. Ali do trenutka kada humanoid bude radio čitavu smjenu bez pažljivo pripremljene scene, još uvijek postoji dosta posla između datoteke i podnog betona.

@@ -1,41 +1,58 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
   <defs>
-    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="2.5" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#d0d8f0"/>
-      <stop offset="50%" stop-color="#a0aacc"/>
-      <stop offset="100%" stop-color="#d0d8f0"/>
+    <!-- Blue gradient background -->
+    <radialGradient id="blueBg" cx="40%" cy="40%">
+      <stop offset="0%" style="stop-color:#3d6ba8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a3a5c;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- Metallic silver gradient for letters -->
+    <linearGradient id="metallic" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5f5f5;stop-opacity:1" />
+      <stop offset="20%" style="stop-color:#e8e8e8;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#c0c0c0;stop-opacity:1" />
+      <stop offset="80%" style="stop-color:#d0d0d0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0e0e0;stop-opacity:1" />
     </linearGradient>
+
+    <!-- Highlight gradient for 3D effect -->
+    <linearGradient id="highlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.6" />
+      <stop offset="50%" style="stop-color:#ffffff;stop-opacity:0" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.2" />
+    </linearGradient>
+
+    <!-- Circle shadow -->
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-opacity="0.4"/>
+    </filter>
   </defs>
 
-  <!-- Orbital ring 1: top-left → bottom-right -->
-  <ellipse cx="50" cy="50" rx="42" ry="14"
-    transform="rotate(45 50 50)"
-    stroke="url(#ring)" stroke-width="5.5" fill="none"
-    filter="url(#glow)" stroke-linecap="round"/>
+  <!-- Outer circle background -->
+  <circle cx="300" cy="300" r="290" fill="url(#blueBg)" filter="url(#shadow)"/>
 
-  <!-- Orbital ring 2: top-right → bottom-left -->
-  <ellipse cx="50" cy="50" rx="42" ry="14"
-    transform="rotate(-45 50 50)"
-    stroke="url(#ring)" stroke-width="5.5" fill="none"
-    filter="url(#glow)" stroke-linecap="round"/>
+  <!-- Circle highlight/shine -->
+  <circle cx="300" cy="300" r="290" fill="url(#highlight)"/>
 
-  <!-- Blue glow dots at the 4 orbit tips -->
-  <!-- Top -->
-  <circle cx="50" cy="12" r="4" fill="#00cfff" filter="url(#glow)"/>
-  <!-- Bottom -->
-  <circle cx="50" cy="88" r="4" fill="#00cfff" filter="url(#glow)"/>
-  <!-- Left -->
-  <circle cx="12" cy="50" r="4" fill="#00cfff" filter="url(#glow)"/>
-  <!-- Right -->
-  <circle cx="88" cy="50" r="4" fill="#00cfff" filter="url(#glow)"/>
+  <!-- Circle border -->
+  <circle cx="300" cy="300" r="290" fill="none" stroke="#8fa3c0" stroke-width="8" opacity="0.5"/>
+  <circle cx="300" cy="300" r="286" fill="none" stroke="#4a5f7f" stroke-width="2" opacity="0.8"/>
 
-  <!-- Center dot -->
-  <circle cx="50" cy="50" r="3.5" fill="#00cfff" filter="url(#glow)"/>
+  <!-- T letter -->
+  <g>
+    <path d="M 80 110 L 240 110 L 240 180 L 170 180 L 170 480 L 110 480 L 110 180 L 80 180 Z" fill="url(#metallic)" stroke="#666" stroke-width="2" stroke-linejoin="round"/>
+  </g>
+
+  <!-- S letter -->
+  <g>
+    <!-- Top curve of S -->
+    <path d="M 480 120 Q 410 120 360 170 Q 320 210 320 270 Q 320 320 360 350 Q 400 375 470 375" fill="none" stroke="url(#metallic)" stroke-width="65" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Bottom curve of S -->
+    <path d="M 320 335 Q 280 365 280 430 Q 280 500 350 535 Q 420 560 480 535 Q 520 520 530 480" fill="none" stroke="url(#metallic)" stroke-width="65" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- S stroke outline for depth -->
+    <path d="M 480 120 Q 410 120 360 170 Q 320 210 320 270 Q 320 320 360 350 Q 400 375 470 375" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+    <path d="M 320 335 Q 280 365 280 430 Q 280 500 350 535 Q 420 560 480 535 Q 520 520 530 480" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+  </g>
 </svg>

@@ -1,0 +1,50 @@
+---
+id: "2026-04-13-litellm-hack-exposed"
+db_id: 2488
+title: "LiteLLM Hack Exposed"
+category: "ai"
+date: "2026-04-13T16:12:34Z"
+excerpt: "Daniel Hnyk used the BigQuery PyPI dataset to determine how many downloads there were of the exploited LiteLLM packages during the 46 minute period they were live on PyPI."
+exec_summary: "The LiteLLM PyPI exploit wasn’t just a 46-minute window—it exposed how 88% of dependent packages failed to pin versions, turning automated updates into a supply-chain liability. The real story isn’t the breach itself, but the cultural gap between Python’s ‘latest-by-default’ ethos and basic security hygiene."
+key_points:
+  - "47,000 downloads exploited"
+  - "2,337 packages depended"
+  - "88% lacked version pinning"
+source:
+  name: "simonwillison.net"
+  url: "https://simonwillison.net/2026/Mar/25/litellm-hack/#atom-everything"
+image:
+  url: "/images/articles/litellm-hack-exposed/main.png"
+  alt: "LiteLLM Hack Exposed"
+subtitle: "Verzijsko zakvačivanje nije feature—to je osnovna higijena koju 88% zanemaruje"
+subtitle_en: "The gap between benchmark and product"
+subtitleImage:
+  url: "/images/articles/litellm-hack-exposed/subtitle.jpg"
+  alt: "The gap between benchmark and product"
+tags: ["PyPI", "Supply Chain Security", "Version Pinning"]
+lead_sentence: "Daniel Hnyk's analysis of the BigQuery PyPI dataset revealed a shocking 47,000 downloads of exploited LiteLLM packages in just 46 minutes."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+title_en: "LiteLLM Hack Exposed"
+key_points_en:
+  - "47,000 downloads exploited"
+  - "2,337 packages depended"
+  - "88% lacked version pinning"
+---
+
+Daniel Hnyk used the BigQuery PyPI dataset to determine how many downloads there were of the exploited LiteLLM packages during the 46 minute period they were live on PyPI. They also identified 2,337 packages that depended on LiteLLM - 88% of which did not pin versions in a way that would have avoided the exploited version. The lack of version pinning in 88% of dependent packages increased exposure to the exploit. According to [Simon Willison](https://simonwillison.net/), the incident highlights risks in Python package dependency management and supply-chain security.
+
+
+The tweet by [Daniel Hnyk](https://twitter.com/hnykda) sparked discussion about PyPI security and package dependency risks in developer communities. The [BigQuery PyPI dataset](https://console.cloud.google.com/bigquery?p=public-datasets&d=pypi&page=dataset) provides valuable insights into package downloads and dependencies. For instance, [PyPI](https://pypi.org/) has seen a significant increase in package uploads and downloads over the past year, with [over 200,000 packages](https://pypi.org/stats/) currently available.
+
+<ArticleBreak />
+
+The incident has significant implications for the Python community, with many developers relying on PyPI for package management. The [Python Packaging Authority](https://www.pypa.io/) has issued guidelines for secure package management, including version pinning and dependency management. However, the lack of adoption of these guidelines is a concern, with many packages still vulnerable to exploits. As noted by [GitHub](https://github.com/blog/2470-introducing-dependency-graph), dependency management is a critical aspect of software development, and the Python community must take steps to address these risks.
+
+
+The LiteLLM hack is a wake-up call for the Python community, highlighting the need for better package management and security practices. With the increasing reliance on open-source packages, the risk of exploits and vulnerabilities is growing. As [OWASP](https://owasp.org/) notes, secure package management is essential for preventing attacks and protecting user data. The Python community must take a proactive approach to addressing these risks and ensuring the security of PyPI packages.

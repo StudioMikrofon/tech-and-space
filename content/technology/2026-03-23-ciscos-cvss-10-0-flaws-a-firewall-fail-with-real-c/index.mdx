@@ -30,8 +30,12 @@ geo:
 featured: false
 lead_sentence: "Cisco’s two CVSS 10.0 firewall flaws—no auth, full remote takeover—force a rare enterprise trust reset in March 2026."
 approved: true
+title_en: "Cisco’s CVSS 10.0 flaws: A firewall fail with real consequences"
+key_points_en:
+  - "Two CVSS 10.0 flaws in Secure FMC demand immediate patches"
+  - "48 vulnerabilities expose enterprise networks to full takeover"
+  - "March 2026 update tests IT teams’ trust in Cisco’s security"
 ---
--
 
 When a security vendor admits to flaws that could give hackers *complete control* over enterprise firewalls, it’s not just another patch Tuesday. Cisco’s March 2026 bundled update—addressing [48 vulnerabilities](https://www.cisco.com/c/en/us/products/security/firewalls/index.html) across its Secure Firewall ASA, Secure FTD, and Secure FMC lines—is a rare moment where the spec sheet understates the stakes. Two of those flaws, both in Secure FMC, carry the maximum [CVSS 10.0 score](https://www.first.org/cvss/), meaning they’re as severe as it gets: no authentication required, remote code execution possible, and full system compromise on the table.
 
@@ -46,5 +50,3 @@ For IT teams, the practical impact is immediate. Patching 48 vulnerabilities acr
 The market context makes this worse. Cisco’s firewall dominance is built on reputation—enterprises pay a premium for ‘Cisco-grade’ reliability. When that reputation cracks, the ripple effects hit hard. [Gartner’s 2025 Magic Quadrant](https://www.gartner.com/reviews/market/network-firewalls) already noted eroding trust in legacy vendors, and this update hands rivals a ready-made sales pitch: *‘Why trust a firewall that just needed 48 fixes?’* Regulators may also take notice; under [NIS2](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive) and similar frameworks, critical infrastructure operators could face fines if they fail to patch *known* CVSS 10.0 flaws promptly.
 
 What’s missing from Cisco’s announcement? A clear explanation of how these flaws evaded detection for so long, or whether they’ve been exploited in the wild. The company’s [standard disclosure](https://www.cisco.com/c/en/us/about/security-center/vulnerability-policy.html) process doesn’t require that level of transparency—but after a ‘total security failure’ (NotebookCheck’s phrase), users deserve more than a patch and a promise.
-
-The real signal here isn’t just the bugs—it’s the erosion of the implicit contract between security vendors and their customers. When a CVSS 10.0 flaw appears in a product sold as the *last line of defense*, it forces a reckoning: Is this an anomaly, or a symptom of systemic technical debt in legacy network security?

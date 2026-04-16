@@ -1,0 +1,49 @@
+---
+id: "2026-04-12-ais-dirty-little-secret-secure-by-default-is-a-myt"
+db_id: 2442
+title: "ChatGPT je proslijeđivao podatke – a niste ni primijetili"
+lang: "hr"
+category: "ai"
+date: "2026-04-12T22:31:57Z"
+excerpt: "Check Point Research je otkrio da ChatGPT može *šutke* proslijediti osjetljive podatke van sustava – koristeći metodu koju većina sigurnosnih alata ne detektira: **DNS eksfiltraciju**."
+exec_summary: "OpenAI silently patched a ChatGPT flaw allowing DNS-based data exfiltration, exposing how AI tools’ 'secure by default' claims ignore real-world attack vectors. The incident reveals a systemic gap between marketing promises and architectural realities—where threats like DNS abuse slip through undetected, leaving users’ sensitive inputs vulnerable."
+key_points:
+  - "DNS eksfiltracija obišla ChatGPT-ove sigurnosne filtere"
+  - "OpenAI zakrpio kritičnu rupu nakon Check Pointovog upozorenja"
+  - "AI alati nisu ‘sigurni po defaultu’ – bez obzira na marketing"
+source:
+  name: "techradar.com"
+  url: "https://www.techradar.com/pro/security/a-hard-truth-for-the-ai-era-dont-assume-ai-tools-are-secure-by-default-openai-patches-flaw-allowing-silent-data-leakage-from-chatgpt-conversations-without-users-ever-knowing"
+image:
+  url: "/images/articles/ais-dirty-little-secret-secure-by-default-is-a-myt/main.jpg"
+  alt: "ChatGPT je proslijeđivao podatke – a niste ni primijetili"
+subtitle: "Podaci su išli van kroz DNS upite, a korisnici nisu dobili niti jedno upozorenje"
+subtitleImage:
+  url: "/images/articles/ais-dirty-little-secret-secure-by-default-is-a-myt/subtitle.jpg"
+  alt: "Podaci su išli van kroz DNS upite, a korisnici nisu dobili niti jedno upozorenje"
+tags: ["ChatGPT", "Data Privacy", "DNS Leaks"]
+lead_sentence: "Check Point Research je dokazao kako ChatGPT može proslijediti osjetljive podatke van sustava kroz DNS upite – a korisnici ne bi dobili niti jedno upozorenje."
+geo:
+  name: "San Francisco, United States"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Check Point Research je otkrio da ChatGPT može *šutke* proslijediti osjetljive podatke van sustava – koristeći metodu koju većina sigurnosnih alata ne detektira: **DNS eksfiltraciju**. Napadači su mogli enkodirati razgovore u DNS upite, zaobilazeći sve ChatGPT-ove „zaštitne barijere“ jer platforma **ne provjerava domenske zahtjeve** kao potencijalnu prijetnju. OpenAI je zakrpio rupu 20. veljače 2026., ali pitanje ostaje: koliko još takvih „slijepih točaka“ postoji u sustavima koji se prodaju kao *secure by default*?
+
+Problem nije u tome što je rupa postojala – već u tome što je **korisnicima nikad nije bilo dopušteno ni primijetiti**. ChatGPT ne prikazuje upozorenja za DNS aktivnost jer je pretpostavka bila da je okruženje izolirano. A to, kako kažu istraživači, *nije bila potpuna laž – već nepotpuna istina*. Slične metode eksfiltracije već su dokumentirane u [enterprise okruženjima](https://www.bleepingcomputer.com/news/security/dns-exfiltration-attacks-how-they-work-and-how-to-stop-them/), ali njihova primjena na AI modele otvara novo poglavlje: **ako podatke može ukrasti nešto što izgleda kao običan internet promet, tko je zapravo odgovoran?**
+
+Ovo nije prvi put da OpenAI u tjednu dana zakrpljuje kritične rupe – prije toga su popravili **Codex command injection**, što ukazuje na obrazac: širenje napadačkih vektora brže nego što ih platforma može sanirati. A sve toga dok korisnici i dalje pretpostavljaju da je njihova interakcija s AI-jem *privatna* – iako je očito da **sigurnosni modeli nisu pratili realne prijetnje**.
+
+<ArticleBreak />
+
+Da je ova rupa ostala neotkrivena, napadači bi mogli **izvući API ključeve, lozinke ili poslovne tajne** iz razgovora – sve dok korisnik ne bi *slučajno* primijetio neobične domenske upite u mrežnom prometu. To nije teorija: Check Point je [demonstrirao](https://research.checkpoint.com/2026/chatgpt-dns-data-exfiltration/) kako se podatci mogu prekodirati u poddomene, a ChatGPT ih šalje **bez ikakvog upozorenja**.
+
+Pitanje je, dakle, ne samo kako je ovo prošlo kroz testiranje, već i **zašto OpenAI nije predvidio takav scenarij** – kada je DNS eksfiltracija poznata tehnika već godinama. Industrija se suočava s neugodnom činjenicom: AI sigurnost se često gradila na **pretpostavkama o izoliranom okruženju**, a ne na stvarnim prijetnjama. Ovo nije samo OpenAI-jev problem – [istraživači](https://arxiv.org/abs/2307.08701) upozoravaju da slične metode mogu ugroziti i druge LLM-ove, posebno one integrirane u poslovne alate.
+
+**Pravi signal ovdje je** da „sigurnost po defaultu“ u AI-u nije pitanje *želje*, već **arhitektonskih ograničenja**: modele je teško zaštititi od napada koji ne izgledaju kao napadi. Za razliku od uobičajenih sigurnosnih propusta, ovdje nije riječ o *bugu* već o **fundamentalnom jazu između marketinga i stvarnosti**. OpenAI i dalje naglašava kako su „korisnički podatci zaštićeni“, ali ova epizoda pokazuje da **zaštita vrijedi samo dok napadači ne pronađu neočekivani kanal** – poput DNS-a.
+
+Ovo je ozbiljan signal da se mora promijeniti pristup sigurnosti u AI sustavima. Korisnici moraju biti svjesni potencijalnih rizika i preuzeti odgovornost za zaštitu svojih podataka. OpenAI i drugi pružatelji AI usluga moraju uložiti više napora u zaštitu korisničkih podataka i transparentnost o sigurnosnim rizicima.

@@ -1,0 +1,49 @@
+---
+id: "2026-04-13-litellm-hack-exposed"
+db_id: 2488
+title: "47.000 preuzimanja za 46 minuta: PyPI-ov sigurnosni debakl"
+lang: "hr"
+category: "ai"
+date: "2026-04-13T16:12:34Z"
+excerpt: "Daniel Hnyk je, koristeći BigQuery PyPI dataset, utvrdio da je 46."
+exec_summary: "The LiteLLM PyPI exploit wasn’t just a 46-minute window—it exposed how 88% of dependent packages failed to pin versions, turning automated updates into a supply-chain liability. The real story isn’t the breach itself, but the cultural gap between Python’s ‘latest-by-default’ ethos and basic security hygiene."
+key_points:
+  - "46.996 preuzimanja zaraženih LiteLLM paketa u manjem od sata"
+  - "88% ovisnih paketa bez sigurne verzijske zakvačene ovisnosti"
+  - "PyPI opet u žiži napada na lanac opskrbe open-source softvera"
+source:
+  name: "simonwillison.net"
+  url: "https://simonwillison.net/2026/Mar/25/litellm-hack/#atom-everything"
+image:
+  url: "/images/articles/litellm-hack-exposed/main.png"
+  alt: "47.000 preuzimanja za 46 minuta: PyPI-ov sigurnosni debakl"
+subtitle: "Verzijsko zakvačivanje nije feature—to je osnovna higijena koju 88% zanemaruje"
+subtitleImage:
+  url: "/images/articles/litellm-hack-exposed/subtitle.jpg"
+  alt: "Verzijsko zakvačivanje nije feature—to je osnovna higijena koju 88% zanemaruje"
+tags: ["PyPI", "Supply Chain Security", "Version Pinning"]
+lead_sentence: "46.996 Python developera preuzelo je zaražene LiteLLM pakete u manjem od sata—dok je Daniel Hnyk koristeći BigQuery dokazao da je 88% ovisnih projekata bilo ranjivo *po dizajnu*."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Daniel Hnyk je, koristeći BigQuery PyPI dataset, utvrdio da je 46.996 developera u samo 46 minuta preuzelo zaražene verzije **LiteLLM** (1.82.7 i 1.82.8) — dok su one bile dostupne na PyPI-ju prije uklanjanja. To nije samo statistika: to je dokaz koliko brzo se *supply-chain attack* može proširiti u ekosustavu koji se oslanja na automatizirano preuzimanje ovisnosti bez provjere.
+
+Problem nije samo u samom incidentu, već u strukturalnom propustu: od **2.337 paketa** koji ovise o LiteLLM-u, čak **88%** nije imalo zakvačenu sigurnu verziju u svojim `requirements.txt` ili sličnim datotekama. Drugim riječima, većina je bila izložena eksploatu *po dizajnu*—jer je Pythonova kultura razvoja često priorizirala 'latest' umjesto 'pinned'.
+
+Ovo nije prvi put da PyPI postaje vektor napada. Ali ovaj slučaj je posebno zanimljiv jer LiteLLM nije neka obična biblioteka: to je alat za interakciju s više LLM provajdera, što znači da su potencijalni napadači mogli ciljati ne samo kod, već i *model access credentials*.
+
+<ArticleBreak />
+
+Što je još zabrinjavajuće, analiza koju je podijelio @hnykda pokazuje da većina preuzimanja *nije* došla od ručnog testiranja, već od CI/CD pipeline-ova i automatiziranih deploymenata. To znači da su zaražene verzije vjerojatno završile u produkcijskim okruženjima prije nego što je ikko primijetio problem.
+
+Reakcije u [Python community-forumima](https://discuss.python.org/) idu u dva smjera: jedni traže strože PyPI kontrole (poput obaveznog 2FA za maintainere), dok drugi ističu da je stvarno rješenje u *kulturnoj promjeni*—prekid s 'just install i pray' pristupom. LiteLLM je u međuvremenu objavio [patchane verzije](https://github.com/BerriAI/litellm/releases), ali pitanje ostaje: koliko će developera *stvarno* azurirati svoje ovisnosti?
+
+Pravi signal ovdje nije samo 'PyPI je ranjiv' (to znamo već godinaima), već da se *brzina eksploatacije* povećava. 46 minuta od uploada do uklanjanja je dovoljno da se napadač ukrade u tisuće sustava—a to je vremenski okvir koji većina sigurnosnih timova ne može ni pratiti, kamoli reagirati.
+
+Budućnost PyPI-a i sigurnost njegovih korisnika ovise o kolektivnim naporima razvijača, kompanija i zajednice. Potrebno je preuzeti ozbiljan pristup sigurnosti i razviti strategije za sprečavanje sličnih incidenata u budućnosti. To zahtijeva kontinuirano obrazovanje, promjene u praksi i tehnici, kao i stalnu provjeru i unapređenje sigurnosnih mjera. Bez ovog pristupa, PyPI i njegovi korisnici će i dalje biti izloženi ranjivostima i napadima.

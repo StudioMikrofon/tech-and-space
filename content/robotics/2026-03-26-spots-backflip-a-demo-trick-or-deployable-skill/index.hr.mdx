@@ -5,36 +5,43 @@ title: "Salto mortale u skladištu: Spotov test realnosti"
 lang: "hr"
 category: "robotics"
 date: "2026-03-26T21:07:58Z"
-excerpt: "Kad [Boston Dynamics](https://www."
+excerpt: "Spotov backflip je impresivan, ali tek treba dokazati da znači nešto izvan pozornice."
+lead_sentence: "Boston Dynamicsov Spot morao je izvesti više od 100 uspješnih backflipova prije nego što je demo snimljen."
 key_points:
-  - "Reliabilnost testirana na 100+ pokusa u laboriju"
-  - "Baterija i senzori ograničavaju performansu u terenu"
-  - "Demo ne pokazuje skladišne uvjete — mokro, prašno, nepredvidivo"
+  - "Backflip traži stotine ponavljanja"
+  - "Skladište je tvrđe od pozornice"
+  - "Baterija i senzori drže granicu"
 source:
-  name: ""
+  name: "Boston Dynamics"
   url: "https://www.youtube.com/watch?v=zj07hHJnrto"
 image:
   url: "/images/articles/spots-backflip-a-demo-trick-or-deployable-skill/main.jpg"
   alt: "Salto mortale u skladištu: Spotov test realnosti"
-subtitle: "Od laba do prakse: jaz koji ostaje kad robot prestane biti zvijezda YouTubea"
+subtitle: "Akrobacija nije isto što i korisnost"
 subtitleImage:
   url: "/images/articles/spots-backflip-a-demo-trick-or-deployable-skill/subtitle.jpg"
-  alt: "Od laba do prakse: jaz koji ostaje kad robot prestane biti zvijezda YouTubea"
+  alt: "Akrobacija nije isto što i korisnost"
 videoUrl: "https://www.youtube.com/watch?v=zj07hHJnrto"
-tags: ["Spot", "Warehouse Automation", "Autonomy"]
+tags: ["robotics", "spot", "warehouse automation"]
 geo:
   name: "Waltham, Massachusetts, United States"
   lat: 42.3776
   lon: -71.2376
   countryCode: "US"
 featured: false
-lead_sentence: "Boston Dynamicsov Spot morao je izvesti **više od 100 uspješnih backflipova u laboriju** prije nego što je demo uopće snimljen — ali to je tek početak pitanja."
 approved: true
 ---
--
 
-Kad [Boston Dynamics](https://www.bostondynamics.com/) objavi video u kojem njihov četveronožni robot [Spot](https://www.bostondynamics.com/products/spot) izvede savršen salto mortale, internet se dijeli na dva tabora: oni koji vjeruju da je budućnost robotike već ovdje, i oni koji znaju da je pravi test tek pred nama. Arun — inženjer iz tima — u najnovijem [intervjuu](https://www.youtube.com/watch?v=...) ističe kako je za svaki novi pokret, poput backflipa, potreban minimalno 100 uspješnih ponavljanja u kontroliranim uvjetima prije nego što se uopće razmišlja o javnom nastupu. To nije samo o spektaklu, nego o verificiranju granica hardvera: koliko baterije troši dinamički pokret, kako senzori reagiraju na promjenu težišta, i — najvažnije — što se događa kad robot ne sleti savršeno. No, ovo nije pitanje mogu li roboti naučiti akrobacije. Pitanje je mogu li to ponoviti u skladištu punom neočekivanih prepreka, gdje podloga nije ravna, gdje su temperature ekstremne, a gdje nema kamera koja snima 60 kadrova u sekundi za slow-motion analizu. Boston Dynamics je u svom [tehničkom dokumentu](https://www.bostondynamics.com/resources) naveo da Spot u prosjeku izdrži 90 minuta kontinuirane uporabe na punom punjaču — ali to je pod idealnim uvjetima. Dodajte dinamične pokrete poput skokova, i to vrijeme se smanjuje za 30-40%, prema neovisnim testovima koje je proveo [Robotics Institute at CMU](https://www.ri.cmu.edu/). Zanimljivije od samog backflipa je što kompanija uopće ističe reliabilnost kao ključni prioritiet. To nije slučajno: nakon godina kritika da su njihovi roboti 'samo za show', Boston Dynamics pokušava pomaknuti narativ prema industrijskoj primjenjivosti. Ali između laborija i skladišta leži jaz od barem 5-7 godina razvoja — ako se uopće može premostiti s trenutnom tehnologijom.
+Boston Dynamicsov [Spot](https://www.bostondynamics.com/products/spot) može izvesti backflip, ali taj trik je rezultat stotina ponavljanja i vrlo kontroliranog okruženja. To je impresivno za kameru, ali u robotici je pitanje uvijek isto: koliko od te agilnosti preživi kada robot izađe u stvarni prostor? Demo je dokaz da sustav može izvesti pokret; nije dokaz da isti pokret ima operativnu vrijednost.
+
+Spot je već koristan u inspekciji i mapiranju, a akrobacije su ovdje više pokazivanje kontrole nego poslovni slučaj. Kada se robot mora kretati po skladištu, vibracije, prašina, mokar pod i neočekivane prepreke postaju puno važniji od same elegancije salta. U tom smislu, backflip je test hardvera, ali ne i odgovor na pitanje što kupac zapravo dobiva.
+
+Zato je ovaj video zanimljiv više kao mjerenje discipline sustava nego kao najava nove primjene. Ako robot može toliko puta ponoviti zahtjevan manevar bez raspada stabilnosti, to govori nešto o kvaliteti kontrole. Ali to još uvijek ne govori da će mu isti skup vještina donijeti poslovnu vrijednost u rutinskom radu.
 
 <ArticleBreak />
 
-Gdje bi, zapravo, trebao biti koristan robot koji može izvesti salto mortale? Odgovor nije u zabavi, nego u inspekciji teško pristupačnih prostora. Primjerice, [BP](https://www.bp.com/) već koristi Spota za pregled naftnih platformi, ali tamo robot uglavnom hoda, skenira i šalje podatke — ništa od akrobacija. Pravi test za dinamične pokrete bio bi, recimo, inspekcija oštećenih građevina nakon potresa, gdje robot mora preskočiti ruševine ili se popeti na nestabilne površine. No, čak i tamo, [studija MIT-a](https://www.mit.edu/) upozorava da 90% kvarova u terenu dolazi od neočekivanog kontakta s okolinom — a to je upravo ono što demo videi ne pokazuju. Hardverska ograničenja su jasna: Spotov [LiDAR](https://en.wikipedia.org/wiki/Lidar) i kamere imaju ograničeni domet u prašnim ili maglovitim uvjetima, a baterija se brže troši na niskim temperaturama. Dodajte tome potrebu za ljudskim nadzorom — barem za sada, autonomija je ograničena na unaprijed definirane zadatke. To znači da, iako robot može izvesti salto, ne može odlučiti kada mu je to potrebno. A upravo ta odlučna autonomija razlikuje demo od stvarne primjene. Zanimljivo je da Boston Dynamics u svom [poslovnom izvješću](https://www.bostondynamics.com/company) ne spominje akrobacije kao ključnu kompetenciju za buduće kupce. Umjesto toga, ističu modularnost, otpornost na udarce i integraciju s postojećim industrijskim sustavima — što je, ironično, upravo ono što demo videi ne prikazuju. Možda zato što je lakše prodati spektakl nego stabilnost.
+Boston Dynamics očito pokušava pomaknuti narativ od "show robot" prema "robustan alat". To je dobar smjer, ali kupci ne kupuju aplauz nego dostupnost, trajanje baterije i servisni trošak. Ako robot za jednu akrobaciju treba trening i idealnu površinu, onda ga stvarni rad neće baš voljeti.
+
+Zato je Spotov backflip zanimljiv kao tehnički signal, a ne kao dokaz da je humanoidna ili četveronožna robotika spremna za sve. U skladištu se ne broje lajkovi, nego uptime. A tu je još uvijek puno važnije može li robot raditi mirno i dosljedno nego može li spektakularno pasti na noge.
+
+Drugim riječima, ovo je dokaz dobre kontrole, ali i podsjetnik da kontrola nije isto što i korisnost. Robot se može dočekati na noge i ipak biti daleko od alata koji netko želi platiti.

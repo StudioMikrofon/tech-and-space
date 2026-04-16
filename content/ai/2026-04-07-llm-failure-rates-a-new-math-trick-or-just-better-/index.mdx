@@ -30,6 +30,11 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
+title_en: "LLM failure rates: A new math trick or just better packaging?"
+key_points_en:
+  - "Constrained MLE merges human labels and LLM-judge data"
+  - "Tradeoff between cost and bias remains unresolved"
+  - "Industry players quietly test hybrid validation schemes"
 ---
 
 Researchers from [arXiv:2604.03257v1](https://arxiv.org/abs/2604.03257) just proposed a statistical workaround for AI’s favorite unsolvable problem: estimating failure rates without bankrupting yourself or lying to yourself. Their solution—*constrained maximum-likelihood estimation*—sounds like a mouthful of grad-school jargon, but it’s essentially a way to reconcile three messy data sources: a tiny set of human-labeled examples, a mountain of [LLM-as-a-judge](https://ai.meta.com/blog/llm-judge/) annotations (which everyone knows are biased), and whatever domain-specific rules you can scrounge up.

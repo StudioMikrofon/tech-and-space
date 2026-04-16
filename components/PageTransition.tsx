@@ -23,6 +23,7 @@ export default function PageTransition() {
   const isFirst   = useRef(true);
   const rafRef    = useRef<number>(0);
   const activeRef = useRef(false);
+  const skipNextRef = useRef(false);
 
   const run = useCallback(() => {
     const canvas = canvasRef.current;
@@ -147,7 +148,22 @@ export default function PageTransition() {
   }, []);
 
   useEffect(() => {
+    const onPopState = () => {
+      skipNextRef.current = true;
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
+  useEffect(() => {
     if (isFirst.current) { isFirst.current = false; return; }
+    if (skipNextRef.current) {
+      skipNextRef.current = false;
+      cancelAnimationFrame(rafRef.current);
+      activeRef.current = false;
+      if (canvasRef.current) canvasRef.current.style.display = "none";
+      return;
+    }
     playSound("glitch");
     cancelAnimationFrame(rafRef.current);
     activeRef.current = false;

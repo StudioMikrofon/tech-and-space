@@ -37,6 +37,11 @@ geo:
   countryCode: "US"
 featured: false
 approved: true
+title_en: "OptiMer’s trick: Tuning LLMs after training, not before"
+key_points_en:
+  - "Decouples data ratios from pretraining via post-hoc merging"
+  - "Bayesian optimization replaces guesswork in mixture weights"
+  - "Gemma 27B tests show gains—but real-world gaps remain"
 ---
 
 Google’s [Gemma 27B](https://huggingface.co/google/gemma-2b) just became the guinea pig for a method that flips continual pretraining on its head. Instead of agonizing over dataset mixture ratios *before* training—where a bad guess can torch weeks of GPU time—[OptiMer](https://arxiv.org/abs/2603.28858) trains one model per dataset, extracts their ‘distribution vectors’ (a fancy term for ‘how each dataset warped the weights’), then optimizes the blend *afterward* using Bayesian search.
@@ -56,5 +61,3 @@ Developer reaction on [Hacker News](https://news.ycombinator.com/) and GitHub sk
 
 
 The bigger question is whether this becomes a standard tool or another niche trick. Right now, it’s a clever hack for teams drowning in hyperparameter tuning. But if it scales, it could turn pretraining from a rigid pipeline into something more adaptive—assuming the overhead of training N models doesn’t cancel out the gains.
-
-The paper benchmarks Gemma 27B, but what happens with smaller models—or when the distribution vectors themselves are noisy? Until we see independent replication, ‘optimal’ is still a hypothesis.

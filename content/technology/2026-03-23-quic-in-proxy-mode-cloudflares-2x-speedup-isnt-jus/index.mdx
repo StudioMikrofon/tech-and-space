@@ -30,8 +30,12 @@ geo:
 featured: false
 lead_sentence: "Cloudflare's QUIC upgrade yields 2x throughput boost, slashing latency for remote workers."
 approved: true
+title_en: "QUIC in Proxy Mode: Cloudflare’s 2x speedup isn’t just hype"
+key_points_en:
+  - "QUIC replaces TCP, doubling throughput in Cloudflare One"
+  - "User-space overhead killed—latency drops for real-world tasks"
+  - "SASE vendors now face pressure to match performance"
 ---
--
 
 When Cloudflare [rebuilt its SASE client](https://blog.cloudflare.com/quicker-sase-client-proxy-mode/) to use QUIC streams instead of TCP for Proxy Mode, it didn’t just tweak a setting—it eliminated an entire layer of friction. The result? A **2x throughput boost** and latency reductions that actually matter for remote workers, not just benchmark charts.
 
@@ -46,5 +50,3 @@ For the SASE market, this move is a shot across the bow. Vendors like Zscaler an
 Yet there’s a catch. QUIC’s benefits depend on **server-side support**, and not every enterprise app or legacy service plays nice with HTTP/3. Cloudflare can enforce this at its edge, but most companies will hit compatibility walls—especially in hybrid environments. Early adopters may see gains, but widespread impact hinges on ecosystem adoption, not just one vendor’s upgrade.
 
 The bigger question is whether this marks a turning point for SASE. If QUIC becomes the default for secure proxies, it could finally kill the myth that ‘security adds latency.’ But for now, it’s a high-stakes experiment—one that forces the industry to prove whether protocol upgrades translate to real-world wins or just better marketing slides.
-
-In other words, Cloudflare didn’t just optimize a client—it exposed how much legacy protocols were costing us. The real signal here is that SASE’s next phase won’t be about features, but about eliminating artificial slowdowns we’ve normalized for years.

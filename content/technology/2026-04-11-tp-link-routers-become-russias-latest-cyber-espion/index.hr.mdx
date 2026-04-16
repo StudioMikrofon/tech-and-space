@@ -1,0 +1,53 @@
+---
+id: "2026-04-11-tp-link-routers-become-russias-latest-cyber-espion"
+db_id: 2293
+title: "Ruski hakeri preusmjeravaju promet preko TP-Link usmjernika"
+lang: "hr"
+category: "technology"
+date: "2026-04-11T06:19:08Z"
+excerpt: "Britanski [NCSC](https://www."
+exec_summary: "Russian state hackers (APT28) are exploiting vulnerable TP-Link and MikroTik routers to redirect traffic and steal Outlook credentials—targeting both browsers and desktop apps. The attack leverages outdated firmware and user neglect, with real-world consequences for SOHO networks and remote workers. The shift isn’t technological but behavioral: security gaps persist because users don’t update devices, not because solutions don’t exist."
+key_points:
+  - "APT28 cilja 20+ TP-Link modela za krađu Outlook podataka"
+  - "DNS preusmjeravanje zahvaća i desktop aplikacije, ne samo preglednike"
+  - "NCSC preporučuje hitno ažuriranje firmwarea i onemogućavanje remote pristupa"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/tech-industry/cyber-security/ncsc-says-russian-gru-hackers-are-hijacking-tp-link-and-mikrotik-routers"
+image:
+  url: "/images/articles/tp-link-routers-become-russias-latest-cyber-espion/main.jpg"
+  alt: "Ruski hakeri preusmjeravaju promet preko TP-Link usmjernika"
+subtitle: "Stvarna opasnost leži u kombinaciji zastarjele opreme i korisničke nepažnje"
+subtitleImage:
+  url: "/images/articles/tp-link-routers-become-russias-latest-cyber-espion/subtitle.jpg"
+  alt: "Stvarna opasnost leži u kombinaciji zastarjele opreme i korisničke nepažnje"
+tags: ["TP-Link router security vulnerabilities", "hacking via outdated networking hardware", "cybersecurity risks in home/enterprise routers", "phishing traffic redirection attacks"]
+lead_sentence: "APT28, ruska hackerska skupina povezanа s GRU-om, od 2024. sistematski mijenja DNS postavke na TP-Link Archer C5 i MikroTik usmjernicima kako bi presrela Outlook autentifikacijske tokove."
+geo:
+  name: "San Francisco, US"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Britanski [NCSC](https://www.ncsc.gov.uk/) potvrdio je da ruska državna hackerska skupina **APT28** sistematski eksploatira ranjivosti u **TP-Link** i **MikroTik** usmjernicima — ne radi se o nasumičnim napadima, već o koordiniranoj kampanji koja traje od **2024**. Cilj nije samo preuzimanje kontrole nad uređajima, već **preusmjeravanje DNS prometa** kako bi se prikupili Outlook podaci: lozinke, autentifikacijski tokeni, pa čak i sesije iz desktop aplikacija. Problem je dvostruk: većina zahvaćenih modela (poput **Archer C5** ili **WR841N**) još uvijek je u širokoj upotrebi, a korisnici rijetko ažuriraju firmware.
+
+
+APT28 — koja operira pod okriljem **85. glavnog centra specijalnih usluga GRU-a** — ne napada samo preglednike, već **cijeli tok podataka**. To znači da čak i ako korisnik koristi dvofaktornu autentifikaciju ili VPN, napadač može presresti tokove ako je usmjernik kompromitiran. [TP-Link](https://www.tp-link.com/) je reagirao izjavom da *'ozbiljno shvaća prijetnje*' i poziva na hitna ažuriranja, ali stvarno usko grlo nije u tehnologiji, već u **korisničkim navikama**: prema procjenama, manje od **30%** SOHO usmjernika u Hrvatskoj ima omogućeno automatsko ažuriranje.
+
+
+Praktični učinak? Ako ste vlasnik jednog od **20+ zahvaćenih TP-Link modela**, vaši Outlook podaci mogu završiti na ruskom serveru — **bez ikakvog upozorenja**. Napadači ne traže samo pristup emailovima, već i **autentifikacijske tokene** koji omogućuju pristup drugim uslugama (npr. Microsoft 365, OneDrive). To nije teorijska prijetnja: NCSC je dokumentirao slučajeve gdje su **desktop aplikacije** (poput Outlooka za Windows) bile kompromitirane upravo zbog promijenjenih DNS postavki na usmjerniku.
+
+<ArticleBreak />
+
+Tržišni kontekst otkriva još jedan problem: **MikroTik** i **TP-Link** dominiraju segment jeftinih SOHO usmjernika, ali njihova popularnost dolazi po cijenu **zastarjele sigurnosne arhitekture**. Dok konkurenti poput **Ubiquitija** ili **ASUS-a** nude redovita sigurnosna ažuriranja, većina korisnika ovih brandova **ne zna čak ni koje verzije firmwarea koriste**. To je idealno tle za APT28, koja iskorištava **default lozinke** i nezaštićene remote pristupe — [prema istraživanjima](https://www.bleepingcomputer.com/), čak **40%** usmjernika u EU još uvijek koristi factory postavke.
+
+
+Najveća ironija? Rješenje postoji — **isključivanje remote uprave** i ručno postavljanje DNS-a (npr. na Cloudflare ili Google) — ali zahtijeva **aktivni korak korisnika**. A to je upravo što napadači računaju: većina ljudi **neće provjeravati postavke** sve dok ne doživljave vidljive probleme. Što se tiče industrije, ovaj slučaj će vjerojatno ubrzati **regulatorne zahtjeve** za obvezna sigurnosna ažuriranja (poput onih u EU-ovom **Cyber Resilience Actu**), ali do tada ostaje pitanje: **koliko će korisnika biti žrtava?**
+
+
+Za razliku od klasičnih phishing napada, ovaj metod **ne zahtijeva korisnikov klik** — dovoljan je samo **ranjivi usmjernik u mreži**. To ga čini posebno opasnim za male tvrtke i remote radnike koji koriste **istovremene sesije** na više uređaja. Ako ništa drugo, ovaj slučaj dokazuje da je **sigurnost mreže slaba koliko i njen najslabiji čvor** — a to, u 90% slučajeva, nije server, već **zaboravljeni usmjernik u ormaru.**
+
+Stvarno pitanje nije *hoće li* doći do većih incidenata, već **kada će ih primijetiti**. Ako 40% usmjernika još uvijek koristi default lozinke, koliko će vremena proći prije nego što slične kampanje postanu standardni dio državnog špijunažnog alata?

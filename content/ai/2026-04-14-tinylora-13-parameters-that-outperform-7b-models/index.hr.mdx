@@ -1,0 +1,48 @@
+---
+id: "2026-04-14-tinylora-13-parameters-that-outperform-7b-models"
+db_id: 2531
+title: "TinyLoRA: 13 parametara koji zbunjuju benchmarke"
+lang: "hr"
+category: "ai"
+date: "2026-04-14T06:04:06Z"
+excerpt: "Istraživači iz Meta-inog FAIR-a, Cornell Universityja i Carnegie Mellon Universityja predstavili su TinyLoRA – metodu fine-tuninga koja s samo 13 parametara postiže 91,8% točnosti na GSM8K benchmarku s modelom Qwen2."
+exec_summary: "TinyLoRA, a 13-parameter fine-tuning method, achieves 91.8% accuracy on GSM8K, raising questions about benchmark relevance versus real-world efficiency. While technically impressive, its practical impact hinges on open-source adoption and deployment stability beyond controlled tests."
+key_points:
+  - "Meta, Cornell i CMU razvili TinyLoRA"
+  - "91,8% točnosti na GSM8K s 13 parametara"
+  - "Jaz između benchmarka i stvarne primjene"
+source:
+  name: "marktechpost.com"
+  url: "https://www.marktechpost.com/2026/03/24/this-ai-paper-introduces-tinylora-a-13-parameter-fine-tuning-method-that-reaches-91-8-percent-gsm8k-on-qwen2-5-7b/"
+image:
+  url: "/images/articles/tinylora-13-parameters-that-outperform-7b-models/main.png"
+  alt: "TinyLoRA: 13 parametara koji zbunjuju benchmarke"
+subtitle: "Što se krije iza 'minimalnog' fine-tuninga koji obećava revoluciju"
+tags: ["LoRA fine-tuning", "parameter-efficient transfer learning", "AI benchmark challenges", "minimal fine-tuning methods", "LLM optimization"]
+lead_sentence: "Meta, Cornell i CMU spojili su snage da dokažu kako 13 parametara može postići 91,8% točnosti na GSM8K-u – ali koliko je od toga stvarna efikasnost, a koliko vješto pakiranje?"
+geo:
+  name: "Menlo Park, United States"
+  lat: 37.4847
+  lon: -122.1481
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači iz Meta-inog FAIR-a, Cornell Universityja i Carnegie Mellon Universityja predstavili su TinyLoRA – metodu fine-tuninga koja s samo 13 parametara postiže 91,8% točnosti na GSM8K benchmarku s modelom Qwen2.5-7B. To zvuči impresivno, pogotovo kad se uzme u obzir da je riječ o 0,0000004% ukupnih parametara modela od 7 milijardi.
+
+No, kao i kod svakog AI napretka, postavlja se pitanje: koliko je ovo zapravo korak naprijed, a koliko vješto pakiranje postojećih ideja? TinyLoRA se temelji na ranijim radovima poput LoRA i LoRA-XS, ali s ekstremnim dijeljenjem parametara – u ekstremnim slučajevima može se svesti na samo jedan trenirajući parametar.
+
+Istraživači ističu da je reinforcement learning (RL) učinkovitiji od supervised finetuninga (SFT) pri tako niskim parametarskim brojevima, te da je optimalni 'frozen rank' (r) za TinyLoRA jednak 2. No, dok brojke zvuče uvjerljivo, benchmark GSM8K je poznat po tome što favorizira specifične tipove matematičkog zaključivanja, a ne nužno opću inteligenciju ili praktičnu primjenu.
+
+Iako je metoda tehnički impresivna, ostaje nejasno koliko će se ove uštede u parametrima odraziti na stvarne troškove treniranja ili inferencea. Trenutno nije poznato ni jesu li autori objavili kod ili planiraju otvoriti pristup, što je ključno za praktičnu primjenu u industriji.
+
+<ArticleBreak />
+
+Glavna vrijednost TinyLoRA-e možda nije u samoj točnosti, već u signalu koji šalje industriji: čak i ogromni modeli mogu učiti s minimalnim ažuriranjima parametara. To bi moglo smanjiti barijere za manje organizacije koje žele prilagoditi LLMs za specifične zadatke, ali samo ako se metoda pokaže robusnom izvan kontroliranih benchmarka.
+
+Trenutno, najvažnije pitanje nije 'može li', već 'hoće li' – hoće li se ova efikasnost održati u stvarnim scenarijima gdje podaci nisu tako čisti kao u GSM8K-u? Industrija već godinama traži načine da smanji troškove fine-tuninga, a TinyLoRA je samo najnoviji pokušaj u nizu.
+
+Konkurentske metode poput QLoRA-e ili DoRA-e također nude slične prednosti, ali s različitim kompromisima. Prava borba nije u parametrima, već u tome tko će prvi dokazati da se benchmark rezultati mogu replicirati u produkciji.
+
+Dok čekamo te dokaze, TinyLoRA ostaje zanimljiv tehnički trik – ali daleko od 'revolucije' koju neki naslovi sugeriraju. Za developere, ovakve vijesti su dvosjekli mač: s jedne strane, otvaraju vrata za eksperimente s manjim resursima; s druge, stvaraju dodatni pritisak da se razlikuje stvarna inovacija od marketinške buke.

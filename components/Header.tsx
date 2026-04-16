@@ -29,7 +29,8 @@ export default function Header() {
     function onScroll() {
       if (rafRef.current) return;
       rafRef.current = requestAnimationFrame(() => {
-        const y = window.scrollY;
+        const scrollArea = document.getElementById("main-scroll-area");
+        const y = scrollArea ? scrollArea.scrollTop : window.scrollY;
         if (y < 80) {
           setHidden(false);
         } else if (y > lastScrollY.current + 5) {
@@ -42,9 +43,10 @@ export default function Header() {
         rafRef.current = null;
       });
     }
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const scrollArea = document.getElementById("main-scroll-area");
+    (scrollArea || window).addEventListener("scroll", onScroll, { passive: true } as AddEventListenerOptions);
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      (scrollArea || window).removeEventListener("scroll", onScroll);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
@@ -100,20 +102,17 @@ export default function Header() {
       >
         <div className="w-full md:max-w-7xl md:mx-auto px-0.5 sm:px-4 h-[3rem] sm:h-16 min-w-0 flex items-center justify-between gap-0.5 sm:gap-2">
           {/* Logo */}
-          <Link href="/" className="flex min-w-0 shrink items-center gap-1.5 group hover:opacity-90 transition-opacity overflow-hidden pl-2">
+          <Link href={isHr ? "/hr" : "/"} className="flex min-w-0 shrink items-center gap-1.5 group hover:opacity-90 transition-opacity overflow-hidden pl-2">
             <img
               src="/ts-logo-full.svg"
               alt="TECH & SPACE"
               className="hidden sm:block h-10 md:h-11 w-auto max-w-[190px] md:max-w-none group-hover:drop-shadow-[0_0_10px_rgba(0,207,255,0.5)] transition-all"
             />
             <img
-              src="/ts-icon.svg"
-              alt="TS"
-              className="sm:hidden h-6.5 w-6.5 shrink-0 group-hover:drop-shadow-[0_0_8px_rgba(0,207,255,0.5)] transition-all"
+              src="/ts-logo-full.svg"
+              alt="TECH & SPACE"
+              className="sm:hidden h-8 w-auto shrink-0 group-hover:drop-shadow-[0_0_8px_rgba(0,207,255,0.5)] transition-all"
             />
-            <span className="sm:hidden min-w-0 font-heading text-[0.72rem] leading-none tracking-[0.22em] text-text-primary whitespace-nowrap">
-              TECH &amp; SPACE
-            </span>
             <span className="live-dot ml-1 hidden sm:inline-block" />
           </Link>
 
@@ -122,7 +121,7 @@ export default function Header() {
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat}
-                href={`/category/${cat}`}
+                href={isHr ? `/hr/category/${cat}` : `/category/${cat}`}
                 className="px-3 py-1.5 text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 rounded-lg transition-colors"
                 onMouseEnter={() => playSound("hover")}
                 onClick={() => playSound("click")}
@@ -217,7 +216,7 @@ export default function Header() {
               {CATEGORIES.map((cat) => (
                 <Link
                   key={cat}
-                  href={`/category/${cat}`}
+                  href={isHr ? `/hr/category/${cat}` : `/category/${cat}`}
                   className="block px-3 py-2 text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 rounded-lg transition-colors"
                   onClick={() => setMenuOpen(false)}
                 >

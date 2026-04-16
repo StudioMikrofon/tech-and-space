@@ -1,28 +1,28 @@
 ---
 id: "2026-03-30-ai2s-sim-trained-robots-skip-real-databut-can-they"
 db_id: 1013
-title: "Ai2 otkriva robote trenirane samo u simulaciji – a ključ je u brojkama"
+title: "Ai2 trenira robote samo u simulaciji, ali brojke još ne garantiraju teren"
 lang: "hr"
 category: "robotics"
 date: "2026-03-30T14:13:25Z"
-excerpt: "Ai2 je objavio dva nova otvorena modela, [MolmoSpaces](https://allenai."
-exec_summary: "Ai2’s new simulation-trained robotics models (MolmoSpaces/MolmoBot) promise zero-shot real-world deployment, leveraging 230K virtual scenes to skip costly data collection. The catch? Unpredictable physics, hardware wear, and maintenance costs still separate demo success from industrial scalability—critical gaps the research hasn’t yet addressed."
+excerpt: "MolmoSpaces i MolmoBot izgledaju kao prečac do jeftinije robotike, ali simulacija još ne može nadoknaditi fiziku, habanje i održavanje."
+exec_summary: "Ai2's simulation-only robotics models are a strong bet on faster and cheaper training, but they still face the classic sim-to-real gap. The real question is whether synthetic diversity can replace the messy unpredictability of hardware, maintenance, and real industrial environments."
 key_points:
-  - "230.000 virtualnih prostora i 130.000 objekata za treniranje bez realnih podataka"
-  - "MolmoBot otvara vrata i hvata predmete – ali samo u kontroliranim uvjetima"
-  - "Sim-to-real transfer obećava brži razvoj, ali stara ograničenja ostaju"
+  - "Simulacija ubrzava razvoj, ali ne briše fiziku"
+  - "MolmoBot radi u idealnom, ne u stvarnom svijetu"
+  - "Skaliranje traži hardver, servis i certifikaciju"
 source:
   name: "the-decoder.com"
   url: "https://the-decoder.com/ai2-releases-new-robotics-models-trained-entirely-in-simulation-to-skip-real-world-data-collection/"
 image:
   url: "/images/articles/ai2s-sim-trained-robots-skip-real-databut-can-they/main.jpg"
   credit: "© Tech&Space"
-  alt: "Ai2 otkriva robote trenirane samo u simulaciji – a ključ je u brojkama"
-subtitle: "Demo završio — stvarnost počinje: koliko ovakvi modeli izdrže van laboratorija"
+  alt: "Ai2 trenira robote samo u simulaciji, ali brojke još ne garantiraju teren"
+subtitle: "Sim-to-real je brz samo dok ga ne testiraš"
 subtitleImage:
   url: "/images/articles/ai2s-sim-trained-robots-skip-real-databut-can-they/subtitle.jpg"
   credit: "© Tech&Space"
-  alt: "Demo završio — stvarnost počinje: koliko ovakvi modeli izdrže van laboratorija"
+  alt: "Sim-to-real je brz samo dok ga ne testiraš"
 tags: ["Ai2"]
 lead_sentence: "MolmoBot može otvoriti vrata i podići predmete bez ikakvog realnog treniranja — ali samo ako su ta vrata savršeno uravnotežena, a predmeti točno onako kako ih je simulacija zamislila."
 geo:
@@ -34,20 +34,16 @@ featured: false
 approved: true
 ---
 
-Ai2 je objavio dva nova otvorena modela, [MolmoSpaces](https://allenai.org/molmo) i [MolmoBot](https://allenai.org/molmo), trenirana isključivo u simulaciji s ciljem da preskoče skupo i sporo prikupljanje realnih podataka. MolmoSpaces sadrži **230.000 unutrašnjih scena** i **130.000 kuriranih objekata**, dok MolmoBot obavlja zadatke poput otvaranja vrata ili hvatanja predmeta — sve bez ikakvog realnog treniranja. Ključna tvrdnja je da se jaz između simulacije i stvarnosti smanjuje ako se **dramatično povećava raznolikost virtualnih okruženja**, kao što navodi tim u svom [istraživanju](https://arxiv.org/abs/2402.13277).
+Ai2 je objavio [MolmoSpaces](https://allenai.org/molmo) i [MolmoBot](https://allenai.org/molmo), modele trenirane isključivo u simulaciji. Ideja je jasna: umjesto mjeseci skupljanja realnih podataka, istraživači mogu generirati ogromnu količinu virtualnih interakcija i tako ubrzati razvoj robota. To je pametna optimizacija, ali još nije dokaz da će se isti rezultat prenijeti na fizički svijet.
 
+MolmoSpaces navodno pokriva stotine tisuća scena i velik broj objekata, dok MolmoBot demonstrira zadatke poput otvaranja vrata i hvatanja predmeta. To zvuči korisno jer smanjuje trošak data collectiona, no industrija već dobro zna da simulacija voli uredna pravila, a stvarnost voli odstupanja. [The Decoder](https://the-decoder.com/ai2-releases-new-robotics-models-trained-entirely-in-simulation-to-skip-real-world-data-collection/) pokriva upravo taj pomak, ali najvažnije pitanje ostaje isto: koliko simulacija treba da prevari gravitaciju.
 
-Iako je pristup privlačan — izbjegavanje mjeseci teleoperiranog prikupljanja podataka — pitanje ostaje koliko je ovo skalabilno izvan pažljivo dizajniranih demo scenarija. Ai2 ističe da su modeli dizajnirani za *zero-shot sim-to-real transfer*, ali industrija već zna da je razlika između **kontroliranog laboratorija** i **skašljenog skladišnog poda** često nepremostiva. Čak i ako robot savršeno otvori virtualna vrata, realna vrata mogu imati **neujednačenu težinu, hrđu ili loše osovinske ležište** — varijable koje simulacija teško predviđa.
-
-
-Prema dostupnim informacijama, MolmoBot radi na standardnom hardveru s **RGB-D kamerama i griperom**, ali Ai2 još nije objavio podatke o **baterijskom veku, greškama u ponavljanju zadataka ili troškovima održavanja**. To su upravo parametri koji odlučuju hoće li se takvi modeli ikada naći izvan akademske sfere.
+Glavni problem nije broj scena nego prijenos iz modela u hardver. Robot u simulaciji nema trošenje zglobova, promjenu trenja, prašinu na senzorima ni nepredvidive udare koje će dobiti u skladištu. Zato je ovaj pristup dobar za razvoj i testiranje ideja, ali ne i dovoljan za zaključak da je deployment riješen.
 
 <ArticleBreak />
 
-Glavna prednost ovog pristupa je brzina: umjesto mjeseci prikupljanja realnih podataka, istraživači mogu generirati milijune simuliranih interakcija u tjednima. Međutim, **42 milijuna simuliranih okruženja** ne rješava fundamentalni problem — **fizički svijet je nepredvidiv**. Čak i najdetaljnija simulacija ne može replicirati **promjenjivo osvjetljenje, prašinu na senzorima ili trošenje mehaničkih dijelova**, a upravo ti faktori često obaraju robote u realnom svijetu.
+Kako bi ovo postalo ozbiljan industrijski alat, trebat će više od boljih virtualnih scena. Trebat će robusniji hardver, jasna certifikacija i dokaz da modeli rade jednako dobro kad ih se premjesti s virtualnog poda na stvarni beton.
 
+Ai2 je tu napravio korak naprijed jer smanjuje ovisnost o sporom i skupom prikupljanju podataka. Ali brojke iz simulacije ne pokrivaju troškove održavanja, zamjene dijelova ni greške koje se pojavljuju tek nakon tisuća ciklusa. Upravo te stvari odlučuju hoće li robot završiti kao proizvod ili samo kao još jedan impresivan research demo.
 
-Industrijski igrači već dugo znaju da je **sim-to-real transfer** pun zamki. Na primjer, [studija iz 2023.](https://ieeexplore.ieee.org/document/9762458) pokazuje da čak 60% grešaka u deploymentu dolazi od **nepredviđenih fizičkih interakcija**, a ne od algoritamske nepouzdanosti. Ai2-ov pristup sigurno ubrzava razvoj, ali **skaliranje na stotine ili tisuće jedinica** zahtijeva više od dobrih simulacija — potreban je **robustan hardver, certifikacija i podrška za održavanje**.
-
-
-Za sada su MolmoSpaces i MolmoBot otvoreni za istraživačku zajednicu, što znači da će pravi test biti kada ih neka tvrtka pokuša integrirati u **logistički centar, bolnicu ili proizvodnu liniju**. Do tada, ostaje pitanje: **koliko je ovih 130.000 virtualnih objekata dovoljno za svijet pun iznenađenja?**
+Za sada je najpošteniji zaključak jednostavan: simulacija može ubrzati put, ali ne i ukinuti put. A u robotici je upravo taj drugi dio, onaj prljavi i skupi, još uvijek najvažniji.

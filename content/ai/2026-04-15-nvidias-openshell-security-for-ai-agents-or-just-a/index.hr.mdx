@@ -1,0 +1,55 @@
+---
+id: "2026-04-15-nvidias-openshell-security-for-ai-agents-or-just-a"
+db_id: 2643
+title: "NVIDIA OpenShell: Sigurnost koja ne smije zakazati"
+lang: "hr"
+category: "ai"
+date: "2026-04-15T10:04:02Z"
+excerpt: "NVIDIA je konačno priznao ono što svi već mjesecima šapuću: autonomni ai agenti nisu samo pametni – oni su opasni."
+exec_summary: "NVIDIA's OpenShell introduces a secure runtime for autonomous AI agents, addressing critical security risks as agents gain the ability to execute workflows and self-evolve. The move signals a shift toward infrastructure-level policy enforcement, but adoption hinges on enterprise trust in sandboxed environments. What remains unclear is whether OpenShell's mechanisms can prevent novel attack vectors in real-world deployments."
+key_points:
+  - "Autonomni agenti pišu i izvršavaju kod"
+  - "OpenShell izolira agente u sandbox okruženju"
+  - "NVIDIA surađuje s Ciscoom i CrowdStrikeom"
+source:
+  name: "blogs.nvidia.com"
+  url: "https://blogs.nvidia.com/blog/secure-autonomous-ai-agents-openshell/"
+image:
+  url: "/images/articles/nvidias-openshell-security-for-ai-agents-or-just-a/main.jpg"
+  alt: "NVIDIA OpenShell: Sigurnost koja ne smije zakazati"
+subtitle: "Što se dogodilo kad su agenti dobili ključeve od tvrtke"
+subtitleImage:
+  url: "/images/articles/nvidias-openshell-security-for-ai-agents-or-just-a/subtitle.jpg"
+  alt: "Što se dogodilo kad su agenti dobili ključeve od tvrtke"
+tags: ["NVIDIA OpenShell security vulnerabilities", "AI agent access control risks", "Enterprise AI system breaches", "NVIDIA AI infrastructure security", "Third-party agent integration failures"]
+lead_sentence: "NVIDIA-ini agenti sada mogu izvršavati kod u sandboxu, ali tko će paziti na pazitelje?"
+geo:
+  name: "Santa Clara, United States"
+  lat: 37.3541
+  lon: -121.9552
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+NVIDIA je konačno priznao ono što svi već mjesecima šapuću: autonomni ai agenti nisu samo pametni – oni su opasni. OpenShell, novi open-source runtime koji je predstavila na svojoj blog platformi, trebao bi biti odgovor na eksponencijalni rast rizika koji dolazi s agentima sposobnima za čitanje datoteka, pisanje koda i izvršavanje radnih tokova.
+
+Problem nije u tome što agenti mogu nešto napraviti, već u tome što to mogu napraviti bez nadzora – i stalno se poboljšavaju. Ključna novost nije sama ideja sandboxa (to već rade alati poput Docker-a), već činjenica da OpenShell izolira agente na razini infrastrukture, a ne aplikacije.
+
+To znači da čak i ako agent bude kompromitiran, ne može zaobići sigurnosne politike ili procuriti vjerodajnice. NVIDIA to naziva 'secure-by-design' pristupom, ali pravo pitanje je koliko će poduzeća zaista usvojiti ovu tehnologiju prije nego što se dogodi prvi veći incident.
+
+Zanimljivo je da NVIDIA nije sama u ovom pothvatu. Partneri poput Cisco-a, CrowdStrike-a i Microsoft Security-a već su uključeni u razvoj, što sugerira da se radi o ozbiljnom pokušaju standardizacije.
+
+Ipak, rano je za slavlje – OpenShell i NemoClaw još su u 'early preview' fazi, a povijest nas uči da se sigurnosni alati često pokažu ranjivima tek kad ih počnu masovno koristiti.
+
+<ArticleBreak />
+
+Najveći izazov s autonomnim agentima nije tehnička izvedba, već povjerenje. Poduzeća će morati odlučiti hoće li dopustiti agentima da izvršavaju kod u produkcijskim okruženjima, čak i unutar sandboxa.
+
+NVIDIA-ino rješenje nudi prividnu sigurnost, ali pravi test dolazi kad agenti počnu raditi stvari koje nisu predviđene – a to će se dogoditi. Za developere, OpenShell je dvosjekli mač.
+
+S jedne strane, olakšava razvoj samoevoluirajućih asistenata (NemoClaw omogućuje instalaciju u jednom naredbenom retku), ali s druge strane, nameće nove sigurnosne protokole koji mogu usporiti iteracije. GitHub repozitoriji već bilježe prve reakcije – neki hvale modularnost, dok drugi upozoravaju na nedostatak detalja o mehanizmima politike.
+
+Industrijska implikacija je jasna: tvrtke koje uspiju integrirati OpenShell u svoje sustave dobit će prednost u kontroli rizika, ali one koje kasne mogle bi se naći u situaciji da moraju nadoknađivati propuštenu sigurnost. NVIDIA je ovdje postigla nešto važno – spojila je sigurnost s otvorenim kodom, ali pravo natjecanje tek počinje.
+
+OpenShell je samo početak nove ere sigurnosti u svijetu autonomnih agenata. NVIDIA-ova vizija sigurnosti koja ne smije zakazati je ambiciozna, ali potencijalno revolucionarna. Da li će uspjeti u svojim ciljevima, ovisi o brojnim faktorima, uključujući i podršku industije i razvoj tehnologije.

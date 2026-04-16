@@ -1,0 +1,49 @@
+---
+id: "2026-04-15-embeddings-hit-their-limitsand-no-ones-checking-th"
+db_id: 2608
+title: "Zašto embeddinzi neće spasiti AI pretragu"
+lang: "hr"
+category: "ai"
+date: "2026-04-15T02:03:21Z"
+excerpt: "ArXiv papir *On the Theoretical Limitations of Embedding-Based Retrieval* (arXiv:2508."
+exec_summary: "A new research paper exposes fundamental theoretical limitations of vector embeddings when applied beyond traditional retrieval tasks, challenging industry hype. The findings suggest that scaling embeddings for reasoning, coding, and instruction-following may exacerbate existing flaws rather than solve them, with significant implications for AI development and deployment."
+key_points:
+  - "Teorijski limiti vektorskih embedinga"
+  - "Novi benchmarki pogoršavaju stare probleme"
+  - "Yannic Kilcher razotkriva industrijsku hype"
+source:
+  name: "youtube.com"
+  url: "https://www.youtube.com/watch?v=zKohTkN0Fyk"
+image:
+  url: "/images/articles/embeddings-hit-their-limitsand-no-ones-checking-th/main.jpg"
+  alt: "Zašto embeddinzi neće spasiti AI pretragu"
+subtitle: "Benchmarki za razmišljanje i kodiranje samo proširuju jaz između obećanja i stvarnosti"
+videoUrl: "https://www.youtube.com/watch?v=zKohTkN0Fyk"
+tags: ["AI search benchmarks", "embedding limitations in retrieval", "code generation vs. real-world search performance", "LLM evaluation gaps", "semantic search benchmarking"]
+lead_sentence: "ArXiv papir 2508.21038 prvi put jasno artikulira teorijske granice vektorskih embedinga u zadacima poput razmišljanja i kodiranja."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+ArXiv papir *On the Theoretical Limitations of Embedding-Based Retrieval* (arXiv:2508.21038) [1] ne samo da potvrđuje ono što su istraživači već godinama šaptali – vektorski embedinzi imaju teorijske granice koje se ne mogu zaobići skaliranjem. Autori ne poriču da su embedinzi korisni za klasične zadatke pretrage, ali upozoravaju: kada se ti isti alati koriste za razmišljanje, slijeđenje instrukcija ili generiranje koda, problemi postaju fundamentalni, a ne samo tehnički.
+
+Problem nije u tome što embedinzi ne rade – rade, ali unutar uskog raspona definiranog njihovom matematičkom prirodom. Kada se od njih traži da shvate 'relevantnost' u kontekstu koji nije statičan (npr. dinamički upiti ili multimodalni scenariji), sustav se raspada.
+
+To nije bug, već značajka. Ili, kako bi rekli autori papira: 'Warning: Rant'.
+
+Yannic Kilcher, čija je video-analiza [2] ovog rada već privukla pažnju tehničke zajednice, naglašava da se industrija pomiče prema sve ambicioznijim benchmarkima bez da je riješila osnovne nedostatke.
+
+<ArticleBreak />
+
+Part 2: Umjesto da se fokusira na poboljšanje embedinga za specifične domene, trend je gurnuti ih u sve više zadataka – i onda se čuditi zašto rezultati variraju od 'dobrih' do 'potpuno krivih'. Ono što papir ne kaže eksplicitno, ali se podrazumijeva, jest da su ovi limiti posebno bolni za tvrtke koje embedinge tretiraju kao univerzalno rješenje.
+
+Ako je vaš proizvod ovisan o pretrazi koja mora razumjeti nijanse (npr. pravne dokumente ili medicinske dijagnoze), embedinzi će vas prije ili kasnije izdati. To nije pitanje skaliranja modela, već dizajna sustava.
+
+Reakcije u zajednici su podijeljene: dio istraživača vidi papir kao zdravu dozu skepticizma, dok drugi smatraju da autori pretjeruju s kritikom. Na GitHubu i tehnološkim forumima [3] već se pojavljuju rasprave o alternativama, poput hibridnih pristupa koji kombiniraju embedinge s klasičnim metodama pretrage.
+
+Rješenje ovog problema nije jednostavno, ali je jasno da se mora promijeniti pristup korištenju embedinza. Umjesto da se fokusira na univerzalna rješenja, treba se usmjeriti na specifične zadatke i domene. Također, treba se razviti bolja razumijevanja ograničenja embedinza i kako ih zaobići. To će zahtijevati suradnju između istraživača, developera i industrijalaca. Jedno je sigurno: embedinzi neće spasiti AI pretragu, ali mogu biti važan dio rješenja.

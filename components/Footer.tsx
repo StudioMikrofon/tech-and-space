@@ -1,7 +1,13 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { CATEGORIES, CATEGORY_LABELS } from "@/lib/types";
 
 export default function Footer() {
+  const pathname = usePathname();
+  const isHr = pathname.startsWith("/hr");
+
   return (
     <footer className="border-t border-white/8 mt-20 pb-12">
       <div className="max-w-7xl mx-auto px-4 pt-12 pb-6">
@@ -9,16 +15,11 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-1">
-              <img
-                src="/logo.jpg"
-                alt="TECH & SPACE"
-                className="h-8 rounded drop-shadow-[0_0_8px_rgba(0,207,255,0.5)]"
-              />
-              <span className="font-heading font-bold text-sm tracking-widest text-white/70 uppercase">
-                Tech & Space
-              </span>
-            </div>
+            <img
+              src="/ts-logo-full.svg"
+              alt="TECH & SPACE"
+              className="h-8 w-auto drop-shadow-[0_0_8px_rgba(0,207,255,0.5)]"
+            />
             <p className="text-sm text-text-secondary leading-relaxed">
               An AI-driven editorial intelligence feed — not just aggregation.
               Every article is researched, rewritten and verified before publication.
@@ -38,7 +39,7 @@ export default function Footer() {
               {CATEGORIES.map((cat) => (
                 <Link
                   key={cat}
-                  href={`/category/${cat}`}
+                  href={isHr ? `/hr/category/${cat}` : `/category/${cat}`}
                   className="text-sm text-text-secondary hover:text-accent-cyan transition-colors"
                 >
                   {CATEGORY_LABELS[cat]}

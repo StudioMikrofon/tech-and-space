@@ -1,16 +1,16 @@
 ---
 id: "2026-03-28-unitrees-open-source-humanoid-dataset-demo-vs-depl"
 db_id: 794
-title: "Unitree otvara skupove podataka: Je li ovo robotika ili demo?"
+title: "Unitree otvara podatke, ali stvarni robot još nije dokazan"
 lang: "hr"
 category: "robotics"
 date: "2026-03-28T00:12:50Z"
-excerpt: "Unitree Robotics, kineski proizvođač humanoidnih robota, objavio je open-source skup podataka za razvoj naprednih robota [video](https://www."
-exec_summary: "Unitree Robotics has released open-source datasets for humanoid robots, aiming to accelerate development. However, while demos show smooth performance, real-world deployment faces hardware constraints like battery life, sensor reliability, and environmental factors. The gap between lab conditions and industrial realities remains significant."
+excerpt: "Open-source podaci mogu ubrzati razvoj humanoida, ali ne brišu probleme koje zadaju baterija, prašina, buka i nepravilni podovi."
+exec_summary: "Unitree's open-source dataset may help humanoid-robot research, but the practical value still depends on how well the data translates to messy, physical environments. The key question is whether shared datasets actually shorten deployment timelines or just make demos look better."
 key_points:
-  - "Unitree objavljuje open-source skupove podataka"
-  - "Demo ne pokazuje stvarna ograničenja hardvera"
-  - "Istraživači i industrija moraju provjeriti praktičnu primjenu"
+  - "Open-source podaci ne rješavaju hardver"
+  - "Demo skriva buku, prašinu i vlagu"
+  - "Prava vrijednost mjeri se u skladištu"
 source:
   name: "youtu.be"
   url: "https://youtu.be/pN_bj5-QyW8?si=dxqNhL9oK6O92MmP Scraping nije uspio za: https://youtu.be/pN_bj5-QyW8?si=dxqNhL9oK6O92MmP Probaj drugi URL ili provjeri je li stranica dostupna."
@@ -18,14 +18,14 @@ image:
   url: "/images/articles/unitrees-open-source-humanoid-dataset-demo-vs-depl/main.jpg"
   credit: "© Tech&Space"
   alt: "Unitree otvara skupove podataka: Je li ovo robotika ili demo?"
-subtitle: "Od laboratorija do skladišta: jaz koji ostaje"
+subtitle: "Skup podataka nije isto što i proizvod"
 subtitleImage:
   url: "/images/articles/unitrees-open-source-humanoid-dataset-demo-vs-depl/subtitle.jpg"
   credit: "© Tech&Space"
   alt: "Od laboratorija do skladišta: jaz koji ostaje"
 videoUrl: "https://www.youtube.com/watch?v=pN_bj5-QyW8"
 tags: ["Unitree", "warehouse automation", "industrial robotics"]
-lead_sentence: "Unitree Robotics objavio je open-source skupove podataka za humanoidne robote, ali demo ne pokazuje stvarna ograničenja."
+lead_sentence: "Unitree Robotics objavio je open-source skupove podataka za humanoidne robote, ali demo i dalje ne pokazuje stvarna ograničenja."
 geo:
   name: "Hangzhou, China"
   lat: 30.2741
@@ -35,10 +35,16 @@ featured: false
 approved: true
 ---
 
-Unitree Robotics, kineski proizvođač humanoidnih robota, objavio je open-source skup podataka za razvoj naprednih robota [video](https://www.youtube.com/watch?v=pN_bj5-QyW8). Na YouTubeu su prikazani glatki pokreti i precizna kontrola, ali ono što demo ne pokazuje jesu stvarni uvjeti rada: vlaga, prašina, nepredvidivi tereni i ograničenja baterije. Riječ je o visokokvalitetnim podacima prikupljenim u kontroliranom okruženju, ali kako se ti podaci ponašaju u stvarnom svijetu? Istraživači i tvrtke, poput Boston Dynamicsa i Agility Roboticsa, već godinama rade na sličnim skupovima podataka, no pitanje je koliko su oni primjenjivi izvan laboratorija. Prema dostupnim informacijama, Unitreeov skup podataka uključuje snimke robota koji obavljaju različite zadatke, ali demo ne otkriva koliko je robota potrebno za obuku, niti kakva je latencija u stvarnim uvjetima. To su ključni faktori koji određuju može li se tehnologija skalirati izvan akademskih projekata.
+Unitree Robotics otvorio je skup podataka za humanoidne robote i to je dobar znak za istraživače koji trebaju više stvarnih pokreta, a manje simuliranih pretpostavki. [Video demonstracija](https://www.youtube.com/watch?v=pN_bj5-QyW8) pokazuje koliko glatko robot može izgledati kada ga gledate u čistoj, dobro osvijetljenoj prostoriji. Ono što ne pokazuje jest koliko takvi podaci vrijede kada se robot nađe u prašnjavom skladištu ili na mokrom podu.
+
+Open-source pristup je koristan samo ako dataset zaista odražava uvjete izvan laboratorija. Tu se odmah otvaraju pitanja: koliko je različitih robota snimalo podatke, koliko su zadaci raznoliki i koliko je teško prenijeti naučeno na drugi hardver. Ako je odgovor previše uzak, skup podataka ostaje zanimljiv akademski resurs, ali ne i praktičan alat za industriju.
+
+Zato je ova objava više signal nego dokaz. [Unitree](https://www.unitree.com/) i slični igrači mogu ubrzati razvoj ako dijele dovoljno kvalitetne podatke, no tek će sljedeći testovi pokazati je li to stvarno prečac do boljih humanoida ili samo još jedan lijepo upakiran demo.
 
 <ArticleBreak />
 
-Hardverska ograničenja ostaju glavna prepreka. Unitreeovi roboti, poput H1 modela, imaju impresivne specifikacije, ali baterija traje samo oko 2 sata aktivnog rada [izvor](https://www.unitree.com/). U industrijskim uvjetima, gdje roboti trebaju raditi 8–10 sati dnevno, to je značajno ograničenje. Slično, senzori i kamere robota moraju biti otporni na vanjske uvjete. Demo prikazuje robota u čistoj, dobro osvijetljenoj prostoriji, ali što se događa u skladištu s lošim osvjetljenjem ili na gradilištu s prašinom i vibracijama? Ova su pitanja koja demo ne odgovara, ali su kritična za stvarnu primjenu. Open-source pristup je korak naprijed, ali industrija i istraživači moraju provjeriti koliko su ti podaci robustni. Ako se potvrdi njihova praktična primjenjivost, mogli bi ubrzati razvoj autonomnih robota u logistici i proizvodnji.
+Hardverska ograničenja ostaju glavni filter između dema i stvarnosti. Baterija, toplina, osjetljivost senzora i otpornost na okoliš i dalje određuju koliko humanoid može raditi prije nego što postane logistički teret. Ako robot traje dva sata, a smjena osam, problem nije samo energija nego i cijeli operativni model.
 
-Ukupno gledano, Unitreeov open-source skup podataka je korak u pravom smjeru, ali još uvijek ima mnogo toga što se mora razraditi. Istraživači i proizvođači robota moraju nastaviti raditi na rješavanju problema koji se tiču primjene autonomnih robota u stvarnom svijetu. Tek tada možemo očekivati da će ove tehnologije postati šire prihvaćene i korištene u različitim industrijama.
+Zato je vrijednost ovakvog dataset pristupa u tome da smanji dio treniranja i ubrza iteraciju. Ali industrija će i dalje tražiti dokaze na stvarnim zadacima: podizanje, hvatanje, stabilnost na različitim površinama i oporavak od sitnih pogrešaka. To su točke na kojima većina demo videa prestane biti zanimljiva.
+
+Drugim riječima, open-source podaci su korisni ako pomažu premostiti jaz između laboratorija i skladišta. Ako ne, ostaju samo još jedan dokaz da humanoidi danas bolje izgledaju nego što rade. Za svu buku oko otvorenosti, prava mjera je jednostavna: može li robot preživjeti stvarnu smjenu bez pažljivo pripremljene scene?

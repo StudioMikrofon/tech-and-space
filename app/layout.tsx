@@ -31,6 +31,7 @@ import KonamiCode from "@/components/KonamiCode";
 import Ticker from "@/components/Ticker";
 import SpaceProSidebarWrapper from "@/components/SpaceProSidebarWrapper";
 import MainShell from "@/components/MainShell";
+import ScrollRestoration from "@/components/ScrollRestoration";
 import AgentPanel from "@/components/AgentPanel";
 import AmbientSound from "@/components/AmbientSound";
 import { AudioProvider } from "@/components/AudioProvider";
@@ -72,22 +73,26 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={`dark ${chakraPetch.variable} ${spaceGrotesk.variable} ${firaCode.variable}`}>
-      <body
-        className="font-body antialiased bg-space-bg text-text-primary"
-      >
+      <body className="font-body antialiased bg-space-bg text-text-primary overflow-hidden">
         <AudioProvider>
           <TerminalBoot />
           <SpaceStage />
           <PageTransition />
+          <ScrollRestoration />
           <AmbientSound />
           <KonamiCode />
           <div className="relative z-10 nebula-bg min-h-screen w-full max-w-full overflow-x-hidden flex flex-col">
             <Header />
-            <div className="flex flex-1 w-full max-w-full overflow-x-hidden">
-              <MainShell>{children}</MainShell>
+            <div className="flex flex-1 min-h-0 w-full max-w-full overflow-hidden">
+              <div
+                id="main-scroll-area"
+                className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden lg:mr-[384px]"
+              >
+                <MainShell>{children}</MainShell>
+                <Footer />
+              </div>
               <SpaceProSidebarWrapper />
             </div>
-            <Footer />
           </div>
           <Ticker articles={articles} compact />
           {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && (

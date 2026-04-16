@@ -1,0 +1,57 @@
+---
+id: "2026-04-15-draft-boosts-ai-safety"
+db_id: 2639
+title: "DRAFT: Kako AI agenti konačno uče gledati vlastiti trag"
+lang: "hr"
+category: "ai"
+date: "2026-04-15T08:13:25Z"
+excerpt: "Istraživači s arXiva objavili su latentni okvir za sigurnost AI agenata koji obećava da će riješiti problem rijetkih, ali kritičnih grešaka u dugim interakcijskim tragovima."
+exec_summary: "DRAFT introduces a latent reasoning framework for AI agent safety, showing significant accuracy improvements on benchmarks but raising questions about real-world applicability. The shift from output moderation to trajectory auditing marks a broader trend in AI safety, with implications for high-stakes industries."
+key_points:
+  - "DRAFT framework poboljšava sigurnost AI agenata za 28%"
+  - "Izbjegava gubitke u klasičnim summarize-then-judge modelima"
+  - "Benchmark rezultati pokazuju jaz između laboratorija i stvarnosti"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.03242"
+image:
+  url: "/images/articles/draft-boosts-ai-safety/main.jpg"
+  alt: "DRAFT: Kako AI agenti konačno uče gledati vlastiti trag"
+subtitle: "91% točnosti zvuči impresivno, ali tko će platiti cijenu skaliranja"
+subtitleImage:
+  url: "/images/articles/draft-boosts-ai-safety/subtitle.jpg"
+  alt: "91% točnosti zvuči impresivno, ali tko će platiti cijenu skaliranja"
+tags: ["Kako AI agent scalability challenges", "AI model inference accuracy benchmarks", "Enterprise AI cost optimization tradeoffs", "Autonomous agent self-training limitations", "91% precision vs. operational scalability"]
+lead_sentence: "DRAFT framework postiže 91,18% točnosti na benchmarkovima, ali stvarni test tek slijedi kada agenti napuste laboratorij."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Istraživači s arXiva objavili su latentni okvir za sigurnost AI agenata koji obećava da će riješiti problem rijetkih, ali kritičnih grešaka u dugim interakcijskim tragovima. Umjesto da se oslanja na binarnu superviziju, DRAFT dijeli proces na dva dijela: *Extractor* koji komprimira cijeli trag u kontinuirani latentni nacrt, i *Reasoner* koji na temelju tog nacrta donosi konačnu odluku o sigurnosti.
+
+Ovaj pristup omogućuje krajnje diferencijabilno treniranje, što je ključno za scenarije gdje je opasnost skrivena u detaljima, a ne u očitim greškama. Rezultati na ASSEBench i R-Judge benchmarkovima pokazuju skok s 63,27% na 91,18% točnosti u odnosu na LoRA fine-tuning, ali tu priču treba odmah staviti u kontekst.
+
+Oba seta podataka dizajnirana su za laboratorijske uvjete, gdje su interakcije čiste, a rizici jasno definirani. U stvarnom svijetu, gdje agenti koriste alate poput API-ova ili robotskih ruku, tragovima dominira šum, a kritične greške često su statistički nevidljive.
+
+DRAFT-ov uspjeh na benchmarkovima ne jamči da će isto raditi kada se agenti suoče s nepredvidivim korisničkim unosima ili nepouzdanim vanjskim sustavima. Još jedna ključna inovacija je izbjegavanje gubitaka koji se javljaju u klasičnim *summarize-then-judge* cjevovodima.
+
+Umjesto da se trag prvo sažme u tekst, a zatim ocijeni, DRAFT sve radi u latentnom prostoru, što omogućuje preciznije pripisivanje zasluga (credit assignment) za greške.
+
+<ArticleBreak />
+
+Tko zapravo ima koristi od ovoga? Prije svega, kompanije koje razvijaju autonomne agente za visoko rizične domene poput financija ili zdravstva, gdje je svaka greška skupa.
+
+DRAFT bi mogao smanjiti potrebu za skupim ljudskim nadzorom, ali samo ako se pokaže da radi jednako dobro na stvarnim podacima kao i na benchmarkovima. Trenutno, nema jasnih dokaza da je framework testiran na podacima izvan akademskih skupova, što otvara pitanje koliko je zapravo spreman za produkciju.
+
+Ono što je možda najzanimljivije je kako DRAFT reflektira širu promjenu u pristupu sigurnosti AI-a. Umjesto da se fokusiramo na moderaciju izlaza, sada gledamo cijeli trag interakcija – što je bliže onome kako ljudi procjenjuju pouzdanost sustava.
+
+To je korak naprijed, ali i podsjetnik da se sigurnost ne može svesti na jedan broj ili benchmark. U stvarnom svijetu, agenti će se morati nositi s neočekivanim scenarijima, a DRAFT-ov uspjeh ovisit će o tome koliko dobro može generalizirati izvan onoga što je vidio tijekom treninga.
+
+Za developere, ovo je signal da se pripreme za eru gdje će sigurnost agenata biti jednako važna kao i njihova funkcionalnost.
+
+Razvojem DRAFT-a, istraživači su pokazali da je moguće postići visoku točnost u sigurnosti AI agenata, ali još uvijek postoje brojni izazovi koji trebaju biti riješeni. U budućnosti, očekujemo da će se DRAFT i slični pristupi nastaviti razvijati i usavršavati, što će dovesti do stvaranja još sigurnijih i pouzdanijih AI sustava. To će zahtijevati suradnju između istraživača, developera i industrijalaca.

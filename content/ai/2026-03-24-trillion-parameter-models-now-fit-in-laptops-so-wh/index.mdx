@@ -30,8 +30,12 @@ geo:
 featured: false
 lead_sentence: "MoE's 1-trillion-parameter model now runs on a 96GB MacBook Pro."
 approved: true
+title_en: "Trillion-parameter models now fit in laptops. So what?"
+key_points_en:
+  - "1T-parameter model runs on 96GB MacBook RAM"
+  - "iPhone demo hits 0.6 tokens/sec—with caveats"
+  - "Streaming experts: clever hack or deployment dead-end?"
 ---
--
 
 Five days ago, running a 397-billion-parameter model on 48GB of RAM was a neat parlor trick. Today, the goalposts moved: [@seikixtc](https://twitter.com/seikixtc) squeezed MoE’s 1-trillion-parameter Kimi K2.5—32B active weights—into a 96GB M2 Max MacBook Pro. Meanwhile, [@anemll](https://twitter.com/anemll) ported the same Qwen3.5-397B-A17B to an iPhone, churning out 0.6 tokens/second. The technique? *Streaming experts*: swapping model weights in/out of RAM like a DJ cueing vinyl, but with SSDs and Mixture-of-Experts (MoE) architectures.
 
@@ -46,5 +50,3 @@ So who benefits? **Open-source tinkerers and cloud-averse researchers**, for now
     The developer signal is mixed. GitHub stars for the [iOS repo](https://github.com/anemll/qwen3.5-iphone) are pouring in, but the pull requests? Mostly bug fixes for *making it run at all*. The community’s excitement is proportional to the novelty, not the utility. And while [Dan Woods’ autoresearch loops](https://twitter.com/danieljwoods) hunt for optimizations, the core tension remains: **this is a RAM hack, not a compute breakthrough.**
 
     The real story isn’t ‘bigger models on smaller hardware.’ It’s that MoE architectures—once dismissed as unwieldy—are now the duct tape holding together the ‘run it anywhere’ fantasy. That, and the quiet admission that *we’re still measuring AI progress in what fits where*, not what works well.
-
-The elephant in the room: if streaming experts adds 10x latency to inference, who exactly is this optimization for? Hobbyists with patience, or an industry pretending edge deployment is just around the corner?

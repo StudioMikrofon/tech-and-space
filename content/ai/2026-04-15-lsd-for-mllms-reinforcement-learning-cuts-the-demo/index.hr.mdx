@@ -1,0 +1,51 @@
+---
+id: "2026-04-15-lsd-for-mllms-reinforcement-learning-cuts-the-demo"
+db_id: 2616
+title: "LSD za MLLM: Kada AI prestaje kopirati i počinje birati"
+lang: "hr"
+category: "ai"
+date: "2026-04-15T02:19:12Z"
+excerpt: "Multimodalni veliki jezični modeli (MLLM) godinama se oslanjaju na jednostavnu, ali ograničenu strategiju: k-Nearest Neighbor (kNN) pretragu za odabir primjera u in-context learningu (ICL)."
+exec_summary: "A new reinforcement learning-based method for selecting visual in-context demonstrations (LSD) challenges the dominance of kNN in MLLMs, showing promise for complex regression tasks but raising questions about real-world applicability. The approach highlights a shift from static similarity-based selection to dynamic, performance-driven strategies, though its scalability and practical adoption remain uncertain."
+key_points:
+  - "Reinforcement Learning mijenja odabir primjera"
+  - "kNN gubi na kompleksnim regresijskim zadacima"
+  - "Pet benchmarka, nula realnih scenarija"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.26775"
+image:
+  url: "/images/articles/lsd-for-mllms-reinforcement-learning-cuts-the-demo/main.jpg"
+  alt: "LSD za MLLM: Kada AI prestaje kopirati i počinje birati"
+subtitle: "Novi pristup demonstracijama pokazuje gdje kNN zapinje, ali pitanje je tko će ga koristiti"
+subtitleImage:
+  url: "/images/articles/lsd-for-mllms-reinforcement-learning-cuts-the-demo/subtitle.jpg"
+  alt: "Novi pristup demonstracijama pokazuje gdje kNN zapinje, ali pitanje je tko će ga koristiti"
+tags: ["Large Language Models (LLMs) for Multimodal Learning", "k-Nearest Neighbors (kNN) limitations in AI retrieval", "LLM decision-making vs. memorization", "Multimodal AI inference architectures", "AI retrieval-augmented generation (RAG) evaluation"]
+lead_sentence: "Reinforcement Learning agent s Dueling DQN-om prvi put mijenja način na koji MLLM-ovi biraju primjere za učenje."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+Multimodalni veliki jezični modeli (MLLM) godinama se oslanjaju na jednostavnu, ali ograničenu strategiju: k-Nearest Neighbor (kNN) pretragu za odabir primjera u in-context learningu (ICL). Problem?
+
+Sličnost ne znači relevantnost. Kada je zadatak kompleksna regresija — recimo, precizno procjenjivanje dubine na slikama ili kvantificiranje medicinskih nalaza — kNN često odabere redundantne primjere koji ne pokrivaju cijeli raspon izlaza.
+
+Novi rad s arXiva [Learning to Select Visual In-Context Demonstrations](https://arxiv.org/abs/2603.26775) uvodi Learning to Select Demonstrations (LSD), pristup koji demonstracije tretira kao sekvencijalni problem odlučivanja, a ne kao statični skup sličnosti. LSD koristi Dueling Deep Q-Network (DQN) s query-centričnim Transformer Decoderom kako bi naučio politiku koja maksimizira performanse MLLM-a na downstream zadacima.
+
+Umjesto da se oslanja na unaprijed definirane metričke udaljenosti, model dinamički gradi skup demonstracija prilagođen specifičnom upitu.
+
+<ArticleBreak />
+
+Rani rezultati na pet vizualnih regresijskih benchmarka pokazuju poboljšanja u odnosu na kNN, ali — kao i uvijek u AI — benchmark nije stvarnost. [Istraživači priznaju](https://arxiv.org/abs/2603.26775) da metodologija još nije testirana na stvarnim podacima s šumom ili nepredvidivim varijacijama, što je ključno za praktičnu primjenu. Zanimljivo je da se LSD fokusira na vizualne zadatke, iako bi pristup teoretski mogao funkcionirati i za tekstualne scenarije.
+
+To otvara pitanje: je li ovo optimizacija za specifičan problem ili temelj za širu primjenu? Industrijski gledano, LSD bi mogao biti zanimljiv za tvrtke koje se bave preciznim vizualnim analizama — od autonomnih vozila do medicinske dijagnostike.
+
+Međutim, trenutačno je najveći izazov upravo ono što rad ne adresira: skalabilnost i trošak treniranja RL agenta za svaki novi zadatak.
+
+Trenutačno nedostaje otvorena implementacija, a bez nje, tehnologija ostaje nedostupna većini istraživača. Ako se pokaže da LSD stvarno donosi značajna poboljšanja na stvarnim podacima, mogao bi potaknuti cijelu seriju sličnih pristupa. Očekivanja su velika, ali još uvijek je rano za konačne zaključke.

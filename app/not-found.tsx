@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Orbit, Gamepad2 } from "lucide-react";
 
@@ -12,6 +13,10 @@ interface GameAsteroid {
 }
 
 export default function NotFound() {
+  const pathname = usePathname();
+  const isHr = pathname.startsWith("/hr");
+  const homeHref = isHr ? "/hr" : "/";
+
   const [playing, setPlaying] = useState(false);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
@@ -182,7 +187,7 @@ export default function NotFound() {
       {!playing ? (
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            href="/"
+            href={homeHref}
             className="inline-flex items-center gap-2 px-6 py-3 bg-accent-cyan/10 border border-accent-cyan/30 rounded-lg text-accent-cyan font-semibold hover:bg-accent-cyan/20 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -219,7 +224,7 @@ export default function NotFound() {
                   Try Again
                 </button>
                 <Link
-                  href="/"
+                  href={homeHref}
                   className="px-6 py-3 bg-white/5 border border-white/10 rounded-lg text-text-primary font-semibold hover:bg-white/10 transition-colors"
                 >
                   Back to Home

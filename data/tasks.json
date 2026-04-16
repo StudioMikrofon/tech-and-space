@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "id": "1776328318728",
+    "prompt": "In mobile view, when the hamburger icon is tapped to open the Robotics, Gaming, and Other sections, these items should remain visible without requiring a return to the top of the page, and a nicer font should be used. Currently, they are only visible when the page is at the very top.",
+    "summary": "Zahtjev za prilagodbu mobilnog prikaza: vidljivost rubrika bez vraćanja na vrh uz bolji font.",
+    "raw": "U monile view kada se pritisnu tri crtice za otvaranje rubrika Robotics, Gaming i ostalo, one bi trebale biti vidljive bez potrebe za vraćanjem na vrh stranice, uz korištenje ljepšeg fonta. Sad se to moze vidjeti jedino kad je stranica skroz na vrhu"
+  }
+]

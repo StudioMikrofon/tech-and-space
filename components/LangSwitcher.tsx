@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 interface LangSwitcherProps {
   lang: "en" | "hr";
   href: string;
@@ -10,8 +8,11 @@ interface LangSwitcherProps {
 export default function LangSwitcher({ lang, href }: LangSwitcherProps) {
   return (
     <div className="flex justify-end px-4 pt-2 pb-1">
-      <Link
-        href={href}
+      <button
+        type="button"
+        onClick={() => {
+          window.location.href = href;
+        }}
         className="flex items-center gap-1.5 text-xs font-mono text-text-secondary/60 hover:text-accent-cyan border border-white/10 hover:border-accent-cyan/30 rounded-lg px-3 py-1.5 transition-all"
         title={lang === "hr" ? "Switch to English" : "Prebaci na hrvatski"}
       >
@@ -20,7 +21,7 @@ export default function LangSwitcher({ lang, href }: LangSwitcherProps) {
         ) : (
           <><span>🇭🇷</span> <span>HR</span></>
         )}
-      </Link>
+      </button>
     </div>
   );
 }

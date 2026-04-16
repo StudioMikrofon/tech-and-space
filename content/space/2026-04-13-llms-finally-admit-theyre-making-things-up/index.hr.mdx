@@ -1,0 +1,53 @@
+---
+id: "2026-04-13-llms-finally-admit-theyre-making-things-up"
+db_id: 2503
+title: "Novi pristup borbi protiv halucinacija u velikim jezičnim modelima"
+lang: "hr"
+category: "space"
+date: "2026-04-13T22:14:49Z"
+excerpt: "Istraživači s arXiv-a objavili su rad *Hallucination as output-boundary misclassification* koji predlaže revolucionarni pristup smanjenju halucinacija u velikim jezičnim modelima (LLM-ovima)."
+exec_summary: "Researchers propose a composite abstention architecture to reduce hallucinations in large language models by combining instruction-based refusal with a structural gate that evaluates support deficit scores, achieving high accuracy while maintaining answerable responses. This approach addresses critical challenges in AI reliability and could redefine standards for model trustworthiness."
+key_points:
+  - "Kombinacija odbijanja i strukturne barijere"
+  - "Podrška ocjenjuje dosljednost, parafraze i citate"
+  - "Ispitivanje na 50 predmeta i tri modela"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.06195"
+image:
+  url: "/images/articles/llms-finally-admit-theyre-making-things-up/main.jpg"
+  alt: "Novi pristup borbi protiv halucinacija u velikim jezičnim modelima"
+subtitle: "Kako strukturna apstinencija mijenja preciznost odgovora"
+subtitleImage:
+  url: "/images/articles/llms-finally-admit-theyre-making-things-up/subtitle.jpg"
+  alt: "Kako strukturna apstinencija mijenja preciznost odgovora"
+tags: ["Language Models", "Hallucinations"]
+lead_sentence: "Arhitektura koja kombinira odbijanje i strukturnu apstinenciju blokira netočne odgovore velikih jezičnih modela na temelju tri signalne vrijednosti."
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Istraživači s arXiv-a objavili su rad *Hallucination as output-boundary misclassification* koji predlaže revolucionarni pristup smanjenju halucinacija u velikim jezičnim modelima (LLM-ovima). Umjesto da se oslanjaju samo na upute za odbijanje netočnih tvrdnji, autori uvode kompozitnu arhitekturu koja kombinira tu metodu s tzv. strukturnom apstinencijskom barijerom.
+
+Ta barijera izračunava deficit podrške (St) na temelju tri crne kutije: samo-dosljednosti (At), stabilnosti parafraziranja (Pt) i pokrivenosti citata (Ct). Ovaj pristup cilja na ključni problem modernih LLM-ova – izlazne granice gdje modeli interno generirane kompletacije emitiraju kao da su utemeljene u dokazima.
+
+Evaluacija je provedena na 50 predmeta, u pet različitih epistemskih režima, testirajući tri različita modela. Rezultati pokazuju da kombinacija dvaju mehanizama postiže visoku točnost uz nisku stopu halucinacija, zadržavajući pritom visoku razinu odgovornih odgovora.
+
+To je posebno važno u kontekstu gdje pojedinačni mehanizmi – poput instrukcija za odbijanje – često propuštaju rubne slučajeve ili generiraju previše konzervativne odgovore.
+
+<ArticleBreak />
+
+Autori ističu da je ključni doprinos rada u sinergiji dviju metoda: instrukcije za odbijanje djeluju na razini individualnih odgovora, dok strukturna apstinencija djeluje kao filtriranje na temelju ukupne pouzdanosti. Podrška deficit St nije samo zbroj triju signalnih vrijednosti, već ih kombinira u skladu s epistemskim kontekstom.
+
+Na primjer, visoka samo-dosljednost (At) može nadoknaditi manju pokrivenost citata (Ct) ako je model stabilan u parafrazi (Pt). Evaluacija je uključivala i dodatni stres-test od 100 predmeta bez konteksta, izveden iz skupa TruthfulQA.
+
+Ovaj test je dizajniran kako bi provjerio kako modeli reagiraju na potpuno nepoznate ili dvosmislene upite. Rezultati pokazuju da kompozitna arhitektura značajno nadmašuje pojedinačne metode, posebno u situacijama gdje su dokazi oskudni ili kontradiktorni.
+
+Za istraživačku zajednicu ovo otvara nova pitanja: kako optimizirati pragove St za specifične domene, koliko robustna je metoda na napredne oblike halucinacija, i koliko je skalabilna na veće modele.
+
+Sljedeći korak bit će integracija ovog pristupa u otvorene i komercijalne LLM-ove te evaluacija dugoročnih efekata na korisničko povjerenje. Ovo će omogućiti bolje razumijevanje potencijala i ograničenja ove metode. Također, bit će važno istražiti kako se ova metoda može primijeniti u različitim domenama i kontekstima.

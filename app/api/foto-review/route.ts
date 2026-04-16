@@ -317,6 +317,18 @@ function updateMdxImages(articleId: number, mainUrl: string, subtitleUrl: string
   // Fast path: use findArticleMdxInfo which already found the file
   const mdxInfo = findArticleMdxInfo(articleId);
   const mdxPath = mdxInfo?.mdxPath;
+  let mainCaption = "";
+  let subtitleCaption = "";
+  try {
+    const db = getDb(true);
+    const row = db.prepare("SELECT images_json FROM articles WHERE id = ?").get(articleId) as { images_json?: string } | undefined;
+    db.close();
+    if (row?.images_json) {
+      const imgs = JSON.parse(row.images_json);
+      mainCaption = String(imgs?.image_main?.caption || imgs?.image_main?.selected_reason || imgs?.image_main?.alt || "");
+      subtitleCaption = String(imgs?.image_subtitle?.caption || imgs?.image_subtitle?.selected_reason || imgs?.image_subtitle?.alt || "");
+    }
+  } catch {}
 
   const updateFile = (filePath: string, requireDbId = true): boolean => {
     if (!existsSync(filePath)) return false;
@@ -338,9 +350,22 @@ function updateMdxImages(articleId: number, mainUrl: string, subtitleUrl: string
         /(image:\n(?:\s+\w+:.*\n)*\s+url:\s*)"[^"]*"/m,
         `$1"${mainUrl}"`
       );
+      if (mainCaption) {
+        if (/^(image:\n(?:\s+\w+:.*\n)*\s+caption:\s*)".*"/m.test(frontmatter)) {
+          frontmatter = frontmatter.replace(
+            /^(image:\n(?:\s+\w+:.*\n)*\s+caption:\s*)"[^"]*"/m,
+            `$1"${mainCaption}"`
+          );
+        } else {
+          frontmatter = frontmatter.replace(
+            /(image:\n(?:\s+\w+:.*\n)*\s+alt:\s*"[^"]*"\n)/m,
+            `$1  caption: "${mainCaption}"\n`
+          );
+        }
+      }
     } else {
       // No image block — add one
-      frontmatter += `\nimage:\n  url: "${mainUrl}"\n  alt: ""`;
+      frontmatter += `\nimage:\n  url: "${mainUrl}"\n  alt: ""${mainCaption ? `\n  caption: "${mainCaption}"` : ""}`;
     }
 
     // Update or insert subtitleImage block so already-published articles
@@ -351,10 +376,23 @@ function updateMdxImages(articleId: number, mainUrl: string, subtitleUrl: string
           /^(subtitleImage:\n\s+url:\s*)"[^"]*"/m,
           `$1"${subtitleUrl}"`
         );
+        if (subtitleCaption) {
+          if (/^(subtitleImage:\n(?:\s+\w+:.*\n)*\s+caption:\s*)".*"/m.test(frontmatter)) {
+            frontmatter = frontmatter.replace(
+              /^(subtitleImage:\n(?:\s+\w+:.*\n)*\s+caption:\s*)"[^"]*"/m,
+              `$1"${subtitleCaption}"`
+            );
+          } else {
+            frontmatter = frontmatter.replace(
+              /(subtitleImage:\n(?:\s+\w+:.*\n)*\s+alt:\s*"[^"]*"\n)/m,
+              `$1  caption: "${subtitleCaption}"\n`
+            );
+          }
+        }
       } else {
         const insertAfterSubtitleEn = /^subtitle_en:.*$/m;
         const insertAfterSubtitle = /^subtitle:.*$/m;
-        const block = `\nsubtitleImage:\n  url: "${subtitleUrl}"\n  alt: ""`;
+        const block = `\nsubtitleImage:\n  url: "${subtitleUrl}"\n  alt: ""${subtitleCaption ? `\n  caption: "${subtitleCaption}"` : ""}`;
         if (insertAfterSubtitleEn.test(frontmatter)) {
           frontmatter = frontmatter.replace(insertAfterSubtitleEn, (m) => `${m}${block}`);
         } else if (insertAfterSubtitle.test(frontmatter)) {
@@ -406,6 +444,7 @@ function rowToArticle(row: Record<string, unknown>) {
     id: row.id,
     title: row.title,
     title_en: row.title_en,
+    author: row.author || null,
     category: row.category,
     lead: row.lead ? (row.lead as string).slice(0, 220) : "",
     pipeline_stage: row.pipeline_stage,
@@ -414,6 +453,11 @@ function rowToArticle(row: Record<string, unknown>) {
     created_at: row.created_at,
     source_url: row.source_url || null,
     source_name: row.source_name || null,
+    rewritten: !!row.rewritten,
+    rewritten_at: row.rewritten_at || null,
+    rewritten_by: row.rewritten_by || null,
+    rewritten_persona: row.rewritten_persona || null,
+    rewritten_avatar: row.rewritten_avatar || null,
     memoryAlert: parseMemoryAlert(row),
     images,
     folderName,
@@ -575,8 +619,9 @@ export async function GET(req: NextRequest) {
     if (singleId) {
       const row = db
         .prepare(
-          `SELECT id, title, title_en, category, lead, pipeline_stage, status,
+          `SELECT id, title, author, title_en, category, lead, pipeline_stage, status,
                   images_json, github_uploaded, created_at, source_url, source_name,
+                  rewritten, rewritten_at, rewritten_by, rewritten_persona, rewritten_avatar,
                   memory_status, memory_topic_key, memory_duplicate_of,
                   memory_matches_json, memory_decision_reason, memory_checked_at
            FROM articles WHERE id = ?`
@@ -592,7 +637,10 @@ export async function GET(req: NextRequest) {
     let timeParam = `${-STALE_REVIEW_DAYS} days`;
 
     if (filter === "published") {
-      whereClause = `WHERE status = 'published' ORDER BY datetime(created_at) DESC, id DESC LIMIT 500`;
+      // Published articles can be much older than the most recent batch, so do not cap this list.
+      // The foto-review UI filters client-side; keeping the full published set available prevents older
+      // articles from disappearing from view when they still need image work.
+      whereClause = `WHERE status = 'published' ORDER BY datetime(created_at) DESC, id DESC`;
     } else if (filter === "approved") {
       whereClause = `WHERE status = 'approved' AND COALESCE(github_uploaded, 0) = 0 AND datetime(created_at) >= datetime('now', ?) ORDER BY datetime(created_at) DESC, id DESC`;
     } else if (filter === "pending") {
@@ -605,8 +653,9 @@ export async function GET(req: NextRequest) {
     if (whereClause.includes("?")) {
       rows = db
         .prepare(
-          `SELECT id, title, title_en, category, lead, pipeline_stage, status,
+          `SELECT id, title, author, title_en, category, lead, pipeline_stage, status,
                   images_json, github_uploaded, created_at, source_url, source_name,
+                  rewritten, rewritten_at, rewritten_by, rewritten_persona, rewritten_avatar,
                   memory_status, memory_topic_key, memory_duplicate_of,
                   memory_matches_json, memory_decision_reason, memory_checked_at
            FROM articles
@@ -616,8 +665,9 @@ export async function GET(req: NextRequest) {
     } else {
       rows = db
         .prepare(
-          `SELECT id, title, title_en, category, lead, pipeline_stage, status,
+          `SELECT id, title, author, title_en, category, lead, pipeline_stage, status,
                   images_json, github_uploaded, created_at, source_url, source_name,
+                  rewritten, rewritten_at, rewritten_by, rewritten_persona, rewritten_avatar,
                   memory_status, memory_topic_key, memory_duplicate_of,
                   memory_matches_json, memory_decision_reason, memory_checked_at
            FROM articles
@@ -732,23 +782,40 @@ export async function POST(req: NextRequest) {
       }
 
       // Remove from images_json if referenced
+      // Check BOTH main and subtitle slots to ensure web-pulled images are properly removed
       const raw = article.images_json as string | null;
       if (raw) {
         try {
           const imgs = JSON.parse(raw);
           const basename = path.basename(osPath);
+          const deletedFile = osPath; // Full path for comparison
           let changed = false;
           let subtitleRemoved = false;
-          if (imgs.image_main?.url?.includes(basename)) {
-            delete imgs.image_main;
-            changed = true;
+
+          // Check image_main slot
+          if (imgs.image_main?.url) {
+            // Match by filename in URL or by direct path
+            if (imgs.image_main.url.includes(basename) || imgs.image_main.url.includes(imageId)) {
+              delete imgs.image_main;
+              changed = true;
+            }
           }
-          if (imgs.image_subtitle?.url?.includes(basename)) {
-            delete imgs.image_subtitle;
-            changed = true;
-            subtitleRemoved = true;
+
+          // Check image_subtitle slot
+          if (imgs.image_subtitle?.url) {
+            // Match by filename in URL or by direct path
+            if (imgs.image_subtitle.url.includes(basename) || imgs.image_subtitle.url.includes(imageId)) {
+              delete imgs.image_subtitle;
+              changed = true;
+              subtitleRemoved = true;
+            }
           }
-          if (changed) {
+
+          // Always update if main/subtitle existed (be aggressive about cleanup)
+          const hadMain = !!imgs.image_main;
+          const hadSub = !!imgs.image_subtitle;
+
+          if (changed || (hadMain && !imgs.image_main) || (hadSub && !imgs.image_subtitle)) {
             db.prepare("UPDATE articles SET images_json = ? WHERE id = ?").run(
               JSON.stringify(imgs),
               articleId
@@ -758,7 +825,9 @@ export async function POST(req: NextRequest) {
               removeSubtitleImageFromMdx(articleId);
             }
           }
-        } catch {}
+        } catch (e) {
+          console.error(`[DELETE_IMAGE] Error cleaning images_json for article ${articleId}:`, e);
+        }
       }
 
       db.close();
@@ -841,33 +910,64 @@ export async function POST(req: NextRequest) {
       } catch {}
 
       // Preserve existing prompts when updating images_json (for style reference)
+      // But ALWAYS overwrite the URLs with new selections
       let existingData: Record<string, unknown> = {};
       let existingMain: Record<string, unknown> = {};
       let existingSub: Record<string, unknown> = {};
       try {
         const existing = JSON.parse((article.images_json as string) || "{}");
-        existingData = existing;
+        // Keep history/metadata but DON'T keep old image slots
+        existingData = { ...existing };
+        // Only preserve non-image metadata from existing
+        delete existingData.image_main;
+        delete existingData.image_subtitle;
         existingMain = existing.image_main || {};
         existingSub = existing.image_subtitle || {};
       } catch {}
+
+      const mainCaption = String(
+        (existingMain.caption as string | undefined) ||
+        (existingMain.selected_reason as string | undefined) ||
+        (existingMain.alt_text as string | undefined) ||
+        ""
+      );
+      const subCaption = String(
+        (existingSub.caption as string | undefined) ||
+        (existingSub.selected_reason as string | undefined) ||
+        (existingSub.alt_text as string | undefined) ||
+        ""
+      );
 
       const mainPublicUrl = `/images/articles/${folderName}/main${heroExt}`;
       const subPublicUrl = targetSubtitle
         ? `/images/articles/${folderName}/subtitle${path.extname(targetSubtitle).toLowerCase() || ".jpg"}`
         : null;
 
-      // Update images_json in DB — preserve ALL existing data except image_main/image_subtitle URLs
+      // Update images_json in DB — COMPLETELY replace image_main/image_subtitle, preserve only metadata
       const newImgsJson: Record<string, unknown> = {
-        ...existingData,  // Keep all existing data (history, metadata, etc)
-        image_main: { ...existingMain, url: mainPublicUrl },
+        ...existingData,  // Keep only metadata, NOT image slots
+        image_main: {
+          url: mainPublicUrl,
+          ...(mainCaption ? { caption: mainCaption } : {}),
+          // Only preserve credit info if it exists, otherwise start fresh
+          ...(existingMain.credit ? { credit: existingMain.credit } : {}),
+          ...(existingMain.creditUrl ? { creditUrl: existingMain.creditUrl } : {}),
+        },
         success: true,
         user_selected: true,  // Mark that user explicitly selected these images (prevent auto-overwrite)
         user_selected_at: Date.now(),
       };
       if (subPublicUrl) {
-        newImgsJson.image_subtitle = { ...existingSub, url: subPublicUrl };
-      } else if (existingSub.url) {
-        newImgsJson.image_subtitle = existingSub; // keep existing subtitle
+        newImgsJson.image_subtitle = {
+          url: subPublicUrl,
+          ...(subCaption ? { caption: subCaption } : {}),
+          // Only preserve credit info if it exists, otherwise start fresh
+          ...(existingSub.credit ? { credit: existingSub.credit } : {}),
+          ...(existingSub.creditUrl ? { creditUrl: existingSub.creditUrl } : {}),
+        };
+      } else {
+        // If no new subtitle selected, REMOVE the old subtitle entirely
+        delete newImgsJson.image_subtitle;
       }
       db.prepare("UPDATE articles SET images_json = ? WHERE id = ?").run(
         JSON.stringify(newImgsJson),

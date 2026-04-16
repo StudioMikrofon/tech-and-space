@@ -5,11 +5,12 @@ title: "Šišmišji sonar za dronove: navigacija kroz maglu i dim"
 lang: "hr"
 category: "robotics"
 date: "2026-03-29T06:15:50Z"
-excerpt: "Tim s [Worcester Polytechnic Institutea (WPI)](https://www."
+excerpt: "Mali dronovi s ultrazvukom i AI-jem mogu navigirati u magli, ali tek treba dokazati koliko dugo to rade i u kakvom stvarnom neredu."
+exec_summary: "Researchers at WPI are combining ultrasound and lightweight AI to let palm-sized drones navigate fog, smoke, and other low-visibility conditions. The concept is promising for search and rescue, but real deployment still depends on battery life, sensor limits, and certification in hazardous environments."
 key_points:
-  - "Ultrasonični senzori i AI za palmarnu navigaciju"
-  - "Ograničena potrošnja i računska moć kao prednost"
-  - "Realni test: spašavanje u magli, dimu i prašini"
+  - "Ultrazvuk zamjenjuje kameru kad nema vidljivosti"
+  - "Mala potrošnja je ključna za let"
+  - "Spašavanje traži dokaz izvan laboratorija"
 source:
   name: "techxplore.com"
   url: "https://techxplore.com/news/2026-03-ultrasound-palm-sized-drones-fog.html"
@@ -17,11 +18,11 @@ image:
   url: "/images/articles/palm-sized-drones-navigate-fog-with-bat-inspired-u/main.jpg"
   credit: "© Tech&Space"
   alt: "Šišmišji sonar za dronove: navigacija kroz maglu i dim"
-subtitle: "Demo završio — stvarnost počinje: koliko je ovo spremno za terenske operacije"
+subtitle: "Demo je prošao, teren tek treba preživjeti"
 subtitleImage:
   url: "/images/articles/palm-sized-drones-navigate-fog-with-bat-inspired-u/subtitle.jpg"
   credit: "© Tech&Space"
-  alt: "Demo završio — stvarnost počinje: koliko je ovo spremno za terenske operacije"
+  alt: "Demo je prošao, teren tek treba preživjeti"
 tags: ["Drone Navigation", "Sonar Technology", "Obstacle Avoidance"]
 lead_sentence: "Nitin J. Sanket s WPI-ja dokazao je da palmarni dronovi mogu navigirati kroz maglu koristeći šišmišju eholokaciju — ali samo dok im baterija dopušta."
 geo:
@@ -33,18 +34,16 @@ featured: false
 approved: true
 ---
 
-Tim s [Worcester Polytechnic Institutea (WPI)](https://www.wpi.edu/) pod vodstvom Nitin J. Sanketa razvio je navigacijski sustav za dronove veličine dlana koji koristi **ultrasonične senzore** i **umjetnu inteligenciju** kako bi se probijao kroz maglu, dim i druge ekstremne uvjete. Ključna inovacija nije samo u tehnologiji nego u njoj **minimalnoj potrošnji energije i računskoj moći** — resursa koji su uvijek kritični za male letjelice. Sustav je namijenjen **spašavanju u uvjetima smanjene vidljivosti**, gdje tradicionalni optički ili LiDAR senzori često otkazuju.
+Tim s [Worcester Polytechnic Institutea](https://www.wpi.edu/) razvija dronove veličine dlana koji se oslanjaju na ultrazvuk i lagani AI kako bi se kretali kroz maglu, dim i druge uvjete slabe vidljivosti. Inspiracija je jasna: šišmiši ne trebaju kameru da bi znali gdje su prepreke, pa zašto bi je uvijek trebao i dron? To je pametna ideja, posebno za potragu i spašavanje.
 
-Iako su [ultrasonični senzori](https://techxplore.com/news/2023-10-bat-inspired-ultrasound-palm-sized-drones-fog.html) dugo korišteni u robotici, njihova primjena na ovako malim dronovima s ograničenim hardverom predstavljala je inženjerski izazov. Sanketov tim riješio je problem kombiniranjem **bioinspiriranog pristupa** (imitacija eholokacije šišmiša) i **lakih AI algoritama** koji filtriraju šum i identificiraju prepreke u realnom vremenu.
+Ono što sustav čini zanimljivim nije samo senzor nego i štedljivost. Mali dronovi nemaju puno baterije ni procesorskog prostora, pa je svaka metoda koja može biti lagana i brza odmah vrijedna pažnje. [TechXplore](https://techxplore.com/news/2023-10-bat-inspired-ultrasound-palm-sized-drones-fog.html) je ranije pokrivao sličan pristup, a sada je bitno vidi li se taj koncept i u zahtjevnijem testiranju.
 
-No, kao i uvijek, **demo u laboriju** i **stvarna upotreba u terenu** dva su potpuno različita svijeta. Prema dostupnim informacijama, sustav je testiran u kontroliranim uvjetima s umjetno stvorenom maglom i dimom, ali još uvijek nema podataka o performansama u **dinamičkim okruženjima** — recimo, u ruševini zgrade nakon požara ili u prašnjavim tunelima.
+Međutim, magla u laboratoriju nije isto što i dim u ruševini. Jedno su kontrolirani uvjeti, drugo su promjenjivi zidovi, ljudi, prašina i kaos nakon požara. Zato je pitanje ne samo radi li ovo, nego koliko dugo i koliko pouzdano radi kad se stvarno mora spašavati netko tko je u nevolji.
 
 <ArticleBreak />
 
-Glavno pitanje nije *da li* ovo radi, već **gdje i koliko dugo**. Palmarni dronovi obično imaju **baterijski vijek od 10–20 minuta** pod optimalnim uvjetima — a ovdje se radi o ekstremnim scenarijima gdje svaka sekunda dodatnog rada može značiti razliku između uspjeha i neuspjeha misije.
+Ultrazvučni senzori imaju ograničenja na većim udaljenostima i u prostorima gdje se signal snažno odbija. To znači da je ovakav sustav najkorisniji u blizini prepreka, ne kao univerzalna zamjena za sve druge navigacijske metode. I dalje je to dobro za male letjelice, ali nije čarobni štapić.
 
-Također, **ultrasonični senzori** imaju svoja ograničenja: njihova učinkovitost opada na velikim udaljenostima ili u prostorima s jakim akustičnim odrazima (npr. metalne konstrukcije, betonski zidovi). Industrijski igrači već primjećuju potencijal, ali i **scale-up friction**. Za masovno uvođenje u spašavačke operacije, sustav bi morao biti **certificiran za rad u eksplozivnim okruženjima** (npr. nakon zemljotresa s curenjem plina), a to zahtijeva godine testiranja i prilagodbe.
+Za širu upotrebu treba i certifikacija, posebno u potencijalno opasnim okruženjima kao što su požari, ruševine ili prostori s plinom. To povećava vrijeme razvoja i testiranja, a baš tu najčešće prestaje sve što je na prezentaciji izgledalo jednostavno.
 
-Najveće usko grlo možda nije ni tehnologija nego **ljudski faktor**. Spašavačke ekipe već koriste dronove, ali oni obično imaju pilota koji ih nadzire — koliko će operateri vjerovati autonomnom sustavu kada je u pitanju **život ljudi**? Čak i najbolji AI može pogriješiti, a u uvjetima kada je vidljivost bliska nuli, **povjerenje u tehnologiju** postaje ključno.
-
-Stoga, dalji razvoj i testiranje ovog sustava bitni su za njegovu uspješnu implementaciju u stvarnim uvjetima. Tek tada možemo očekivati da će ova tehnologija zaista začuditi svijet svojim mogućnostima. Sustav bi također trebao biti dizajniran s mogućnošću lakoće korištenja i održavanja, kako bi ga što više ljudi moglo koristiti.
+Zato je ovo vrlo koristan prototip, ali još ne i gotov alat. Ako sustav izdrži stvarne operacije, mogao bi biti velika stvar za spasilačke timove. Ako ne, ostat će dobar dokaz da se i mali dronovi mogu ponašati pametnije nego što kamera na prvi pogled pokazuje.

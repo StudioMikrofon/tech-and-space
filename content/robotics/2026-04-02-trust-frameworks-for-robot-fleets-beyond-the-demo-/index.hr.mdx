@@ -1,26 +1,26 @@
 ---
 id: "2026-04-02-trust-frameworks-for-robot-fleets-beyond-the-demo-"
 db_id: 1253
-title: "Cy-trust: Kako roboti nauče vjerovati jedni drugima"
+title: "Cy-trust: kako roboti procjenjuju kome vjerovati"
 lang: "hr"
 category: "robotics"
 date: "2026-04-02T20:04:40Z"
-excerpt: "Primjer iz područja autonomnih vozila ilustrira problem: ako jedan automobil pošalje lažne podatke o brzini ili lokaciji, drugi članovi mreže moraju samostalno procijeniti pouzdanost tih informacija."
-exec_summary: "Harvard's cy-trust framework aims to quantify trust between autonomous agents to enhance safety in multi-robot systems, addressing gaps in traditional cybersecurity. While promising in theory, real-world deployment faces hardware constraints, scalability issues, and unpredictable environments, highlighting the persistent gap between lab breakthroughs and practical adoption."
+excerpt: "Cy-trust pokušava dati broj povjerenju među autonomnim sustavima, ali stvarni uvjeti nisu tako uredni kao model."
+exec_summary: "Harvard's cy-trust framework is an interesting attempt to quantify trust between autonomous agents, which could improve safety in multi-robot systems. The challenge is that real-world deployment still has to deal with sensor limits, communication delays, and unpredictable environments that lab results can't fully capture."
 key_points:
-  - "Harvard razvija kvantitativni okvir povjerenja"
-  - "Primjena na autonomne vozila i pametne mreže"
-  - "Ograničenja senzora i realnih uvjeta"
+  - "Povjerenje među robotima postaje mjerljivo"
+  - "Sigurnost ovisi o mreži, ne samo o modelu"
+  - "Stvarnost traži više od urednog protokola"
 source:
   name: "techxplore.com"
   url: "https://techxplore.com/news/2026-04-framework-networks-robots-vehicles-safer.html"
 image:
   url: "/images/articles/trust-frameworks-for-robot-fleets-beyond-the-demo-/main.jpg"
-  alt: "Cy-trust: Kako roboti nauče vjerovati jedni drugima"
-subtitle: "Od laboratorija do prometnice: stvarni sigurnosni izazovi"
+  alt: "Cy-trust: kako roboti procjenjuju kome vjerovati"
+subtitle: "Sigurnost je timski sport, ali bez idealnog terena"
 subtitleImage:
   url: "/images/articles/trust-frameworks-for-robot-fleets-beyond-the-demo-/subtitle.jpg"
-  alt: "Od laboratorija do prometnice: stvarni sigurnosni izazovi"
+  alt: "Sigurnost je timski sport, ali bez idealnog terena"
 tags: ["collaborative robotics trust systems", "multi-robot coordination safety challenges", "embodied AI trust mechanisms", "industrial automation trust protocols", "human-robot teaming reliability"]
 lead_sentence: "Harvardovi znanstvenici predlažu algoritam koji omogućuje autonomnim vozilima i robotima da međusobno procjenjuju pouzdanost, ali s ograničenjima prave svijesti."
 geo:
@@ -32,14 +32,18 @@ featured: false
 approved: true
 ---
 
-Primjer iz područja autonomnih vozila ilustrira problem: ako jedan automobil pošalje lažne podatke o brzini ili lokaciji, drugi članovi mreže moraju samostalno procijeniti pouzdanost tih informacija. Cy-trust rješava ovaj izazov kroz kontinuiranu validaciju podataka između agenata, što je ključno za sustave koji rade u stvarnom svijetu, a ne samo u kontroliranim laboratorijskim uvjetima.
+Cy-trust pokušava riješiti jednostavan, ali važan problem: ako jedan autonomni sustav pošalje loše podatke, kako drugi znaju vjerovati ili ne vjerovati toj informaciji? To je posebno važno u mrežama robota i vozila gdje odluke moraju biti brze, a pogreške skupe. [TechXplore](https://techxplore.com/news/2026-04-framework-networks-robots-vehicles-safer.html) opisuje taj okvir kao sigurnosni sloj, a to i jest najkorisnije čitanje.
 
-Iako koncept zvuči obećavajuće, pitanje je koliko je ovaj pristup praktičan izvan idealiziranih scenarija.
+Harvardov prijedlog ima smisla jer povjerenje pretvara u nešto što se može modelirati i potencijalno optimizirati. To je korisno za koordinirane flote, skladišta i vozila koja međusobno dijele podatke o okolini. Ako jedan agent zna kada je drugi manje pouzdan, cijeli sustav može dobiti dodatni sloj otpornosti bez rušenja brzine reakcije.
+
+Problem je što povjerenje nije samo matematički broj. Senzori imaju ograničenja, komunikacija kasni, a okoliš se mijenja brže nego što model očekuje. Zato je interesantno da okvir pokušava dodati formalniji sloj procjene, ali to još ne znači da će raditi kad mreža bude pod stresom. Stvarni test nisu uredni podaci iz papira, nego kaos u kojem se dobre i loše informacije miješaju u istom trenutku.
+
+U praksi, multi-robot sustavi trebaju mehanizam koji prepoznaje kad je drugi agent pouzdan, a kad nije. To je korisno za vozila, skladišne flote i koordinirane robote, ali tek treba vidjeti koliko se dobro ponaša u gustim i neurednim uvjetima. Tu je i širi izazov: čim povjerenje postane mjerljivo, postaje i predmet optimizacije, pa algoritam mora biti dovoljno tvrd na pogreške, ali i dovoljno fleksibilan da ne odbija sve što ne izgleda savršeno.
 
 <ArticleBreak />
 
-Studija naglašava da senzori poput kamera i lidara troše značajne resurse, što bi moglo ograničiti upotrebu na uređajima s ograničenom baterijom. Stvarni deployment također zahtijeva rješavanje problema poput kašnjenja u komunikaciji, nepouzdanih mrežnih veza i fizičkih ograničenja senzora.
+Najveća vrijednost ovakvog pristupa je što sigurnost više nije samo pitanje jednog senzora ili jednog modela. Postaje pitanje međusobne provjere i kontinuiteta signala, što je bliže onome kako stvarne flote moraju funkcionirati.
 
-Iako su demonstracije u kontroliranim uvjetima uspješne, ostaje neizvjesno kako će se sustav ponašati u nepredvidivim okolnostima poput lošeg vremena ili prometnih gužvi.
+Ali stvarni deployment uvijek dodaje slojeve problema: loše vrijeme, paketi s lažnim podacima, preopterećene mreže i robote koji ne rade svi isto. To je mjesto gdje će se okvir morati dokazati. Ako preživi taj stres bez prevelikog usporavanja, onda ima realnu vrijednost; ako ne, ostaje elegantna teorija za previše uredne uvjete.
 
-Cy-trust kao koncept nudi velik potencijal za poboljšanje sigurnosti u autonomnim sustavima, ali njegova implementacija i dalje čeka svoj dan. Kako se tehnologija nastavlja razvijati, važno je da se nastavi istraživati i razvijati ove koncepte kako bi se omogućila sigurna i pouzdana upotreba autonomnih sustava. To će zahtijevati suradnju između istraživača, industrijalaca i regulatora.
+Cy-trust je zato dobar korak prema robusnijim flotama, ali još nije dokaz da se povjerenje može riješiti jednom formulom. U robotici je i dalje važno tko govori, kad govori i koliko često govori pogrešno. Taj dio realnosti ne nestaje s lijepom matematikom.

@@ -1,0 +1,47 @@
+---
+id: "2026-04-14-flipper-zero-gets-ai-boost"
+db_id: 2530
+title: "V3SP3R: AI koji pretvara engleski tekst u Flipperove hakerske naredbe"
+lang: "hr"
+category: "ai"
+date: "2026-04-14T04:30:07Z"
+excerpt: "AI-pomoćni alati za pen-testiranje nisu nova pojava, ali **V3SP3R** (stilizirano kao *Vesper*) donosi nešto što Flipper Zero do sada nije imao: **prirodni jezik kao sučelje**."
+exec_summary: "V3SP3R is an AI companion app for Flipper Zero that replaces clunky manual controls with natural language commands, lowering the skill barrier for penetration testing. While it promises efficiency gains for security professionals, its ease of use also risks broadening access to potentially malicious actors—raising ethical and regulatory questions. The real test will be whether its risk-classification features can mitigate misuse, or if they’ll become just another layer of AI-assisted obfuscation."
+key_points:
+  - "OpenRouter povezuje V3SP3R s AI modelima za kontrolu Flippera"
+  - "Rizične operacije dobivaju automatiziranu klasifikaciju"
+  - "Hakerska zajednica dijeli podjele o etici AI-pomoćnih alata"
+source:
+  name: "tomshardware.com"
+  url: "https://www.tomshardware.com/tech-industry/cyber-security/flipper-zero-pen-testing-tool-gets-an-ai-powered-companion-app-natural-language-interface-allows-for-faster-easier-hacking"
+image:
+  url: "/images/articles/flipper-zero-gets-ai-boost/main.jpg"
+  alt: "V3SP3R: AI koji pretvara engleski tekst u Flipperove hakerske naredbe"
+subtitle: "Između korisničke olakšice i novih sigurnosnih dilema"
+subtitleImage:
+  url: "/images/articles/flipper-zero-gets-ai-boost/subtitle.jpg"
+  alt: ""
+tags: ["V3SP3R", "Language Translation", "Hacking Tools"]
+lead_sentence: "V3SP3R koristi OpenRouter za povezivanje s AI modelima kao što su Llama 3, pretvarajući tekstualne upite poput *„emuliraj NFC karticu“* u izvršne naredbe za Flipper Zero — bez potrebe za ručnim kodiranjem."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+---
+
+AI-pomoćni alati za pen-testiranje nisu nova pojava, ali **V3SP3R** (stilizirano kao *Vesper*) donosi nešto što Flipper Zero do sada nije imao: **prirodni jezik kao sučelje**. Umjesto da se mučite s Flipperovim [D-padom i TFT ekranom](https://flipperzero.one), sada možete jednostavno otipkati *„Proskeniraj sve NFC tagove u krugu i spremi ih u datoteku“* — a app će prevesti to u odgovarajuće naredbe.
+
+Pod logikom, radi se o [OpenRouter](https://openrouter.ai) integraciji koja povezuje korisničke upite s AI modelima (poput Llama 3 ili Mistral), i ti zatim generiraju izvršni kod za Flipperove podsustave. Dok zvanični [GitHub repo](https://github.com/vespr-ai/vespr) još uvijek nosi 'beta' oznaku, raniji testeri ističu kako app **automatski klasificira operacije po riziku** (npr. 'skeniranje Wi-Fi mreža' vs. 'emulacija RFID kartice za pristup') i čuva povijest interakcija.
+
+<ArticleBreak />
+
+Flipper Zero je već bio u žiži [kontroverzi oko zlouporabe](https://www.vice.com/en/article/flippers-used-in-car-thefts), a sada dobiva sloj koji ga čini pristupačnijim *svima*, ne samo tehnički spretnima. Zanimljivo je kako V3SP3R **ne radi s glasovnim naredbama** (bar ne u ovoj iteraciji), iako bi to bilo logičan sljedeći korak.
+
+Umjesto toga, fokus je na tekstualnom ulazu — što je možda pametniji potez, obzirom na to koliko bi glasovna kontrola otvarala vrata 'slučajnom' izvođenju opasnih komandi. Razvojni tim (koji ostaje anonimiziran) naglašava kako je cilj 'demokratizirati' pen-testiranje, ali je pitanje tko zapravo profitira: **sigurnosni auditori ili skript kiddiesi?** Realnost je da V3SP3R **ne mijenja fundamentalne mogućnosti Flipper Zeroa** — on samo smanjuje prag ulaska.
+
+Ako ste do sada trebali sat vremena da naučite kako [emulirati HID uređaj](https://docs.flipper.net), sada vam AI to može objasniti u tri rečenice. To je korisno, ali i opasno: **što je alat lakši za korištenje, to je veća vjerojatnost da će ga koristiti netko tko ne razumije posljedice**.
+
+Dio [hakerske zajednice](https://news.ycombinator.com/item?id=40551234) već je podijeljene mišljenja — neki hvale pristupačnost, drugi upozoravaju na 'AI-as-a-crutch' efekt, gdje korisnici ne uče osnovne koncepte jer im ih mašina prevodi u real-time.

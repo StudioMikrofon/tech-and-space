@@ -17,12 +17,12 @@ source:
 image:
   url: "/images/articles/axios-hacked/main.jpg"
   alt: "Axios kompromitiran: 100 milijuna preuzimanja tjedno s RAT-om"
-subtitle: "Kompromitiran npm račun voditelja projekta ugrozio milijune korisnika i izazvao pitanja o sigurnosti ekosustava"
+subtitle: "Supply chain opet ruši povjerenje"
 subtitleImage:
   url: "/images/articles/axios-hacked/subtitle.jpg"
   alt: "Kompromitiran npm račun voditelja projekta ugrozio milijune korisnika i izazvao pitanja o sigurnosti ekosustava"
 tags: ["Cybersecurity", "RAT Malware", "Infrastructure Security"]
-lead_sentence: "Zaražene Axios verzije preuzimane su 1,1 sekundi – a svaki sustav s njima sada zahtijeva potpunu rotaciju kredencijala i forenzičku analizu."
+lead_sentence: "Jedna kompromitirana biblioteka ponovno pokazuje koliko je internet ovisan o nekoliko ključnih paketa."
 geo:
   name: "Global"
   lat: 0.0
@@ -30,9 +30,16 @@ geo:
   countryCode: "XX"
 featured: false
 approved: true
+summary_block: "Open-source ekosustav ovdje plaća cijenu brzine i skale. Nakon ovakvog incidenta pravi posao tek počinje."
+author: "CIRCUIT DOSSIER"
+rewritten_by: "CIRCUIT DOSSIER"
+rewritten_persona: "circuit-dossier"
+rewritten_avatar: "/images/authors/circuit-dossier.svg"
+rewritten: true
+rewritten_at: "2026-04-16T15:37:13Z"
 ---
 
-Dvije zaražene verzije Axiosa – **axios@1.14.1** i **axios@0.30.4** – objavljene su s npm računa voditelja projekta **jasonsaayman**, koji je bio kompromitiran 18 sati prije nego što je npm intervenirao. Maliciozni kod je ugrađivao skrivenu ovisnost **[plain-crypto-js@4.2.1](https://www.npmjs.com/package/plain-crypto-js/v/4.2.1)**, lažnu kopiju legitimne *crypto-js* biblioteke, koja je instalirala **cross-platform Remote Access Trojan (RAT)**.
+Jedna kompromitirana biblioteka ponovno pokazuje koliko je internet ovisan o nekoliko ključnih paketa. Korisnici i tržište to osjete prije nego što marketinška prezentacija završi.
 
 Prema podacima **[Snyk](https://snyk.io/)** i **[StepSecurity](https://www.stepsecurity.io/)**, zaražene verzije su u prosjeku preuzimane svake 1,1 sekunde tijekom aktivnog perioda napada. Axios se koristi u milijunima projekata – od startupova do enterprise rješenja – što znači da je rizik širenja na produkcijske sustave izravan i masovan.
 
@@ -45,5 +52,3 @@ Problem nije samo u samom trojancu, već u brzini reakcije. Iako je npm ugasio z
 Pravi udarac ovdje nije samo na Axios, već na cijeli JavaScript ekosustav koji se oslanja na npm. Ako paket s 100 milijuna tjednih preuzimanja može biti kompromitiran tako jednostavno, što sprječava sličan scenario s *React-om*, *Lodash-om* ili *Express-om*? **[Wiz](https://www.wiz.io/)** i **[Vercel](https://vercel.com/)** već upozoravaju da bi ovaj incident mogao potaknuti masovnu migraciju na alternative kao što su *fetch API* ili *ky*, ali to rješenje nije realno za projekte koji ovise o Axiosovim specifičnim featureima – poput interceptor-a ili automatske transformacije podataka.
 
 Za developere, ovo znači hitnu reviziju svih ovisnosti – ne samo Axiosa, već i svih paketa koji ga koriste kao dependency. **[StepSecurity](https://www.stepsecurity.io/)** preporučuje ne samo rotaciju svih kredencijala na kompromitiranim sustavima, već i potpunu izolaciju development okruženja dok se ne provede forenzička analiza. To nije samo IT problem, već poslovni rizik: ako je napad uspio proći neprimijećen 18 sati, koliko drugih ranjivosti ostaje neotkriveno?
-
-Bez obzira na tehničke detalje, poruka je jasna: sigurnost u digitalnom prostoru ovisi o onima koji kontroliraju ključne infrastrukture. Ako se ništa ne promijeni, sljedeća žrtva mogla bi biti bilo koji od milijunima paketa koji pokreću web.

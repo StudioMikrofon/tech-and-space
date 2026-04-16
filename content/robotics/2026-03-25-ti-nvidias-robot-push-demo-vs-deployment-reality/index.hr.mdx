@@ -1,42 +1,46 @@
 ---
 id: "2026-03-25-ti-nvidias-robot-push-demo-vs-deployment-reality"
 db_id: 704
-title: "TI i NVIDIA: Roboti izlaze iz laba – ali dođe li do skladišta?"
+title: "TI i NVIDIA: roboti koji moraju preživjeti skladište"
 lang: "hr"
 category: "robotics"
 date: "2026-03-25T12:00:00Z"
-excerpt: "Kada texas instruments (TI) i NVIDIA objave partnerstvo za ubrzanje implementacije robota, industrija sluša."
-exec_summary: "TI and NVIDIA’s partnership targets the gap between robotics demos and real-world deployment, combining AI compute with deterministic control—but industrial scaling hinges on unglamorous factors like certification, energy use, and sensor durability. The angle: where this stack could actually work (structured logistics) and where it still falls short (dynamic, human-shared environments)."
+excerpt: "Partnerstvo TI-ja i NVIDIA-e cilja spoj AI računalstva i determinističke kontrole za robote."
+lead_sentence: "Texas Instruments i NVIDIA spajaju AI računanje i determinističku kontrolu za robote."
 key_points:
-  - "Deterministička kontrola za svaki zglob robota"
-  - "NVIDIA AI računalo dobiva TI-ovu realnu fiziku"
-  - "Skaliranje zahtijeva više od demo-scenarija"
+  - "AI računanje i kontrola u istoj arhitekturi"
+  - "Skladište je teže od demoa"
+  - "Energija i certifikacija odlučuju"
 source:
-  name: ""
+  name: "The Robot Report"
   url: "https://www.therobotreport.com/ti-partners-with-nvidia-to-accelerate-robot-deployments/"
 image:
   url: "/images/articles/ti-nvidias-robot-push-demo-vs-deployment-reality/main.jpg"
-  alt: "TI i NVIDIA: Roboti izlaze iz laba – ali dođe li do skladišta?"
-subtitle: "Od pažljivo kontroliranih pokreta do kaotičnih industrijskih uvjeta — jaz ostaje"
+  alt: "TI i NVIDIA: roboti koji moraju preživjeti skladište"
+subtitle: "Pametan stack, tvrda stvarnost"
 subtitleImage:
   url: "/images/articles/ti-nvidias-robot-push-demo-vs-deployment-reality/subtitle.jpg"
-  alt: "Od pažljivo kontroliranih pokreta do kaotičnih industrijskih uvjeta — jaz ostaje"
-tags: ["NVIDIA", "Industrial Automation", "Warehouse Automation"]
+  alt: "Pametan stack, tvrda stvarnost"
+tags: ["robotics", "industrial automation", "nvidia"]
 geo:
   name: "Santa Clara, California, United States"
   lat: 37.3541
   lon: -121.9552
   countryCode: "US"
 featured: false
-lead_sentence: "TI + NVIDIA ciljaju 99,9% pouzdane robote"
 approved: true
 ---
--
 
-Kada texas instruments (TI) i NVIDIA objave partnerstvo za ubrzanje implementacije robota, industrija sluša. Ne zato što je riječ o još jednom demo-friendly savezu, već zato što se ovdje radi o spoju NVIDIA-inog fizičkog AI računala — optimiziranog za simulaciju — i TI-ove determinističke kontrole, snage, osjetila i sigurnosti po zglobu. To nije samo softverski trik: radi se o hardveru koji mora funkcionirati u uvjetima gdje latencija od 10ms može značiti razliku između uspješnog hvatanja predmeta i skupog incidenta. Problem je u tome što većina robota danas radi savršeno… dok su kamerama snimanji. The Robot Report navodi kako će ovaj spoj omogućiti bržu implementaciju, ali pitanje je: koja implementacija? Laboratorijska ruka koja slaže kocke po boji? Ili skladišni robot koji radi 16 sati dnevno uz -5°C, prašinu i ljude koji prolaze kroz njegov radni prostor? TI-ova real-time kontrola i NVIDIA-ina AI obrada mogu biti savršeni par — ali samo ako se uzmu u obzir stvari koje demo-videi ne prikazuju: trošenje baterija, interferencije u bežičnoj komunikaciji, ili činjenica da većina industrijskih okruženja nije dizajnirana za robote koji zahtijevaju milimetarsku preciznost. Čini se da je ovaj savez usmjeren na prijelaz iz simulacije u stvarni svijet, no ključno pitanje ostaje: koliko će taj prijelaz koštati? Ne samo u novcu, već u vremenu za certifikaciju, prilagodbi postojećih prostora i obuci operatera. Jer, kao što zna svaki inženjer koji je pokušao skalirati prototip, razlika između 'radi' i 'radi 24/7 u stvarnom svijetu' često je mjerljiva u tonama papira za certifikaciju i litrama kave.
+Texas Instruments i NVIDIA pokušavaju sastaviti robotski stack koji spaja AI računanje i determinističku kontrolu. To zvuči kao dobar odgovor na podjelu između onoga što robot "misli" i onoga što stvarno mora napraviti u milisekundi. [The Robot Report](https://www.therobotreport.com/ti-partners-with-nvidia-to-accelerate-robot-deployments/) piše o partnerstvu koje ima smisla baš zato što ne obećava čudo, nego bolju arhitekturu.
+
+U praksi je ovo najkorisnije ondje gdje je okruženje predvidivo: skladišta, logistika i strukturirana proizvodnja. Ali i tamo robot mora izdržati potrošnju energije, zamjenu senzora i sve sitne kvarove koji ne izgledaju dobro na slideu. Ako stack radi samo u uredno pripremljenom demo prostoru, onda nije problem riješen nego odgođen.
+
+TI i NVIDIA zapravo pokušavaju skratiti put od simulacije do stvarnog sustava. U njihovom [službenom priopćenju](https://www.ti.com/about-ti/newsroom/news-releases/2026/2026-03-05-ti-accelerates-the-next-generation-of-physical-ai-with-nvidia.html) naglasak je na motornoj kontroli, mmWave radaru i napajanju, dok NVIDIA-ina [robotska objava](https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-and-Global-Robotics-Leaders-Take-Physical-AI-to-the-Real-World/default.aspx) pokazuje da se cijeli sektor pokušava pomaknuti od “AI brain” marketinga prema kompletnom fizičkom stacku. To je važna razlika: industriji ne treba samo pametan model, nego i stabilna elektronika koja preživi kabelske greške, toplinu i servisne intervale.
 
 <ArticleBreak />
 
-Gdje bi ovo moglo funkcionirati van kontroliranih uvjeta? Prvi kandidati su logistika i proizvodnja s visoko strukturiranim zadacima — npr. paletizacija u skladištima gdje su predmeti standardizirani, a okruženje predvidivo. No čak i tu, istraživanja pokazuju da roboti s AI kontrolom još uvijek zaostaju za ljudskom prilagodljivošću kada dođe do nepredviđenih situacija — poput oštećenog paketa ili promjene rasporeda. TI-ova ponuda analognih senzora i NVIDIA-ina sposobnost obrade slika u realnom vremenu mogu pomaknuti granice, ali stvarno usko grlo često nije u algoritmu, već u tome koliko brzo se može zamijeniti istrošeni senzor u 3. smjeni. Još jedan kritičan faktor: potrošnja energije. NVIDIA-ina Jetson platforma i TI-ovi procesori za real-time kontrolu nisu poznati po štednji baterije. To znači da roboti koji koriste ovaj stack mogu zahtijevati češće punjenje ili čak žičano napajanje — što ograničava njihovu pokretljivost u dinamičnim okruženjima. A ako je robot vezan za utičnicu, njegova 'autonomija' postaje relativan pojam. Zanimljivo je da ni jedna strana ne spominje certifikaciju za suradnju čovjek-robot (ISO/TS 15066), koja je obavezna u većini europskih tvornica. Bez nje, čak i najnapredniji robot ostaje island of automation — koristan, ali ograničen na zone bez ljudi. A to je upravo suprotno od onoga što većina tvrtki traži: fleksibilne sustave koji mogu raditi pored, a ne umjesto ljudi.
+Najveći test bit će sigurnost, certifikacija i koliko brzo se sustav može uklopiti u postojeće procese. Industrija ne kupuje najpametniji algoritam, nego nešto što se može servisirati, napajati i održavati bez kaosa u trećoj smjeni.
 
-Ovo partnerstvo može ubrzati implementaciju — ali samo tamo gdje su uvjeti dovoljno predvidivi da se AI i deterministička kontrola mogu podudariti. Za sve ostalo, ostaje pitanje: koji će inženjer pronaći vrijeme (i budžet) da pretvori demo u deployment? U svakom slučaju, ovo je korak u pravom smjeru. Sada trebamo vidjeti kako će se ovo partnerstvo razviti u praksi.
+To je i glavna vrijednost ovog partnerstva: pokušaj da se smanji jaz između AI ambicije i tvorničke svakodnevice. Ako uspije, bit će to korisno za cijelu kategoriju. Ako ne uspije, ostaje još jedan primjer kako je skladište uvijek tvrđe od prezentacije.
+
+Drugim riječima, ova priča nije o tome hoće li roboti postati pametniji nego ljudi. Riječ je o tome hoće li im industrija napokon dati dovoljno dobar hardverski i softverski okvir da iz laboratorija prijeđu u smjenu koja traje osam sati. Ako se to dogodi, dobit ćemo manje spektakla, ali više stvarne automatizacije.

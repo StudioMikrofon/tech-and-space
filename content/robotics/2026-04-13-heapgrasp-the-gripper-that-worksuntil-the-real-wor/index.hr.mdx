@@ -1,0 +1,51 @@
+---
+id: "2026-04-13-heapgrasp-the-gripper-that-worksuntil-the-real-wor"
+db_id: 2447
+title: "HEAPGrasp: robotika koja hvata staklo i sjaj"
+lang: "hr"
+category: "robotics"
+date: "2026-04-13T02:02:33Z"
+excerpt: "HEAPGrasp rješava važan problem hvatanja prozirnih i sjajnih objekata, ali još nije dokazao koliko brzo i robusno radi u stvarnom pogonu."
+exec_summary: "HEAPGrasp tackles a stubborn manipulation gap by combining multi-view RGB perception with silhouette-based 3D estimation. The real question is whether that shortcut survives clutter, dust, changing light, and industrial cycle times outside a controlled lab."
+key_points:
+  - "Transparentni objekti više nisu slijepa točka"
+  - "RGB snimke mijenjaju loše dubinske procjene"
+  - "Brzina i kaos odlučuju stvarnu vrijednost"
+source:
+  name: "techxplore.com"
+  url: "https://techxplore.com/news/2026-03-heapgrasp-faster-smarter-robots-tricky.html"
+image:
+  url: "/images/articles/heapgrasp-the-gripper-that-worksuntil-the-real-wor/main.jpg"
+  alt: "HEAPGrasp: Robotika koja vidi kroz staklo i sjaj"
+subtitle: "Kad kamera zbuni sjaj, algoritam mora biti pametniji"
+subtitleImage:
+  url: "/images/articles/heapgrasp-the-gripper-that-worksuntil-the-real-wor/subtitle.jpg"
+  alt: "Kad kamera zbuni sjaj, algoritam mora biti pametniji"
+tags: ["grasping", "computer vision", "transparent objects", "industrial automation", "deployment"]
+lead_sentence: "Shogo Arai i Ginga Kennis objavili su HEAPGrasp, metodu koja robotima pomaže hvatati prozirne i sjajne objekte."
+geo:
+  name: "Tokyo, Japan"
+  lat: 35.6895
+  lon: 139.6917
+  countryCode: "JP"
+featured: false
+approved: true
+---
+
+HEAPGrasp cilja jednu od najdosadnijih, ali i najskupljih prepreka u robotici: prozirne i reflektivne objekte koje dubinska kamera ne zna čitati. Umjesto da pokušava natjerati senzor da vidi nešto što fizika ne voli, sustav se oslanja na više RGB pogleda i rekonstrukciju siluete. To je tip rješenja koji često izgleda jednostavno tek nakon što netko napravi sav težak dio.
+
+U praksi to znači manje ručnog popravljanja pick-and-place procesa i manje trenutaka u kojima robot “ne zna” što mu je ispred ruke. Autori navode 96% uspješnosti hvatanja na transparentnim, sjajnim i neprozirnim objektima te kraću putanju kamere od tradicionalnog kruženja oko scene, što je važnije nego što zvuči: u proizvodnji je vrijeme često jednako važno kao i točnost. [Tokyo University of Science](https://www.tus.ac.jp/en/mediarelations/archive/20260327_9176.html) i [IEEE Robotics and Automation Letters DOI](https://doi.org/10.1109/LRA.2026.3653331) daju jasnu sliku da ovo nije samo demo trik.
+
+Ali vrijedi usporedba s ranijim radovima poput [ClearGrasp](https://research.google/pubs/cleargrasp-3d-shape-estimation-of-transparent-objects-for-manipulation/): teren se pomiče od “može li model uopće procijeniti geometriju?” prema “može li to raditi dovoljno brzo i stabilno za liniju koja ne čeka”. HEAPGrasp zato izgleda kao korak prema robotičkoj manipulaciji koja ne ovisi o savršenim uvjetima, nego o pametnijem zaobilaženju loših.
+
+Pravi test je ipak manje elegantan od akademske figure. Prašina, loše svjetlo, različite boje pakiranja i neuredni kontejneri brzo rastavljaju svaki lijep laboratorijski rezultat. Ako HEAPGrasp želi prijeći iz znanstvene kuriozitete u proizvodni alat, morat će dokazati da nije samo dobar u scenariju koji je sam sebi nacrtao.
+
+Zato je važniji signal ovdje širi od samog hvatanja čaše ili metalnog dijela: robotika sve više pobjeđuje ne tako što dobije “bolji oči”, nego tako što nauči raditi oko ograničenja vlastitih očiju. To je korisnija pobjeda od bilo kojeg hypea o percepciji.
+
+<ArticleBreak />
+
+Nije slučajno da se ovakve metode pojavljuju baš sada. Logistika i proizvodnja pune su zadataka koje ljudi rješavaju gotovo instinktivno, a roboti još uvijek previše doslovno. Svaki pomak koji smanjuje potrebu za dodatnim senzorima, markerima ili ručnim intervencijama ima drugu, manje vidljivu vrijednost: smanjuje broj mjesta na kojima automatizacija može zapeti.
+
+To ne znači da će se skladišta odjednom sama pretvoriti u potpuno autonomne sustave. Višestruke kamere, procesiranje slike i planer putanje i dalje imaju cijenu, a integracija u postojeće linije je često skuplja od samog papira na kojem metoda izgleda dobro. Ipak, u odnosu na stariji pristup u kojem se svaki objekt tretira kao poseban problem, HEAPGrasp je dokaz da se kategorija “nezgodnih objekata” ipak može suziti.
+
+U konačnici, HEAPGrasp je najzanimljiviji kao signal smjera: roboti će postajati sve manje ovisni o idealnoj geometriji scene i sve više o kombinaciji percepcije, planiranja i kompromisa. To je sporiji put od marketinških obećanja, ali je jedini koji završava u stvarnoj uporabi.

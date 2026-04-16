@@ -30,8 +30,12 @@ geo:
 featured: false
 lead_sentence: "New math outperforms probing by +21.02 Brier points."
 approved: true
+title_en: "LLMs’ Confidence Problem Gets a Reality Check"
+key_points_en:
+  - "Single-pass uncertainty scoring beats brittle heuristics"
+  - "Probing’s high cost vs. this method’s efficiency tradeoff"
+  - "4-bit quantization tested—real-world edge or benchmark trick?"
 ---
--
 
 Large language models lie with alarming confidence—so reliably, in fact, that uncertainty estimation (UE) has become a cottage industry. The usual suspects? Output-based heuristics (cheap, brittle) or probing internal representations (effective, computationally expensive). Enter [this arXiv paper](https://arxiv.org/abs/2603.22299), which proposes scoring cross-layer agreement patterns in a single forward pass. No extra parameters, no post-hoc calibration. Just math.
 
@@ -54,5 +58,3 @@ The industry map here is predictable. Startups selling LLM monitoring tools—th
 The method’s elegance is undeniable. But elegance doesn’t deploy itself. The gap between ‘works in a paper’ and ‘ships in a product’ is where most UE techniques go to die.
 
 For all the noise about ‘alignment’ and ‘safety,’ the quietest breakthroughs often come from fixing the plumbing. This might be one of them—if the benchmarks hold up outside the lab.
-
-There’s speculation that this could finally make LLMs ‘safe for prime time.’ But here’s the question no one’s asking: Does uncertainty estimation actually change user behavior? Or do people just ignore the disclaimers, as they always have?

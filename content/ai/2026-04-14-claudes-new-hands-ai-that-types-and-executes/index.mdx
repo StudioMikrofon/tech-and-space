@@ -1,0 +1,56 @@
+---
+id: "2026-04-14-claudes-new-hands-ai-that-types-and-executes"
+db_id: 2549
+title: "Claude’s new hands: AI that types *and* executes"
+category: "ai"
+date: "2026-04-14T10:16:56Z"
+excerpt: "Anthropic’s latest move isn’t just another chatbot upgrade."
+exec_summary: "Anthropic's Claude Code introduces desktop automation for AI agents, allowing direct control of user computers — but with significant security warnings and unanswered technical risks. While this signals a shift toward agent-based computing, the lack of clear boundaries and error-handling mechanisms raises concerns about real-world reliability and safety."
+key_points:
+  - "Claude now runs code on your machine—with caveats"
+  - "Anthropic’s “research preview” label hides real risks"
+  - "Developers split: breakthrough or backdoor waiting to happen"
+source:
+  name: "arstechnica.com"
+  url: "https://arstechnica.com/ai/2026/03/claude-code-can-now-take-over-your-computer-to-complete-tasks/"
+image:
+  url: "/images/articles/claudes-new-hands-ai-that-types-and-executes/main.jpg"
+  alt: "Claude’s new hands: AI that types *and* executes"
+subtitle: "Što se događa kad AI agentima damo ključeve od naših računala — a oni još uvijek griješe"
+subtitle_en: "The line between assistant and agent just got blurrier"
+subtitleImage:
+  url: "/images/articles/claudes-new-hands-ai-that-types-and-executes/subtitle.jpg"
+  alt: "The line between assistant and agent just got blurrier"
+tags: ["Claude", "AI Agents", "Keyboard Security", "AI Error Rate"]
+lead_sentence: "Anthropic’s Claude can now execute code on your machine—with the company’s own lawyers warning the safeguards are \"not absolute.\""
+geo:
+  name: "San Francisco, United States"
+  lat: 37.7749
+  lon: -122.4194
+  countryCode: "US"
+featured: false
+approved: true
+title_en: "Claude’s new hands: AI that types *and* executes"
+key_points_en:
+  - "Claude now runs code on your machine—with caveats"
+  - "Anthropic’s “research preview” label hides real risks"
+  - "Developers split: breakthrough or backdoor waiting to happen"
+---
+
+Anthropic’s latest move isn’t just another chatbot upgrade. **Claude Code**—likely the [Claude 3.0 Sonnet](https://www.anthropic.com/news/claude-3-family) model under the hood—can now **execute tasks directly on your system**, from running scripts to managing files. That’s a leap beyond typing suggestions into an IDE. The feature arrives as a "research preview," a label that, in AI-speak, translates to: *proceed with caution, void where prohibited, batteries not included.*
+
+
+The safeguards, Anthropic [admits](https://arstechnica.com/information-technology/2024/03/claude-code-can-now-take-over-your-computer-to-complete-tasks/), "aren’t absolute." That’s corporate jargon for "we’ve bolted on some guardrails, but if you hand an AI root access, don’t act shocked when it *uses* root access." Early signals suggest this isn’t just a souped-up [GitHub Copilot](https://github.com/features/copilot) or a [AutoGen](https://microsoft.github.io/autogen/) clone—it’s deeper system integration, the kind that makes security teams reach for the antacids.
+
+
+Developers are already parsing the implications. Some see it as the next logical step in AI-driven DevOps; others note that "research preview" is a polite way of saying "we’re still figuring out how this could go wrong." The [Hacker News thread](https://news.ycombinator.com/) on the announcement is a masterclass in split reactions: half calling it inevitable progress, the other half asking why we’re racing to give LLMs the keys to the server room.
+
+<ArticleBreak />
+
+The real question isn’t *whether* this works—it’s **what happens when it doesn’t.** Anthropic’s caution isn’t just legal CYA; it’s an acknowledgment that **local execution introduces failure modes** remote APIs never touched. A misplaced `rm -rf` in a script suggestion is annoying. A misplaced `rm -rf` *run by the AI* is a resume-generating event. The gap between demo and deployment here isn’t just wide—it’s a canyon with "beta testers wanted" spray-painted at the bottom.
+
+
+Competitively, this puts pressure on [Microsoft’s AutoGen](https://microsoft.github.io/autogen/) and [GitHub’s Copilot](https://githubnext.com/projects/copilot-workspace) to either match the functionality or double down on sandboxing. But the bigger play might be **enterprise adoption.** If Claude can reliably handle CI/CD pipelines or cloud provisioning *without* turning into a [Shadow IT](https://en.wikipedia.org/wiki/Shadow_IT) nightmare, Anthropic just carved out a niche beyond chatbots. The open question: Will companies trust an AI that admits its safeguards are, well, *incomplete*?
+
+
+For now, the feature appears limited to a **closed beta**—likely developers and enterprise partners willing to sign waivers. That’s smart. The last thing Anthropic needs is a headline about Claude accidentally bricking a data center because someone asked it to "optimize storage" a little *too* literally.

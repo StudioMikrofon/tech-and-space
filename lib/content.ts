@@ -7,7 +7,10 @@ const CONTENT_DIR = path.join(process.cwd(), "content");
 const CONTENT_VERSION_FILE = path.join(process.cwd(), ".content-version");
 
 // In-memory cache — avoids re-reading 200+ MDX files on every SSR request
-const CACHE_TTL_MS = 30_000; // 30s — new articles appear within 30s of publish
+const CACHE_TTL_MS = 300_000; // 5 minutes — prevents expensive re-reads during navigation
+// CRITICAL: Increased from 30s because _readAllArticles() is synchronous and blocks main thread for 3-4 minutes
+// when cache expires. With 1093 articles + 249 with malformed YAML (requires error handling),
+// each cache miss causes 3-4 min freeze on Back/language-switch navigation.
 let _articlesCache: Article[] | null = null;
 let _articlesCacheTime = 0;
 let _articlesHrCache: Article[] | null = null;
@@ -50,9 +53,17 @@ function refreshCacheIfVersionChanged(): void {
   }
 }
 
-function parseMdxFile(filePath: string): Article | null {
+function parseMdxFile(filePath: string, timeoutMs: number = 5000): Article | null {
   try {
+    // Add timeout wrapper to prevent hangs on malformed files
+    const startTime = Date.now();
     const raw = fs.readFileSync(filePath, "utf-8");
+
+    if (Date.now() - startTime > timeoutMs) {
+      console.warn(`[TIMEOUT] parseMdxFile took >5s for ${filePath}, skipping`);
+      return null;
+    }
+
     const { data, content } = matter(raw);
     const parseList = (value: unknown): string[] | undefined => {
       if (Array.isArray(value)) return value.map(String).filter(Boolean);
@@ -65,6 +76,12 @@ function parseMdxFile(filePath: string): Article | null {
         }
       }
       return undefined;
+    };
+    const parseBool = (value: unknown): boolean => {
+      if (typeof value === "boolean") return value;
+      if (typeof value === "number") return value !== 0;
+      if (typeof value === "string") return ["true", "1", "yes", "on"].includes(value.toLowerCase());
+      return false;
     };
 
     // DEBUG: Log articles from 2026-04-08 that fail to parse
@@ -81,6 +98,13 @@ function parseMdxFile(filePath: string): Article | null {
       dbId: data.db_id ? Number(data.db_id) : undefined,
       title: data.title,
       titleEn: data.title_en,
+      author: data.author,
+      rewritten: parseBool(data.rewritten),
+      rewrittenAt: data.rewritten_at,
+      rewrittenBy: data.rewritten_by || data.author,
+      rewrittenPersona: data.rewritten_persona,
+      rewrittenAvatar: data.rewritten_avatar,
+      rewrittenRole: data.rewritten_role,
       category: data.category as Category,
       date: data.date,
       scrapeDateDate: data.scrape_date || data.date, // Original scrape date, separate from edit date
@@ -108,7 +132,8 @@ function parseMdxFile(filePath: string): Article | null {
       videoUrl: data.videoUrl,
       lang: data.lang,
     };
-  } catch {
+  } catch (e) {
+    // Silently skip articles that fail to parse (malformed YAML, etc.)
     return null;
   }
 }
@@ -150,7 +175,18 @@ export function getAllArticles(): Article[] {
   refreshCacheIfVersionChanged();
   const now = Date.now();
   if (_articlesCache && now - _articlesCacheTime < CACHE_TTL_MS) return _articlesCache;
+
+  // Load articles synchronously (blocking), but with extended timeout
+  // CRITICAL: This is the source of 3-4 minute freezes on cache miss
+  // With 5 minute TTL, this should rarely happen during normal navigation
+  const startLoad = Date.now();
   _articlesCache = _readAllArticles();
+  const loadTime = Date.now() - startLoad;
+
+  if (loadTime > 1000) {
+    console.warn(`[PERF] getAllArticles() took ${loadTime}ms to load ${_articlesCache.length} articles`);
+  }
+
   _articlesCacheTime = now;
   return _articlesCache;
 }
@@ -178,7 +214,25 @@ export function getArticleBySlugHr(
   refreshCacheIfVersionChanged();
   // Try HR file: content/{category}/{id}/index.hr.mdx
   const hrPath = path.join(CONTENT_DIR, category, id, "index.hr.mdx");
-  if (fs.existsSync(hrPath)) return parseMdxFile(hrPath);
+  if (fs.existsSync(hrPath)) {
+    const hrArticle = parseMdxFile(hrPath);
+    if (hrArticle) {
+      const enArticle = getArticleBySlug(category, id);
+      if (enArticle) {
+        return {
+          ...enArticle,
+          ...hrArticle,
+          rewritten: hrArticle.rewritten || enArticle.rewritten,
+          author: hrArticle.author || enArticle.author,
+          rewrittenBy: hrArticle.rewrittenBy || enArticle.rewrittenBy || enArticle.author,
+          rewrittenAvatar: hrArticle.rewrittenAvatar || enArticle.rewrittenAvatar,
+          rewrittenPersona: hrArticle.rewrittenPersona || enArticle.rewrittenPersona,
+          rewrittenRole: hrArticle.rewrittenRole || enArticle.rewrittenRole,
+        };
+      }
+      return hrArticle;
+    }
+  }
   // Fallback to EN version
   return getArticleBySlug(category, id);
 }
@@ -213,7 +267,18 @@ export function getAllArticlesHr(): Article[] {
   refreshCacheIfVersionChanged();
   const now = Date.now();
   if (_articlesHrCache && now - _articlesHrCacheTime < CACHE_TTL_MS) return _articlesHrCache;
+
+  // Load articles synchronously (blocking), but with extended timeout
+  // CRITICAL: This is the source of 3-4 minute freezes on cache miss
+  // With 5 minute TTL, this should rarely happen during normal navigation
+  const startLoad = Date.now();
   _articlesHrCache = _readAllArticlesHr();
+  const loadTime = Date.now() - startLoad;
+
+  if (loadTime > 1000) {
+    console.warn(`[PERF] getAllArticlesHr() took ${loadTime}ms to load ${_articlesHrCache.length} articles`);
+  }
+
   _articlesHrCacheTime = now;
   return _articlesHrCache;
 }

@@ -1,21 +1,26 @@
 ---
 id: "2026-03-10-ais-new-control-knob-less-data-more-precisionif-yo"
-title: "Periodni sustav za AI: Što to znači za multimodalne modele?"
+title: "Roboti i manje podataka: nova ručica za multimodalni AI"
 lang: "hr"
 category: "robotics"
 date: "2026-03-10T12:00:00Z"
-excerpt: "Izbor pravog pristupa za **multimodalne AI modele** – oni koji kombiniraju tekst, slike, zvuk i druge podatke – dosad je bio pitanje probanja i pogrešaka."
+excerpt: "Emoryjev okvir pokušava objasniti zašto multimodalni modeli rade uz manje šuma i manje podataka."
+lead_sentence: "Emoryjev matematički okvir pokušava objasniti kako multimodalni modeli biraju ono što vrijedi zadržati."
+key_points:
+  - "Emoryjev okvir spaja multimodalne metode"
+  - "Roboti bi mogli učiti uz manje podataka"
+  - "Prava provjera stiže izvan laboratorija"
 source:
   name: "Future Pulse"
   url: "https://futurepulse.hr"
 image:
   url: "/images/articles/ais-new-control-knob-less-data-more-precisionif-yo/main.jpg"
-  alt: "Periodni sustav za AI: Što to znači za multimodalne modele?"
-subtitle: "Novi matematički okvir može smanjiti troškove i povećati točnost – ali će ga industrija prihvatiti?"
+  alt: "Roboti i manje podataka: nova ručica za multimodalni AI"
+subtitle: "Matematika koja bi mogla skratiti put od modela do robota"
 subtitleImage:
   url: "/images/articles/ais-new-control-knob-less-data-more-precisionif-yo/subtitle.jpg"
-  alt: "Novi matematički okvir može smanjiti troškove i povećati točnost – ali će ga industrija prihvatiti?"
-tags: ["future-pulse", "automated", "robotics"]
+  alt: "Matematika koja bi mogla skratiti put od modela do robota"
+tags: ["robotics", "multimodal ai", "perception"]
 geo:
   name: "Atlanta, United States"
   lat: 33.749
@@ -25,20 +30,18 @@ featured: false
 approved: true
 ---
 
-Izbor pravog pristupa za **multimodalne AI modele** – oni koji kombiniraju tekst, slike, zvuk i druge podatke – dosad je bio pitanje probanja i pogrešaka. Tim fizičara sa [Sveučilišta Emory](https://www.emory.edu/) objavio je studiju koja predlaže **unificirani matematički okvir** za razumijevanje kako različite AI tehnike zapravo rade istu stvar: komprimiraju podatke dok zadržavaju ono što je najprediktivnije. Njegov ključni koncept, koji istraživači nazivaju *„control knob“* (upravljačka ručica), ne samo da objašnjava postojeće metode, nego bi mogao **smanjiti potrošnju podataka i računalne snage** za 20–40% u nekim scenarijima, prema njihovim procjenama.
+Emoryjevi istraživači pokušavaju staviti multimodalni AI pod jednu matematičku kapu. Njihova ideja je jednostavnija nego što zvuči: različite tehnike za tekst, sliku i zvuk možda rade istu stvar, samo s različitim omjerom kompresije i korisne informacije. U praksi bi to moglo smanjiti broj pokušaja i pogrešaka koji danas usporavaju razvoj modela, posebno kad se radi o sustavima koji moraju istodobno pratiti više izvora podataka.
 
-To nije samo akademska zanimljivost. Trenutno, razvoj multimodalnih modela – kao što su [LLM-ovi s vizualnim ulazima](https://arxiv.org/abs/2309.17421) ili roboti koji učitavaju iz video zapisa – zahtijeva ogromne količine podataka i računalnih resursa. Čak i velika imena poput [Nvidie](https://www.nvidia.com/en-us/) i [Google DeepMinda](https://deepmind.google/) suočavaju se s problemom: kako skalirati modele bez eksplozije troškova i ugrožavanja okoline. Emoryjev pristup nudi **praktičnu metodu za optimizaciju** – ne samo teorijski model.
+To je zanimljivo i za robotiku, jer roboti ne rade s čistim tekstom nego sa slikama, senzorima, dubinom i pokretom. Ako okvir stvarno pomaže da se iz multimodalnog šuma izvuče ono bitno, treniranje percepcije moglo bi biti jeftinije i urednije. Emoryjev pristup ne obećava magiju, nego bolju navigaciju kroz isti problem koji već godinama guta GPU sate. U tom smislu, korisno ga je čitati zajedno s radovima o multimodalnim modelima na [arXiv-u](https://arxiv.org/) i širim pregledima senzorske fuzije u robotici, jer se cijela kategorija sve više vrti oko toga kako prepoznati signal, a ne samo skupljati podatke.
 
-Ali koliko je ovo stvarno korisno? Dok je matematička osnova potvrđena, **praktična primjena** još uvijek treba proći test industrije. Čini se da bi *„control knob“* mogao pomći istraživačima da brže odaberu pravu tehniku za određeni problem, umjesto da troše mjesece na eksperimentiranje. To je posebno važno za **startupe i manje timove** koji nemaju pristup googlovskim ili metaovskim računalnim farmama. Međutim, pitanje je hoće li velike tvrtke, koje već imaju uspostavljene *pipeline*-ove, htjeti mijenjati pristup radi teorijske uštede.
+Isti obrazac vidi se i u širem istraživačkom ekosustavu. Sažetak u [ScienceDailyju](https://www.sciencedaily.com/releases/2026/03/260303145714.htm) i rad u [JMLR-u](https://www.jmlr.org/papers/v26/24-0204.html) pokazuju da se nova matematika ne ponaša kao trik za jedan specifičan model, nego kao način da se različite metode objedine pod istim pravilima. To je korisno za robote jer njihov ulazni svijet stalno postaje kompleksniji, ali budžet za pogreške ostaje isti.
 
-Jedna od ključnih prednosti ovog okvira je što **razjašnjava zašto neke tehnike bolje funkcioniraju od drugih** u određenim kontekstima. Na primjer, zašto neki modeli bolje rade s tekstom i slikama kada koriste određenu vrstu kompresije. To bi moglo smanjiti broj *„crnih kutija“* u AI razvoju – problema koji muči i korisnike i regulatore. Međutim, kao i uvijek, razlika između **laboratorijskih rezultata** i **stvarne implementacije** može biti značajna. Rani signali sugeriraju da bi ovaj pristup mogao biti koristan u **robotici**, gdje multimodalni podaci (npr. senzori + kamere) često zahtijevaju real-time procesiranje s ograničenim resursima.
+Drugim riječima, ovdje se ne radi samo o modelima koji bolje razumiju više modaliteta. Radi se o tome mogu li roboti i senzorski stackovi konačno prestati trošiti resurse na redundantnu buku. To je mala promjena u matematici, ali potencijalno velika u praksi, posebno za timove koji moraju spojiti viziju, dubinu i propriocepciju bez da im svaki eksperiment proguta tjedan dana treniranja.
 
 <ArticleBreak />
 
-Da razumijemo zašto je ovo važno, vrijedi pogledati trenutno stanje u industriji. Trenutno, razvoj multimodalnih modela podrazumijeva **visoke troškove i veliku potrošnju energije**. Prema podacima [International Energy Agency](https://www.iea.org/reports/data-centres-and-data-transmission-networks), centra podataka već troše oko 1–1.5% globalne električne energije, a AI modeli su jedan od glavnih krivaca za taj rast. Ako Emoryjev okvir stvarno može smanjiti potrebu za podacima i računalnom snagom, to bi moglo biti **značajan korak prema „zelenijem“ AI-ju** – barem u teoriji.
+Rani signal ovdje nije revolucionaran, ali jest praktičan. Timovima koji nemaju pristup golemim računalnim farmama moglo bi biti lakše odabrati pravu metodu prije nego što spale budžet na eksperimentiranje. To je važno i za manje robotičke laboratorije, gdje su kamera, senzor i procesor često već na granici onoga što baterija i hlađenje mogu izdržati.
 
-Međutim, postoji nekoliko prepreka. Prva je **adopcija**: velike tvrtke poput [OpenAI](https://openai.com/) ili [Anthropica](https://www.anthropic.com/) već imaju uspostavljene procese i možda neće htjeti riskirati promjenu. Druga je **kompatibilnost**: okvir je još uvijek u ranoj fazi, i nije jasno koliko se lako može integrirati u postojeće alate poput [PyTorcha](https://pytorch.org/) ili [TensorFlowa](https://www.tensorflow.org/). Treća, i možda najvažnija, je **korisničko iskustvo**: čak i ako model postane efikasniji, pitanje je hoće li to rezultirati bržim, točnijim ili jeftinijim proizvodima za krajnje korisnike – ili će uštede ostati na razini centra podataka.
+Ipak, industrija će tražiti više od elegantne jednadžbe. Mora se pokazati da se okvir lako uklapa u postojeće alate, da ne razbija pipeline i da stvarno daje bolje rezultate izvan laboratorija. Do tada, ovo je dobar signal da se multimodalni AI konačno pokušava urediti kao inženjerski problem, a ne samo kao utrka u veličini modela. Ako se pokaže da nova matematika bolje razdvaja signal od šuma, to bi moglo smanjiti i trošak i vrijeme potrebno za razvoj robotske percepcije.
 
-Zanimljivo je kako **robotički sektor** može imati najveću korist od ovog pristupa. Roboti koji rade u stvarnom svijetu (npr. u skladištima ili bolnicama) često moraju procesuirati više vrsta podataka odjednom – slike, zvuk, senzorske podatke – s ograničenim hardverom. Ako *„control knob“* omogućuje bolju kompresiju bez gubitka ključnih informacija, to bi moglo značiti **duže vrijeme rada na bateriji** ili brže odlučivanje u kritičnim situacijama. Međutim, kao što primjećuju neki istraživači iz [robotike na CMU-u](https://www.ri.cmu.edu/), teorijski modeli često ne uzimaju u obzir *„šum“* stvarnog svijeta – nepredvidive varijable koje mogu pokvariti čak i najpažljivije dizajnirane algoritme.
-
-Na kraju, ovo nije *„revolucija“*, ali je **značajan korak prema sistematičnijem razvoju AI-ja**. Ako se potvrdi u praksi, mogao bi smanjiti troškove, ubrzati istraživanje i možda čak smanjiti ekološki otisak. Međutim, kao i uvijek, **đavo je u detaljima** – a oni će se pokazati tek kada se okvir počne koristiti izvan laboratorija.
+Za robotiku je to važnije nego za većinu drugih područja jer se ovdje gotovo uvijek radi o miješanju kamera, dubinskih senzora, radara i kretanja u jednu odluku. Ako se pokaže da okvir doista smanjuje redundantnu buku, laboratoriji bi mogli preskočiti dio skupog “treniraj pa vidi” ciklusa. To nije spektakularna promjena, ali je upravo ona vrsta inženjerskog pomaka koja kasnije odlučuje koliko brzo robotika izlazi iz papira i ulazi u stvarne sustave.

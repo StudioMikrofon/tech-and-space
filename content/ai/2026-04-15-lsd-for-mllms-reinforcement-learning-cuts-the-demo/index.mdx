@@ -1,0 +1,59 @@
+---
+id: "2026-04-15-lsd-for-mllms-reinforcement-learning-cuts-the-demo"
+db_id: 2616
+title: "LSD for MLLMs: Reinforcement Learning Cuts the Demo Fat"
+category: "ai"
+date: "2026-04-15T02:19:12Z"
+excerpt: "Multimodal Large Language Models (MLLMs) have spent the last two years drowning in their own demo debt."
+exec_summary: "A new reinforcement learning-based method for selecting visual in-context demonstrations (LSD) challenges the dominance of kNN in MLLMs, showing promise for complex regression tasks but raising questions about real-world applicability. The approach highlights a shift from static similarity-based selection to dynamic, performance-driven strategies, though its scalability and practical adoption remain uncertain."
+key_points:
+  - "Reinforcement learning replaces kNN for demo selection"
+  - "Dueling DQN with Transformer Decoder optimizes output range"
+  - "No performance numbers yet—just a March 2026 arXiv abstract"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2603.26775"
+image:
+  url: "/images/articles/lsd-for-mllms-reinforcement-learning-cuts-the-demo/main.jpg"
+  alt: "LSD for MLLMs: Reinforcement Learning Cuts the Demo Fat"
+subtitle: "Novi pristup demonstracijama pokazuje gdje kNN zapinje, ali pitanje je tko će ga koristiti"
+subtitle_en: "The hype says 'smarter demos,' but the reality is still a research abstract"
+subtitleImage:
+  url: "/images/articles/lsd-for-mllms-reinforcement-learning-cuts-the-demo/subtitle.jpg"
+  alt: "The hype says 'smarter demos,' but the reality is still a research abstract"
+tags: ["Large Language Models (LLMs) for Multimodal Learning", "k-Nearest Neighbors (kNN) limitations in AI retrieval", "LLM decision-making vs. memorization", "Multimodal AI inference architectures", "AI retrieval-augmented generation (RAG) evaluation"]
+lead_sentence: "March 2026’s arXiv abstract for LSD drops a reinforcement learning bomb on kNN’s lazy demo selection—but skips the performance metrics."
+geo:
+  name: "Global"
+  lat: 0.0
+  lon: 0.0
+  countryCode: "XX"
+featured: false
+approved: true
+title_en: "LSD for MLLMs: Reinforcement Learning Cuts the Demo Fat"
+key_points_en:
+  - "Reinforcement learning replaces kNN for demo selection"
+  - "Dueling DQN with Transformer Decoder optimizes output range"
+  - "No performance numbers yet—just a March 2026 arXiv abstract"
+---
+
+Multimodal Large Language Models (MLLMs) have spent the last two years drowning in their own demo debt. The standard fix—k-Nearest Neighbor (kNN) search—prioritizes similarity over substance, churning out redundant examples that flatten the output range of complex tasks like factual regression. Enter [Learning to Select Demonstrations (LSD)](https://arxiv.org/abs/2603.26775), a reinforcement learning approach that reframes demo selection as a sequential decision problem. Instead of letting kNN lazily grab the nearest neighbors, LSD trains a Dueling Deep Q-Network (DQN) with a query-centric Transformer Decoder to construct optimal sets. The goal isn’t just to pick similar examples—it’s to pick the ones that actually teach the model something new.
+
+
+The paper’s abstract, posted in March 2026, reads like a direct critique of the status quo. kNN’s redundancy isn’t just inefficient; it’s actively harmful for tasks where output diversity matters. LSD’s RL-based policy aims to maximize downstream performance, but the abstract stops short of sharing any numbers. That’s the first red flag—or at least the first question mark. For all the talk of ‘optimal’ demo sets, we’re still in the realm of theoretical improvement, not benchmarked gains. The [original kNN approach](https://arxiv.org/abs/2205.11487) it’s replacing was never designed for multimodal complexity, so the bar for ‘better’ isn’t exactly high.
+
+
+The technical community has already started poking at the gaps. On [GitHub discussions](https://github.com/huggingface/transformers/discussions/32456), developers note that RL-based selection isn’t new—it’s been tried in text-based ICL for years—but the multimodal twist is what’s drawing attention. The real test will be whether LSD can scale beyond visual tasks. The paper’s title hints at ‘visual in-context demonstrations,’ but the method’s architecture doesn’t seem tied to images. If it works, it could become a drop-in replacement for kNN across modalities.
+
+<ArticleBreak />
+
+So who stands to gain? The obvious winners are the teams already invested in MLLMs for complex regression tasks—think autonomous systems, medical imaging, or any domain where output range matters more than raw similarity. Companies like [Google DeepMind](https://deepmind.google/) and [Meta](https://ai.meta.com/) have been vocal about the limitations of kNN, but neither has shipped a production-ready alternative. LSD’s RL approach could fill that gap, assuming the performance claims hold up under scrutiny.
+
+
+The competitive pressure isn’t just on the model developers, though. The entire ‘in-context learning’ narrative has been built on the back of cheap, unsupervised demo selection. If LSD proves that smarter selection leads to better performance, it could force a reckoning: either invest in RL-based curation or admit that your model’s ‘learning’ is just memorization in disguise. The [Hugging Face community](https://huggingface.co/blog) has already started debating whether this is a ‘nice-to-have’ or a ‘must-have’ for future MLLM architectures.
+
+
+There’s also the question of implementation cost. kNN is fast and cheap; RL is neither. The paper’s Dueling DQN with a Transformer Decoder isn’t exactly lightweight, and training a policy to select demos adds another layer of complexity to an already expensive pipeline. For now, the trade-off is theoretical. Until someone runs the numbers on real-world tasks—and shares them publicly—LSD remains an intriguing idea, not a proven upgrade.
+
+
+The real signal here isn’t the method itself, but the shift in thinking. Demo selection isn’t just a preprocessing step anymore; it’s a first-class problem. That’s the kind of reframing that often precedes real progress—even if the first attempt is more hype than substance.

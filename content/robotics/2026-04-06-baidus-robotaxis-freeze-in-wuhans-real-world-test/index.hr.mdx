@@ -1,28 +1,28 @@
 ---
 id: "2026-04-06-baidus-robotaxis-freeze-in-wuhans-real-world-test"
 db_id: 1693
-title: "Baiduovi robotaksi zamrznuli u prometu: demo je prošao, stvarnost ne"
+title: "Baiduovi robotaksi zapeli u Wuhanu: autonomija staje kad grad nije demo"
 lang: "hr"
 category: "robotics"
 date: "2026-04-06T04:15:45Z"
-excerpt: "Baiduova flota od **500 Apollo Go robotaksa** u Wuhanu — jednoj od najagresivnijih testnih zona za autonomnu vožnju na svijetu — prekinula je rad u realnom prometu, ostavljajući putnike zarobljene unutar vozila, blokirajući saobraćajne pruge i izazivajući barem jedan dokumentiran"
-exec_summary: "Baidu’s fleet of 500 robotaxis in Wuhan suffered a systemic failure, stranding passengers and exposing the gap between controlled demos and real-world deployment. The incident forces a reckoning with China’s rapid autonomous expansion—where regulatory flexibility meets the hard limits of untested scale."
+excerpt: "Baiduova flota Apollo Go robotaksa u Wuhanu pokazala je koliko brzo 'autonomija' postaje prometna blokada kad sustav zakaže istovremeno."
+exec_summary: "Baidu’s Wuhan robotaxi incident exposed a fleet-scale failure that stranded passengers and blocked traffic, turning a showcase city into a stress test for autonomy. The real story is not the crash itself, but how quickly a large deployment can turn into a systems problem when fail-safe behavior is weak."
 key_points:
-  - "500 bezvozača u Wuhanu – sustavni kvar, ne izolirani slučajevi"
-  - "Putnici zarobljeni u taksijima, najmanje jedan sudar u gužvi"
-  - "Kineska regulativa opet na kušnji: sigurnost vs. brza ekspanzija"
+  - "Wuhan nije demo zona kad se flota zablokira"
+  - "Sustavni kvar otkriva slabi fail-safe sloj"
+  - "Velika autonomija bez sigurnog pada nije autonomija"
 source:
   name: "theverge.com"
   url: "https://www.theverge.com/ai-artificial-intelligence/905012/baidu-apollo-robotaxi-freeze-china"
 image:
   url: "/images/articles/baidus-robotaxis-freeze-in-wuhans-real-world-test/main.jpg"
   alt: "Baiduovi robotaksi zamrznuli u prometu: demo je prošao, stvarnost ne"
-subtitle: "Demo završio — stvarnost počinje: 500 vozila i jedan kvar koji otkriva jaz između prezentacije i deploymenta"
+subtitle: "Kad cijela flota stane, problem više nije softver nego odgovornost"
 subtitleImage:
   url: "/images/articles/baidus-robotaxis-freeze-in-wuhans-real-world-test/subtitle.jpg"
-  alt: "Demo završio — stvarnost počinje: 500 vozila i jedan kvar koji otkriva jaz između prezentacije i deploymenta"
-tags: ["Apollo Moon autonomous vehicle deployment failures", "Baidu Apollo self-driving taxi pilot program", "Autonomous vehicle regulatory and operational challenges", "Level 4 autonomy commercialization hurdles", "Robotaxi fleet-scale reliability issues"]
-lead_sentence: "Wuhanska policija potvrdila je da su desetke Baiduovih Apollo Go robotaksa *istovremeno stale* usred gradskih prometnica, zarobivši putnike i izazvavši barem jedan sudar u nastaloj gužvi."
+  alt: "Kad cijela flota stane, problem više nije softver nego odgovornost"
+tags: ["robotaxi", "Baidu", "Apollo Go", "fleet failure", "autonomous vehicles"]
+lead_sentence: "Wuhanska policija potvrdila je da su desetke Baiduovih Apollo Go robotaksa istodobno stale usred gradskih prometnica."
 geo:
   name: "Wuhan, China"
   lat: 30.5928
@@ -32,24 +32,16 @@ featured: false
 approved: true
 ---
 
-Baiduova flota od **500 Apollo Go robotaksa** u Wuhanu — jednoj od najagresivnijih testnih zona za autonomnu vožnju na svijetu — prekinula je rad u realnom prometu, ostavljajući putnike zarobljene unutar vozila, blokirajući saobraćajne pruge i izazivajući barem jedan dokumentirani sudar. Wuhanska policija potvrdila je primljene prijave o vozilima koja su stala usred ceste, nemoguća za restartiranje ili premještanje bez ljudske intervencije.
+Baiduova flota od **500 Apollo Go robotaksa** u Wuhanu, jednom od najagresivnijih testnih poligona za autonomnu vožnju, doživjela je kvar koji je pretvorio gradsku ulicu u slijepu ulicu za autonomiju. Putnici su ostali zarobljeni u vozilima, promet je blokiran, a barem jedan sudar dogodio se u kaosu koji je uslijedio. To nije mala greška senzora nego stres-test koji je pokazao što se dogodi kad sustav zakaže na razini flote.
 
-Incident nije bio izoliran: prema dostupnim informacijama, kvar je pogodio više vozila istovremeno, što ukazuje na sustavni problem u softveru ili komunikacijskoj infrastrukturi, a ne na pojedinačne greške senzora ili hardvera. Ovo nije prvi puta da Baidu — koji operira u **26 gradova** širom svijeta i surađuje s lokalnim vladama na „pametnim gradovima“ — suočava svoje ambicije s realnošću deploymenta.
+Najvažnije pitanje nije zašto je vozilo stalo, nego zašto su stala toliko vozila odjednom. Takav obrazac upućuje na zajednički softverski ili komunikacijski problem, a ne na slučajni kvar hardvera. Kad se to dogodi, „autonomija“ više nije priča o budućnosti prijevoza nego o tome tko je odgovoran kad se prometna traka pretvori u parkiralište bez vozača.
 
-No ovakav obim kvara, uz fizičku blokadu prometa i zarobljene korisnike, postavlja pitanje: koliko su strogovi testovi za **Level 4 autonomiju** (koju Baidu tvrdi da postiže) kada vozila ne mogu ni osigurati osnovnu mobilnost u gužvi? Kineski regulatorni okvir, koji je dopustio brzu ekspanziju robotaksa upravo radi „stvaranja povoljnih uvjeta za inovacije“, sada se suočava s pitanjem odgovornosti.
-
-Čak i ako se ispostavi da je kvar proizšao iz vanjske interferencije (npr. GPS spoofinga ili mrežnih napada), činjenica da je cijela flota reagirala istovremeno otkriva **jedno usko grlo**: Baiduovi algoritmi nisu bili sposobni degradirati sigurno ni u slučaju djelomičnog otkaza.
-
-To nije problem „budućnosti transporta“, već sadašnjosti inženjeringa — posebno kada se radi o vozilima koja voze **100+ km/h** na autocestama, a ne u kontroliranim „demo zonama“ odabranim radi marketinških snimaka.
+Wuhan je već dugo izlog kineske robotaxi ambicije. Upravo zato je ovaj incident važan: pokazuje da skaliranje nije samo više vozila na više ulica, nego i sposobnost sustava da sigurno degradira kada sve ne ide po planu.
 
 <ArticleBreak />
 
-Baidu je u prošlosti isticao kako njegova vozila imaju *„99,9% sigurnosnu stopu“* u autonomnom režimu, ali takve brojke obično dolaze iz **simulacija ili ograničenih testnih zona** — ne iz kaotičnog prometa grada od 12 milijuna stanovnika. [Prethodna istraživanja](https://www.theverge.com/2023/4/12/23637902/baidu-apollo-go-robotaxi-safety-challenges) pokazala su da čak i manji kvarovi u V2X (vehicle-to-everything) komunikaciji mogu izazvati kaskadne efekte, posebno kada vozila oslanjaju na centralizirani cloud za odluke. Wuhan, kao grad s visokom gustoćom robotaksa, postaje *laboratorij za skalirabilnost* — i ovdje je jasno da **masovna implementacija zahtijeva više od „visoke točnosti“ u idealnim uvjetima**.
+I u najboljem scenariju, ovakav kvar razotkriva tanki sloj fail-safe logike. Ako jedna flota ne može sama sebe izvući iz problema, onda to nije samo operativni bug nego arhitekturno pitanje. Kineski regulatorni okvir do sada je tolerirao brzu ekspanziju kako bi potaknuo inovacije, ali incidenti poput ovoga mijenjaju raspoloženje: brzina rasta više ne izgleda tako uvjerljivo kad putnici ostanu zaključani u vozilu.
 
-Kritičari iz [autonomne industrije](https://www.ieee.org/) već godinama upozoravaju da je pravi test za robotakse **ne predviđivi scenariji**: iznenadni radovi na cesti, nepredvidive ponašaje drugih vozača ili — kao u ovom slučaju — *sustavni otkaz koji zahvaća cijelu flotu*. Baiduov odgovor na incident bit će ključan: hoće li se ograničiti na softverski patch ili će revidirati cijele protokole za *fail-safe modove*?
+Baidu će morati pokazati više od patcha i priopćenja. Treba dokazati da sustav zna sigurno stati, sigurno se pomaknuti i sigurno prepustiti kontrolu kad stvarni grad postane previše kaotičan za algoritam.
 
-Čak i ako se ispostavi da je kvar bio izazvan vanjskim faktorom (npr. [GPS ometačima](https://www.bbc.com/news/technology-65432112)), pitanje ostaje — zašto vozila nisu imala *lokalni backup sistem* koji bi barem omogućio sigurno zaustavljanje izvan saobraćajnih traka? Najveći paradox je u tome što Baidu, kao jedna od najagresivnijih tvrtki u autonomnoj vožnji, upravo *zbog brzog skaliranja* riskira gubitak povjerenja regulatora.
-
-Kina, koja je do sada bila sklona „pregledati preko prstiju“ incidentima radi poticanja tehnološkog napretka, možda će sada morati uvesti strože zahtjeve za **certifikaciju otpornosti na sustavne kvarove** — što bi usporilo cijele programe autonomne mobilnosti.
-
-Kineska vlada mora uzeti ozbiljne korake kako bi se spriječile slične incidente u budućnosti. To uključuje uvođenje strožih zahtjeva za certifikaciju i testiranje autonomnih vozila. Također, potrebno je poboljšati suradnju između tvrtki i regulatora kako bi se omogućila brza i sigurna implementacija autonomne tehnologije.
+Drugim riječima, skaliranje autonomije nije stvar broja vozila nego broja situacija koje vozilo može preživjeti bez ljudske ruke.

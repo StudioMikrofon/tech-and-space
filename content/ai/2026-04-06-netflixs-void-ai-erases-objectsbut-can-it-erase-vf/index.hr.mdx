@@ -15,11 +15,11 @@ source:
   name: "marktechpost.com"
   url: "https://www.marktechpost.com/2026/04/04/netflix-ai-team-just-open-sourced-void-an-ai-model-that-erases-objects-from-videos-physics-and-all/"
 image:
-  url: "/images/articles/netflixs-void-ai-erases-objectsbut-can-it-erase-vf/main.jpg"
+  url: "/images/articles/netflixs-void-ai-erases-objectsbut-can-it-erase-vf/main.png"
   alt: "Netflixov VOID briše objekte — i fiziku s njima"
 subtitle: "Demo nasuprot deploymentu: tko će zapravo moći koristiti ovaj alat"
 subtitleImage:
-  url: "/images/articles/netflixs-void-ai-erases-objectsbut-can-it-erase-vf/subtitle.jpg"
+  url: "/images/articles/netflixs-void-ai-erases-objectsbut-can-it-erase-vf/subtitle.png"
   alt: "Demo nasuprot deploymentu: tko će zapravo moći koristiti ovaj alat"
 tags: ["Netflix", "Object Removal", "Computer Vision"]
 lead_sentence: "VOID koristi *quadmask* s četiri vrijednosti umjesto binarnog maskiranja — i to je prvi AI koji eksplicitno modelira uzročnost pri brisanju objekata iz videa."
@@ -45,5 +45,3 @@ Netflixovo otvaranje koda nije samo dobrotvorni gest — to je strategijski pote
 Iako je model open-source, **stvarno usko grlo možda uopće nije tamo gdje ga marketing traži**. Problem nije algoritam, nego *podaci*: VOID zahtijeva obučavanje na sekvencama s jasno definiranim fizičkim zakonima. A to znači da će kompanije s pristupom visokokvalitetnim 3D skeniranim scenama (npr. [Unreal Engine](https://www.unrealengine.com/) ekosustav) imati prednost u finetuningu. Za ostale, čak i sa FP8 kvantizacijom za uštedu memorije, troškovi pokretanja ovog modela na cloud GPU-ima mogu biti zabranjujući.
 
 Dio zajednice već primjećuje da VOID *nije* univerzalno rješenje: loše funkcionira s tekućinama, dimom ili scenama s previše pokretnih dijelova. Ali to je i očekivano — **prva iteracija** uvijek ima rupe. Zanimljivije je pitanje tko će prvi integrirati ovaj pristup u postojeće alate. [Blackmagic Design](https://www.blackmagicdesign.com/) ili [Foundry](https://www.foundry.com/) bi mogli ugraditi slične module u svoje Nuke ili Fusion pakete, čime bi VOID postao *feature*, a ne samostalni projekt.
-
-Za svu buku, stvarna priča je da Netflix ovdje ne prodaje magiju — nego dokaz koncepta da se fizika može automatizirati. To je mnogo opasnije po tradicionalne VFX timove nego još jedan 'AI filter'.

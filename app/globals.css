@@ -547,21 +547,46 @@ body {
 /* =========================================================================
    Scrollbar styling
    ========================================================================= */
-::-webkit-scrollbar {
-  width: 6px;
+html {
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+  scrollbar-gutter: stable;
 }
 
-::-webkit-scrollbar-track {
-  background: #05070D;
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(143, 211, 255, 0.15);
-  border-radius: 3px;
+#main-scroll-area {
+  scrollbar-width: auto;
+  scrollbar-color: rgba(143, 211, 255, 0.75) rgba(5, 7, 13, 0.18);
+  -ms-overflow-style: none;
+  scrollbar-gutter: stable;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(143, 211, 255, 0.3);
+#main-scroll-area::-webkit-scrollbar {
+  width: 18px;
+  height: 18px;
+}
+
+#main-scroll-area::-webkit-scrollbar-track {
+  background: rgba(5, 7, 13, 0.18);
+  border-left: 1px solid rgba(0, 207, 255, 0.08);
+}
+
+#main-scroll-area::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(194, 244, 255, 0.95), rgba(0, 207, 255, 0.55));
+  border-radius: 9999px;
+  border: 5px solid rgba(5, 7, 13, 0.18);
+  min-height: 120px;
+  box-shadow: 0 0 18px rgba(0, 207, 255, 0.18);
+}
+
+#main-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(214, 250, 255, 1), rgba(0, 207, 255, 0.72));
 }
 
 /* =========================================================================

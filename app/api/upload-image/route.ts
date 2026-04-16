@@ -7,7 +7,13 @@ import { spawn } from "child_process";
 const WORKSPACE = "/opt/openclaw/workspace/tech-pulse-css";
 const FP_DIR = "/opt/openclaw/futurepulse";
 
-function updateDb(articleId: number, imageType: "main" | "subtitle", url: string, alt: string) {
+function updateDb(
+  articleId: number,
+  imageType: "main" | "subtitle",
+  url: string,
+  alt: string,
+  caption: string
+) {
   return new Promise<void>((resolve) => {
     const key = imageType === "main" ? "image_main" : "image_subtitle";
     const script = `
@@ -22,7 +28,7 @@ try:
     imgs = json.loads(raw or '{}')
 except:
     imgs = {}
-imgs['${key}'] = {'url': '${url}', 'alt': '${alt}'}
+imgs['${key}'] = {'url': '${url}', 'alt': '${alt}', 'caption': '${caption}'}
 conn.execute('UPDATE articles SET images_json=? WHERE id=?', (json.dumps(imgs), ${articleId}))
 conn.commit()
 conn.close()
@@ -33,7 +39,13 @@ print('ok')
   });
 }
 
-function updateMdx(articleId: number, imageType: "main" | "subtitle", url: string, alt: string) {
+function updateMdx(
+  articleId: number,
+  imageType: "main" | "subtitle",
+  url: string,
+  alt: string,
+  caption: string
+) {
   return new Promise<void>((resolve) => {
     const frontKey = imageType === "main" ? "image" : "subtitleImage";
     const script = `
@@ -58,11 +70,11 @@ for mdx in content_dir.rglob('index.mdx'):
     if '${frontKey}:' in fm:
         fm = re.sub(
             r'${frontKey}:\\s*\\n(?:  .*\\n)*',
-            '${frontKey}:\\n  url: "${url}"\\n  alt: "${alt}"\\n',
+            '${frontKey}:\\n  url: "${url}"\\n  alt: "${alt}"\\n  caption: "${caption}"\\n',
             fm
         )
     else:
-        fm = fm.rstrip() + '\\n${frontKey}:\\n  url: "${url}"\\n  alt: "${alt}"\\n'
+        fm = fm.rstrip() + '\\n${frontKey}:\\n  url: "${url}"\\n  alt: "${alt}"\\n  caption: "${caption}"\\n'
 
     mdx.write_text('---\\n' + fm + '---\\n' + body, encoding='utf-8')
     print('updated:', str(mdx))
@@ -85,6 +97,7 @@ export async function POST(req: NextRequest) {
   let fileBuffer: Buffer;
   let ext: string;
   let altText: string;
+  let captionText: string;
 
   if (contentType.includes("multipart/form-data")) {
     // File upload
@@ -92,6 +105,7 @@ export async function POST(req: NextRequest) {
     articleId = Number(form.get("articleId"));
     imageType = (form.get("imageType") as "main" | "subtitle") || "main";
     altText = (form.get("alt") as string) || "";
+    captionText = (form.get("caption") as string) || altText;
     const file = form.get("file") as File | null;
     if (!file) return NextResponse.json({ error: "No file" }, { status: 400 });
 
@@ -105,6 +119,7 @@ export async function POST(req: NextRequest) {
     articleId = Number(body.articleId);
     imageType = body.imageType || "main";
     altText = body.alt || "";
+    captionText = body.caption || altText;
     const imageUrl: string = body.imageUrl;
     if (!imageUrl) return NextResponse.json({ error: "No imageUrl" }, { status: 400 });
 
@@ -151,8 +166,8 @@ print(slug)
 
   const publicUrl = `/images/articles/${slugResult}/${filename}`;
 
-  await updateDb(articleId, imageType, publicUrl, altText || slugResult);
-  await updateMdx(articleId, imageType, publicUrl, altText || slugResult);
+  await updateDb(articleId, imageType, publicUrl, altText || slugResult, captionText || altText || slugResult);
+  await updateMdx(articleId, imageType, publicUrl, altText || slugResult, captionText || altText || slugResult);
 
   return NextResponse.json({ ok: true, url: publicUrl });
 }

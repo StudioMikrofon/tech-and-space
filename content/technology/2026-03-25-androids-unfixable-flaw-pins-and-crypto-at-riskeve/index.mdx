@@ -30,8 +30,12 @@ geo:
 featured: false
 lead_sentence: "MediaTek chips in 37% of Android devices have a design flaw"
 approved: true
+title_en: "Android’s Unfixable Flaw: PINs and Crypto at Risk—Even When Off"
+key_points_en:
+  - "Hardware flaw exposes PINs in 37% of Android devices"
+  - "Attack works even on powered-off phones"
+  - "Crypto wallets and messages vulnerable by design"
 ---
--
 
 For years, the ritual was simple: set a PIN, maybe add a fingerprint, and assume your Android phone was locked down. That assumption just collapsed. A [hardware-level vulnerability](https://www.ledger.com/ledger-donjon-unveils-new-attack-vectors-on-android-devices) discovered by Ledger’s Donjon team—buried in MediaTek chips—lets attackers extract PINs, messages, and crypto wallet keys **in seconds**, even when the device is *turned off*. No malware needed. No user interaction required. Just a $10 Raspberry Pi and physical access.
 
@@ -48,5 +52,3 @@ The market context here is brutal. Qualcomm, MediaTek’s main rival, has its ow
 Developers are scrambling. Signal’s [Moxie Marlinspike](https://signal.org/blog/) has long warned about trusting hardware security modules; this proves his point. Meanwhile, regulators may finally wake up: if a flaw this severe can’t be patched, does ‘right to repair’ need a ‘right to secure’ amendment?
 
 The real kicker? This isn’t even the first time MediaTek’s firmware has been [exploited for persistent access](https://www.bleepingcomputer.com/news/security/new-mediatek-flaws-let-attackers-eavesdrop-on-android-calls/). At some point, ‘convenience’ becomes negligence.
-
-In other words, we’ve hit the limits of security theater. PINs and biometrics were never the real barrier—they were just the user-facing part of a chain that assumed the hardware underneath was honest. This flaw proves that chain is only as strong as its weakest chip.

@@ -1,0 +1,53 @@
+---
+id: "2026-04-14-googles-quantum-shield-for-android-17-is-mostly-a-"
+db_id: 2507
+title: "Android 17: Googleova kvantna opsada protiv budućih hakera"
+lang: "hr"
+category: "ai"
+date: "2026-04-14T00:08:43Z"
+excerpt: "Google ne čeka da kvantna računala postanu mainstream prijetnja — već ugrađuje post-quantum cryptography (PQC) u android 17."
+exec_summary: "Google’s move to integrate Post-Quantum Cryptography (PQC) into Android 17’s bootloader and Keystore isn’t just a security update—it’s a strategic bet on quantum computing’s future threat. The real question isn’t whether this is necessary, but who benefits most: developers forced to adapt, enterprises paying for ‘future-proofing,’ or Google itself, which is simultaneously building the quantum tech that makes PQC urgent."
+key_points:
+  - "PQC u bootloaderu već u beta verziji Android 17"
+  - "Google gradí i kvante koji će razbiti sadašnju kriptografiju"
+  - "Keystore i potpisivanje appova prelaze na kvantno-otporne standarde"
+source:
+  name: "androidauthority.com"
+  url: "https://www.androidauthority.com/android-post-quantum-cryptography-3651834/"
+image:
+  url: "/images/articles/googles-quantum-shield-for-android-17-is-mostly-a-/main.jpg"
+  alt: "Android 17: Googleova kvantna opsada protiv budućih hakera"
+subtitle: "Između marketinškog poteza i stvarne obrane: tko stvarno ima koristi od ove razine sigurnosti"
+subtitleImage:
+  url: "/images/articles/googles-quantum-shield-for-android-17-is-mostly-a-/subtitle.jpg"
+  alt: "Između marketinškog poteza i stvarne obrane: tko stvarno ima koristi od ove razine sigurnosti"
+tags: ["Google Titan Security Key (Android 17)", "quantum-resistant cryptography", "post-quantum security standards", "Android security architecture", "enterprise vs. consumer cybersecurity"]
+lead_sentence: "Google već u beta verziji Android 17 ugrađuje kvantno-otporne potpise u bootloader — iako kvantna računala koja bi razbila sadašnju kriptografiju još uvijek ne postoje izvan laboratorija."
+geo:
+  name: "Mountain View, United States"
+  lat: 37.386052
+  lon: -122.083851
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+Google ne čeka da kvantna računala postanu mainstream prijetnja — već ugrađuje post-quantum cryptography (PQC) u android 17. Prva implementacija stiže u sljedećoj beta verziji, a cilj je jasno definiran: zaštititi boot chain, keystore i potpisivanje aplikacija od budućih napada koji bi sadašnju kriptografiju razbili za nekoliko sekundi.
+
+Ironično, isti google koji sada prodaje PQC kao rješenje gradi i kvante koji će upravo tu kriptografiju učiniti zastarjelom. Zanimljivo je što se ne radi o teorijskom eksperimentu: PQC standardi koje google koristi već su potvrđeni od NIST-a, a implementacija u bootloaderu znači da će čak i rootani uređaji imati teže s obmanjivanjem sistema.
+
+No, kao i uvijek, pitanje je koliko će ovo stvarno zaštititi prosječnog korisnika — a koliko je samo pokret za developerima i enterprise sektorom koji traži dugoročne garancije. Odlučujuća promjena je u quantum-resistant digital signatures za bootloader, što znači da će čak i ako netko ukrade ključ za potpisivanje, kvantni računalnik neće moći lažno potvrditi integritet sustava.
+
+To je korak dalje od klasičnih RSA i ECC algoritama, ali i priznanje da google očekuje da će kvantna prijetnja postati relevantna prije nego što većina misli.
+
+<ArticleBreak />
+
+Developerima ovo donosi novi sloj kompleksnosti: aplikacije koje koriste android keystore ili remote attestation morat će se prilagoditi novim PQC algoritmima, a to znači i potencijalne performansne troškove. Google tvrdi da je optimizirao implementaciju, ali kao i uvijek, stvarni benchmarki će tek pokazati koliko će ovo usporiti kritične operacije — posebno na slabijim uređajima.
+
+GitHub diskusije već pokazuju da dio communityja sumnja u nužnost ovako brze migracije, ali i da su neki entuzijastični zbog „budućinskog proofinga“. Najveća nepoznanica ostaje vremenska perspektiva: kvantna računala koja bi mogla razbiti sadašnju kriptografiju još uvijek nisu dostupna van laboratorija, a googleova odluka da već sada ugrađuje PQC možda govori više o njihovim unutarnjim procjenama nego o stvarnoj hitnosti.
+
+Ako je ovo pravi signal, onda bi i apple i microsoft trebali ubrzati — ali ako je riječ o marketinškom potezu, onda je pitanje koliko će korisnici platiti cijenu (literalno, u performansama) za sigurnost koju možda neće trebati još desetljeće. Zanimljivo je i što google istovremeno radi na kvantnom cloud servisu, što otvara pitanje: da li se ovdje radi o stvarnoj obrani ili o stvaranju ekosustava u kojem će samo googleovi kvanti moći „sigurno“ komunicirati s android uređajima?
+
+To bi bio elegantniji potez od obične sigurnosne nadogradnje.
+
+Bez obzira na motive, android 17 postavlja nove standarde za mobilnu sigurnost. Pitanje je hoće li konkurencija krenuti istim putem ili će se osloniti na tradicionalne metode dok kvantna prijetnja ne postane stvarnost.

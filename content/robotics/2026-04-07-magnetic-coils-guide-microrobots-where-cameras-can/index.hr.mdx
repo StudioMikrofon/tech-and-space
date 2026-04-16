@@ -1,28 +1,28 @@
 ---
 id: "2026-04-07-magnetic-coils-guide-microrobots-where-cameras-can"
 db_id: 1890
-title: "Magnetne zavojnice upravljaju mikrorobotima bez kamera — radi li to i u tijelu?"
+title: "Magnetne zavojnice vode mikrorobote tamo gdje kamera ne može"
 lang: "hr"
 category: "robotics"
 date: "2026-04-07T18:16:41Z"
-excerpt: "SMU-ovi istraživači pod vodstvom [Sangwona Leeja](https://www."
-exec_summary: "SMU’s coil-based microrobot control eliminates visual tracking, a critical step for medical and industrial use—but real-world deployment faces hardware limits, scaling costs, and the lack of position feedback. The breakthrough is technically sound, but the gap between demo and practice remains wide."
+excerpt: "SMU-ov triaksijalni magnetski sustav vodi mikrorobote bez kamera, ali stvarna primjena i dalje ovisi o energiji, praćenju i sigurnosti."
+exec_summary: "A coil-based microrobot control system removes the need for visual tracking, which is a useful step for medical and industrial settings. But the real deployment question is how to operate, monitor, and power these robots once they leave controlled simulation."
 key_points:
-  - "Triaksijalni Helmholtzov sustav s 99% točnošću u simulacijama"
-  - "Bez vizualnog praćenja: mikroroboti u neprozirnim cijevima i tkivima"
-  - "Prvi koraci prema medicinskim i industrijskim primjenama — ali bez baterija i senzora"
+  - "99% točnosti u simulaciji nije kraj priče"
+  - "Bez kamera, ali i bez jasnog fallbacka"
+  - "Medicinska i industrijska primjena još traži dokaz"
 source:
   name: "techxplore.com"
   url: "https://techxplore.com/news/2026-04-magnetic-setup-microrobots.html"
 image:
   url: "/images/articles/magnetic-coils-guide-microrobots-where-cameras-can/main.jpg"
   alt: "Magnetne zavojnice upravljaju mikrorobotima bez kamera — radi li to i u tijelu?"
-subtitle: "Od labosa do prakse: Praznina između obećanja i realnih ograničenja"
+subtitle: "Kad kamera nestane, fizika preuzima vođenje"
 subtitleImage:
   url: "/images/articles/magnetic-coils-guide-microrobots-where-cameras-can/subtitle.jpg"
-  alt: "Od labosa do prakse: Praznina između obećanja i realnih ograničenja"
-tags: ["Magnetne"]
-lead_sentence: "Triaksijalni Helmholtzov sustav s šest zavojnica i 99% točnošću u simulacijama upravo je dokazao da mikroroboti ne trebaju kamere — ali nitko ne zna kako će se nositi s krvlju, korozijom ili nestankom struje."
+  alt: "Kad kamera nestane, fizika preuzima vođenje"
+tags: ["microrobots", "magnetic control", "medical robotics", "Helmholtz coil", "deployment"]
+lead_sentence: "Triaksijalni Helmholtzov sustav s šest zavojnica i 99% točnošću u simulacijama vodi mikrorobote bez kamera."
 geo:
   name: "Dallas, Texas, USA"
   lat: 32.7831
@@ -32,18 +32,18 @@ featured: false
 approved: true
 ---
 
-SMU-ovi istraživači pod vodstvom [Sangwona Leeja](https://www.smu.edu/Lyle/Departments/ECE/People/Faculty/Kim) nisu samo zamijenili kameru magnetnim poljem — eliminirali su potrebu za kontinuiranim praćenjem pozicije mikrorobota. Njegov triaksijalni [Helmholtzov sustav](https://en.wikipedia.org/wiki/Helmholtz_coil) s šest zavojnica (po dvije za X, Y i Z os) generira **uniformne magnetske gradijente**, što znači da mikrorobot ne zahtijeva stalne korekcije ovisno o lokaciji. Simulacije u [COMSOL-u](https://www.comsol.com/) potvrdile su 99 % točnost, ali to je još uvijek daleko od stvarnih uvjeta: krv koja apsorbira magnetizam, industrijske cijevi pune korozije ili jednostavan problem — **gdje mikrorobot stane kada nestane struje?**
+SMU-ovi istraživači nisu samo zamijenili kameru magnetnim poljem, nego su pokušali iz procesa izbaciti i cijeli sloj vizualnog praćenja. Triaksijalni Helmholtzov sustav sa šest zavojnica stvara uniformne magnetske gradijente i tako vodi mikrorobote bez stalnog gledanja u ekran. U simulaciji to izgleda uvjerljivo, ali simulacija nije krvotok, ni industrijska cijev, ni mjesto gdje se gubi signal.
 
-Ključna prednost leži u odbačenoj ovisnosti o kamerama, koje — kako ističe Lee — *„u stvarnim uvjetima mogu biti spore, skupe ili nepouzdane“*. No, pitanje nije samo *kako* upravljati nego *gdje*: unutar ljudskog tijela magnetske signale moraju proći kroz tkiva različite gustoće, a u industrijskim postrojenjima — kroz metalne prepreke. [MinJun Kim](https://www.smu.edu/Lyle/Departments/ECE/People/Faculty/Kim), koautor istraživanja, već naglašava potencijal za *„preciznu isporuku lijekova“*, ali bez odgovora na pitanje koliko će ta preciznost koštati u serijskoj proizvodnji.
+Najveća prednost je očita: kamera može biti spora, skupa ili jednostavno beskorisna kad je prostor neproziran. Zato je ovaj pristup zanimljiv za medicinu i industriju. No isti potez otvara novo pitanje: ako nemaš kameru, kako točno znaš gdje je robot kad nešto pođe po zlu? [TechXplore](https://techxplore.com/news/2026-04-magnetic-setup-microrobots.html) daje dobar ulaz, ali pravi test je kako se sustav ponaša izvan simulacije i izvan idealno postavljene komore.
 
-Demo radi. **Ali deployment?** Za sada je sustav kalibriran u kontroliranim uvjetima, s [triaksijalnim magnetometrom](https://www.nist.gov/programs-projects/magnetic-measurement-facilities) koji mjeri polje — nešto što u realnom svijetu neće biti dostupno. Ako mikrorobot zabludi u arteriji ili rovu za naftu, trenutačno nema načina da saznamo gdje je, osim ako ne vratimo kameru koju smo upravo odbacili.
+To je posebno važno jer magnetsko polje nije samo “zamjena za kameru”, nego cijeli navigacijski sloj koji mora biti precizan i stabilan. Kad taj sloj radi, mikroroboti mogu biti korisni u ciljanoj dostavi lijekova ili zatvorenim industrijskim kanalima; kad ne radi, teško je i dijagnosticirati što je pošlo krivo. Zato je svaki korak prema boljoj kontroli zapravo i korak prema boljoj sigurnosti.
+
+Upravo zato je ova priča više o kontroli nego o spektaklu. Mikrorobot bez vizualnog praćenja nije pobjeda sama po sebi; tek je prvi korak prema sustavu koji se možda može koristiti u stvarnom tijelu ili zatvorenoj infrastrukturi. To je korisna promjena paradigme jer skida ovisnost o kamerama ondje gdje kamera jednostavno nema što raditi.
 
 <ArticleBreak />
 
-Praktične prepreke počinju tamo gdje demo prestaje: **baterije**, **skalabilnost** i **sigurnost**. Mikroroboti koje ovaj sustav kontrolira još uvijek zahtijevaju vanjski izvor energije — magnetno polje ih pokreće, ali ne napaja. To znači da su ograničeni na okruženja gdje se može održavati stabilan magnetske gradijent, a to isključuje većinu mobilnih medicinskih primjena. [Yasin Cagatay Duygu](https://www.smu.edu/), jedan od istraživača, radi na rješenjima za procjenu pozicije bez vizualnih senzora, ali to je još uvijek u fazi teorije.
+Pravi problem počinje s energijom i povratnom informacijom. Mikroroboti i dalje trebaju vanjski izvor snage, a bez vizualnog sloja svaka greška postaje teža za dijagnosticiranje. To znači da je sustav koristan samo ondje gdje magnetsko polje može ostati stabilno i gdje se može održavati dovoljno precizna kontrola.
 
-Industrija bi možda bila prvi korisnik: inspekcija cijevi ili popravak opreme u uskim prostorima gdje kamere ne stanu. No, i ovdje se nameće pitanje troškova. Helmholtzove zavojnice nisu jeftine za proizvodnju u velikim količinama, a svaka aplikacija zahtijeva preciznu kalibraciju. **Stvarno usko grlo možda uopće nije tamo gdje ga marketing traži** — ne u kontroli, nego u tome kako osigurati da sustav radi 24/7 bez ljudskog nadzora, u uvjetima gdje magnetsko polje nije savršeno uniformno.
+Industrija će možda prva pokazati može li ovakav pristup proći kroz cijevi i uske kanale, ali medicina je pravi cilj. Ako sustav ne može dati robustan način praćenja bez kamera, onda 99 posto iz simulacije ostaje laboratorijska pohvala, a ne proizvodna pobjeda. To znači da magnetska kontrola ne uklanja problem praćenja, nego ga prebacuje na drugu vrstu infrastrukture.
 
-Za sada je ovo **pažljivo montirano čudo** koje funkcionira u laboratoriju. Ali udaljenost između dema i deploymenta u robotici obično se mjeri ne samo algoritmima, nego i **održavanjem, certifikacijom i ljudima koji moraju vjerovati da će to raditi kada ih nema u prostoriji**.
-
-Ovaj istraživački napredak otvara vrata novim mogućnostima, ali i postavlja izazove koji će zahtijevati godine razvoja. Dok se teorija i laboratorijska ispitivanja čine obećavajućima, realna primjena još uvijek je daleko od dosega. Pitanje nije samo tehničke izvedivosti, već i ekonomskih i sigurnosnih implikacija koje će odrediti hoće li ovaj sustav ikada napustiti laboratorij.
+Zato je i ovaj rezultat koristan kao “što ako” za cijelu kategoriju mikrorobotike. Ako magnetna kontrola postane dovoljno pouzdana, onda se otvara prostor za manje invazivne medicinske alate i precizniju industrijsku inspekciju. Ako ne, ostaje elegantna demonstracija fizike koja još nije pronašla pravi radni prostor.

@@ -31,6 +31,10 @@ geo:
 featured: false
 approved: true
 title_en: "Byte-Level Distillation Cuts Through LLM Tokenizer Mess"
+key_points_en:
+  - "Byte-level interface bypasses tokenizer mismatches"
+  - "Lightweight decoder head simplifies cross-model training"
+  - "Hype-free baseline challenges complex CTD methods"
 ---
 
 Cross-tokenizer distillation (CTD) has long been a thorn in the side of LLM developers. When teacher and student models use different tokenizers, aligning their vocabularies becomes a Frankenstein of heuristics, patchwork, and headaches. Enter Byte-Level Distillation (BLD), a surprisingly simple method introduced in a new arXiv paper that sidesteps the problem entirely by working at the byte level—a shared interface between any tokenizer. 

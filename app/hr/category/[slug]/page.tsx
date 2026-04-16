@@ -1,6 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { getArticlesByCategoryHr } from "@/lib/content";
 import {
   CATEGORIES,
@@ -10,6 +8,7 @@ import {
 import ArticleGrid from "@/components/ArticleGrid";
 import CategoryBanner from "@/components/CategoryBanner";
 import CategoryLoadingTerminal from "@/components/CategoryLoadingTerminal";
+import HistoryBackButton from "@/components/HistoryBackButton";
 import LangSwitcher from "@/components/LangSwitcher";
 import type { Metadata } from "next";
 
@@ -49,13 +48,7 @@ export default async function CategoryPageHr({ params }: PageProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-6">
-        <Link
-          href="/hr"
-          className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent-cyan transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Povratak
-        </Link>
+        <HistoryBackButton fallbackHref="/hr" label="Povratak" />
         <LangSwitcher lang="hr" href={`/category/${category}`} />
       </div>
 

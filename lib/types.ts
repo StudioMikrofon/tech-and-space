@@ -65,6 +65,13 @@ export interface Article {
   dbId?: number;
   title: string;
   titleEn?: string;
+  author?: string;
+  rewritten?: boolean;
+  rewrittenAt?: string;
+  rewrittenBy?: string;
+  rewrittenPersona?: string;
+  rewrittenAvatar?: string;
+  rewrittenRole?: string;
   category: Category;
   date: string;
   scrapeDateDate?: string; // Original scrape date, separate from edit date

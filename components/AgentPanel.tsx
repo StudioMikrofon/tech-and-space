@@ -134,24 +134,27 @@ export default function AgentPanel() {
 
   // Resolve article DB ID from URL when on an article page
   useEffect(() => {
+    // Only fetch if agent panel is enabled
+    if (process.env.NEXT_PUBLIC_AGENT_PANEL !== "true") return;
+
     const path = window.location.pathname;
     // Match patterns: /article/category/slug or /hr/article/category/slug
     const match = path.match(/^\/(?:hr\/)?article\/[^/]+\/(.+)$/);
     if (!match) return;
     const slug = match[1];
-    
+
     // Also try to get ID from DOM attribute first (faster)
     const domId = document.querySelector("[data-article-db-id]")?.getAttribute("data-article-db-id");
     if (domId && !isNaN(Number(domId))) {
       setPageArticleDbId(Number(domId));
       return;
     }
-    
-    // Fallback: fetch from API
+
+    // Fallback: fetch from API (only if DOM id was empty)
     fetch(`/api/editorial?slug=${encodeURIComponent(slug)}`)
       .then((r) => r.json())
       .then((d) => { if (d.id) setPageArticleDbId(Number(d.id)); })
-      .catch(() => {});
+      .catch(() => {/* Silent fail - editorial data is optional */});
   }, []);
 
   const getPageContext = () => {

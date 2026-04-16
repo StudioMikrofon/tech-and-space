@@ -1,0 +1,51 @@
+---
+id: "2026-04-13-molmoweb-small-ai-big-claimsbut-whos-really-winnin"
+db_id: 2490
+title: "MolmoWeb: AI2-ov otvoreni agent pobjeđuje veće konkurencije"
+lang: "hr"
+category: "ai"
+date: "2026-04-13T16:18:38Z"
+excerpt: "AI2 (Allen Institute for AI) objavio je MolmoWeb, otvoreni web agent koji navigira stranice isključivo preko screenshotova — bez pristupa izvornom kodu ili DOM-u."
+exec_summary: "AI2’s MolmoWeb challenges the assumption that bigger models mean better performance, using a novel screenshot-based approach and open datasets to outperform proprietary systems on benchmarks. The real test will be whether its open-source strategy can bridge the gap between academic promise and real-world web automation—where reliability, not just clever architecture, determines success."
+key_points:
+  - "4–8 milijardi parametara pobjeđuje zatvorene sustave"
+  - "Treniran na 2,2 milijuna screenshot-odgovora bez DOM pristupa"
+  - "AI2 otvara podatke — ali će li to dovoljno za realne primjene?"
+source:
+  name: "the-decoder.com"
+  url: "https://the-decoder.com/ai2s-fully-open-web-agent-molmoweb-navigates-the-web-using-only-screenshots/"
+image:
+  url: "/images/articles/molmoweb-small-ai-big-claimsbut-whos-really-winnin/main.jpg"
+  alt: "MolmoWeb: AI2-ov otvoreni agent pobjeđuje veće konkurencije"
+subtitle: "Otvorenost nasuprot performansi: tko zapravo dobiva prednost"
+subtitleImage:
+  url: "/images/articles/molmoweb-small-ai-big-claimsbut-whos-really-winnin/subtitle.png"
+  alt: "Otvorenost nasuprot performansi: tko zapravo dobiva prednost"
+tags: ["MolmoWeb", "AI2", "Open-Source Agents"]
+lead_sentence: "MolmoWeb, AI2-ov otvoreni web agent s **samo 4–8 milijardi parametara**, pobjeđuje veće zatvorene sustave — ali bez pristupa DOM-u ili izvornom kodu, oslanjajući se isključivo na screenshotove i najnoviju Molmo2 arhitekturu."
+geo:
+  name: "Seattle, United States"
+  lat: 47.6062
+  lon: -122.3321
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+AI2 (Allen Institute for AI) objavio je MolmoWeb, otvoreni web agent koji navigira stranice isključivo preko screenshotova — bez pristupa izvornom kodu ili DOM-u. Za razliku od većine zatvorenih rješenja, modeli od 4 i 8 milijardi parametara nadmašuju veće konkurencije na standardnim benchmarkovima, što postavlja pitanje: je li veličina parametara zapravo ključni faktor, ili je riječ o pametnijem treniranju?
+
+MolmoWeb koristi Molmo2 arhitekturu s Qwen3 kao jezikovnim modelom i SigLIP2 za vizualno kodiranje. Dakle, što se ovdje stvarno promijenilo?
+
+MolmoWeb koristi MolmoMix, dataset od 36.000 ljudskih zadataka preko 1.100+ web stranica, plus 2,2 milijuna screenshot-pitanje-odgovor parova. AI2 tvrdi da je ovo jedan od najvećih javnih datasetova ove vrste — ali koliko toga zapravo prelazi u realne performanse?
+
+Zanimljivije od samog modela je strategija AI2-a: umjesto da čuva podatke, objavljuju ih zajedno s modelom.
+
+<ArticleBreak />
+
+To je isti pristup kao kod njihovog OLMo projekta za jezikovne modele, gdje je cilj bio ’demokratizacija’ razvoja. No, otvorenost ne garantira uspjeh — posebno kada su u pitanju web agenti, gdje razlika između benchmarka i stvarnog svijeta često izgleda kao jaz između PowerPoint prezentacije i produkta u proizvodnji.
+
+MolmoWebove performanse na benchmarkovima su impresivne — ali koje benchmarke? AI2 ne navodi specifične testove, a to je ključno: sintetske evaluacije često favoriziraju modele trenirane na sličnim podacima.
+
+Realni scenariji, kao što su dinamičke stranice s JavaScriptom ili CAPTCHA-om, ostaju neprobirani. Čak i ako je model bolji od, recimo, nekog 70B-parametarskog konkurenta, što to znači kada korisnik pokušava rezervirati let ili popuniti obrazac?
+
+Industrijski kontekst je jasniji: AI2 ne prodaje proizvod, nego gradivo za ekosustav. Otvoreni pristup privlači akademsku zajednicu i startupe koji ne mogu platiti Googleove ili Microsoftove API-je, ali velika pitanja ostaju. Koliko će razvijača zapravo koristiti ovaj dataset kada većina komercijalnih primjena zahtijeva pouzdanost koja prelazi akademske eksperimente?

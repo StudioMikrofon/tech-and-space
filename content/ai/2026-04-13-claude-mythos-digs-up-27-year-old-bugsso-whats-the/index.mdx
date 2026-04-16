@@ -1,0 +1,50 @@
+---
+id: 2026-04-13-claude-mythos-digs-up-27-year-old-bugsso-whats-the
+db_id: 2481
+title: Claude Mythos digs up 27-year-old bugs—so what’s the catch?
+category: ai
+date: "2026-04-13T14:17:29Z"
+excerpt: "Anthropic’s new [Claude Mythos](https://www."
+exec_summary: "Anthropic’s Claude Mythos AI uncovered thousands of unpatched vulnerabilities, including a 27-year-old OpenBSD bug, through Project Glasswing. The real story isn’t the tech but the leverage it gives Anthropic over tech giants now scrambling to fix flaws—while 99% remain publicly undisclosed."
+key_points: 
+- "Security teams vs. AI: "who owns the patch pipeline now?""
+source: 
+name: "San Francisco, United States"
+url: /images/articles/claude-mythos-digs-up-27-year-old-bugsso-whats-the/subtitle.png
+image: 
+alt: The gap between finding bugs and fixing them at scale
+subtitle: "Demo nasuprot deploymenta: tko zapravo dobiva prednost"
+subtitle_en: The gap between finding bugs and fixing them at scale
+subtitleImage: 
+tags: "["Claude Mythos security vulnerability", "AI model deployment vs. research trade-offs", "Unpatched vulnerabilities in large language models", "Ethical risks in AI model deployment", "Bug bounty programs in enterprise AI"]"
+seoTitle: Claude Mythos Finds 27-Year-Old Bug in OpenBSD
+seoDescription: "Anthropic's AI tool uncovered a 27-year-old vulnerability in OpenBSD, raising questions about AI's role in cybersecurity. Discover the implications."
+seoKeywords: "Claude Mythos, OpenBSD vulnerability, AI cybersecurity, Anthropic AI, infosec discoveries, software bugs, AI security tools, OpenBSD flaw"
+lead_sentence: "GitHub’s 2026 Copilot policy flips the script: Free and Pro users are now opt-out guinea pigs for Microsoft’s AI training pipeline."
+geo: 
+lat: 37.7749
+lon: -122.4194
+countryCode: US
+featured: false
+approved: true
+title_en: Claude Mythos digs up 27-year-old bugs—so what’s the catch?
+key_points_en: 
+---
+
+Anthropic’s new [Claude Mythos](https://www.anthropic.com/news/claudemythos) didn’t just spot vulnerabilities—it unearthed a 27-year-old flaw in OpenBSD, a system prized for its security paranoia. That’s the kind of discovery that makes infosec teams sit up: not because AI found *a* bug, but because it found *that* bug, in *that* codebase, after nearly three decades of human scrutiny.
+
+
+The claims don’t stop there. According to [early reports](https://www.pcgamer.com/anthropics-new-claude-mythos-ai-model-has-apparently-found-thousands-of-vulnerabilities-in-every-major-operating-system-and-every-major-web-browser-along-with-a-range-of-other-important-pieces-of-software/), Mythos flagged thousands of vulnerabilities across every major OS, browser, and critical software stack. That’s a sweeping assertion—one that demands a hype filter. Finding bugs in synthetic benchmarks or controlled demos is one thing; doing it at scale, in production-grade code, without drowning teams in false positives, is another.
+
+
+The real test isn’t detection but deployment. Security researchers have been using fuzzers and static analyzers for years—tools like [AFL](https://lcamtuf.coredump.cx/afl/) or [Coverity](https://www.synopsys.com/software-integrity/security-testing/fuzz-testing.html) already automate flaw discovery. Mythos’ edge, if it exists, lies in *contextual* reasoning: connecting dots across codebases, inferring exploit chains, or prioritizing risks like a senior engineer. That’s the part the demo videos won’t show.
+
+<ArticleBreak />
+
+For all the noise, the actual story is about *who controls the pipeline*. If Mythos can reliably flag critical vulnerabilities, the bottleneck shifts from discovery to triage. Security teams are already underwater; adding an AI firehose of potential flaws—even accurate ones—could paralyze rather than empower. The [OpenBSD maintainers’ reaction](https://undeadly.org/) (or lack thereof) will be telling: do they treat this as a useful signal or noise in an already noisy system?
+
+
+Then there’s the competitive angle. Anthropic isn’t just selling a model—it’s positioning itself as the AI vendor for enterprises that can’t afford to ignore zero-days. That puts pressure on [GitHub Copilot](https://github.com/features/copilot) and [Google’s Sec-PaLM](https://ai.googleblog.com/2023/04/sec-palm-security-ai-to-discover.html), which have dabbled in security but lack Mythos’ apparent depth. But depth requires trust, and trust requires transparency. So far, Anthropic’s releases read like a mix of [academic rigor](https://arxiv.org/abs/2309.10253) and [corporate polish](https://www.anthropic.com/news)—heavy on benchmarks, light on real-world case studies.
+
+
+The developer signal is cautious but intrigued. On [Hacker News](https://news.ycombinator.com/), the conversation splits between ‘finally, a tool that gets context’ and ‘another AI that finds bugs we already knew about.’ The [OpenBSD commit logs](https://cvsweb.openbsd.org/) will be the real litmus test: if Mythos’ findings start appearing in patches, the hype might earn its keep. Until then, it’s just another model with a killer demo.

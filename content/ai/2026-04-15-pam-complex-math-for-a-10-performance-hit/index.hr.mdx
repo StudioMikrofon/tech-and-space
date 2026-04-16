@@ -1,0 +1,49 @@
+---
+id: "2026-04-15-pam-complex-math-for-a-10-performance-hit"
+db_id: 2636
+title: "PAM: Kompleksni brojevi stižu u jezične modele"
+lang: "hr"
+category: "ai"
+date: "2026-04-15T08:07:51Z"
+excerpt: "PAM: Phase-Associative Memory (PAM) nije samo još jedan akronim u gomili AI modela."
+exec_summary: "Phase-Associative Memory (PAM) introduces complex-valued representations to sequence modeling, achieving near-transformer performance on WikiText-103 but with significant computational overhead. While not yet practical for deployment, it challenges the dominance of real-number architectures and opens new avenues for memory-efficient models. The key question is whether PAM's approach can scale beyond benchmarks or remain an academic curiosity."
+key_points:
+  - "100 milijuna parametara, 30.0 perplexity"
+  - "4× veći računski trošak bez optimizacija"
+  - "Transformeri i dalje 10% bolji na WikiText-103"
+source:
+  name: "arxiv.org"
+  url: "https://arxiv.org/abs/2604.05030"
+image:
+  url: "/images/articles/pam-complex-math-for-a-10-performance-hit/main.jpg"
+  alt: "PAM: Kompleksni brojevi stižu u jezične modele"
+subtitle: "Što se dogodilo kad su inženjeri zamijenili realne brojeve kompleksnima"
+subtitleImage:
+  url: "/images/articles/pam-complex-math-for-a-10-performance-hit/subtitle.jpg"
+  alt: "Što se dogodilo kad su inženjeri zamijenili realne brojeve kompleksnima"
+tags: ["complex number integration in LLMs", "mathematical reasoning in language models", "NLP model architecture modifications", "AI symbolic computation advancements", "PAM (complex number-enhanced models)"]
+lead_sentence: "PAM model s kompleksnim brojevima postiže 90% performansi transformera na WikiText-103, ali uz četiri puta veći računski trošak."
+geo:
+  name: "Menlo Park, CA"
+  lat: 37.4529
+  lon: -122.1817
+  countryCode: "US"
+featured: false
+approved: true
+---
+
+PAM: Phase-Associative Memory (PAM) nije samo još jedan akronim u gomili AI modela. Istraživači s arXiva [1] odlučili su napustiti realne brojeve i u potpunosti se prebaciti na kompleksne reprezentacije — što tehnički zvuči kao napredak iz udžbenika kvantne mehanike, ali u praksi donosi konkretne rezultate. Na WikiText-103 benchmarku, PAM s približno 100 milijuna parametara postigao je perplexity od 30,0, što je samo 10 % slabije od transformera (27,1) treniranog pod istim uvjetima. To nije revolucija, ali jest signal da kompleksni brojevi možda nisu samo matematička igračarija.
+
+Problem? PAM plaća cijenu za svoju ambicioznost. Kompleksne operacije znače četiri puta veći računski trošak, a model i dalje nema prilagođene jezgre koje bi taj jaz smanjile. Drugim riječima, radi se o dokazu koncepta koji funkcionira — ali tek nakon što se riješi pitanje učinkovitosti. Istraživači su ovdje napravili zanimljiv izbor: umjesto da optimiziraju, fokusirali su se na dokazivanje da alternativni pristupi mogu konkurirati dominantnim paradigmama. [2]
+
+Ključna inovacija PAM-a leži u matričnom stanju $S_t \in \mathbb\{C\}^\{d \times d\}$, gdje se asocijacije pohranjuju putem vanjskih produkata. To je korak dalje od vektorskih modela, koji pate od $O(1/\sqrt\{n\})$ degradacije kapaciteta zbog superponiranih asocijacija. No, dok teorija zvuči obećavajuće, pravo pitanje je koliko će ovaj pristup skalirati izvan kontroliranih benchmarka.
+
+<ArticleBreak />
+
+Za sada, PAM ostaje akademski eksperiment — ali eksperiment koji potkopava pretpostavku da su realni brojevi jedini put za napredne jezične modele. Konkurencija s transformerima na istoj razini parametara sugerira da kompleksne reprezentacije možda nude bolju učinkovitost memorije, čak i uz veći računski trošak. To bi moglo biti posebno relevantno za specijalizirane zadatke gdje je kapacitet memorije kritičan, poput dugoročnog kontekstualnog pamćenja. [3]
+
+Međutim, industrijski igrači vjerojatno neće žuriti s implementacijom. Četverostruki računski trošak bez jasne staze za optimizaciju znači da PAM za sada ostaje zanimljivost za istraživače, a ne alat za inženjere. Ipak, ova studija šalje jasnu poruku: prostor za inovacije u arhitekturi modela nije zatvoren, čak i ako se čini da su transformeri osvojili sve.
+
+Zanimljivo je i kako PAM pristupa problemu asocijativnog pamćenja. Umjesto da se oslanja na pažnju kao transformeri, koristi konjugirani unutarnji produkt $K_t^* \cdot Q_t / \sqrt\{d\}$, što je elegantno rješenje — ali i podsjetnik da su alternativni pristupi često samo pitanje perspektive. [4] Pravo testiranje tek slijedi: hoće li PAM uspjeti na realnim podacima, ili će ostati još jedan zaboravljeni eksperiment u moru AI istraživanja?
+
+Ova priča podsjeća na one dane kad su neki tvrdili da će neuronske mreže umrijeti — samo da bi se kasnije pokazalo da su one bile tek početak.

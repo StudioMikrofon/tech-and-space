@@ -34,6 +34,11 @@ geo:
   countryCode: "XX"
 featured: false
 approved: true
+title_en: "AI’s intent problem: New benchmarks, old limitations"
+key_points_en:
+  - "CoMIX-Shift stresses compositional generalization gaps"
+  - "ClauseCompose decoder trained only on singleton intents"
+  - "Held-out pairs expose benchmark blind spots"
 ---
 
 The latest [arXiv paper](https://arxiv.org/abs/2603.28929v1) from the NLP benchmarks wars doesn’t just ask if models can detect multiple intents—it asks whether they can handle *new combinations* of familiar ones. That’s a harder problem, and the authors’ new **CoMIX-Shift** benchmark is designed to expose the cracks: held-out intent pairs, shifted discourse patterns, and longer, noisier wrappers that mimic real-world utterances. Existing benchmarks, they argue, are too cozy—train and test sets often share the same co-occurrence patterns, making generalization claims suspect.
@@ -53,5 +58,3 @@ Industry-wise, this matters most for enterprises betting on intent-driven automa
 
 
 Developer reaction on [GitHub](https://github.com/) and [r/MachineLearning](https://www.reddit.com/r/MachineLearning/) has been cautiously optimistic, with some noting the benchmark’s synthetic nature. As one commenter put it: *“Cool, but show me it works on a real support ticket log.”* That’s the reality gap in a nutshell.
-
-For all the noise about ‘compositional generalization,’ the actual story is simpler: benchmarks are finally catching up to the messiness of real language. Whether the models will is another question entirely.
