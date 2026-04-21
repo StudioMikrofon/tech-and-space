@@ -147,6 +147,43 @@ function parseEndings(json: string | null): Record<string, string> {
   try { return JSON.parse(json) as Record<string, string>; } catch { return {}; }
 }
 
+function parseDbTimestamp(value: string | null | undefined): Date | null {
+  if (!value) return null;
+  const normalized = value.includes("T") ? value : value.replace(" ", "T");
+  const withZone = /([zZ]|[+-]\d{2}:?\d{2})$/.test(normalized) ? normalized : `${normalized}Z`;
+  const date = new Date(withZone);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function formatDbTimestampUtc(value: string | null | undefined): string {
+  const date = parseDbTimestamp(value);
+  if (!date) return "";
+  return `${date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  })} UTC`;
+}
+
+function formatDbTimeUtc(value: string | null | undefined): string {
+  const date = parseDbTimestamp(value);
+  if (!date) return "";
+  return date.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "UTC",
+    hour12: false,
+  });
+}
+
+function utcDateAtStartOfDay(date: Date): Date {
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+}
+
 async function fetchJsonOrText(url: string): Promise<{ data: any; rawText: string; ok: boolean }> {
   const res = await fetch(url);
   const rawText = await res.text();
@@ -210,10 +247,28 @@ export default function FotoReviewPage() {
   const [publishResult, setPublishResult] = useState<Record<number, { ok: boolean; msg: string }>>({});
   const loadedIds = useRef(new Set<number>());
   const articleRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const listScrollRef = useRef<HTMLDivElement | null>(null);
 
   // Deep-link article ID from URL query param — reactive on URL changes
   const [deepLinkId, setDeepLinkId] = useState<number | null>(null);
   const lastUrlRef = useRef<string>("");
+
+  const exitSingleReviewMode = useCallback(() => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    const hadDeepLink = url.searchParams.has("id") || url.searchParams.has("single");
+    if (hadDeepLink) {
+      url.searchParams.delete("id");
+      url.searchParams.delete("single");
+      const next = `${url.pathname}${url.search ? `?${url.searchParams.toString()}` : ""}${url.hash}`;
+      window.history.replaceState({}, "", next);
+      lastUrlRef.current = window.location.search;
+    }
+    setDeepLinkId(null);
+    requestAnimationFrame(() => {
+      listScrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
+    });
+  }, []);
 
   // Update deepLinkId when URL changes (handles navigation from article pages)
   useEffect(() => {
@@ -388,6 +443,14 @@ export default function FotoReviewPage() {
   const [batchBusy, setBatchBusy] = useState<"save" | "publish" | "press" | "pull" | null>(null);
   const [batchResult, setBatchResult] = useState<string | null>(null);
   const singleReviewMode = Boolean(deepLinkId);
+  const applyDateFilter = useCallback((value: "all"|"today"|"yesterday"|"7d"|"30d") => {
+    setFilterDate(value);
+    setFilterCat("all");
+    setFilterImg("all");
+    setFilterUploaded("all");
+    setSearch("");
+    if (singleReviewMode) exitSingleReviewMode();
+  }, [exitSingleReviewMode, singleReviewMode]);
 
   useEffect(() => {
     if (singleReviewMode && deepLinkId) {
@@ -447,6 +510,13 @@ export default function FotoReviewPage() {
     const el = articleRefs.current[deepLinkId];
     if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 300);
   }, [loading, deepLinkId]);
+
+  useEffect(() => {
+    if (loading) return;
+    requestAnimationFrame(() => {
+      listScrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
+    });
+  }, [filterStatus, filterCat, filterImg, filterUploaded, filterDate, loading]);
 
   const refreshArticle = useCallback(async (articleId: number, retries = 3) => {
     for (let attempt = 0; attempt < retries; attempt++) {
@@ -910,12 +980,13 @@ export default function FotoReviewPage() {
     if (filterUploaded === "uploaded" && !a.github_uploaded) return false;
     if (filterUploaded === "not_uploaded" && a.github_uploaded) return false;
     if (filterDate !== "all" && a.created_at) {
-      const d = new Date(a.created_at);
+      const d = parseDbTimestamp(a.created_at);
+      if (!d) return false;
       const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
-      const week = new Date(today); week.setDate(week.getDate() - 7);
-      const month = new Date(today); month.setDate(month.getDate() - 30);
+      const today = utcDateAtStartOfDay(now);
+      const yesterday = new Date(today); yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+      const week = new Date(today); week.setUTCDate(week.getUTCDate() - 7);
+      const month = new Date(today); month.setUTCDate(month.getUTCDate() - 30);
       if (filterDate === "today" && d < today) return false;
       if (filterDate === "yesterday" && (d < yesterday || d >= today)) return false;
       if (filterDate === "7d" && d < week) return false;
@@ -1219,6 +1290,7 @@ export default function FotoReviewPage() {
   // ── Pull images from web ─────────────────────────────────────
   const [pulling, setPulling] = useState<Record<number, boolean>>({});
   const [pullingPress, setPullingPress] = useState<Record<number, boolean>>({});
+  const [searchQueries, setSearchQueries] = useState<Record<number, string>>({});
   const [previewImage, setPreviewImage] = useState<{ url: string; label: string } | null>(null);
 
   useEffect(() => {
@@ -1234,10 +1306,11 @@ export default function FotoReviewPage() {
     const prevUrls = new Set(article.images.map(i => i.url));
     setActionResult((p) => ({ ...p, [article.id]: { ok: false, msg: "🌐 Povlačim slike s weba... (~15s)" } }));
     try {
+      const customQuery = searchQueries[article.id] || "";
       const res = await fetch("/api/image-pull", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: article.id, queryVariation: Date.now() }),
+        body: JSON.stringify({ id: article.id, queryVariation: Date.now(), customQuery }),
       });
       const data = await res.json();
       if (data.ok) {
@@ -1542,16 +1615,30 @@ export default function FotoReviewPage() {
             ))}
             {/* Status filter - Only NEOBJAVLJENI vs OBJAVLJENI */}
             {([ ["neobjavljeni","🔴 NEOBJAVLJENI"], ["objavljeni","🟢 OBJAVLJENI"] ] as const).map(([v, l]) => (
-              <button key={v} onClick={() => setFilterStatus(v)}
+              <button
+                key={v}
+                onClick={() => {
+                  if (singleReviewMode) exitSingleReviewMode();
+                  setFilterStatus(v);
+                }}
                 className={`px-2 py-0.5 text-[10px] rounded border transition-colors ${filterStatus === v ? (
                   v === "objavljeni" ? "bg-cyan-900/40 border-cyan-500/50 text-cyan-300" :
                   "bg-orange-900/40 border-orange-500/50 text-orange-300"
                 ) : "border-white/10 text-white/35 hover:border-white/25 hover:text-white/60"}`}
               >{l}</button>
             ))}
+            {singleReviewMode && (
+              <button
+                onClick={() => exitSingleReviewMode()}
+                className="px-2 py-0.5 text-[10px] rounded border border-cyan-500/30 text-cyan-300 hover:bg-cyan-900/20 transition-colors"
+                title="Izađi iz single review moda i vrati se na queue"
+              >
+                VRATI NA LISTU
+              </button>
+            )}
             {/* Date filter */}
             {([ ["all","SVE DATUME"], ["today","DANAS"], ["yesterday","JUČER"], ["7d","7D"], ["30d","30D"] ] as const).map(([v, l]) => (
-              <button key={v} onClick={() => setFilterDate(v)}
+              <button key={v} onClick={() => applyDateFilter(v)}
                 className={`px-2 py-0.5 text-[10px] rounded border transition-colors ${filterDate === v ? "bg-cyan-900/40 border-cyan-500/50 text-cyan-300" : "border-white/10 text-white/35 hover:border-white/25 hover:text-white/60"}`}
               >{l}</button>
             ))}
@@ -1725,7 +1812,7 @@ export default function FotoReviewPage() {
       {/* Main layout: articles left, fixed queue right */}
       <div className="flex flex-1 gap-6 relative overflow-hidden">
         {/* Articles list - scrollable */}
-        <div className="flex-1 overflow-y-auto pr-0">
+        <div ref={listScrollRef} className="flex-1 overflow-y-auto pr-0">
           <div className={`max-w-screen-2xl mx-auto px-4 py-5 space-y-4 ${queueOpen ? "mr-72" : ""}`}>
         {filtered.length === 0 && <div className="text-center text-white/20 py-24 text-sm">Nema članaka</div>}
 
@@ -1802,15 +1889,7 @@ export default function FotoReviewPage() {
                 {article.created_at && (
                   <div>
                     🕒 Skrejpano:{" "}
-                      {new Date(article.created_at).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        timeZone: "UTC"
-                      })}
-                      {" UTC"}
+                      {formatDbTimestampUtc(article.created_at)}
                     </div>
                   )}
                   {article.rewritten && article.rewritten_by && (
@@ -2042,11 +2121,22 @@ export default function FotoReviewPage() {
                           : "border-amber-700/50 text-amber-400/80 hover:bg-amber-900/20 hover:text-amber-300"
                     }`}
                   >{pullingPress[article.id] ? "📰 Pronalazim..." : "📰 PULL PRESS"}</button>
+                  {/* Custom search query for web pull */}
+                  <input
+                    type="text"
+                    placeholder="npr: Xbox, Nintendo..."
+                    value={searchQueries[article.id] || ""}
+                    onChange={(e) => setSearchQueries((p) => ({ ...p, [article.id]: e.target.value }))}
+                    disabled={pulling[article.id] || pullingPress[article.id] || isGenerating}
+                    maxLength={40}
+                    title="Upiši ključnu reč za bolju pretragu slike (opciono)"
+                    className="text-xs px-2 py-1.5 rounded bg-white/5 border border-sky-600/30 text-sky-200 placeholder-sky-400/40 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500/30 transition-colors"
+                  />
                   {/* Pull web images */}
                   <button
                     onClick={() => handlePullWeb(article)}
                     disabled={pulling[article.id] || pullingPress[article.id] || isGenerating}
-                    title="Povuci slike s weba (og:image → Wikimedia → Unsplash)"
+                    title="Povuci slike s weba (og:image → Wikimedia → Unsplash). Upiši ključnu reč za bolju pretragu."
                     className={`text-xs px-2.5 py-1.5 rounded border transition-colors ${
                       pulling[article.id]
                         ? "border-sky-500/60 text-sky-300 animate-pulse"
@@ -2436,7 +2526,7 @@ export default function FotoReviewPage() {
                   <span className="text-white/60 min-w-[40px]">#{String(act.article_id)}</span>
                   <span className="text-cyan-400/60">{String(act.operation)}</span>
                   {act.image_type ? <span className="text-white/40">[{String(act.image_type)}]</span> : null}
-                  <span className="text-white/25 ml-auto">{String(act.created_at).slice(11, 19)}</span>
+                  <span className="text-white/25 ml-auto">{formatDbTimeUtc(String(act.created_at))}</span>
                 </div>
               ))}
             </div>

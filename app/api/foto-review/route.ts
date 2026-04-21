@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Database from "better-sqlite3";
-import { readdirSync, existsSync, mkdirSync, copyFileSync, unlinkSync, readFileSync, writeFileSync, rmSync } from "fs";
+import { readdirSync, existsSync, mkdirSync, copyFileSync, unlinkSync, readFileSync, writeFileSync, rmSync, statSync } from "fs";
 import { spawn } from "child_process";
 import path from "path";
 import { bumpContentVersion } from "@/lib/content";
@@ -230,8 +230,13 @@ function getArticleImages(
     if (!existsSync(osPath)) return;
     const filename = path.basename(osPath);
     const attrInfo = attrMap.get(filename);
+    let versionedUrl = url;
+    try {
+      const mtime = statSync(osPath).mtimeMs;
+      versionedUrl = `${url}${url.includes("?") ? "&" : "?"}v=${Math.floor(mtime)}`;
+    } catch {}
     images.push({
-      id, url, label, osPath,
+      id, url: versionedUrl, label, osPath,
       attribution: attrInfo?.attribution || undefined,
       sourceUrl: attrInfo?.sourceUrl || undefined,
       provider: attrInfo?.provider || undefined,
@@ -530,10 +535,11 @@ function deleteArticleAssetsAndRecord(db: Database.Database, articleId: number):
     console.error(`Failed to scan legacy images for article ${articleId}: ${e}`);
   }
 
-  // Delete all related records before deleting article
+  // Delete all related records before deleting article (order matters — FK enforced by better-sqlite3)
   db.prepare("DELETE FROM image_operations WHERE article_id = ?").run(articleId);
   db.prepare("DELETE FROM article_image_candidates WHERE article_id = ?").run(articleId);
   db.prepare("DELETE FROM social_metrics WHERE article_id = ?").run(articleId);
+  db.prepare("DELETE FROM topic_fingerprints WHERE article_id = ?").run(articleId);
   db.prepare("DELETE FROM articles WHERE id = ?").run(articleId);
   return true;
 }
@@ -730,6 +736,7 @@ export async function POST(req: NextRequest) {
       db.prepare("DELETE FROM image_operations WHERE article_id = ?").run(articleId);
       db.prepare("DELETE FROM article_image_candidates WHERE article_id = ?").run(articleId);
       db.prepare("DELETE FROM social_metrics WHERE article_id = ?").run(articleId);
+      db.prepare("DELETE FROM topic_fingerprints WHERE article_id = ?").run(articleId);
 
       // Delete MDX assets and remaining records
       const deleted = deleteArticleAssetsAndRecord(db, articleId);

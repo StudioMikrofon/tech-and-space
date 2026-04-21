@@ -61,7 +61,9 @@ export async function GET(req: NextRequest) {
   return new NextResponse(data, {
     headers: {
       "Content-Type": contentType,
-      "Cache-Control": "public, max-age=3600",
+      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+      "Pragma": "no-cache",
+      "Expires": "0",
     },
   });
 }

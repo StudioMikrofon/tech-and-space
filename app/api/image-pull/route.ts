@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { id, ids, queryVariation } = body;
+  const { id, ids, queryVariation, customQuery } = body;
 
   // Support both single article and batch
   const article_ids: number[] = ids ? (Array.isArray(ids) ? ids : [ids]) : id ? [id] : [];
@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
   }
 
   const variation = Number.isFinite(Number(queryVariation)) ? Number(queryVariation) : Date.now();
+  const customSearchQuery = (customQuery || "").trim();
 
   const script = `
 import sys, asyncio, logging
@@ -41,7 +42,7 @@ async def run():
 
     if len(article_ids) == 1:
         # Single article
-        result = await puller.pull(article_ids[0], query_variation=${variation})
+        result = await puller.pull(article_ids[0], query_variation=${variation}, custom_search_query='${customSearchQuery}')
         status = "OK" if result.get("ok") else "FAIL"
         print(f"[pull #{article_ids[0]}] {status}: {result.get('message') or result.get('error')}")
         # Refresh images in public folder
@@ -54,7 +55,7 @@ async def run():
         # Batch
         stats = {'found': 0, 'partial': 0, 'none': 0, 'errors': 0}
         for aid in article_ids:
-            result = await puller.pull(aid, query_variation=${variation})
+            result = await puller.pull(aid, query_variation=${variation}, custom_search_query='${customSearchQuery}')
             if result.get('ok'):
                 if result.get('images_count', 0) >= 2:
                     stats['found'] += 1
