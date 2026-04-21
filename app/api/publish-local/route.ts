@@ -601,10 +601,18 @@ print(json.dumps({
     if (!data.ok) return NextResponse.json(data, { status: 400 });
     bumpContentVersion();
 
+    // Validate images were actually copied before triggering rebuild
+    const { existsSync } = require('fs');
+    const slug = data.slug as string;
+    const imgDir = `/opt/openclaw/workspace/tech-pulse-css/public/images/articles/${slug}`;
+    const imgFiles = slug && existsSync(imgDir) ? require('fs').readdirSync(imgDir).filter((f: string) => /\.(jpg|jpeg|png|webp)$/i.test(f)) : [];
+    console.log(`[publish-local] Article #${articleId} slug=${slug} images in public: [${imgFiles.join(', ')}]`);
+
+    // Clear any stale success flag so waitForServiceReady uses the new one
+    try { require('child_process').execSync("rm -f /tmp/tech-pulse-build-success"); } catch {}
+
     // Rebuild + restart in background so new public/ images are served
-    // (Next.js production server needs restart when new directories are added to public/)
     // CRITICAL: Use systemd-run --scope to run rebuild OUTSIDE Node.js process tree
-    // This ensures it survives even if the parent process is killed during shutdown
     const WORKSPACE = "/opt/openclaw/workspace/tech-pulse-css";
     const rebuild = spawn(
       "systemd-run",
@@ -617,8 +625,6 @@ print(json.dumps({
         cd ${WORKSPACE}
         LOCKFILE="/tmp/tech-pulse-rebuild.lock"
 
-        # Use flock to serialize builds (wait if another build is running)
-        # This prevents .next/lock collisions from concurrent npm builds
         (
         flock -x "$LOCKFILE" bash -c '
           echo "[$(date)] Build starting (lock acquired)" >> /tmp/publish-rebuild.log
@@ -626,58 +632,37 @@ print(json.dumps({
           # Sync database changes to MDX files (while service still running)
           /opt/openclaw/futurepulse/venv/bin/python3 /opt/openclaw/futurepulse/sync_leads_to_mdx.py >> /tmp/publish-rebuild.log 2>&1 || true
 
-          # CRITICAL FIX 2: Build to .next with cache cleanup
-          # Next.js always builds to .next (no output dir override exists)
-          # We ensure old .next can be backed up if needed, then restart service
           echo "[$(date)] Backing up old .next if needed..." >> /tmp/publish-rebuild.log
           [ -d .next ] && mv .next .next_old 2>/dev/null || true
 
-          # Rebuild with increased Node.js heap (default 1.5GB is too low for 954 pages)
-          # Use 2.5GB for balance between build performance and system memory
           echo "[$(date)] Starting build (heap=2560MB)..." >> /tmp/publish-rebuild.log
           NODE_OPTIONS='"'"'--max-old-space-size=2560'"'"' npm run build >> /tmp/publish-rebuild.log 2>&1
           BUILD_STATUS=$?
 
           echo "[$(date)] Build status: $BUILD_STATUS" >> /tmp/publish-rebuild.log
-          [ -f .next/prerender-manifest.json ] && echo "[$(date)] Manifest found in .next" >> /tmp/publish-rebuild.log || echo "[$(date)] Manifest MISSING in .next" >> /tmp/publish-rebuild.log
-          ls -la .next/ >> /tmp/publish-rebuild.log 2>&1
 
           if [ $BUILD_STATUS -eq 0 ] && [ -f .next/prerender-manifest.json ]; then
-            echo "[$(date)] Build succeeded, manifest present" >> /tmp/publish-rebuild.log
-
-            # CRITICAL: Delete webpack cache AFTER build but BEFORE restart
-            # This prevents 13-minute startup delays from bloated cache
-            echo "[$(date)] Removing webpack cache..." >> /tmp/publish-rebuild.log
+            echo "[$(date)] Build succeeded" >> /tmp/publish-rebuild.log
             rm -rf .next/cache 2>&1 >> /tmp/publish-rebuild.log
-
-            # Clean up old backup
             rm -rf .next_old 2>&1 >> /tmp/publish-rebuild.log
-            echo "[$(date)] Old build cleaned up" >> /tmp/publish-rebuild.log
 
-            # NOW stop old service and start new one (new .next is ready)
             echo "[$(date)] Stopping service..." >> /tmp/publish-rebuild.log
             timeout 30 systemctl stop tech-pulse-test >> /tmp/publish-rebuild.log 2>&1
-            STOP_STATUS=$?
-            echo "[$(date)] Stop status: $STOP_STATUS" >> /tmp/publish-rebuild.log
             sleep 2
 
             echo "[$(date)] Starting service..." >> /tmp/publish-rebuild.log
             systemctl start tech-pulse-test >> /tmp/publish-rebuild.log 2>&1
-            START_STATUS=$?
-            echo "[$(date)] Start status: $START_STATUS" >> /tmp/publish-rebuild.log
+            sleep 3
 
-            echo "[$(date)] Service restarted (stop=$STOP_STATUS, start=$START_STATUS)" >> /tmp/publish-rebuild.log
-            touch /tmp/tech-pulse-build-success 2>&1 >> /tmp/publish-rebuild.log
-            echo "[$(date)] SUCCESS flag created" >> /tmp/publish-rebuild.log
+            # CRITICAL: Flag set only AFTER service is running with new build
+            # waitForServiceReady polls this flag — do not move it earlier
+            touch /tmp/tech-pulse-build-success
+            echo "[$(date)] SUCCESS — service up with new build" >> /tmp/publish-rebuild.log
           else
-            echo "[$(date)] Build FAILED with status $BUILD_STATUS (manifest exists=$[ -f .next/prerender-manifest.json ])" >> /tmp/publish-rebuild.log
-            # Restore old build
+            echo "[$(date)] Build FAILED, reverting" >> /tmp/publish-rebuild.log
             rm -rf .next 2>/dev/null || true
             [ -d .next_old ] && mv .next_old .next 2>/dev/null || true
-            rm -f /tmp/tech-pulse-build-success
-            # Ensure service is running with old build
             systemctl start tech-pulse-test 2>/dev/null || true
-            echo "[$(date)] Build failed, reverted to old .next" >> /tmp/publish-rebuild.log
           fi
         '
         ) >> /tmp/publish-rebuild.log 2>&1
@@ -687,46 +672,35 @@ print(json.dumps({
     );
     rebuild.unref();
 
-    // CRITICAL: Wait for service to be truly ready before returning
-    // This ensures images are served immediately after publish
-    const waitForServiceReady = async (maxWaitMs = 60000) => {
+    // Wait for /tmp/tech-pulse-build-success which is written AFTER service start.
+    // This is more reliable than checking manifest (which appears before service restart).
+    const waitForServiceReady = async (maxWaitMs = 240000) => {
       const startTime = Date.now();
-      const { execSync } = require('child_process');
       const fs = require('fs');
+      const { execSync } = require('child_process');
 
       while (Date.now() - startTime < maxWaitMs) {
+        await new Promise(r => setTimeout(r, 3000));
         try {
-          // Check 1: Service is active
-          const status = execSync("systemctl is-active tech-pulse-test 2>&1", { encoding: 'utf8' }).trim();
-          if (status !== "active") {
-            await new Promise(r => setTimeout(r, 1000));
-            continue;
+          // Primary check: flag file written by build script after service start
+          if (fs.existsSync("/tmp/tech-pulse-build-success")) {
+            const elapsed = Date.now() - startTime;
+            console.log(`[publish-local] Build success flag detected after ${elapsed}ms`);
+            // Verify service is actually active
+            const status = execSync("systemctl is-active tech-pulse-test 2>&1", { encoding: 'utf8' }).trim();
+            if (status === "active") {
+              console.log(`[publish-local] Service confirmed active — publish complete`);
+              return true;
+            }
           }
-
-          // Check 2: Build manifest exists (build succeeded)
-          const nextDir = "/opt/openclaw/workspace/tech-pulse-css/.next";
-          if (!fs.existsSync(`${nextDir}/prerender-manifest.json`)) {
-            await new Promise(r => setTimeout(r, 1000));
-            continue;
-          }
-
-          console.log("[publish-local] Service ready after", Date.now() - startTime, "ms");
-          // Clean webpack cache now that we know it's ready
-          try {
-            execSync("rm -rf /opt/openclaw/workspace/tech-pulse-css/.next/cache", { stdio: "ignore" });
-          } catch (e) {}
-          return true;
-        } catch (e) {
-          await new Promise(r => setTimeout(r, 1000));
-        }
+        } catch {}
       }
 
-      console.log("[publish-local] Service readiness timeout after", maxWaitMs, "ms");
+      console.log(`[publish-local] Publish timeout after ${maxWaitMs}ms — build may still be running`);
       return false;
     };
 
-    // Wait for service to be ready (don't return response until it is)
-    await waitForServiceReady(60000);
+    await waitForServiceReady(240000);
 
     return NextResponse.json({ ...data, rebuilding: false, live: true });
   } catch {

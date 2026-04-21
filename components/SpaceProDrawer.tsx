@@ -27,6 +27,7 @@ interface SpaceProDrawerProps {
   open: boolean;
   onClose: () => void;
   persistent?: boolean;
+  defaultTrackerMode?: "iss" | "dsn" | "asteroids" | null;
 }
 
 // ── HUD mode detection ────────────────────────────────────────
@@ -238,11 +239,21 @@ const DEFAULT_LAT = 45.815;
 const DEFAULT_LON = 15.966;
 
 // ── Main component ────────────────────────────────────────────
-export default function SpaceProDrawer({ open, onClose, persistent = false }: SpaceProDrawerProps) {
+export default function SpaceProDrawer({ open, onClose, persistent = false, defaultTrackerMode = null }: SpaceProDrawerProps) {
   const { data } = useSpaceProData(open || persistent ? 30000 : null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const [expandedInfo, setExpandedInfo] = useState<string | null>(null);
   const [trackerMode, setTrackerMode] = useState<"iss" | "dsn" | "asteroids" | null>(null);
+
+  // Auto-open the default tracker mode when drawer opens
+  useEffect(() => {
+    if (open && defaultTrackerMode && trackerMode === null) {
+      setTrackerMode(defaultTrackerMode);
+    }
+    if (!open) {
+      setTrackerMode(null);
+    }
+  }, [open, defaultTrackerMode]);
   const pathname = usePathname();
   const isEn = !pathname.startsWith("/hr");
   const hudMode = useHudMode();

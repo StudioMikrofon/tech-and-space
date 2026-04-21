@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Menu, X, Volume2, VolumeX, Telescope, GitBranch, Loader2 } from "lucide-react";
-import { CATEGORIES, CATEGORY_LABELS } from "@/lib/types";
+import { Menu, X, Volume2, VolumeX, GitBranch, Loader2, Radio } from "lucide-react";
+import { CATEGORIES, CATEGORY_LABELS, CATEGORY_LABELS_HR } from "@/lib/types";
 import { playSound, isSoundEnabled, setSoundEnabled } from "@/lib/sounds";
 import dynamic from "next/dynamic";
 
@@ -13,6 +13,8 @@ const SpaceProDrawer = dynamic(() => import("./SpaceProDrawer"), { ssr: false })
 export default function Header() {
   const pathname = usePathname();
   const isHr = pathname.startsWith("/hr");
+  const catLabels = isHr ? CATEGORY_LABELS_HR : CATEGORY_LABELS;
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
   const [spaceProOpen, setSpaceProOpen] = useState(false);
@@ -24,7 +26,6 @@ export default function Header() {
     setSoundOn(isSoundEnabled());
   }, []);
 
-  // Auto-hide header on scroll
   useEffect(() => {
     function onScroll() {
       if (rafRef.current) return;
@@ -51,7 +52,6 @@ export default function Header() {
     };
   }, []);
 
-  // Body scroll lock when mobile menu is open
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = "hidden";
@@ -72,7 +72,7 @@ export default function Header() {
       const res = await fetch("/api/sync-github", { method: "POST" });
       const data = await res.json();
       setSyncMsg(data.message || (data.ok ? "✅ Sinhronizacija završena!" : `❌ ${data.error}`));
-    } catch (e) {
+    } catch {
       setSyncMsg("❌ Greška pri sinhronizaciji");
     } finally {
       setSyncing(false);
@@ -85,6 +85,11 @@ export default function Header() {
     setSoundOn(next);
     setSoundEnabled(next);
     if (next) playSound("click");
+  };
+
+  const openSpaceLive = () => {
+    playSound("click");
+    setSpaceProOpen(true);
   };
 
   return (
@@ -100,18 +105,17 @@ export default function Header() {
           paddingRight: "env(safe-area-inset-right, 0px)",
         }}
       >
-        <div className="w-full md:max-w-7xl md:mx-auto px-0.5 sm:px-4 h-[3rem] sm:h-16 min-w-0 flex items-center justify-between gap-0.5 sm:gap-2">
-          {/* Logo */}
-          <Link href={isHr ? "/hr" : "/"} className="flex min-w-0 shrink items-center gap-1.5 group hover:opacity-90 transition-opacity overflow-hidden pl-2">
+        <div className="w-full md:max-w-7xl md:mx-auto px-1 sm:px-4 h-[3.25rem] sm:h-16 min-w-0 flex items-center justify-between gap-1 sm:gap-2">
+
+          {/* Logo — always left */}
+          <Link
+            href={isHr ? "/hr" : "/"}
+            className="flex min-w-0 shrink items-center gap-1.5 group hover:opacity-90 transition-opacity overflow-hidden pl-1"
+          >
             <img
               src="/ts-logo-full.svg"
               alt="TECH & SPACE"
-              className="hidden sm:block h-10 md:h-11 w-auto max-w-[190px] md:max-w-none group-hover:drop-shadow-[0_0_10px_rgba(0,207,255,0.5)] transition-all"
-            />
-            <img
-              src="/ts-logo-full.svg"
-              alt="TECH & SPACE"
-              className="sm:hidden h-8 w-auto shrink-0 group-hover:drop-shadow-[0_0_8px_rgba(0,207,255,0.5)] transition-all"
+              className="h-8 sm:h-10 md:h-11 w-auto max-w-[140px] sm:max-w-[190px] md:max-w-none group-hover:drop-shadow-[0_0_10px_rgba(0,207,255,0.5)] transition-all"
             />
             <span className="live-dot ml-1 hidden sm:inline-block" />
           </Link>
@@ -126,25 +130,27 @@ export default function Header() {
                 onMouseEnter={() => playSound("hover")}
                 onClick={() => playSound("click")}
               >
-                {CATEGORY_LABELS[cat]}
+                {catLabels[cat]}
               </Link>
             ))}
             <div className="mx-2 h-5 w-px bg-white/10" />
+            {/* Space LIVE — desktop */}
             <button
-              onClick={() => {
-                playSound("click");
-                setSpaceProOpen(true);
-              }}
+              onClick={openSpaceLive}
               onMouseEnter={() => playSound("hover")}
-              className="px-3 py-1.5 text-sm text-accent-cyan hover:text-text-primary hover:bg-accent-cyan/10 rounded-lg transition-colors border border-accent-cyan/20 hover:border-accent-cyan/40 flex items-center gap-1.5 ml-1"
+              className="px-3 py-1.5 text-sm font-semibold text-accent-cyan hover:text-white hover:bg-accent-cyan/15 rounded-lg transition-all border border-accent-cyan/30 hover:border-accent-cyan/60 flex items-center gap-1.5 ml-1 relative"
             >
-              <Telescope className="w-3.5 h-3.5" />
-              Space Pro
+              <span className="relative flex items-center gap-1.5">
+                <Radio className="w-3.5 h-3.5" />
+                <span className="tracking-wide">Space LIVE</span>
+                <span className="absolute -top-1 -right-1.5 w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse" />
+              </span>
             </button>
           </nav>
 
-          <div className="flex items-center gap-0 shrink-0 pr-0.5">
-            {/* SINHRONIZACIJA — samo na test site */}
+          {/* Right controls — always right */}
+          <div className="flex items-center gap-0.5 shrink-0 pr-0.5">
+            {/* Sync — agent panel only */}
             {process.env.NEXT_PUBLIC_AGENT_PANEL === "true" && (
               <div className="relative">
                 <button
@@ -167,7 +173,7 @@ export default function Header() {
             {/* Language switcher */}
             <Link
               href={isHr ? pathname.replace(/^\/hr/, "") || "/" : `/hr${pathname}`}
-              className="flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 text-xs sm:text-xs font-mono font-bold text-text-primary border border-accent-cyan/40 hover:border-accent-cyan/60 hover:bg-accent-cyan/10 rounded transition-all bg-accent-cyan/5"
+              className="flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 text-base font-mono font-bold text-text-primary border border-accent-cyan/40 hover:border-accent-cyan/60 hover:bg-accent-cyan/10 rounded transition-all bg-accent-cyan/5"
               title={isHr ? "Switch to English" : "Prebaci na hrvatski"}
             >
               {isHr ? "🇬🇧" : "🇭🇷"}
@@ -179,57 +185,100 @@ export default function Header() {
               onClick={toggleSound}
               aria-label={soundOn ? "Mute sounds" : "Enable sounds"}
             >
-              {soundOn ? <Volume2 className="w-4 h-4 sm:w-4 sm:h-4" /> : <VolumeX className="w-4 h-4 sm:w-4 sm:h-4" />}
+              {soundOn ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
             </button>
 
+            {/* Space LIVE — mobile pill button */}
             <button
-              className="md:hidden flex h-9 w-9 items-center justify-center text-accent-cyan hover:text-text-primary transition-colors"
-              onClick={() => {
-                playSound("click");
-                setSpaceProOpen(true);
-              }}
-              aria-label="Space Pro"
+              className="md:hidden flex items-center gap-1 px-2 py-1 rounded-full border border-accent-cyan/40 bg-accent-cyan/8 text-accent-cyan hover:bg-accent-cyan/20 hover:border-accent-cyan/70 transition-all"
+              onClick={openSpaceLive}
+              aria-label="Space LIVE"
             >
-              <Telescope className="w-4.5 h-4.5" />
+              <Radio className="w-3.5 h-3.5" />
+              <span className="text-[11px] font-semibold tracking-wide leading-none">LIVE</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse" />
             </button>
 
-            {/* Mobile hamburger */}
+            {/* Hamburger */}
             <button
-              className="md:hidden flex h-9 w-9 items-center justify-center text-text-secondary hover:text-text-primary"
+              className="md:hidden flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary hover:text-text-primary hover:bg-white/8 transition-all"
               onClick={() => setMenuOpen(!menuOpen)}
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-label={menuOpen ? "Zatvori izbornik" : "Otvori izbornik"}
             >
-              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {menuOpen
+                ? <X className="w-5 h-5" />
+                : (
+                  <span className="flex flex-col gap-[5px]">
+                    <span className="block w-5 h-0.5 bg-current rounded-full" />
+                    <span className="block w-4 h-0.5 bg-current rounded-full self-end" />
+                    <span className="block w-5 h-0.5 bg-current rounded-full" />
+                  </span>
+                )
+              }
             </button>
           </div>
         </div>
 
-        {/* Mobile dropdown */}
+        {/* Mobile dropdown menu */}
         {menuOpen && (
           <>
-            {/* Backdrop */}
             <div
-              className="fixed inset-0 top-14 sm:top-16 z-40 bg-black/50"
+              className="fixed inset-0 top-[3.25rem] z-40 bg-black/60 backdrop-blur-sm"
               onClick={() => setMenuOpen(false)}
             />
-            <nav className="relative z-50 md:hidden bg-space-bg/95 backdrop-blur-xl border-t border-white/10 px-4 pb-4 max-h-[calc(100dvh-3.5rem)] sm:max-h-[calc(100dvh-4rem)] overflow-y-auto">
-              {CATEGORIES.map((cat) => (
-                <Link
-                  key={cat}
-                  href={isHr ? `/hr/category/${cat}` : `/category/${cat}`}
-                  className="block px-3 py-2 text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 rounded-lg transition-colors"
-                  onClick={() => setMenuOpen(false)}
+            <nav className="relative z-50 md:hidden bg-space-bg/98 backdrop-blur-2xl border-t border-white/10 overflow-y-auto"
+              style={{ maxHeight: "calc(100dvh - 3.25rem)" }}
+            >
+              <div className="px-5 py-5 space-y-1">
+                {CATEGORIES.map((cat, i) => (
+                  <Link
+                    key={cat}
+                    href={isHr ? `/hr/category/${cat}` : `/category/${cat}`}
+                    className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold text-text-secondary hover:text-text-primary hover:bg-white/8 active:bg-white/12 transition-all group"
+                    style={{ animationDelay: `${i * 40}ms` }}
+                    onClick={() => { setMenuOpen(false); playSound("click"); }}
+                    onMouseEnter={() => playSound("hover")}
+                  >
+                    <span
+                      className="w-1 h-5 rounded-full opacity-60 group-hover:opacity-100 transition-opacity"
+                      style={{ background: getCategoryAccent(cat) }}
+                    />
+                    <span className="tracking-wide">{catLabels[cat]}</span>
+                  </Link>
+                ))}
+              </div>
+
+              {/* Space LIVE in menu */}
+              <div className="px-5 pb-6 pt-1">
+                <div className="h-px w-full bg-white/8 mb-4" />
+                <button
+                  className="w-full flex items-center justify-center gap-2.5 px-4 py-3.5 rounded-xl border border-accent-cyan/35 bg-accent-cyan/8 text-accent-cyan hover:bg-accent-cyan/15 hover:border-accent-cyan/60 transition-all font-semibold text-sm tracking-wider"
+                  onClick={() => { setMenuOpen(false); openSpaceLive(); }}
                 >
-                  {CATEGORY_LABELS[cat]}
-                </Link>
-              ))}
+                  <Radio className="w-4 h-4" />
+                  Space LIVE
+                  <span className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
+                </button>
+              </div>
             </nav>
           </>
         )}
       </header>
 
-      {/* SpaceProDrawer is a sibling of <header>, not a child — avoids backdrop-filter containing block trap */}
-      <SpaceProDrawer open={spaceProOpen} onClose={() => setSpaceProOpen(false)} />
+      <SpaceProDrawer open={spaceProOpen} onClose={() => setSpaceProOpen(false)} defaultTrackerMode="iss" />
     </>
   );
+}
+
+function getCategoryAccent(cat: string): string {
+  const map: Record<string, string> = {
+    ai: "#6b46c1",
+    gaming: "#eab308",
+    space: "#8b5cf6",
+    technology: "#06b6d4",
+    medicine: "#ec4899",
+    society: "#f97316",
+    robotics: "#10b981",
+  };
+  return map[cat] ?? "#6b7280";
 }
