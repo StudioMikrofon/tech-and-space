@@ -671,38 +671,11 @@ print(json.dumps({
       { stdio: "ignore" }
     );
     rebuild.unref();
+    console.log(`[publish-local] Background rebuild triggered for #${articleId}`);
 
-    // Wait for /tmp/tech-pulse-build-success which is written AFTER service start.
-    // This is more reliable than checking manifest (which appears before service restart).
-    const waitForServiceReady = async (maxWaitMs = 240000) => {
-      const startTime = Date.now();
-      const fs = require('fs');
-      const { execSync } = require('child_process');
-
-      while (Date.now() - startTime < maxWaitMs) {
-        await new Promise(r => setTimeout(r, 3000));
-        try {
-          // Primary check: flag file written by build script after service start
-          if (fs.existsSync("/tmp/tech-pulse-build-success")) {
-            const elapsed = Date.now() - startTime;
-            console.log(`[publish-local] Build success flag detected after ${elapsed}ms`);
-            // Verify service is actually active
-            const status = execSync("systemctl is-active tech-pulse-test 2>&1", { encoding: 'utf8' }).trim();
-            if (status === "active") {
-              console.log(`[publish-local] Service confirmed active — publish complete`);
-              return true;
-            }
-          }
-        } catch {}
-      }
-
-      console.log(`[publish-local] Publish timeout after ${maxWaitMs}ms — build may still be running`);
-      return false;
-    };
-
-    await waitForServiceReady(240000);
-
-    return NextResponse.json({ ...data, rebuilding: false, live: true });
+    // Return immediately — article is published (MDX written, images in public, DB updated).
+    // Rebuild runs in background (~3 min). Site will show new article after rebuild completes.
+    return NextResponse.json({ ...data, rebuilding: true, live: false });
   } catch {
     return NextResponse.json({ error: "Parse error", raw: result.stdout }, { status: 500 });
   }
