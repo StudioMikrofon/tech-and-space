@@ -7,6 +7,17 @@ import matter from "gray-matter";
 const CONTENT_DIR_ROOT = "/opt/openclaw/workspace/tech-pulse-mc/content";
 const DB_PATH = "/opt/openclaw/futurepulse/db/futurepulse.db";
 const PUBLIC_ARTICLES_DIR = "/opt/openclaw/workspace/tech-pulse-mc/public/images/articles";
+const MIN_RESIZE_WIDTH = 64;
+const MAX_RESIZE_WIDTH = 1600;
+
+function parseResizeWidth(raw: string | null) {
+  if (!raw) return null;
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed)) return null;
+  const rounded = Math.round(parsed);
+  if (rounded < MIN_RESIZE_WIDTH || rounded > MAX_RESIZE_WIDTH) return null;
+  return rounded;
+}
 
 function slugify(text: string, maxLen = 72): string {
   const charMap: Record<string, string> = {
@@ -182,6 +193,7 @@ export async function GET(
   const params = await context.params;
   const articleId = Number(params.articleId);
   const file = params.file || "";
+  const resizeWidth = parseResizeWidth(new URL(_req.url).searchParams.get("w"));
 
   if (!articleId || Number.isNaN(articleId)) {
     return new NextResponse("Bad Request", { status: 400 });
@@ -214,7 +226,34 @@ export async function GET(
     return new NextResponse("Not Found", { status: 404 });
   }
 
-  return new NextResponse(readFileSync(finalPath), {
+  const ext = path.extname(finalPath).toLowerCase();
+  let data: Buffer;
+
+  if (resizeWidth) {
+    try {
+      const sharp = (await import("sharp")).default;
+      let pipeline = sharp(finalPath, { animated: false, limitInputPixels: 80_000_000 })
+        .rotate()
+        .resize({ width: resizeWidth, withoutEnlargement: true, fit: "inside" });
+
+      if (ext === ".png") {
+        pipeline = pipeline.png({ compressionLevel: 8, adaptiveFiltering: true });
+      } else if (ext === ".webp") {
+        pipeline = pipeline.webp({ quality: 82, effort: 4 });
+      } else {
+        pipeline = pipeline.jpeg({ quality: 84, mozjpeg: true });
+      }
+
+      data = await pipeline.toBuffer();
+    } catch (error) {
+      console.warn(`[article-assets] resize failed for ${finalPath}:`, error);
+      data = readFileSync(finalPath);
+    }
+  } else {
+    data = readFileSync(finalPath);
+  }
+
+  return new NextResponse(new Uint8Array(data), {
     headers: {
       "Content-Type": contentTypeFor(finalPath),
       "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",

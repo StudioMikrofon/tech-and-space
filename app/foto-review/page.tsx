@@ -123,6 +123,12 @@ interface ArticleSelections {
   subtitle: string | null;
 }
 
+
+function withImageWidth(url: string, width: number) {
+  const [base, hash = ""] = url.split("#");
+  const separator = base.includes("?") ? "&" : "?";
+  return `${base}${separator}w=${width}${hash ? `#${hash}` : ""}`;
+}
 const CAT_COLORS: Record<string, string> = {
   ai:        "bg-purple-950 text-purple-300 border-purple-700/50",
   tech:      "bg-blue-950   text-blue-300   border-blue-700/50",
@@ -2006,6 +2012,7 @@ export default function FotoReviewPage() {
               {article.images.length > 0 ? (
                 <div className="p-4">
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-3">
+                      const thumbUrl = withImageWidth(img.url, 480);
                     {article.images.map((img) => {
                       const isHero = sel.hero === img.id;
                       const isSub = sel.subtitle === img.id;
@@ -2015,7 +2022,7 @@ export default function FotoReviewPage() {
                         >
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
-                            src={img.url}
+                            src={thumbUrl}
                             alt={img.label}
                             className="w-full aspect-video object-cover block cursor-zoom-in"
                             loading="lazy"
