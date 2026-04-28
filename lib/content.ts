@@ -1,10 +1,14 @@
 import fs from "fs";
 import path from "path";
+import { spawnSync } from "child_process";
 import matter from "gray-matter";
+import Database from "better-sqlite3";
 import { Article, Category, CATEGORIES, CATEGORY_COLORS } from "./types";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
+const CONTENT_INDEX_FILE = path.join(CONTENT_DIR, "index.json");
 const CONTENT_VERSION_FILE = path.join(process.cwd(), ".content-version");
+const DB_PATH = "/opt/openclaw/futurepulse/db/futurepulse.db";
 
 // In-memory cache — avoids re-reading 200+ MDX files on every SSR request
 const CACHE_TTL_MS = 300_000; // 5 minutes — prevents expensive re-reads during navigation
@@ -16,6 +20,8 @@ let _articlesCacheTime = 0;
 let _articlesHrCache: Article[] | null = null;
 let _articlesHrCacheTime = 0;
 let _contentVersionMtime = 0;
+let _canonicalImageCache: Map<number, Partial<Pick<Article, "image" | "subtitleImage" | "infographicImage">>> | null = null;
+let _canonicalImageCacheTime = 0;
 
 export function invalidateContentCache(): void {
   _articlesCache = null;
@@ -23,6 +29,29 @@ export function invalidateContentCache(): void {
   _articlesHrCache = null;
   _articlesHrCacheTime = 0;
   _contentVersionMtime = 0;
+  _canonicalImageCache = null;
+  _canonicalImageCacheTime = 0;
+}
+
+export function rebuildContentIndex(): boolean {
+  const scriptPath = path.join(process.cwd(), "scripts", "build-content-index.mjs");
+  if (!fs.existsSync(scriptPath)) return false;
+
+  try {
+    const result = spawnSync("node", [scriptPath], {
+      cwd: process.cwd(),
+      encoding: "utf8",
+      timeout: 120_000,
+    });
+    if (result.status !== 0) {
+      console.warn(`[content] index rebuild failed: ${result.stderr || result.stdout}`);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.warn(`[content] index rebuild error: ${error}`);
+    return false;
+  }
 }
 
 function getContentVersionMtime(): number {
@@ -37,6 +66,7 @@ function getContentVersionMtime(): number {
 }
 
 export function bumpContentVersion(): void {
+  rebuildContentIndex();
   try {
     fs.writeFileSync(CONTENT_VERSION_FILE, String(Date.now()), "utf8");
   } catch {
@@ -51,6 +81,137 @@ function refreshCacheIfVersionChanged(): void {
     invalidateContentCache();
     _contentVersionMtime = currentVersion;
   }
+}
+
+function routeIdFromFilePath(filePath: string): string | undefined {
+  const parsed = path.parse(filePath);
+  if (parsed.base === "index.mdx" || parsed.base === "index.hr.mdx") {
+    return path.basename(path.dirname(filePath));
+  }
+  if (parsed.base.endsWith(".hr.mdx")) {
+    return parsed.base.replace(/\.hr\.mdx$/, "");
+  }
+  if (parsed.ext === ".mdx") return parsed.name;
+  return undefined;
+}
+
+function coerceImageMeta(
+  slot: Record<string, unknown> | null | undefined,
+  urlOverride?: string | null
+): Article["image"] | undefined {
+  const url = String(urlOverride || slot?.url || "").trim();
+  if (!url) return undefined;
+
+  const alt = String(
+    slot?.alt ||
+    slot?.alt_en ||
+    slot?.alt_hr ||
+    slot?.alt_text ||
+    slot?.title ||
+    ""
+  ).trim();
+  const caption = String(
+    slot?.caption ||
+    slot?.caption_en ||
+    slot?.caption_hr ||
+    slot?.selected_reason ||
+    ""
+  ).trim();
+  const credit = String(
+    slot?.credit ||
+    slot?.attribution ||
+    slot?.credit_line ||
+    slot?.attribution_text ||
+    ""
+  ).trim();
+  const creditUrl = String(slot?.creditUrl || slot?.source_page_url || "").trim();
+  const safeAlt = alt || caption || "Article image";
+
+  return {
+    url,
+    alt: safeAlt,
+    ...(caption ? { caption } : {}),
+    ...(credit ? { credit } : {}),
+    ...(creditUrl ? { creditUrl } : {}),
+  };
+}
+
+function loadCanonicalImageMap(): Map<number, Partial<Pick<Article, "image" | "subtitleImage" | "infographicImage">>> {
+  const now = Date.now();
+  if (_canonicalImageCache && now - _canonicalImageCacheTime < CACHE_TTL_MS) return _canonicalImageCache;
+
+  const imageMap = new Map<number, Partial<Pick<Article, "image" | "subtitleImage" | "infographicImage">>>();
+  if (!fs.existsSync(DB_PATH)) {
+    _canonicalImageCache = imageMap;
+    _canonicalImageCacheTime = now;
+    return imageMap;
+  }
+
+  try {
+    const db = new Database(DB_PATH, { readonly: true, fileMustExist: true });
+    const rows = db.prepare(`
+      SELECT id, images_json, final_image_main, final_image_sub
+      FROM articles
+      WHERE (images_json IS NOT NULL AND images_json != '')
+         OR final_image_main IS NOT NULL
+         OR final_image_sub IS NOT NULL
+    `).all() as Array<{
+      id: number;
+      images_json: string | null;
+      final_image_main: string | null;
+      final_image_sub: string | null;
+    }>;
+    db.close();
+
+    for (const row of rows) {
+      let parsed: Record<string, unknown> = {};
+      try {
+        parsed = row.images_json ? JSON.parse(row.images_json) : {};
+      } catch {
+        parsed = {};
+      }
+
+      const imageMain = parsed.image_main && typeof parsed.image_main === "object"
+        ? (parsed.image_main as Record<string, unknown>)
+        : null;
+      const imageSubtitle = parsed.image_subtitle && typeof parsed.image_subtitle === "object"
+        ? (parsed.image_subtitle as Record<string, unknown>)
+        : null;
+      const imageInfographic = parsed.image_infographic && typeof parsed.image_infographic === "object"
+        ? (parsed.image_infographic as Record<string, unknown>)
+        : null;
+
+      const entry: Partial<Pick<Article, "image" | "subtitleImage" | "infographicImage">> = {};
+      const main = coerceImageMeta(imageMain, row.final_image_main || undefined);
+      const subtitle = coerceImageMeta(imageSubtitle, row.final_image_sub || undefined);
+      const infographic = coerceImageMeta(imageInfographic);
+
+      if (main) entry.image = main;
+      if (subtitle) entry.subtitleImage = subtitle;
+      if (infographic) entry.infographicImage = infographic;
+      if (entry.image || entry.subtitleImage || entry.infographicImage) {
+        imageMap.set(row.id, entry);
+      }
+    }
+  } catch (error) {
+    console.warn(`[content] failed to load canonical image map: ${error}`);
+  }
+
+  _canonicalImageCache = imageMap;
+  _canonicalImageCacheTime = now;
+  return imageMap;
+}
+
+function overlayCanonicalImages(article: Article): Article {
+  if (!article.dbId) return article;
+  const entry = loadCanonicalImageMap().get(article.dbId);
+  if (!entry) return article;
+  return {
+    ...article,
+    image: entry.image ?? article.image,
+    subtitleImage: entry.subtitleImage ?? article.subtitleImage,
+    infographicImage: entry.infographicImage ?? article.infographicImage,
+  };
 }
 
 function parseMdxFile(filePath: string, timeoutMs: number = 5000): Article | null {
@@ -92,9 +253,10 @@ function parseMdxFile(filePath: string, timeoutMs: number = 5000): Article | nul
     }
 
     if (!data.approved) return null;
+    const routeId = routeIdFromFilePath(filePath) || String(data.id || "");
 
-    return {
-      id: data.id,
+    const article: Article = {
+      id: routeId,
       dbId: data.db_id ? Number(data.db_id) : undefined,
       title: data.title,
       titleEn: data.title_en,
@@ -120,7 +282,8 @@ function parseMdxFile(filePath: string, timeoutMs: number = 5000): Article | nul
       subtitle: data.subtitle,
       subtitleEn: data.subtitle_en,
       subtitleImage: data.subtitleImage,
-      tags: data.tags || [],
+      infographicImage: data.infographicImage,
+      tags: parseList(data.tags) || [],
       geo: data.geo,
       featured: data.featured || false,
       approved: data.approved,
@@ -128,12 +291,101 @@ function parseMdxFile(filePath: string, timeoutMs: number = 5000): Article | nul
       content,
       part1En: data.part1_en,
       part2En: data.part2_en,
+      leadSentence: data.lead_sentence,
       leadSentenceEn: data.lead_sentence,
       videoUrl: data.videoUrl,
       lang: data.lang,
     };
+    return overlayCanonicalImages(article);
   } catch (e) {
     // Silently skip articles that fail to parse (malformed YAML, etc.)
+    return null;
+  }
+}
+
+function parseIndexArticle(data: Record<string, unknown>): Article | null {
+  const parseList = (value: unknown): string[] | undefined => {
+    if (Array.isArray(value)) return value.map(String).filter(Boolean);
+    if (typeof value === "string" && value.trim()) {
+      try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) return parsed.map(String).filter(Boolean);
+      } catch {
+        return value.split("\n").map((line) => line.replace(/^-\s*/, "").trim()).filter(Boolean);
+      }
+    }
+    return undefined;
+  };
+  const parseBool = (value: unknown): boolean => {
+    if (typeof value === "boolean") return value;
+    if (typeof value === "number") return value !== 0;
+    if (typeof value === "string") return ["true", "1", "yes", "on"].includes(value.toLowerCase());
+    return false;
+  };
+
+  if (!parseBool(data.approved)) return null;
+  const pathValue = data.path ? String(data.path) : "";
+  const routeId = pathValue ? pathValue.split("/").filter(Boolean).pop() : undefined;
+
+  const article: Article = {
+    id: String(routeId || data.id || ""),
+    dbId: data.dbId ? Number(data.dbId) : undefined,
+    title: String(data.title || ""),
+    titleEn: data.titleEn ? String(data.titleEn) : undefined,
+    author: data.author ? String(data.author) : undefined,
+    rewritten: parseBool(data.rewritten),
+    rewrittenAt: data.rewrittenAt ? String(data.rewrittenAt) : undefined,
+    rewrittenBy: data.rewrittenBy ? String(data.rewrittenBy) : undefined,
+    rewrittenPersona: data.rewrittenPersona ? String(data.rewrittenPersona) : undefined,
+    rewrittenAvatar: data.rewrittenAvatar ? String(data.rewrittenAvatar) : undefined,
+    rewrittenRole: data.rewrittenRole ? String(data.rewrittenRole) : undefined,
+    category: String(data.category || "technology") as Category,
+    date: String(data.date || ""),
+    scrapeDateDate: String(data.date || ""),
+    excerpt: String(data.excerpt || ""),
+    excerptEn: data.excerptEn ? String(data.excerptEn) : undefined,
+    execSummary: data.execSummary ? String(data.execSummary) : undefined,
+    summaryBlock: data.summaryBlock ? String(data.summaryBlock) : undefined,
+    summaryBlockEn: data.summaryBlockEn ? String(data.summaryBlockEn) : undefined,
+    keyPoints: parseList(data.keyPoints),
+    keyPointsEn: parseList(data.keyPointsEn),
+    source: (data.source as Article["source"]) || undefined,
+    image: (data.image as Article["image"]) || undefined,
+    subtitle: data.subtitle ? String(data.subtitle) : undefined,
+    subtitleEn: data.subtitleEn ? String(data.subtitleEn) : undefined,
+    subtitleImage: (data.subtitleImage as Article["subtitleImage"]) || undefined,
+    infographicImage: (data.infographicImage as Article["infographicImage"]) || undefined,
+    tags: parseList(data.tags) || [],
+    geo: (data.geo as Article["geo"]) || undefined,
+    featured: parseBool(data.featured),
+    approved: true,
+    likes: data.likes ? Number(data.likes) : 0,
+    content: "",
+    part1En: data.part1En ? String(data.part1En) : undefined,
+    part2En: data.part2En ? String(data.part2En) : undefined,
+    leadSentence: data.leadSentence ? String(data.leadSentence) : (data.leadSentenceEn ? String(data.leadSentenceEn) : undefined),
+    leadSentenceEn: data.leadSentenceEn ? String(data.leadSentenceEn) : undefined,
+    videoUrl: data.videoUrl ? String(data.videoUrl) : undefined,
+    lang: data.lang ? String(data.lang) : undefined,
+  };
+  return overlayCanonicalImages(article);
+}
+
+function readContentIndex(kind: "articles" | "articlesHr"): Article[] | null {
+  try {
+    if (!fs.existsSync(CONTENT_INDEX_FILE)) return null;
+    const raw = fs.readFileSync(CONTENT_INDEX_FILE, "utf8");
+    const parsed = JSON.parse(raw);
+    const entries = Array.isArray(parsed?.[kind]) ? parsed[kind] : [];
+    return entries
+      .map((entry: Record<string, unknown>) => parseIndexArticle(entry))
+      .filter((article: Article | null): article is Article => Boolean(article))
+      .sort((a, b) => {
+        const dateCompare = new Date(b.date).getTime() - new Date(a.date).getTime();
+        if (dateCompare !== 0) return dateCompare;
+        return (b.dbId ?? 0) - (a.dbId ?? 0);
+      });
+  } catch {
     return null;
   }
 }
@@ -176,11 +428,8 @@ export function getAllArticles(): Article[] {
   const now = Date.now();
   if (_articlesCache && now - _articlesCacheTime < CACHE_TTL_MS) return _articlesCache;
 
-  // Load articles synchronously (blocking), but with extended timeout
-  // CRITICAL: This is the source of 3-4 minute freezes on cache miss
-  // With 5 minute TTL, this should rarely happen during normal navigation
   const startLoad = Date.now();
-  _articlesCache = _readAllArticles();
+  _articlesCache = readContentIndex("articles") || _readAllArticles();
   const loadTime = Date.now() - startLoad;
 
   if (loadTime > 1000) {
@@ -268,11 +517,8 @@ export function getAllArticlesHr(): Article[] {
   const now = Date.now();
   if (_articlesHrCache && now - _articlesHrCacheTime < CACHE_TTL_MS) return _articlesHrCache;
 
-  // Load articles synchronously (blocking), but with extended timeout
-  // CRITICAL: This is the source of 3-4 minute freezes on cache miss
-  // With 5 minute TTL, this should rarely happen during normal navigation
   const startLoad = Date.now();
-  _articlesHrCache = _readAllArticlesHr();
+  _articlesHrCache = readContentIndex("articlesHr") || _readAllArticlesHr();
   const loadTime = Date.now() - startLoad;
 
   if (loadTime > 1000) {
